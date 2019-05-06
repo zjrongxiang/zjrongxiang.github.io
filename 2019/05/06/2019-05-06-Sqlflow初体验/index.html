@@ -124,12 +124,12 @@
 <meta property="og:site_name" content="RongXiang">
 <meta property="og:description" content="目录 背景  第一部分   Sqlflow安装部署  第二部分   机器学习例子  第三部分   系统架构  参考文献及资料   背景2019年5 月 6 日，在QCon 全球软件开发大会（北京站）上，蚂蚁金服副 CTO 胡喜正式宣布开源机器学习工具 SQLFlow。实际上3个月前sqkflow项目已经在github上开源了。 本篇文件主要参考sqlflow官网的案例和说明对sqlflow进行了体">
 <meta property="og:locale" content="en">
-<meta property="og:image" content="https://zjrongxiang.github.io/images/picture/MNIST-Matrix.png">
-<meta property="og:updated_time" content="2019-05-06T16:22:17.643Z">
+<meta property="og:image" content="https://zjrongxiang.github.io/images/picture/jupyter%20book.png">
+<meta property="og:updated_time" content="2019-05-06T16:33:09.526Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="sqlflow初体验">
 <meta name="twitter:description" content="目录 背景  第一部分   Sqlflow安装部署  第二部分   机器学习例子  第三部分   系统架构  参考文献及资料   背景2019年5 月 6 日，在QCon 全球软件开发大会（北京站）上，蚂蚁金服副 CTO 胡喜正式宣布开源机器学习工具 SQLFlow。实际上3个月前sqkflow项目已经在github上开源了。 本篇文件主要参考sqlflow官网的案例和说明对sqlflow进行了体">
-<meta name="twitter:image" content="https://zjrongxiang.github.io/images/picture/MNIST-Matrix.png">
+<meta name="twitter:image" content="https://zjrongxiang.github.io/images/picture/jupyter%20book.png">
 
 
 
@@ -476,7 +476,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2019-05-07 00:22:17" itemprop="dateModified" datetime="2019-05-07T00:22:17+08:00">2019-05-07</time>
+                <time title="Modified: 2019-05-07 00:33:09" itemprop="dateModified" datetime="2019-05-07T00:33:09+08:00">2019-05-07</time>
               
             
           </span>
@@ -588,7 +588,7 @@
 <p>这里启动了Jupyter Notebook服务，对外服务端口为8888，并且映射到宿主机。例如这里可以使用下面的url范围web界面：<a href="http://192.168.31.3:8888/?token=265b3fc832b5b48689fa9f88483125dc9335188dd7c1d863" target="_blank" rel="noopener">http://192.168.31.3:8888/?token=265b3fc832b5b48689fa9f88483125dc9335188dd7c1d863</a></p>
 <h4 id="（2）简单测试"><a href="#（2）简单测试" class="headerlink" title="（2）简单测试"></a>（2）简单测试</h4><p>Jupyter Notebook 新建一个python3交互环境。测试一下：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">%</span>%sqlflow</span><br><span class="line">select * from iris.train limit 5;</span><br></pre></td></tr></table></figure>
-<p><img src="\images\picture\MNIST-Matrix.png" alt=""></p>
+<p><img src="\images\picture\jupyter book.png" alt=""></p>
 <h3 id="第二部分-机器学习例子"><a href="#第二部分-机器学习例子" class="headerlink" title="第二部分 机器学习例子"></a>第二部分 机器学习例子</h3><p>使用iris数据集体验机器学习的例子，使用Jupyter Notebook 完成：</p>
 <h4 id="（1）训练模型："><a href="#（1）训练模型：" class="headerlink" title="（1）训练模型："></a>（1）训练模型：</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">%%sqlflow</span><br><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> iris.train TRAIN DNNClassifier <span class="keyword">WITH</span> n_classes = <span class="number">3</span>, hidden_units = [<span class="number">10</span>, <span class="number">20</span>] <span class="keyword">COLUMN</span> sepal_length, sepal_width, petal_length, petal_width LABEL <span class="keyword">class</span> <span class="keyword">INTO</span> sqlflow_models.my_dnn_model;</span><br></pre></td></tr></table></figure>
 <p>使用iris.train表中的数据训练神经网络。</p>
