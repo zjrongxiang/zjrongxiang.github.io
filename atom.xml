@@ -274,35 +274,6 @@
   </entry>
   
   <entry>
-    <title>Hexo:解决Typora编辑table无法被解析问题</title>
-    <link href="https://zjrongxiang.github.io/2018/04/01/2018-04-05-Hexo_table/"/>
-    <id>https://zjrongxiang.github.io/2018/04/01/2018-04-05-Hexo_table/</id>
-    <published>2018-04-01T15:30:00.000Z</published>
-    <updated>2018-04-05T15:07:08.870Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="掉坑背景"><a href="#掉坑背景" class="headerlink" title="掉坑背景"></a>掉坑背景</h3><p>使用Typora编辑Makedown文件，添加表格，但是提交给Hexo渲染网页，无法正常解析显示，而是显示源码。例如：<br>| Table Header 1 | Table Header 2 |<br>| ————– | ————– |<br>| Division 1     | Division 2     |<br>| Division 1     | Division 2     |</p><h3 id="爬坑过程和解决办法"><a href="#爬坑过程和解决办法" class="headerlink" title="爬坑过程和解决办法"></a>爬坑过程和解决办法</h3><p>一开始认为是Hexo的bug，Google也没人遇到类似情况，都准备在github上建问题单了。最后本着严谨的态度，以文本的格式打开文档，发现表格源码和正文之间没有空行！！！！！</p><p>这尼玛坑爹呀，所以Hexo无法解析，但是Typora能正常解析。空出一行后正常解析：</p><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;正文&gt;</span><br><span class="line">(空一行)</span><br><span class="line">| Table Header 1 | Table Header 2 |</span><br><span class="line">| - | - | </span><br><span class="line">| Division 1 | Division 2 | </span><br><span class="line">| Division 1 | Division 2 |</span><br></pre></td></tr></table></figure><table><thead><tr><th>Table Header 1</th><th>Table Header 2</th></tr></thead><tbody><tr><td>Division 1</td><td>Division 2</td></tr><tr><td>Division 1</td><td>Division 2</td></tr></tbody></table><p>这一点Typora做的不够兼容（只怪他太过于强大的解析能力。。。。）。Tyopra不服了，我强大也有错？？哈哈哈</p><p>记录该坑供掉坑小伙伴参考。</p><h3 id="提示"><a href="#提示" class="headerlink" title="提示"></a>提示</h3><p>如果掉坑小伙伴，上面办法没解决。用文本方式打开文件，逐个排查原因。</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h3 id=&quot;掉坑背景&quot;&gt;&lt;a href=&quot;#掉坑背景&quot; class=&quot;headerlink&quot; title=&quot;掉坑背景&quot;&gt;&lt;/a&gt;掉坑背景&lt;/h3&gt;&lt;p&gt;使用Typora编辑Makedown文件，添加表格，但是提交给Hexo渲染网页，无法正常解析显示，而是显示源码。例如：&lt;br
-      
-    
-    </summary>
-    
-      <category term="hexo" scheme="https://zjrongxiang.github.io/categories/hexo/"/>
-    
-    
-      <category term="hexo" scheme="https://zjrongxiang.github.io/tags/hexo/"/>
-    
-      <category term="Typora" scheme="https://zjrongxiang.github.io/tags/Typora/"/>
-    
-      <category term="table" scheme="https://zjrongxiang.github.io/tags/table/"/>
-    
-  </entry>
-  
-  <entry>
     <title>Ubuntu挂载新的硬盘（2T以上）</title>
     <link href="https://zjrongxiang.github.io/2018/04/01/2018-04-01-ubuntu_add_disk/"/>
     <id>https://zjrongxiang.github.io/2018/04/01/2018-04-01-ubuntu_add_disk/</id>
@@ -328,6 +299,35 @@
       <category term="disk" scheme="https://zjrongxiang.github.io/tags/disk/"/>
     
       <category term="parted" scheme="https://zjrongxiang.github.io/tags/parted/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Hexo:解决Typora编辑table无法被解析问题</title>
+    <link href="https://zjrongxiang.github.io/2018/04/01/2018-04-05-Hexo_table/"/>
+    <id>https://zjrongxiang.github.io/2018/04/01/2018-04-05-Hexo_table/</id>
+    <published>2018-04-01T15:30:00.000Z</published>
+    <updated>2018-04-05T15:07:08.870Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="掉坑背景"><a href="#掉坑背景" class="headerlink" title="掉坑背景"></a>掉坑背景</h3><p>使用Typora编辑Makedown文件，添加表格，但是提交给Hexo渲染网页，无法正常解析显示，而是显示源码。例如：<br>| Table Header 1 | Table Header 2 |<br>| ————– | ————– |<br>| Division 1     | Division 2     |<br>| Division 1     | Division 2     |</p><h3 id="爬坑过程和解决办法"><a href="#爬坑过程和解决办法" class="headerlink" title="爬坑过程和解决办法"></a>爬坑过程和解决办法</h3><p>一开始认为是Hexo的bug，Google也没人遇到类似情况，都准备在github上建问题单了。最后本着严谨的态度，以文本的格式打开文档，发现表格源码和正文之间没有空行！！！！！</p><p>这尼玛坑爹呀，所以Hexo无法解析，但是Typora能正常解析。空出一行后正常解析：</p><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;正文&gt;</span><br><span class="line">(空一行)</span><br><span class="line">| Table Header 1 | Table Header 2 |</span><br><span class="line">| - | - | </span><br><span class="line">| Division 1 | Division 2 | </span><br><span class="line">| Division 1 | Division 2 |</span><br></pre></td></tr></table></figure><table><thead><tr><th>Table Header 1</th><th>Table Header 2</th></tr></thead><tbody><tr><td>Division 1</td><td>Division 2</td></tr><tr><td>Division 1</td><td>Division 2</td></tr></tbody></table><p>这一点Typora做的不够兼容（只怪他太过于强大的解析能力。。。。）。Tyopra不服了，我强大也有错？？哈哈哈</p><p>记录该坑供掉坑小伙伴参考。</p><h3 id="提示"><a href="#提示" class="headerlink" title="提示"></a>提示</h3><p>如果掉坑小伙伴，上面办法没解决。用文本方式打开文件，逐个排查原因。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h3 id=&quot;掉坑背景&quot;&gt;&lt;a href=&quot;#掉坑背景&quot; class=&quot;headerlink&quot; title=&quot;掉坑背景&quot;&gt;&lt;/a&gt;掉坑背景&lt;/h3&gt;&lt;p&gt;使用Typora编辑Makedown文件，添加表格，但是提交给Hexo渲染网页，无法正常解析显示，而是显示源码。例如：&lt;br
+      
+    
+    </summary>
+    
+      <category term="hexo" scheme="https://zjrongxiang.github.io/categories/hexo/"/>
+    
+    
+      <category term="hexo" scheme="https://zjrongxiang.github.io/tags/hexo/"/>
+    
+      <category term="Typora" scheme="https://zjrongxiang.github.io/tags/Typora/"/>
+    
+      <category term="table" scheme="https://zjrongxiang.github.io/tags/table/"/>
     
   </entry>
   
@@ -379,29 +379,6 @@
     
     
       <category term="raspberry" scheme="https://zjrongxiang.github.io/tags/raspberry/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>动手实现Ubuntu系统WOL远程唤醒</title>
-    <link href="https://zjrongxiang.github.io/2018/03/14/2018-03-14-%E5%8A%A8%E6%89%8B%E5%AE%9E%E7%8E%B0Ubuntu%E7%B3%BB%E7%BB%9FWOL%E8%BF%9C%E7%A8%8B%E5%94%A4%E9%86%92/"/>
-    <id>https://zjrongxiang.github.io/2018/03/14/2018-03-14-动手实现Ubuntu系统WOL远程唤醒/</id>
-    <published>2018-03-14T11:30:00.000Z</published>
-    <updated>2019-04-25T14:33:00.197Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>本篇博客主要介绍通过局域网唤醒服务器（远程启动计算机）。具体在Ubuntu操作系统上实现。具体数据流为：通过互联网远程登录长期开机的树莓派，然后通过树莓派唤醒同一个局域网的高性能服务器。</p><blockquote><p>目前中国家庭宽带网络都是没有外网IP的，如果外网访问家庭网络，需要做端口映射，实现远程访问。</p></blockquote><h4 id="什么是WoL（Wake-on-LAN）"><a href="#什么是WoL（Wake-on-LAN）" class="headerlink" title="什么是WoL（Wake on LAN）"></a>什么是WoL（Wake on LAN）</h4><p>电脑处在关机（或休眠）状态时，只要主机保持连接电源、网线连接网卡，其实网卡和主板仍然有微弱供电。这部分供电能让网卡监听和解读来自外部网络的广播信息。其中会对一种特殊的广播信息Magic Packet（魔法数据包）进行侦测。Magic Packet网络包以广播的形式发送，发送的范围可以是整个局域网或者指定的子网。另外Magic Packet中唤醒服务器IP可以是多个，侦测主机一旦发现包中的唤醒IP集中包含自己的IP，会通知主板、电源供电器，开始执行唤醒，打开机器。</p><h3 id="第一部分-检查主机板块和网卡是否支持Wol"><a href="#第一部分-检查主机板块和网卡是否支持Wol" class="headerlink" title="第一部分 检查主机板块和网卡是否支持Wol"></a>第一部分 检查主机板块和网卡是否支持Wol</h3><ul><li><p>主板是否支持：进入BIOS，将“Power Management Setup”中的“Wake Up On LAN”或“Resume by LAN”项设置为“Enable”或“On”</p></li><li><p>网卡是否支持：</p></li></ul><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> ethtool enp0s31f6</span><br></pre></td></tr></table></figure><p>其中有下面的字段信息：</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Supports Wake-on: pumbg</span><br><span class="line">Wake-on: g</span><br></pre></td></tr></table></figure><h3 id="第二部分-部署步骤"><a href="#第二部分-部署步骤" class="headerlink" title="第二部分 部署步骤"></a>第二部分 部署步骤</h3><h4 id="2-1-方法1"><a href="#2-1-方法1" class="headerlink" title="2.1 方法1"></a>2.1 方法1</h4><p>需要安装wakeonlan包：</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@raspberrypi:~# sudo apt-get install wakeonlan</span><br></pre></td></tr></table></figure><p>下面的命令通过树莓派发送魔术包：</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">root@raspberrypi:~# wakeonlan -i 192.168.1.3 b0:6f:bf:b0:9f:2f</span><br><span class="line">Sending magic packet to 192.168.1.3:9 with b0:6f:b0:bf:9f:2f</span><br></pre></td></tr></table></figure><h4 id="2-2-方法2"><a href="#2-2-方法2" class="headerlink" title="2.2 方法2"></a>2.2 方法2</h4><p>在网关配置ARP信息（IP与物理地址进行绑定），发送网段的广播：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">root@raspberrypi:~# wakeonlan -i 192.168.1.0 b0:6f:bf:b0:9f:2f</span><br><span class="line">Sending magic packet to 192.168.1.0:9 with b0:6f:b0:bf:9f:2f</span><br></pre></td></tr></table></figure><h3 id="参考文献及链接"><a href="#参考文献及链接" class="headerlink" title="参考文献及链接"></a>参考文献及链接</h3><p>1、WakeOnLan 链接：<a href="https://help.ubuntu.com/community/WakeOnLan" target="_blank" rel="noopener">https://help.ubuntu.com/community/WakeOnLan</a></p><p>2、wiki 链接：<a href="https://en.wikipedia.org/wiki/Wake-on-LAN" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Wake-on-LAN</a></p><p>3、Ubuntu 與 Wake on LAN 链接：<a href="http://softsmith.blogspot.com/2014/05/ubuntu-wake-on-lan.html" target="_blank" rel="noopener">http://softsmith.blogspot.com/2014/05/ubuntu-wake-on-lan.html</a></p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h3 id=&quot;背景&quot;&gt;&lt;a href=&quot;#背景&quot; class=&quot;headerlink&quot; title=&quot;背景&quot;&gt;&lt;/a&gt;背景&lt;/h3&gt;&lt;p&gt;本篇博客主要介绍通过局域网唤醒服务器（远程启动计算机）。具体在Ubuntu操作系统上实现。具体数据流为：通过互联网远程登录长期开机的树莓派，
-      
-    
-    </summary>
-    
-      <category term="ubuntu" scheme="https://zjrongxiang.github.io/categories/ubuntu/"/>
-    
     
   </entry>
   
@@ -487,30 +464,25 @@
   </entry>
   
   <entry>
-    <title>树莓派：更改APT为国内源</title>
-    <link href="https://zjrongxiang.github.io/2018/03/01/2018-03-12-raspberry_apt-get/"/>
-    <id>https://zjrongxiang.github.io/2018/03/01/2018-03-12-raspberry_apt-get/</id>
-    <published>2018-03-01T11:30:00.000Z</published>
-    <updated>2018-04-05T13:47:23.086Z</updated>
+    <title>动手实现Ubuntu系统WOL远程唤醒</title>
+    <link href="https://zjrongxiang.github.io/2018/03/14/2018-03-14-%E5%8A%A8%E6%89%8B%E5%AE%9E%E7%8E%B0Ubuntu%E7%B3%BB%E7%BB%9FWOL%E8%BF%9C%E7%A8%8B%E5%94%A4%E9%86%92/"/>
+    <id>https://zjrongxiang.github.io/2018/03/14/2018-03-14-动手实现Ubuntu系统WOL远程唤醒/</id>
+    <published>2018-03-14T11:30:00.000Z</published>
+    <updated>2019-04-25T14:33:00.197Z</updated>
     
-    <content type="html"><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>发现树莓派wget国外源异常慢。其实可以更改为国内的apt源，不用走海下光缆啦。</p><h3 id="更改步骤"><a href="#更改步骤" class="headerlink" title="更改步骤"></a>更改步骤</h3><h4 id="编辑sources-list文件"><a href="#编辑sources-list文件" class="headerlink" title="编辑sources.list文件"></a>编辑sources.list文件</h4><p>还没安装我喜爱的vim，只能先用nano编辑文件：</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@raspberrypi:~# nano /etc/apt/sources.list</span><br></pre></td></tr></table></figure><h4 id="修改源"><a href="#修改源" class="headerlink" title="修改源"></a>修改源</h4><p>将原始的源注释掉，添加阿里云的源地址（在这里感谢阿里爸爸）。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">deb http://mirrors.aliyun.com/raspbian/raspbian/ jessie main non-free contrib rpi</span><br><span class="line">deb-src http://mirrors.aliyun.com/raspbian/raspbian/ jessie main non-free contrib rpi</span><br></pre></td></tr></table></figure><h4 id="更软件索引清单"><a href="#更软件索引清单" class="headerlink" title="更软件索引清单"></a>更软件索引清单</h4><p>最后更新一下，以后就可以快速apt-get啦。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update</span><br></pre></td></tr></table></figure>]]></content>
+    <content type="html"><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>本篇博客主要介绍通过局域网唤醒服务器（远程启动计算机）。具体在Ubuntu操作系统上实现。具体数据流为：通过互联网远程登录长期开机的树莓派，然后通过树莓派唤醒同一个局域网的高性能服务器。</p><blockquote><p>目前中国家庭宽带网络都是没有外网IP的，如果外网访问家庭网络，需要做端口映射，实现远程访问。</p></blockquote><h4 id="什么是WoL（Wake-on-LAN）"><a href="#什么是WoL（Wake-on-LAN）" class="headerlink" title="什么是WoL（Wake on LAN）"></a>什么是WoL（Wake on LAN）</h4><p>电脑处在关机（或休眠）状态时，只要主机保持连接电源、网线连接网卡，其实网卡和主板仍然有微弱供电。这部分供电能让网卡监听和解读来自外部网络的广播信息。其中会对一种特殊的广播信息Magic Packet（魔法数据包）进行侦测。Magic Packet网络包以广播的形式发送，发送的范围可以是整个局域网或者指定的子网。另外Magic Packet中唤醒服务器IP可以是多个，侦测主机一旦发现包中的唤醒IP集中包含自己的IP，会通知主板、电源供电器，开始执行唤醒，打开机器。</p><h3 id="第一部分-检查主机板块和网卡是否支持Wol"><a href="#第一部分-检查主机板块和网卡是否支持Wol" class="headerlink" title="第一部分 检查主机板块和网卡是否支持Wol"></a>第一部分 检查主机板块和网卡是否支持Wol</h3><ul><li><p>主板是否支持：进入BIOS，将“Power Management Setup”中的“Wake Up On LAN”或“Resume by LAN”项设置为“Enable”或“On”</p></li><li><p>网卡是否支持：</p></li></ul><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> ethtool enp0s31f6</span><br></pre></td></tr></table></figure><p>其中有下面的字段信息：</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Supports Wake-on: pumbg</span><br><span class="line">Wake-on: g</span><br></pre></td></tr></table></figure><h3 id="第二部分-部署步骤"><a href="#第二部分-部署步骤" class="headerlink" title="第二部分 部署步骤"></a>第二部分 部署步骤</h3><h4 id="2-1-方法1"><a href="#2-1-方法1" class="headerlink" title="2.1 方法1"></a>2.1 方法1</h4><p>需要安装wakeonlan包：</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@raspberrypi:~# sudo apt-get install wakeonlan</span><br></pre></td></tr></table></figure><p>下面的命令通过树莓派发送魔术包：</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">root@raspberrypi:~# wakeonlan -i 192.168.1.3 b0:6f:bf:b0:9f:2f</span><br><span class="line">Sending magic packet to 192.168.1.3:9 with b0:6f:b0:bf:9f:2f</span><br></pre></td></tr></table></figure><h4 id="2-2-方法2"><a href="#2-2-方法2" class="headerlink" title="2.2 方法2"></a>2.2 方法2</h4><p>在网关配置ARP信息（IP与物理地址进行绑定），发送网段的广播：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">root@raspberrypi:~# wakeonlan -i 192.168.1.0 b0:6f:bf:b0:9f:2f</span><br><span class="line">Sending magic packet to 192.168.1.0:9 with b0:6f:b0:bf:9f:2f</span><br></pre></td></tr></table></figure><h3 id="参考文献及链接"><a href="#参考文献及链接" class="headerlink" title="参考文献及链接"></a>参考文献及链接</h3><p>1、WakeOnLan 链接：<a href="https://help.ubuntu.com/community/WakeOnLan" target="_blank" rel="noopener">https://help.ubuntu.com/community/WakeOnLan</a></p><p>2、wiki 链接：<a href="https://en.wikipedia.org/wiki/Wake-on-LAN" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Wake-on-LAN</a></p><p>3、Ubuntu 與 Wake on LAN 链接：<a href="http://softsmith.blogspot.com/2014/05/ubuntu-wake-on-lan.html" target="_blank" rel="noopener">http://softsmith.blogspot.com/2014/05/ubuntu-wake-on-lan.html</a></p>]]></content>
     
     <summary type="html">
     
       
       
-        &lt;h3 id=&quot;背景&quot;&gt;&lt;a href=&quot;#背景&quot; class=&quot;headerlink&quot; title=&quot;背景&quot;&gt;&lt;/a&gt;背景&lt;/h3&gt;&lt;p&gt;发现树莓派wget国外源异常慢。其实可以更改为国内的apt源，不用走海下光缆啦。&lt;/p&gt;
-&lt;h3 id=&quot;更改步骤&quot;&gt;&lt;a href=&quot;#更
+        &lt;h3 id=&quot;背景&quot;&gt;&lt;a href=&quot;#背景&quot; class=&quot;headerlink&quot; title=&quot;背景&quot;&gt;&lt;/a&gt;背景&lt;/h3&gt;&lt;p&gt;本篇博客主要介绍通过局域网唤醒服务器（远程启动计算机）。具体在Ubuntu操作系统上实现。具体数据流为：通过互联网远程登录长期开机的树莓派，
       
     
     </summary>
     
-      <category term="raspberry" scheme="https://zjrongxiang.github.io/categories/raspberry/"/>
+      <category term="ubuntu" scheme="https://zjrongxiang.github.io/categories/ubuntu/"/>
     
-    
-      <category term="raspberry" scheme="https://zjrongxiang.github.io/tags/raspberry/"/>
-    
-      <category term="apt-get" scheme="https://zjrongxiang.github.io/tags/apt-get/"/>
     
   </entry>
   
@@ -540,6 +512,34 @@
       <category term="raspberry" scheme="https://zjrongxiang.github.io/tags/raspberry/"/>
     
       <category term="frp" scheme="https://zjrongxiang.github.io/tags/frp/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>树莓派：更改APT为国内源</title>
+    <link href="https://zjrongxiang.github.io/2018/03/01/2018-03-12-raspberry_apt-get/"/>
+    <id>https://zjrongxiang.github.io/2018/03/01/2018-03-12-raspberry_apt-get/</id>
+    <published>2018-03-01T11:30:00.000Z</published>
+    <updated>2018-04-05T13:47:23.086Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>发现树莓派wget国外源异常慢。其实可以更改为国内的apt源，不用走海下光缆啦。</p><h3 id="更改步骤"><a href="#更改步骤" class="headerlink" title="更改步骤"></a>更改步骤</h3><h4 id="编辑sources-list文件"><a href="#编辑sources-list文件" class="headerlink" title="编辑sources.list文件"></a>编辑sources.list文件</h4><p>还没安装我喜爱的vim，只能先用nano编辑文件：</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@raspberrypi:~# nano /etc/apt/sources.list</span><br></pre></td></tr></table></figure><h4 id="修改源"><a href="#修改源" class="headerlink" title="修改源"></a>修改源</h4><p>将原始的源注释掉，添加阿里云的源地址（在这里感谢阿里爸爸）。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">deb http://mirrors.aliyun.com/raspbian/raspbian/ jessie main non-free contrib rpi</span><br><span class="line">deb-src http://mirrors.aliyun.com/raspbian/raspbian/ jessie main non-free contrib rpi</span><br></pre></td></tr></table></figure><h4 id="更软件索引清单"><a href="#更软件索引清单" class="headerlink" title="更软件索引清单"></a>更软件索引清单</h4><p>最后更新一下，以后就可以快速apt-get啦。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update</span><br></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h3 id=&quot;背景&quot;&gt;&lt;a href=&quot;#背景&quot; class=&quot;headerlink&quot; title=&quot;背景&quot;&gt;&lt;/a&gt;背景&lt;/h3&gt;&lt;p&gt;发现树莓派wget国外源异常慢。其实可以更改为国内的apt源，不用走海下光缆啦。&lt;/p&gt;
+&lt;h3 id=&quot;更改步骤&quot;&gt;&lt;a href=&quot;#更
+      
+    
+    </summary>
+    
+      <category term="raspberry" scheme="https://zjrongxiang.github.io/categories/raspberry/"/>
+    
+    
+      <category term="raspberry" scheme="https://zjrongxiang.github.io/tags/raspberry/"/>
+    
+      <category term="apt-get" scheme="https://zjrongxiang.github.io/tags/apt-get/"/>
     
   </entry>
   
