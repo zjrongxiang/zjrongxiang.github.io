@@ -824,7 +824,7 @@ Hive有三种部署方式（本质是Hive Metasto
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zjrongxiang.github.io/2018/06/25/2018-06-25-在Ubuntu上部署Minikube/">
+    <link itemprop="mainEntityOfPage" href="https://zjrongxiang.github.io/2018/06/25/2018-08-06-在Minikube上运行Spark集群/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="rong xiang">
@@ -844,7 +844,7 @@ Hive有三种部署方式（本质是Hive Metasto
           <h1 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2018/06/25/2018-06-25-在Ubuntu上部署Minikube/" class="post-title-link" itemprop="url">在Ubuntu上部署Minikube</a>
+                <a href="/2018/06/25/2018-08-06-在Minikube上运行Spark集群/" class="post-title-link" itemprop="url">在Minikube上运行Spark集群</a>
               
             
           </h1>
@@ -886,7 +886,7 @@ Hive有三种部署方式（本质是Hive Metasto
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2019-04-23 21:54:53" itemprop="dateModified" datetime="2019-04-23T21:54:53+08:00">2019-04-23</time>
+                <time title="Modified: 2019-04-23 21:48:55" itemprop="dateModified" datetime="2019-04-23T21:48:55+08:00">2019-04-23</time>
               
             
           </span>
@@ -903,7 +903,7 @@ Hive有三种部署方式（本质是Hive Metasto
                 <span class="post-meta-item-text">In</span>
               
               
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/Minikube-Ubuntu/" itemprop="url" rel="index"><span itemprop="name">Minikube Ubuntu</span></a></span>
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/Minikube-spark-Kubernetes/" itemprop="url" rel="index"><span itemprop="name">Minikube spark Kubernetes</span></a></span>
 
                 
                 
@@ -918,9 +918,9 @@ Hive有三种部署方式（本质是Hive Metasto
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/06/25/2018-06-25-在Ubuntu上部署Minikube/#comments" itemprop="discussionUrl">
+                <a href="/2018/06/25/2018-08-06-在Minikube上运行Spark集群/#comments" itemprop="discussionUrl">
                 
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/06/25/2018-06-25-在Ubuntu上部署Minikube/" itemprop="commentCount"></span>
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/06/25/2018-08-06-在Minikube上运行Spark集群/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -952,14 +952,16 @@ Hive有三种部署方式（本质是Hive Metasto
           
             <p>
               [TOC]
-背景Kubernetes是Google推出的容器编排工具，这是Google保密十几年的强大武器Borg的开源版本。Kubernetes这个名字源于古希腊，意思是舵手。既然docker被比喻成大海上驮着集装箱的鲸鱼，那么Kubernetes就是舵手，掌握鲸鱼的游弋方向，寓意深刻。
-Kube
+背景​     Spark2.3版本开始支持使用spark-submit直接提交任务给Kubernetes集群。执行机制原理：
+
+Spark创建一个在Kubernetes pod中运行的Spark驱动程序。
+驱动程序创建执行程序，这些执行程序也在Kubernetes pod中运行并连接到
               ...
             </p>
           <!--noindex-->
           
             <div class="post-button text-center">
-              <a class="btn" href="/2018/06/25/2018-06-25-在Ubuntu上部署Minikube/#more" rel="contents">
+              <a class="btn" href="/2018/06/25/2018-08-06-在Minikube上运行Spark集群/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -1221,7 +1223,7 @@ Kube
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zjrongxiang.github.io/2018/06/25/2018-08-06-在Minikube上运行Spark集群/">
+    <link itemprop="mainEntityOfPage" href="https://zjrongxiang.github.io/2018/06/25/2019-04-23-在Minikube上运行Flink集群（一）/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="rong xiang">
@@ -1241,7 +1243,7 @@ Kube
           <h1 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2018/06/25/2018-08-06-在Minikube上运行Spark集群/" class="post-title-link" itemprop="url">在Minikube上运行Spark集群</a>
+                <a href="/2018/06/25/2019-04-23-在Minikube上运行Flink集群（一）/" class="post-title-link" itemprop="url">在Minikube上运行Flink集群</a>
               
             
           </h1>
@@ -1283,7 +1285,7 @@ Kube
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2019-04-23 21:48:55" itemprop="dateModified" datetime="2019-04-23T21:48:55+08:00">2019-04-23</time>
+                <time title="Modified: 2019-05-10 22:51:25" itemprop="dateModified" datetime="2019-05-10T22:51:25+08:00">2019-05-10</time>
               
             
           </span>
@@ -1315,9 +1317,214 @@ Kube
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/06/25/2018-08-06-在Minikube上运行Spark集群/#comments" itemprop="discussionUrl">
+                <a href="/2018/06/25/2019-04-23-在Minikube上运行Flink集群（一）/#comments" itemprop="discussionUrl">
                 
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/06/25/2018-08-06-在Minikube上运行Spark集群/" itemprop="commentCount"></span>
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/06/25/2019-04-23-在Minikube上运行Flink集群（一）/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>
+              目录
+背景
+第一部分   部署准备
+第二部分  验证
+总结
+参考文献及资料 
+
+背景第一部分 部署准备首先当然需要部署minikube集群。启动minikube集群：
+# minikube startStarting local Kubernetes v1.10.0 cluster...Starti
+              ...
+            </p>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2018/06/25/2019-04-23-在Minikube上运行Flink集群（一）/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+
+    <div>
+      
+    </div>
+    
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zjrongxiang.github.io/2018/06/25/2018-06-25-在Ubuntu上部署Minikube/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="rong xiang">
+      <meta itemprop="description" content="Keep a Pure Curiosity">
+      <meta itemprop="image" content="/images/avatar/person.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="RongXiang">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/06/25/2018-06-25-在Ubuntu上部署Minikube/" class="post-title-link" itemprop="url">在Ubuntu上部署Minikube</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2018-06-25 19:30:00" itemprop="dateCreated datePublished" datetime="2018-06-25T19:30:00+08:00">2018-06-25</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2019-04-23 21:54:53" itemprop="dateModified" datetime="2019-04-23T21:54:53+08:00">2019-04-23</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/Minikube-Ubuntu/" itemprop="url" rel="index"><span itemprop="name">Minikube Ubuntu</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/06/25/2018-06-25-在Ubuntu上部署Minikube/#comments" itemprop="discussionUrl">
+                
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/06/25/2018-06-25-在Ubuntu上部署Minikube/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -1349,16 +1556,14 @@ Kube
           
             <p>
               [TOC]
-背景​     Spark2.3版本开始支持使用spark-submit直接提交任务给Kubernetes集群。执行机制原理：
-
-Spark创建一个在Kubernetes pod中运行的Spark驱动程序。
-驱动程序创建执行程序，这些执行程序也在Kubernetes pod中运行并连接到
+背景Kubernetes是Google推出的容器编排工具，这是Google保密十几年的强大武器Borg的开源版本。Kubernetes这个名字源于古希腊，意思是舵手。既然docker被比喻成大海上驮着集装箱的鲸鱼，那么Kubernetes就是舵手，掌握鲸鱼的游弋方向，寓意深刻。
+Kube
               ...
             </p>
           <!--noindex-->
           
             <div class="post-button text-center">
-              <a class="btn" href="/2018/06/25/2018-08-06-在Minikube上运行Spark集群/#more" rel="contents">
+              <a class="btn" href="/2018/06/25/2018-06-25-在Ubuntu上部署Minikube/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -2195,206 +2400,6 @@ __init
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zjrongxiang.github.io/2018/04/01/2018-04-01-ubuntu_add_disk/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="rong xiang">
-      <meta itemprop="description" content="Keep a Pure Curiosity">
-      <meta itemprop="image" content="/images/avatar/person.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="RongXiang">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/04/01/2018-04-01-ubuntu_add_disk/" class="post-title-link" itemprop="url">Ubuntu挂载新的硬盘（2T以上）</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-
-              
-                
-              
-
-              <time title="Created: 2018-04-01 23:30:00" itemprop="dateCreated datePublished" datetime="2018-04-01T23:30:00+08:00">2018-04-01</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Edited on</span>
-                
-                <time title="Modified: 2018-04-04 22:21:39" itemprop="dateModified" datetime="2018-04-04T22:21:39+08:00">2018-04-04</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/ubuntu/" itemprop="url" rel="index"><span itemprop="name">ubuntu</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/04/01/2018-04-01-ubuntu_add_disk/#comments" itemprop="discussionUrl">
-                
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/04/01/2018-04-01-ubuntu_add_disk/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>
-              系统环境：Linux version 4.13.0-37-generic (Ubuntu 5.4.0-6ubuntu1~16.04.9)
-root用户登入操作
-查看硬盘信息机器断电时，接入硬盘。开机后用下面的命令查看硬盘状况（非root用户需sudo）。
-root@deeplearning:~# f
-              ...
-            </p>
-          <!--noindex-->
-          
-            <div class="post-button text-center">
-              <a class="btn" href="/2018/04/01/2018-04-01-ubuntu_add_disk/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-
-    <div>
-      
-    </div>
-    
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2444,7 +2449,7 @@ root@deeplearning:~# f
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">23</span>
+                    <span class="site-state-item-count">24</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -3142,9 +3147,9 @@ root@deeplearning:~# f
       
     
       
-        
-      
     
+      
+        
       
     
       
