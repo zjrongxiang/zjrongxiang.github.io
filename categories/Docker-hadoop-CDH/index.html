@@ -117,17 +117,16 @@
 
 
 
-  <meta name="description" content="本篇博客主要介绍通过局域网唤醒服务器（远程启动计算机）。作者具体在Ubuntu操作系统上实现。  目前中国家庭宽带网络都是没有外网IP的，如果外网访问家庭网络，需要做端口映射，实现远程访问。  什么是WoL（Wake on LAN）电脑处在关机（或休眠）状态时，只要主机保持连接电源、网线连接网卡，其实网卡和主板仍然有微弱供电。这部分供电能让网卡监听和解读来自外部网络的广播信息。 其中会对一种特殊的">
-<meta property="og:type" content="article">
-<meta property="og:title" content="动手实现Ubuntu系统WOL远程唤醒">
-<meta property="og:url" content="https://zjrongxiang.github.io/2018/03/14/2018-03-14-ubuntu_wol/index.html">
+  <meta name="description" content="Keep a Pure Curiosity">
+<meta property="og:type" content="website">
+<meta property="og:title" content="RongXiang">
+<meta property="og:url" content="https://zjrongxiang.github.io/categories/Docker-hadoop-CDH/index.html">
 <meta property="og:site_name" content="RongXiang">
-<meta property="og:description" content="本篇博客主要介绍通过局域网唤醒服务器（远程启动计算机）。作者具体在Ubuntu操作系统上实现。  目前中国家庭宽带网络都是没有外网IP的，如果外网访问家庭网络，需要做端口映射，实现远程访问。  什么是WoL（Wake on LAN）电脑处在关机（或休眠）状态时，只要主机保持连接电源、网线连接网卡，其实网卡和主板仍然有微弱供电。这部分供电能让网卡监听和解读来自外部网络的广播信息。 其中会对一种特殊的">
+<meta property="og:description" content="Keep a Pure Curiosity">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2018-04-09T04:49:10.526Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="动手实现Ubuntu系统WOL远程唤醒">
-<meta name="twitter:description" content="本篇博客主要介绍通过局域网唤醒服务器（远程启动计算机）。作者具体在Ubuntu操作系统上实现。  目前中国家庭宽带网络都是没有外网IP的，如果外网访问家庭网络，需要做端口映射，实现远程访问。  什么是WoL（Wake on LAN）电脑处在关机（或休眠）状态时，只要主机保持连接电源、网线连接网卡，其实网卡和主板仍然有微弱供电。这部分供电能让网卡监听和解读来自外部网络的广播信息。 其中会对一种特殊的">
+<meta name="twitter:title" content="RongXiang">
+<meta name="twitter:description" content="Keep a Pure Curiosity">
 
 
 
@@ -136,7 +135,7 @@
 
 
 
-  <link rel="canonical" href="https://zjrongxiang.github.io/2018/03/14/2018-03-14-ubuntu_wol/">
+  <link rel="canonical" href="https://zjrongxiang.github.io/categories/Docker-hadoop-CDH/">
 
 
 
@@ -146,7 +145,7 @@
   };
 </script>
 
-  <title>动手实现Ubuntu系统WOL远程唤醒 | RongXiang</title>
+  <title>Category: Docker hadoop CDH | RongXiang</title>
   
 
 
@@ -194,7 +193,7 @@
     
   
 
-  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left ">
     <div class="headband"></div>
     <!-- <a href="https://github.com/zjrongxiang"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png" alt="Fork me on GitHub"></a> -->
     <a href="https://github.com/zjrongxiang"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_green_007200.png" alt="Fork me on GitHub"></a>
@@ -289,7 +288,7 @@
         
         
           
-          <li class="menu-item menu-item-categories">
+          <li class="menu-item menu-item-categories menu-item-active">
 
     
     
@@ -353,6 +352,31 @@
   
     
 
+    
+    
+      
+      
+    
+      
+      
+    
+      
+      
+    
+      
+      
+    
+      
+      
+    
+      
+      
+    
+    
+
+  
+
+
   
 
   
@@ -398,249 +422,57 @@
           <div id="content" class="content">
             
 
-  <div id="posts" class="posts-expand">
-    
+  
+  
+  
+  <div class="post-block category">
 
-  
+    <div id="posts" class="posts-collapse">
+      <div class="collection-title">
+        <h1>Docker hadoop CDH<small>Category</small>
+        </h1>
+      </div>
 
-  
-  
-  
-
-  
+      
+        
 
   <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zjrongxiang.github.io/2018/03/14/2018-03-14-ubuntu_wol/">
+    <header class="post-header">
 
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="rong xiang">
-      <meta itemprop="description" content="Keep a Pure Curiosity">
-      <meta itemprop="image" content="/images/avatar/person.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="RongXiang">
-    </span>
-
-    
-      <header class="post-header">
-
+      <h2 class="post-title">
         
+          <a class="post-title-link" href="/2018/06/25/2019-04-30-使用Cloudera Quickstart Docker镜像快速部署hadoop集群/" itemprop="url">
+            
+              <span itemprop="name">使用Cloudera Quickstart Docker镜像快速部署hadoop集群</span>
+            
+          </a>
         
-          <h1 class="post-title" itemprop="name headline">动手实现Ubuntu系统WOL远程唤醒
+      </h2>
 
-              
-            
-          </h1>
-        
+      <div class="post-meta">
+        <time class="post-time" itemprop="dateCreated" datetime="2018-06-25T19:30:00+08:00" content="2018-06-25">
+          06-25
+        </time>
+      </div>
 
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-
-              
-                
-              
-
-              <time title="Created: 2018-03-14 19:30:00" itemprop="dateCreated datePublished" datetime="2018-03-14T19:30:00+08:00">2018-03-14</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Edited on</span>
-                
-                <time title="Modified: 2018-04-09 12:49:10" itemprop="dateModified" datetime="2018-04-09T12:49:10+08:00">2018-04-09</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/ubuntu/" itemprop="url" rel="index"><span itemprop="name">ubuntu</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/03/14/2018-03-14-ubuntu_wol/#comments" itemprop="discussionUrl">
-                
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/03/14/2018-03-14-ubuntu_wol/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
-      
-      
-
-      
-        <p>本篇博客主要介绍通过局域网唤醒服务器（远程启动计算机）。作者具体在Ubuntu操作系统上实现。</p>
-<blockquote>
-<p>目前中国家庭宽带网络都是没有外网IP的，如果外网访问家庭网络，需要做端口映射，实现远程访问。</p>
-</blockquote>
-<h3 id="什么是WoL（Wake-on-LAN）"><a href="#什么是WoL（Wake-on-LAN）" class="headerlink" title="什么是WoL（Wake on LAN）"></a>什么是WoL（Wake on LAN）</h3><p>电脑处在关机（或休眠）状态时，只要主机保持连接电源、网线连接网卡，其实网卡和主板仍然有微弱供电。这部分供电能让网卡监听和解读来自外部网络的广播信息。</p>
-<p>其中会对一种特殊的广播信息——Magic Packet（魔法数据包）进行侦测。Magic Packet网络包以广播的形式发送，发送的范围可以是整个局域网或者指定的子网。另外Magic Packet中唤醒服务器IP可以是多个，侦测主机一旦发现包中的唤醒IP集中包含自己的IP，会通知主板、电源供电器，开始执行唤醒，打开机器。</p>
-<h3 id="检查主机板块和网卡是否支持Wol"><a href="#检查主机板块和网卡是否支持Wol" class="headerlink" title="检查主机板块和网卡是否支持Wol"></a>检查主机板块和网卡是否支持Wol</h3><ul>
-<li>BOIS </li>
-<li>网卡（NIC）</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@deeplearning:/# ethtool enp0s31f6</span><br></pre></td></tr></table></figure>
-<p>其中有下面的字段信息：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Supports Wake-on: pumbg</span><br><span class="line">Wake-on: g</span><br></pre></td></tr></table></figure>
-<h3 id="具体部署步骤"><a href="#具体部署步骤" class="headerlink" title="具体部署步骤"></a>具体部署步骤</h3><p>需要安装wakeonlan包：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@raspberrypi:~# sudo apt-get install wakeonlan</span><br></pre></td></tr></table></figure>
-<p>下面的命令通过树莓派发送魔术包</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">root@raspberrypi:~# wakeonlan -i 192.168.1.3 b0:6f:bf:b0:9f:2f</span><br><span class="line">Sending magic packet to 192.168.1.3:9 with b0:6f:b0:bf:9f:2f</span><br></pre></td></tr></table></figure>
-<h3 id="ARP缓存及设置静态ARP"><a href="#ARP缓存及设置静态ARP" class="headerlink" title="ARP缓存及设置静态ARP"></a>ARP缓存及设置静态ARP</h3><p>在网关配置ARP信息（IP与物理地址进行绑定）</p>
-<p>发送网段的广播：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">root@raspberrypi:~# wakeonlan -i 192.168.1.0 b0:6f:bf:b0:9f:2f</span><br><span class="line">Sending magic packet to 192.168.1.0:9 with b0:6f:b0:bf:9f:2f</span><br></pre></td></tr></table></figure>
-<p><a href="https://help.ubuntu.com/community/WakeOnLan" target="_blank" rel="noopener">https://help.ubuntu.com/community/WakeOnLan</a></p>
-<p>wiki</p>
-<p><a href="https://zh.wikipedia.org/wiki/%E7%B6%B2%E8%B7%AF%E5%96%9A%E9%86%92" target="_blank" rel="noopener">https://zh.wikipedia.org/wiki/%E7%B6%B2%E8%B7%AF%E5%96%9A%E9%86%92</a></p>
-<p><a href="https://en.wikipedia.org/wiki/Wake-on-LAN" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Wake-on-LAN</a></p>
-<p><a href="http://softsmith.blogspot.com/2014/05/ubuntu-wake-on-lan.html" target="_blank" rel="noopener">http://softsmith.blogspot.com/2014/05/ubuntu-wake-on-lan.html</a></p>
-
-      
-    </div>
-
-    
-
-    <div>
-      
-        
-      
-    </div>
-    
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-      
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2018/03/14/2018-03-14-deeplearning_camera/" rel="next" title="动手实现深度学习相机">
-                <i class="fa fa-chevron-left"></i> 动手实现深度学习相机
-              </a>
-            
-          </div>
-
-          <span class="post-nav-divider"></span>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/03/14/2018-03-15-ubuntu_apt_change/" rel="prev" title="Ubuntu添加国内apt更新源">
-                Ubuntu添加国内apt更新源 <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
-
-      
-      
-    </footer>
-  </div>
-  
-  
-  
+    </header>
   </article>
 
 
+      
+    </div>
+
   </div>
+  
+  
+  
+
+  
+
 
 
           </div>
           
-
-  
-    <div class="comments" id="comments">
-      <div id="disqus_thread">
-        <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
-      </div>
-    </div>
-
-  
-
-
 
         </div>
         
@@ -661,17 +493,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            Table of Contents
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            Overview
-          </li>
-        </ul>
-      
 
-      <div class="site-overview-wrap sidebar-panel">
+      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
             
@@ -688,7 +511,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">21</span>
+                    <span class="site-state-item-count">24</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -731,7 +554,11 @@
                     
                       
                     
-                    <span class="site-state-item-count">15</span>
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">17</span>
                     <span class="site-state-item-name">categories</span>
                   
                 </div>
@@ -863,23 +690,6 @@
         </div>
       </div>
 
-      
-      <!--noindex-->
-        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-            
-            
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是WoL（Wake-on-LAN）"><span class="nav-number">1.</span> <span class="nav-text">什么是WoL（Wake on LAN）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#检查主机板块和网卡是否支持Wol"><span class="nav-number">2.</span> <span class="nav-text">检查主机板块和网卡是否支持Wol</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#具体部署步骤"><span class="nav-number">3.</span> <span class="nav-text">具体部署步骤</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ARP缓存及设置静态ARP"><span class="nav-number">4.</span> <span class="nav-text">ARP缓存及设置静态ARP</span></a></li></ol></div>
-            
-
-          </div>
-        </div>
-      <!--/noindex-->
       
 
       
@@ -1035,10 +845,6 @@
 
 
   
-  <script src="/js/src/scrollspy.js?v=6.7.0"></script>
-<script src="/js/src/post-details.js?v=6.7.0"></script>
-
-
 
   
 
@@ -1048,30 +854,6 @@
 
 
   
-  
-    
-  <script id="dsq-count-scr" src="https://https-zjrongxiang-github-io.disqus.com/count.js" async></script>
-
-
-<script>
-  var disqus_config = function () {
-    this.page.url = "https://zjrongxiang.github.io/2018/03/14/2018-03-14-ubuntu_wol/";
-    this.page.identifier = "2018/03/14/2018-03-14-ubuntu_wol/";
-    this.page.title = '动手实现Ubuntu系统WOL远程唤醒';
-    };
-  function loadComments () {
-    var d = document, s = d.createElement('script');
-    s.src = 'https://https-zjrongxiang-github-io.disqus.com/embed.js';
-    s.setAttribute('data-timestamp', '' + +new Date());
-    (d.head || d.body).appendChild(s);
-  }
-  
-    loadComments();
-  
-</script>
-
-  
-
 
 
 

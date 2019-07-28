@@ -124,12 +124,12 @@
 <meta property="og:site_name" content="RongXiang">
 <meta property="og:description" content="[TOC] 背景Kubernetes是Google推出的容器编排工具，这是Google保密十几年的强大武器Borg的开源版本。Kubernetes这个名字源于古希腊，意思是舵手。既然docker被比喻成大海上驮着集装箱的鲸鱼，那么Kubernetes就是舵手，掌握鲸鱼的游弋方向，寓意深刻。 Kubernetes第一个正式版本于2015年7月发布。从Kubernetes 1.3开始提供了一个叫Min">
 <meta property="og:locale" content="en">
-<meta property="og:image" content="d:/blog/source/images/picture/minikube.jpeg">
-<meta property="og:updated_time" content="2019-04-23T13:54:53.975Z">
+<meta property="og:image" content="https://zjrongxiang.github.io/images/picture/minikube.jpeg">
+<meta property="og:updated_time" content="2019-07-28T01:47:31.543Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="在Ubuntu上部署Minikube">
 <meta name="twitter:description" content="[TOC] 背景Kubernetes是Google推出的容器编排工具，这是Google保密十几年的强大武器Borg的开源版本。Kubernetes这个名字源于古希腊，意思是舵手。既然docker被比喻成大海上驮着集装箱的鲸鱼，那么Kubernetes就是舵手，掌握鲸鱼的游弋方向，寓意深刻。 Kubernetes第一个正式版本于2015年7月发布。从Kubernetes 1.3开始提供了一个叫Min">
-<meta name="twitter:image" content="d:/blog/source/images/picture/minikube.jpeg">
+<meta name="twitter:image" content="https://zjrongxiang.github.io/images/picture/minikube.jpeg">
 
 
 
@@ -476,7 +476,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2019-04-23 21:54:53" itemprop="dateModified" datetime="2019-04-23T21:54:53+08:00">2019-04-23</time>
+                <time title="Modified: 2019-07-28 09:47:31" itemprop="dateModified" datetime="2019-07-28T09:47:31+08:00">2019-07-28</time>
               
             
           </span>
@@ -542,7 +542,7 @@
 <h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>Kubernetes是Google推出的容器编排工具，这是Google保密十几年的强大武器Borg的开源版本。Kubernetes这个名字源于古希腊，意思是舵手。既然docker被比喻成大海上驮着集装箱的鲸鱼，那么Kubernetes就是舵手，掌握鲸鱼的游弋方向，寓意深刻。</p>
 <p>Kubernetes第一个正式版本于2015年7月发布。从Kubernetes 1.3开始提供了一个叫<code>Minikube</code>的强大测试工具，可以在主流操作系统平台（win、os、linux）上运行单节点的小型集群，这个工具默认安装和配置了一个Linux VM，Docker和Kubernetes的相关组件，并且提供Dashboard。</p>
 <p>本篇主要介绍Ubuntu平台上部署Minikube。Minikube利用本地虚拟机环境部署Kubernetes，其基本架构如下图所示。 Minitube项目地址：<a href="https://github.com/kubernetes/minikube" target="_blank" rel="noopener">https://github.com/kubernetes/minikube</a> </p>
-<p><img src="D:\blog\source\images\picture\minikube.jpeg" alt=""></p>
+<p><img src="\images\picture\minikube.jpeg" alt=""></p>
 <h3 id="第一部分-准备"><a href="#第一部分-准备" class="headerlink" title="第一部分 准备"></a>第一部分 准备</h3><p>Minikube在OS X和Windows上部署需要安装虚拟机实现（用虚拟机来初始化Kubernetes环境），但是Linux例外可以使用自己的环境。参见：<a href="https://github.com/kubernetes/minikube#quickstart" target="_blank" rel="noopener">https://github.com/kubernetes/minikube#quickstart</a> </p>
 <h4 id="1-1-准备工作"><a href="#1-1-准备工作" class="headerlink" title="1.1 准备工作"></a>1.1 准备工作</h4><p>检查CPU是否支持虚拟化，即BIOS中参数（<code>VT-x</code>/<code>AMD-v</code> ）设置为enable。</p>
 <h4 id="1-2-安装虚拟机"><a href="#1-2-安装虚拟机" class="headerlink" title="1.2 安装虚拟机"></a>1.2 安装虚拟机</h4><p>Minikube在不同操作系统上支持不同的虚拟驱动：</p>
@@ -634,8 +634,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/04/16/2018-04-15-network_intro/" rel="next" title="5分钟介绍深度学习（科普）">
-                <i class="fa fa-chevron-left"></i> 5分钟介绍深度学习（科普）
+              <a href="/2018/06/25/2019-04-23-在Minikube上运行Flink集群（一）/" rel="next" title="在Minikube上运行Flink集群">
+                <i class="fa fa-chevron-left"></i> 在Minikube上运行Flink集群
               </a>
             
           </div>
@@ -644,8 +644,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/06/25/2019-04-23-在Minikube上运行Flink集群（一）/" rel="prev" title="在Minikube上运行Flink集群">
-                在Minikube上运行Flink集群 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/06/25/2018-08-06-在Minikube上运行Spark集群/" rel="prev" title="在Minikube上运行Spark集群">
+                在Minikube上运行Spark集群 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
