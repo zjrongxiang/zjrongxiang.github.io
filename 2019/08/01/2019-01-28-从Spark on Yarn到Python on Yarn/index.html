@@ -124,16 +124,16 @@
 <meta property="og:site_name" content="RongXiang">
 <meta property="og:description" content="目录 术语说明 背景 第一部分   Apache Spark运行模式介绍 第二部分   Spark on Yarn 第三部分   Pyspark Application原理 第四部分   Python on Yarn配置及运行 第五部分   总结 参考文献及资料  背景Apache Spark属于重要的大数据计算框架，另外spark还提供了Python的原生API和机器学习组件Spark Ml，使">
 <meta property="og:locale" content="en">
-<meta property="og:image" content="https://zjrongxiang.github.io/images/picture/python-on-yarn/spark-standalone-client.vsdx">
-<meta property="og:image" content="https://zjrongxiang.github.io/images/picture/python-on-yarn/spark-standalone%20-zk.vsdx">
+<meta property="og:image" content="https://zjrongxiang.github.io/images/picture/python-on-yarn/spark.bmp">
+<meta property="og:image" content="https://zjrongxiang.github.io/images/picture/python-on-yarn/zk-spark.bmp">
 <meta property="og:image" content="https://zjrongxiang.github.io/images/picture/python-on-yarn/yarn-client-mode.png">
 <meta property="og:image" content="https://zjrongxiang.github.io/images/picture/python-on-yarn/yarn-cluster-mode.png">
 <meta property="og:image" content="http://www.uml.org.cn/bigdata/images/2017111321.png">
-<meta property="og:updated_time" content="2019-08-01T15:03:13.874Z">
+<meta property="og:updated_time" content="2019-08-01T15:13:51.655Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="从Spark on Yarn到Python on Yarn">
 <meta name="twitter:description" content="目录 术语说明 背景 第一部分   Apache Spark运行模式介绍 第二部分   Spark on Yarn 第三部分   Pyspark Application原理 第四部分   Python on Yarn配置及运行 第五部分   总结 参考文献及资料  背景Apache Spark属于重要的大数据计算框架，另外spark还提供了Python的原生API和机器学习组件Spark Ml，使">
-<meta name="twitter:image" content="https://zjrongxiang.github.io/images/picture/python-on-yarn/spark-standalone-client.vsdx">
+<meta name="twitter:image" content="https://zjrongxiang.github.io/images/picture/python-on-yarn/spark.bmp">
 
 
 
@@ -463,7 +463,7 @@
                 
               
 
-              <time title="Created: 2019-08-01 19:30:00 / Modified: 23:03:13" itemprop="dateCreated datePublished" datetime="2019-08-01T19:30:00+08:00">2019-08-01</time>
+              <time title="Created: 2019-08-01 19:30:00 / Modified: 23:13:51" itemprop="dateCreated datePublished" datetime="2019-08-01T19:30:00+08:00">2019-08-01</time>
             
 
             
@@ -563,9 +563,9 @@
 <p>作业提交命令中使用local-cluster[x,y,z]参数模式：x代表要生成的executor数，y和z分别代表每个executor所拥有的core和memory数值。例如下面的命令作业申请了2个executor 进程，每个进程分配3个core和1G的内存，来运行应用程序。</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> ./spark-submit –master <span class="built_in">local</span>-cluster[2, 3, 1024]</span></span><br></pre></td></tr></table></figure>
 <h3 id="1-3-Standalone模式（集群模式）"><a href="#1-3-Standalone模式（集群模式）" class="headerlink" title="1.3 Standalone模式（集群模式）"></a>1.3 Standalone模式（集群模式）</h3><h4 id="1-3-1-构架部署"><a href="#1-3-1-构架部署" class="headerlink" title="1.3.1 构架部署"></a>1.3.1 构架部署</h4><p>Standalone为spark自带资源管理系统（即经典的Master/Slaves架构模式）。该模式下集群由Master和Worker节点组成，程序通过与Master节点交互申请资源，Worker节点启动Executor运行。具体数据流图如下：</p>
-<p><img src="\images\picture\python-on-yarn\spark-standalone-client.vsdx" alt=""></p>
+<p><img src="\images\picture\python-on-yarn\spark.bmp" alt=""></p>
 <p>另外考虑到Master节点存在单点故障。Spark支持使用Zookeeper实现HA高可用（high avalible）。Zookeeper提供一种领导选举的机制，通过该机制可以保证集群中只有一个Master节点处于RecoveryState.Active状态，其他Master节点处于RecoveryState.Standby状态。</p>
-<p><img src="\images\picture\python-on-yarn\spark-standalone -zk.vsdx" alt=""></p>
+<p><img src="\images\picture\python-on-yarn\zk-spark.bmp" alt=""></p>
 <h4 id="1-3-2-作业运行模式"><a href="#1-3-2-作业运行模式" class="headerlink" title="1.3.2 作业运行模式"></a>1.3.2 作业运行模式</h4><p>在该模式下，用户提交任务有两种方式：Standalone-client和Standalone-cluster。</p>
 <h4 id="1-5-1-Client模式"><a href="#1-5-1-Client模式" class="headerlink" title="1.5.1 Client模式"></a>1.5.1 Client模式</h4><p>执行流程：</p>
 <p>(1)客户端启动Driver进程。</p>
