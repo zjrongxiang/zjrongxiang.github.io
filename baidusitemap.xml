@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://zjrongxiang.github.io/2019/09/07/2019-09-07-%E5%A4%96%E7%BD%91%E7%8E%AF%E5%A2%83%E8%AE%BF%E9%97%AE%E5%86%85%E7%BD%91%EF%BC%88NAT%EF%BC%89Kafka%E9%9B%86%E7%BE%A4%E4%BB%8B%E7%BB%8D/</loc>
+    <lastmod>2019-09-07</lastmod>
+  </url>  <url>
+    <loc>https://zjrongxiang.github.io/2019/08/08/2019-08-08-Helm%E7%AE%80%E4%BB%8B%E5%92%8C%E5%AE%89%E8%A3%85%E9%83%A8%E7%BD%B2/</loc>
+    <lastmod>2019-08-09</lastmod>
+  </url>  <url>
+    <loc>https://zjrongxiang.github.io/2018/06/25/2018-06-25-%E5%9C%A8Ubuntu%E4%B8%8A%E9%83%A8%E7%BD%B2Minikube/</loc>
+    <lastmod>2019-08-08</lastmod>
+  </url>  <url>
     <loc>https://zjrongxiang.github.io/2019/08/01/2019-01-28-%E4%BB%8ESpark%20on%20Yarn%E5%88%B0Python%20on%20Yarn/</loc>
     <lastmod>2019-08-01</lastmod>
   </url>  <url>
@@ -9,9 +18,6 @@
   </url>  <url>
     <loc>https://zjrongxiang.github.io/2018/06/25/2019-07-27-%E5%9C%A8Minikube%E4%B8%8A%E8%BF%90%E8%A1%8CKafka%E9%9B%86%E7%BE%A4/</loc>
     <lastmod>2019-07-30</lastmod>
-  </url>  <url>
-    <loc>https://zjrongxiang.github.io/2018/06/25/2018-06-25-%E5%9C%A8Ubuntu%E4%B8%8A%E9%83%A8%E7%BD%B2Minikube/</loc>
-    <lastmod>2019-07-28</lastmod>
   </url>  <url>
     <loc>https://zjrongxiang.github.io/2018/06/25/2019-04-30-%E4%BD%BF%E7%94%A8Cloudera%20Quickstart%20Docker%E9%95%9C%E5%83%8F%E5%BF%AB%E9%80%9F%E9%83%A8%E7%BD%B2hadoop%E9%9B%86%E7%BE%A4/</loc>
     <lastmod>2019-07-28</lastmod>
