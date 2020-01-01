@@ -547,7 +547,7 @@
 <li><p>网卡是否支持：</p>
 </li>
 </ul>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> ethtool enp0s31f6</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> ethtool enp0s31f6</span></span><br></pre></td></tr></table></figure>
 <p>其中有下面的字段信息：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Supports Wake-on: pumbg</span><br><span class="line">Wake-on: g</span><br></pre></td></tr></table></figure>
 <h3 id="第二部分-部署步骤"><a href="#第二部分-部署步骤" class="headerlink" title="第二部分 部署步骤"></a>第二部分 部署步骤</h3><h4 id="2-1-方法1"><a href="#2-1-方法1" class="headerlink" title="2.1 方法1"></a>2.1 方法1</h4><p>需要安装wakeonlan包：</p>
@@ -555,7 +555,7 @@
 <p>下面的命令通过树莓派发送魔术包：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">root@raspberrypi:~# wakeonlan -i 192.168.1.3 b0:6f:bf:b0:9f:2f</span><br><span class="line">Sending magic packet to 192.168.1.3:9 with b0:6f:b0:bf:9f:2f</span><br></pre></td></tr></table></figure>
 <h4 id="2-2-方法2"><a href="#2-2-方法2" class="headerlink" title="2.2 方法2"></a>2.2 方法2</h4><p>在网关配置ARP信息（IP与物理地址进行绑定），发送网段的广播：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">root@raspberrypi:~# wakeonlan -i 192.168.1.0 b0:6f:bf:b0:9f:2f</span><br><span class="line">Sending magic packet to 192.168.1.0:9 with b0:6f:b0:bf:9f:2f</span><br></pre></td></tr></table></figure>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">root</span>@<span class="selector-tag">raspberrypi</span>:~# <span class="selector-tag">wakeonlan</span> <span class="selector-tag">-i</span> <span class="selector-tag">192</span><span class="selector-class">.168</span><span class="selector-class">.1</span><span class="selector-class">.0</span> <span class="selector-tag">b0</span><span class="selector-pseudo">:6f</span><span class="selector-pseudo">:bf</span><span class="selector-pseudo">:b0</span><span class="selector-pseudo">:9f</span><span class="selector-pseudo">:2f</span></span><br><span class="line"><span class="selector-tag">Sending</span> <span class="selector-tag">magic</span> <span class="selector-tag">packet</span> <span class="selector-tag">to</span> <span class="selector-tag">192</span><span class="selector-class">.168</span><span class="selector-class">.1</span><span class="selector-class">.0</span><span class="selector-pseudo">:9</span> <span class="selector-tag">with</span> <span class="selector-tag">b0</span><span class="selector-pseudo">:6f</span><span class="selector-pseudo">:b0</span><span class="selector-pseudo">:bf</span><span class="selector-pseudo">:9f</span><span class="selector-pseudo">:2f</span></span><br></pre></td></tr></table></figure>
 <h3 id="参考文献及链接"><a href="#参考文献及链接" class="headerlink" title="参考文献及链接"></a>参考文献及链接</h3><p>1、WakeOnLan 链接：<a href="https://help.ubuntu.com/community/WakeOnLan" target="_blank" rel="noopener">https://help.ubuntu.com/community/WakeOnLan</a></p>
 <p>2、wiki 链接：<a href="https://en.wikipedia.org/wiki/Wake-on-LAN" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Wake-on-LAN</a></p>
 <p>3、Ubuntu 與 Wake on LAN 链接：<a href="http://softsmith.blogspot.com/2014/05/ubuntu-wake-on-lan.html" target="_blank" rel="noopener">http://softsmith.blogspot.com/2014/05/ubuntu-wake-on-lan.html</a></p>
@@ -595,8 +595,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/03/14/2018-03-15-ubuntu_ssh_ip_OK/" rel="next" title="Ubuntu系统版本信息查询">
-                <i class="fa fa-chevron-left"></i> Ubuntu系统版本信息查询
+              <a href="/2018/03/14/2018-03-14-deeplearning_camera/" rel="next" title="动手实现深度学习相机">
+                <i class="fa fa-chevron-left"></i> 动手实现深度学习相机
               </a>
             
           </div>
@@ -605,8 +605,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/03/14/2018-03-14-deeplearning_camera/" rel="prev" title="动手实现深度学习相机">
-                动手实现深度学习相机 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/03/14/2018-03-15-ubuntu_apt_change/" rel="prev" title="Ubuntu添加国内apt更新源">
+                Ubuntu添加国内apt更新源 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -907,7 +907,7 @@
     <footer id="footer" class="footer">
       <div class="footer-inner">
         <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-<div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
   <span class="with-love" id="animate">
     <i class="fa fa-user"></i>
   </span>

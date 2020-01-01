@@ -541,9 +541,9 @@
 <h3 id="更改步骤"><a href="#更改步骤" class="headerlink" title="更改步骤"></a>更改步骤</h3><h4 id="编辑sources-list文件"><a href="#编辑sources-list文件" class="headerlink" title="编辑sources.list文件"></a>编辑sources.list文件</h4><p>还没安装我喜爱的vim，只能先用nano编辑文件：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@raspberrypi:~# nano /etc/apt/sources.list</span><br></pre></td></tr></table></figure>
 <h4 id="修改源"><a href="#修改源" class="headerlink" title="修改源"></a>修改源</h4><p>将原始的源注释掉，添加阿里云的源地址（在这里感谢阿里爸爸）。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">deb http://mirrors.aliyun.com/raspbian/raspbian/ jessie main non-free contrib rpi</span><br><span class="line">deb-src http://mirrors.aliyun.com/raspbian/raspbian/ jessie main non-free contrib rpi</span><br></pre></td></tr></table></figure>
+<figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">deb <span class="symbol">http:</span>/<span class="regexp">/mirrors.aliyun.com/raspbian</span><span class="regexp">/raspbian/</span> jessie main non-free contrib rpi</span><br><span class="line">deb-src <span class="symbol">http:</span>/<span class="regexp">/mirrors.aliyun.com/raspbian</span><span class="regexp">/raspbian/</span> jessie main non-free contrib rpi</span><br></pre></td></tr></table></figure>
 <h4 id="更软件索引清单"><a href="#更软件索引清单" class="headerlink" title="更软件索引清单"></a>更软件索引清单</h4><p>最后更新一下，以后就可以快速apt-get啦。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update</span><br></pre></td></tr></table></figure>
+<figure class="highlight q"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-<span class="built_in">get</span> <span class="keyword">update</span></span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -588,8 +588,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/02/06/2018-02-25-Linux_ip/" rel="next" title="Ubuntu操作系统静态IP地址">
-                <i class="fa fa-chevron-left"></i> Ubuntu操作系统静态IP地址
+              <a href="/2018/03/01/2018-03-12-raspberry_frp/" rel="next" title="树莓派：搭建家庭内网穿透服务器（frp实现）">
+                <i class="fa fa-chevron-left"></i> 树莓派：搭建家庭内网穿透服务器（frp实现）
               </a>
             
           </div>
@@ -598,8 +598,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/03/01/2018-03-12-raspberry_frp/" rel="prev" title="树莓派：搭建家庭内网穿透服务器（frp实现）">
-                树莓派：搭建家庭内网穿透服务器（frp实现） <i class="fa fa-chevron-right"></i>
+              <a href="/2018/03/14/2018-03-14-deeplearning_camera/" rel="prev" title="动手实现深度学习相机">
+                动手实现深度学习相机 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -900,7 +900,7 @@
     <footer id="footer" class="footer">
       <div class="footer-inner">
         <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-<div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
   <span class="with-love" id="animate">
     <i class="fa fa-user"></i>
   </span>

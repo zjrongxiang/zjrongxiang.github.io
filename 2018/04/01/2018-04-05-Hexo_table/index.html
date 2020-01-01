@@ -540,7 +540,7 @@
         <h3 id="掉坑背景"><a href="#掉坑背景" class="headerlink" title="掉坑背景"></a>掉坑背景</h3><p>使用Typora编辑Makedown文件，添加表格，但是提交给Hexo渲染网页，无法正常解析显示，而是显示源码。例如：<br>| Table Header 1 | Table Header 2 |<br>| ————– | ————– |<br>| Division 1     | Division 2     |<br>| Division 1     | Division 2     |</p>
 <h3 id="爬坑过程和解决办法"><a href="#爬坑过程和解决办法" class="headerlink" title="爬坑过程和解决办法"></a>爬坑过程和解决办法</h3><p>一开始认为是Hexo的bug，Google也没人遇到类似情况，都准备在github上建问题单了。最后本着严谨的态度，以文本的格式打开文档，发现表格源码和正文之间没有空行！！！！！</p>
 <p>这尼玛坑爹呀，所以Hexo无法解析，但是Typora能正常解析。空出一行后正常解析：</p>
-<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;正文&gt;</span><br><span class="line">(空一行)</span><br><span class="line">| Table Header 1 | Table Header 2 |</span><br><span class="line">| - | - | </span><br><span class="line">| Division 1 | Division 2 | </span><br><span class="line">| Division 1 | Division 2 |</span><br></pre></td></tr></table></figure>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">正文</span>&gt;</span></span></span><br><span class="line">(空一行)</span><br><span class="line">| Table Header 1 | Table Header 2 |</span><br><span class="line">| - | - | </span><br><span class="line">| Division 1 | Division 2 | </span><br><span class="line">| Division 1 | Division 2 |</span><br></pre></td></tr></table></figure>
 <table>
 <thead>
 <tr>
@@ -920,7 +920,7 @@
     <footer id="footer" class="footer">
       <div class="footer-inner">
         <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-<div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
   <span class="with-love" id="animate">
     <i class="fa fa-user"></i>
   </span>

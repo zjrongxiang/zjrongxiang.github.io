@@ -117,18 +117,18 @@
 
 
 
-  <meta name="description" content="目录 背景 第一部分   Kafka几个配置参数介绍 第二部分   外网环境访问内网（NAT）Kafka集群配置 第三部分  总结 参考文献及资料  背景其实这是一个踩坑笔记。首先介绍踩坑背景。生成环境我们有两个网络区域，记为网络区域A（内网）、网络区域B（外网），其中为了外网环境能访问内网环境，内网对内部IP实施了IP映射（NAT），将内部IP映射为外部IP。Kafka版本为：kafka_2.1">
+  <meta name="description" content="目录 背景 第一部分   Kafka几个配置参数介绍 第二部分   外网环境访问内网（NAT）Kafka集群配置 第三部分  总结 参考文献及资料  背景其实这是一个踩坑笔记。首先介绍踩坑背景。生产环境我们有两个网络区域，记为网络区域A（内网）、网络区域B（外网），其中为了外网环境能访问内网环境，内网对内部IP实施了IP映射（NAT），将内网IP映射为外部IP。Kafka版本为：kafka_2.1">
 <meta property="og:type" content="article">
 <meta property="og:title" content="外网环境访问内网（NAT）Kafka集群介绍">
 <meta property="og:url" content="https://zjrongxiang.github.io/2019/09/07/2019-09-07-外网环境访问内网（NAT）Kafka集群介绍/index.html">
 <meta property="og:site_name" content="RongXiang">
-<meta property="og:description" content="目录 背景 第一部分   Kafka几个配置参数介绍 第二部分   外网环境访问内网（NAT）Kafka集群配置 第三部分  总结 参考文献及资料  背景其实这是一个踩坑笔记。首先介绍踩坑背景。生成环境我们有两个网络区域，记为网络区域A（内网）、网络区域B（外网），其中为了外网环境能访问内网环境，内网对内部IP实施了IP映射（NAT），将内部IP映射为外部IP。Kafka版本为：kafka_2.1">
+<meta property="og:description" content="目录 背景 第一部分   Kafka几个配置参数介绍 第二部分   外网环境访问内网（NAT）Kafka集群配置 第三部分  总结 参考文献及资料  背景其实这是一个踩坑笔记。首先介绍踩坑背景。生产环境我们有两个网络区域，记为网络区域A（内网）、网络区域B（外网），其中为了外网环境能访问内网环境，内网对内部IP实施了IP映射（NAT），将内网IP映射为外部IP。Kafka版本为：kafka_2.1">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="https://zjrongxiang.github.io/images/picture/kafka/kafkaNat.png">
-<meta property="og:updated_time" content="2019-09-07T11:57:37.862Z">
+<meta property="og:updated_time" content="2019-12-28T14:48:17.399Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="外网环境访问内网（NAT）Kafka集群介绍">
-<meta name="twitter:description" content="目录 背景 第一部分   Kafka几个配置参数介绍 第二部分   外网环境访问内网（NAT）Kafka集群配置 第三部分  总结 参考文献及资料  背景其实这是一个踩坑笔记。首先介绍踩坑背景。生成环境我们有两个网络区域，记为网络区域A（内网）、网络区域B（外网），其中为了外网环境能访问内网环境，内网对内部IP实施了IP映射（NAT），将内部IP映射为外部IP。Kafka版本为：kafka_2.1">
+<meta name="twitter:description" content="目录 背景 第一部分   Kafka几个配置参数介绍 第二部分   外网环境访问内网（NAT）Kafka集群配置 第三部分  总结 参考文献及资料  背景其实这是一个踩坑笔记。首先介绍踩坑背景。生产环境我们有两个网络区域，记为网络区域A（内网）、网络区域B（外网），其中为了外网环境能访问内网环境，内网对内部IP实施了IP映射（NAT），将内网IP映射为外部IP。Kafka版本为：kafka_2.1">
 <meta name="twitter:image" content="https://zjrongxiang.github.io/images/picture/kafka/kafkaNat.png">
 
 
@@ -459,12 +459,24 @@
                 
               
 
-              <time title="Created: 2019-09-07 13:30:00 / Modified: 19:57:37" itemprop="dateCreated datePublished" datetime="2019-09-07T13:30:00+08:00">2019-09-07</time>
+              <time title="Created: 2019-09-07 13:30:00" itemprop="dateCreated datePublished" datetime="2019-09-07T13:30:00+08:00">2019-09-07</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2019-12-28 22:48:17" itemprop="dateModified" datetime="2019-12-28T22:48:17+08:00">2019-12-28</time>
               
             
           </span>
@@ -533,7 +545,7 @@
 <li>第三部分  总结</li>
 <li>参考文献及资料</li>
 </ul>
-<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>其实这是一个踩坑笔记。首先介绍踩坑背景。生成环境我们有两个网络区域，记为网络区域A（内网）、网络区域B（外网），其中为了外网环境能访问内网环境，内网对内部IP实施了IP映射（NAT），将内部IP映射为外部IP。Kafka版本为：kafka_2.11-0.10.2.0。IP清单及网络数据流图如下：</p>
+<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>其实这是一个踩坑笔记。首先介绍踩坑背景。生产环境我们有两个网络区域，记为网络区域A（内网）、网络区域B（外网），其中为了外网环境能访问内网环境，内网对内部IP实施了IP映射（NAT），将内网IP映射为外部IP。Kafka版本为：kafka_2.11-0.10.2.0。IP清单及网络数据流图如下：</p>
 <table>
 <thead>
 <tr>
@@ -562,7 +574,7 @@
 </table>
 <p>整个架构图为：</p>
 <p><img src="\images\picture\kafka\kafkaNat.png" alt=""></p>
-<p>外网网络区域的客户端我们开始使用NAT地址（10.0.0.1-3）地址访问内部kafka，发现无法生产和消费kafka数据（telnet netip 9092是通的），会报解析服务器hostname失败的错误。而内部网络的客户端使用内网地址（192.168.1.1-3）是可以正常生产和消费kafka数据。</p>
+<p>外网网络区域的客户端开始使用NAT地址（10.0.0.1-3）地址访问内部kafka，发现无法生产和消费kafka数据（telnet netip 9092是通的），会报解析服务器hostname失败的错误。而内部网络的客户端使用内网地址（192.168.1.1-3）是可以正常生产和消费kafka数据。</p>
 <p>原因：advertised.listeners配置的是内网实地址，这个地址注册到Zookeeper中，当消费者和生产者访问时，Zookeeper将该地址提供给消费者和生产者。由于是内网地址，外网根本看不到这个地址（路由寻址）。所以无法获取元数据信息，通信异常。</p>
 <h2 id="第一部分-Kafka几个配置参数介绍"><a href="#第一部分-Kafka几个配置参数介绍" class="headerlink" title="第一部分 Kafka几个配置参数介绍"></a>第一部分 Kafka几个配置参数介绍</h2><p>首先要了解一下几个配置：</p>
 <ul>
@@ -595,7 +607,7 @@
 </ul>
 <p>配置完成后，重启Kafka集群，重新使用客户端链接，测试客户端可以正常向Topic生产和消费数据。</p>
 <h3 id="2-2-内外部流量分离"><a href="#2-2-内外部流量分离" class="headerlink" title="2.2 内外部流量分离"></a>2.2 内外部流量分离</h3><p>通常对于外部网络访问内网安全区域，架构使用安全套接字层 (SSL) 来保护外部客户端与 Kafka 之间的流量。而使用明文进行内部网络的broker间的通信。当 Kafka 侦听器绑定到用于内部和外部通信的网络接口时，配置侦听器就非常简单了。但在许多情况下，例如在云原生环境上部署时，集群中 Kafka broker 的外部通告地址将与 Kafka 使用的内部网络接口不同。在此情况下，可以 <code>server.properties</code> 中的参数 <code>advertised.listeners</code> 进行如下配置：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> Configure protocol map</span><br><span class="line">listener.security.protocol.map=INTERNAL:PLAINTEXT,EXTERNAL:SSL</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> Use plaintext for inter-broker communication</span><br><span class="line">inter.broker.listener.name=INTERNAL</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> Specify that Kafka listeners should bind to all local interfaces</span><br><span class="line">listeners=INTERNAL://0.0.0.0:9092,EXTERNAL://0.0.0.0:9093</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> Separately, specify externally visible address</span><br><span class="line">advertised.listeners=INTERNAL://kafkabroker-n.mydomain.com:9092,EXTERNAL://kafkabroker-n.mydomain.com:9093</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> Configure protocol map</span></span><br><span class="line">listener.security.protocol.map=INTERNAL:PLAINTEXT,EXTERNAL:SSL</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> Use plaintext <span class="keyword">for</span> inter-broker communication</span></span><br><span class="line">inter.broker.listener.name=INTERNAL</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> Specify that Kafka listeners should <span class="built_in">bind</span> to all <span class="built_in">local</span> interfaces</span></span><br><span class="line">listeners=INTERNAL://0.0.0.0:9092,EXTERNAL://0.0.0.0:9093</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> Separately, specify externally visible address</span></span><br><span class="line">advertised.listeners=INTERNAL://kafkabroker-n.mydomain.com:9092,EXTERNAL://kafkabroker-n.mydomain.com:9093</span><br></pre></td></tr></table></figure>
 <p>内部使用9092端口，而外部网络使用9093端口。</p>
 <h2 id="第三部分-总结"><a href="#第三部分-总结" class="headerlink" title="第三部分 总结"></a>第三部分 总结</h2><p>Kafka集群在内外网网络环境下，需要关注地址映射。使用hosts 本地DNS进行主机名和内外地址的映射。至此爬出该坑。</p>
 <h2 id="参考文献及资料"><a href="#参考文献及资料" class="headerlink" title="参考文献及资料"></a>参考文献及资料</h2><p>1、kafka - advertised.listeners和listeners，链接：<a href="https://www.cnblogs.com/fxjwind/p/6225909.html" target="_blank" rel="noopener">https://www.cnblogs.com/fxjwind/p/6225909.html</a></p>
@@ -946,7 +958,7 @@
     <footer id="footer" class="footer">
       <div class="footer-inner">
         <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-<div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
   <span class="with-love" id="animate">
     <i class="fa fa-user"></i>
   </span>

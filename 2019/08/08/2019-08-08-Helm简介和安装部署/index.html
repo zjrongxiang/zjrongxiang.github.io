@@ -124,7 +124,7 @@
 <meta property="og:site_name" content="RongXiang">
 <meta property="og:description" content="目录 背景 第一部分   Minikube集群启动 第一部分   Kubernetes中StatefulSet介绍 第三部分   部署Zookeeper集群 第四部分   部署Kafka集群 第五部分   总结 参考文献及资料  背景Application deployment management for Kubernetes。 第一部分 Helm的部署Helm是由helm CLI和Tiller">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-08-09T12:55:37.427Z">
+<meta property="og:updated_time" content="2019-11-18T13:02:59.451Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Helm简介和安装部署">
 <meta name="twitter:description" content="目录 背景 第一部分   Minikube集群启动 第一部分   Kubernetes中StatefulSet介绍 第三部分   部署Zookeeper集群 第四部分   部署Kafka集群 第五部分   总结 参考文献及资料  背景Application deployment management for Kubernetes。 第一部分 Helm的部署Helm是由helm CLI和Tiller">
@@ -474,7 +474,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2019-08-09 20:55:37" itemprop="dateModified" datetime="2019-08-09T20:55:37+08:00">2019-08-09</time>
+                <time title="Modified: 2019-11-18 21:02:59" itemprop="dateModified" datetime="2019-11-18T21:02:59+08:00">2019-11-18</time>
               
             
           </span>
@@ -555,7 +555,7 @@
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@deeplearning:/data/helm# mv linux-amd64/helm /usr/local/bin</span><br></pre></td></tr></table></figure>
 <p>检查：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">root@deeplearning:/data/helm# helm version</span><br><span class="line">Client: &amp;version.Version&#123;SemVer:"v2.14.3", GitCommit:"0e7f3b6637f7af8fcfddb3d2941fcc7cbebb0085", GitTreeState:"clean"&#125;</span><br><span class="line">Error: could not find tiller</span><br></pre></td></tr></table></figure>
-<p>提示未连接到服务端tiller。下面我们部署服务端。d</p>
+<p>提示未连接到服务端tiller。下面我们部署服务端。</p>
 <h3 id="1-2-部署服务端"><a href="#1-2-部署服务端" class="headerlink" title="1.2 部署服务端"></a>1.2 部署服务端</h3><p>Helm 的服务器端部分 Tiller 通常运行在 Kubernetes 集群内部。但是对于开发，它也可以在本地运行，并配置为与远程 Kubernetes 群集通信。</p>
 <p>安装 <code>tiller</code> 到群集中最简单的方法就是运行 <code>helm init</code>。这将验证 <code>helm</code> 本地环境设置是否正确（并在必要时进行设置）。然后它会连接到 <code>kubectl</code> 默认连接的任何集群（<code>kubectl config view</code>）。一旦连接，它将安装 <code>tiller</code> 到 <code>kube-system</code> 命名空间中。</p>
 <p><code>helm init</code> 以后，可以运行 <code>kubectl get pods --namespace kube-system</code> 并看到 Tiller 正在运行。</p>
@@ -578,7 +578,7 @@
 <p>通过yaml文件创建服务：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">root@deeplearning:/data/helm# kubectl create -f rbac-config.yaml</span><br><span class="line">serviceaccount/tiller created</span><br><span class="line">clusterrolebinding.rbac.authorization.k8s.io/tiller created</span><br></pre></td></tr></table></figure>
 <p>启Helm pod，即安装tiller：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">root@deeplearning:/data/helm#helm init -i registry.cn-hangzhou.aliyuncs.com/google_containers/tiller:v2.10.0 \</span><br><span class="line">    --stable-repo-url https://kubernetes.oss-cn-hangzhou.aliyuncs.com/charts \</span><br><span class="line">    --service-account tiller </span><br><span class="line"><span class="meta">#</span> 回显</span><br><span class="line">Creating /root/.helm </span><br><span class="line">Creating /root/.helm/repository </span><br><span class="line">Creating /root/.helm/repository/cache </span><br><span class="line">Creating /root/.helm/repository/local </span><br><span class="line">Creating /root/.helm/plugins </span><br><span class="line">Creating /root/.helm/starters </span><br><span class="line">Creating /root/.helm/cache/archive </span><br><span class="line">Creating /root/.helm/repository/repositories.yaml </span><br><span class="line">Adding stable repo with URL: https://kubernetes.oss-cn-hangzhou.aliyuncs.com/charts </span><br><span class="line">Adding local repo with URL: http://127.0.0.1:8879/charts </span><br><span class="line"><span class="meta">$</span>HELM_HOME has been configured at /root/.helm.</span><br><span class="line">Warning: Tiller is already installed in the cluster.</span><br><span class="line">(Use --client-only to suppress this message, or --upgrade to upgrade Tiller to the current version.)</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">root@deeplearning:/data/helm#helm init -i registry.cn-hangzhou.aliyuncs.com/google_containers/tiller:v2.10.0 \</span><br><span class="line">    --stable-repo-url https://kubernetes.oss-cn-hangzhou.aliyuncs.com/charts \</span><br><span class="line">    --service-account tiller </span><br><span class="line"><span class="meta">#</span><span class="bash"> 回显</span></span><br><span class="line">Creating /root/.helm </span><br><span class="line">Creating /root/.helm/repository </span><br><span class="line">Creating /root/.helm/repository/cache </span><br><span class="line">Creating /root/.helm/repository/local </span><br><span class="line">Creating /root/.helm/plugins </span><br><span class="line">Creating /root/.helm/starters </span><br><span class="line">Creating /root/.helm/cache/archive </span><br><span class="line">Creating /root/.helm/repository/repositories.yaml </span><br><span class="line">Adding stable repo with URL: https://kubernetes.oss-cn-hangzhou.aliyuncs.com/charts </span><br><span class="line">Adding local repo with URL: http://127.0.0.1:8879/charts </span><br><span class="line"><span class="meta">$</span><span class="bash">HELM_HOME has been configured at /root/.helm.</span></span><br><span class="line">Warning: Tiller is already installed in the cluster.</span><br><span class="line">(Use --client-only to suppress this message, or --upgrade to upgrade Tiller to the current version.)</span><br></pre></td></tr></table></figure>
 <p>这时候我们再次执行：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">root@deeplearning:/data/helm# helm version</span><br><span class="line">Client: &amp;version.Version&#123;SemVer:"v2.14.3", GitCommit:"0e7f3b6637f7af8fcfddb3d2941fcc7cbebb0085", GitTreeState:"clean"&#125;</span><br><span class="line">Server: &amp;version.Version&#123;SemVer:"v2.10.0", GitCommit:"9ad53aac42165a5fadc6c87be0dea6b115f93090", GitTreeState:"clean"&#125;</span><br></pre></td></tr></table></figure>
 <p>这样Helm的服务端tiller就部署完毕。</p>
@@ -934,7 +934,7 @@
     <footer id="footer" class="footer">
       <div class="footer-inner">
         <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-<div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
   <span class="with-love" id="animate">
     <i class="fa fa-user"></i>
   </span>
