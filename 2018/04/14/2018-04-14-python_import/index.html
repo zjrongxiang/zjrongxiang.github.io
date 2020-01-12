@@ -1,0 +1,1647 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="en">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<script>
+    (function(){
+        if(''){
+            if (prompt('请输入文章密码') !== ''){
+                alert('密码错误！');
+                history.back();
+            }
+        }
+    })();
+</script>
+
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2">
+
+
+
+  
+  
+  <link rel="stylesheet" href="/lib/Han/dist/han.min.css?v=3.3">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=6.7.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.7.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.7.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '6.7.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="包和模块首先要介绍Python中两个概念：包和模块。简单的理解（从文件系统角度），包（package）是一个文件夹，而模块（module）是一个python源码文件（扩展名为.py）。  包（package）：文件夹（文件夹中含有文件__init__.py），包里面含有很多模块组成。  __init__.py文件，在里面自定义初始化操作，或为空。   模块（module）：即python文件，文件">
+<meta name="keywords" content="python,import">
+<meta property="og:type" content="article">
+<meta property="og:title" content="深入理解Python语言中import机制">
+<meta property="og:url" content="https://zjrongxiang.github.io/2018/04/14/2018-04-14-python_import/index.html">
+<meta property="og:site_name" content="RongXiang">
+<meta property="og:description" content="包和模块首先要介绍Python中两个概念：包和模块。简单的理解（从文件系统角度），包（package）是一个文件夹，而模块（module）是一个python源码文件（扩展名为.py）。  包（package）：文件夹（文件夹中含有文件__init__.py），包里面含有很多模块组成。  __init__.py文件，在里面自定义初始化操作，或为空。   模块（module）：即python文件，文件">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2018-04-15T07:58:12.909Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="深入理解Python语言中import机制">
+<meta name="twitter:description" content="包和模块首先要介绍Python中两个概念：包和模块。简单的理解（从文件系统角度），包（package）是一个文件夹，而模块（module）是一个python源码文件（扩展名为.py）。  包（package）：文件夹（文件夹中含有文件__init__.py），包里面含有很多模块组成。  __init__.py文件，在里面自定义初始化操作，或为空。   模块（module）：即python文件，文件">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="RongXiang" type="application/atom+xml">
+
+
+
+
+  <link rel="canonical" href="https://zjrongxiang.github.io/2018/04/14/2018-04-14-python_import/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>深入理解Python语言中import机制 | RongXiang</title>
+  
+
+
+
+
+  <script async src="//www.googletagmanager.com/gtag/js?id=UA-113063423-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-113063423-1');
+  </script>
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+    <!-- <a href="https://github.com/zjrongxiang"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png" alt="Fork me on GitHub"></a> -->
+    <a href="https://github.com/zjrongxiang"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_green_007200.png" alt="Fork me on GitHub"></a>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">RongXiang</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">我的烂笔头</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>About</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>Tags</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>Categories</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-schedule">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/schedule/" rel="section"><i class="menu-item-icon fa fa-fw fa-calendar"></i> <br>Schedule</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>Search</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="Searching..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zjrongxiang.github.io/2018/04/14/2018-04-14-python_import/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="rong xiang">
+      <meta itemprop="description" content="Keep a Pure Curiosity">
+      <meta itemprop="image" content="/images/avatar/person.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="RongXiang">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">深入理解Python语言中import机制
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2018-04-14 10:30:00" itemprop="dateCreated datePublished" datetime="2018-04-14T10:30:00+08:00">2018-04-14</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2018-04-15 15:58:12" itemprop="dateModified" datetime="2018-04-15T15:58:12+08:00">2018-04-15</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/python/" itemprop="url" rel="index"><span itemprop="name">python</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/04/14/2018-04-14-python_import/#comments" itemprop="discussionUrl">
+                
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/04/14/2018-04-14-python_import/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="包和模块"><a href="#包和模块" class="headerlink" title="包和模块"></a>包和模块</h3><p>首先要介绍Python中两个概念：包和模块。简单的理解（从文件系统角度），包（package）是一个文件夹，而模块（module）是一个python源码文件（扩展名为<code>.py</code>）。</p>
+<ul>
+<li><p><strong>包（package）</strong>：文件夹（文件夹中含有文件<code>__init__.py</code>），包里面含有很多模块组成。</p>
+<blockquote>
+<p><code>__init__.py</code>文件，在里面自定义初始化操作，或为空。</p>
+</blockquote>
+</li>
+<li><p><strong>模块（module）</strong>：即python文件，文件中定义了函数、变量、常量、类等。</p>
+</li>
+</ul>
+<h3 id="Import-方法"><a href="#Import-方法" class="headerlink" title="Import 方法"></a>Import 方法</h3><h4 id="Import-模块方法"><a href="#Import-模块方法" class="headerlink" title="Import 模块方法"></a>Import 模块方法</h4><p>先看一个例子。我们经常使用的模块<code>math</code> ，背后对应其实是一个python文件：<code>math.py</code> 。该文件在<code>C:\Anaconda3\Lib\site-packages\pymc3</code>目录里面（具体环境会有差异）。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> math</span><br><span class="line">math.sqrt(<span class="number">2</span>)</span><br><span class="line"><span class="comment">#1.4142135623730951</span></span><br></pre></td></tr></table></figure>
+<p>如果只要import <code>math.py</code>中具体的函数：</p>
+<figure class="highlight xl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">from math <span class="keyword">import</span> <span class="built_in">sqrt</span>，<span class="built_in">sin</span></span><br><span class="line"><span class="built_in">sqrt</span>(<span class="number">2</span>)</span><br><span class="line"><span class="built_in">sin</span>（<span class="number">1</span>）</span><br></pre></td></tr></table></figure>
+<p>另外可以将模块中所有内容导入：</p>
+<figure class="highlight moonscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> <span class="built_in">math</span> <span class="keyword">import</span> *</span><br><span class="line">sqrt(<span class="number">2</span>)</span><br></pre></td></tr></table></figure>
+<h4 id="Import-包方法"><a href="#Import-包方法" class="headerlink" title="Import 包方法"></a>Import 包方法</h4><p>包（package）可以简单理解为文件夹。该文件夹下须存在 <code>__init__.py</code> 文件, 内容可以为空。另外该主文件夹下面可以有子文件夹，如果也有 <code>__init__.py</code> 文件，这是子包。类似依次嵌套。</p>
+<p>例如<code>Tensorflow</code>的包（文件树）：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">root@vultr:~/anaconda3/lib/python3.6/site-packages/tensorflow# tree -L 1</span><br><span class="line">.</span><br><span class="line">├── aux-bin</span><br><span class="line">├── contrib</span><br><span class="line">├── core</span><br><span class="line">├── examples</span><br><span class="line">├── include</span><br><span class="line">├── __init__.py</span><br><span class="line">├── libtensorflow_framework.so</span><br><span class="line">├── __pycache__</span><br><span class="line">├── python</span><br><span class="line">└── tools</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p> <code>__init__.py</code> 文件在import包时，优先导入，作为import包的初始化。</p>
+</blockquote>
+<p>我们以<code>Tensorflow</code>为例：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#导入包</span></span><br><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"><span class="comment">#导入子包：contrib</span></span><br><span class="line"><span class="keyword">import</span> tensorflow.contrib <span class="keyword">as</span> contrib</span><br><span class="line"><span class="keyword">from</span> tensorflow <span class="keyword">import</span> contrib</span><br><span class="line"><span class="comment">#导入具体的模块：mnist</span></span><br><span class="line"><span class="keyword">from</span> tensorflow.examples.tutorials <span class="keyword">import</span> mnist</span><br><span class="line"><span class="keyword">import</span> tensorflow.examples.tutorials.mnist</span><br></pre></td></tr></table></figure>
+<h3 id="命名空间（namespace）"><a href="#命名空间（namespace）" class="headerlink" title="命名空间（namespace）"></a>命名空间（namespace）</h3><p>Namespace是字典数据，供编译器、解释器对源代码中函数名、变量名、模块名等信息进行关联检索。</p>
+<h4 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h4><p>Python语言使用namespace（命名空间）来存储变量，namespace是一个mapping（映射）。namespace可以理解是一个字典（dict）数据类型，其中键名（key）为变量名，而键值（value）为变量的值。</p>
+<blockquote>
+<p>A <em>namespace</em> is a mapping from names to objects. Most namespaces are currently implemented as Python dictionaries。</p>
+</blockquote>
+<ul>
+<li><strong>每一个函数拥有自己的namespace。</strong>称为local namespace（局部命名空间），记录函数的变量。</li>
+<li><strong>每一个模块（module）拥有自己的namespace</strong>。称为global namespace（全局命名空间），记录模块的变量，包括包括模块中的函数、类，其他import（导入）的模块，还有模块级别的变量和常量。</li>
+<li><strong>每一个包（package）拥有自己的namespace。</strong> 也是global namespace ，记录包中所有子包、模块的变量信息。</li>
+<li><strong>Python的built-in names（内置函数、内置常量、内置类型）。</strong> 即内置命名空间。在Python解释器启动时创建，任何模块都可以访问。当退出解释器后删除。</li>
+</ul>
+<h4 id="命名空间的检索顺序"><a href="#命名空间的检索顺序" class="headerlink" title="命名空间的检索顺序"></a>命名空间的检索顺序</h4><p>当代码中需要访问或获取变量时（还有模块名、函数名），Python解释器会对命名空间进行顺序检索，直到根据键名（变量名）找到键值（变量值）。查找的顺序为（LEGB）：</p>
+<ol>
+<li>local namespace，即当前函数或者当前类。如找到，停止检索。</li>
+<li>enclosing function namespace，嵌套函数中外部函数的namespace。</li>
+<li>global namespace，即当前模块。如找到，停止检索。</li>
+<li>build-in namespace，即内置命名空间。如果前面两次检索均为找到，解释器才会最后检索内置命名空间。如果仍然未找到就会报NameRrror（类似：<code>NameError: name &#39;a&#39; is not defined</code>）。</li>
+</ol>
+<h4 id="举栗子"><a href="#举栗子" class="headerlink" title="举栗子"></a>举栗子</h4><p>讲完了理论介绍，我们来举栗子，直观感受一下。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">进入python环境</span></span><br><span class="line">Python 3.5.3 |Anaconda custom (64-bit)| (default, May 11 2017, 13:52:01) [MSC v.</span><br><span class="line">1900 64 bit (AMD64)] on win32</span><br><span class="line">Type "help", "copyright", "credits" or "license" for more information.</span><br><span class="line"><span class="meta">&gt;</span><span class="bash">&gt;&gt; <span class="built_in">print</span>(globals())</span></span><br><span class="line">&#123;'__name__': '__main__', '__doc__': None, '__spec__': None, '__package__': None,</span><br><span class="line"> '__loader__': &lt;class '_frozen_importlib.BuiltinImporter'&gt;, '__builtins__': &lt;mod</span><br><span class="line">ule 'builtins' (built-in)&gt;&#125;</span><br><span class="line"><span class="meta">&gt;</span><span class="bash">&gt;&gt; x=1</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash">&gt;&gt; <span class="built_in">print</span>(globals())</span></span><br><span class="line">&#123;'__name__': '__main__', '__doc__': None, '__spec__': None, '__package__': None,</span><br><span class="line"> '__loader__': &lt;class '_frozen_importlib.BuiltinImporter'&gt;, '__builtins__': &lt;mod</span><br><span class="line">ule 'builtins' (built-in)&gt;, 'x': 1&#125;</span><br></pre></td></tr></table></figure>
+<p>上面的例子我们查看了global namespace的字典（dict），其中<code>&#39;__builtins__&#39;</code>就是内置命名空间。新建变量<code>x=1</code>后，全局命名空间会新增这个K-V对。</p>
+<p>还可以通过下面的方法查看import模块、包的namespace。</p>
+<p><strong>当我们import一个module（模块）或者package（包）时，伴随着新建一个global namespace（全局命名空间）。</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">import math</span><br><span class="line">math.__dict__</span><br><span class="line">&#123;'__name__': 'math', 'tanh': &lt;built-in function tanh&gt;, 'nan': nan, 'atanh': &lt;bui</span><br><span class="line">lt-in function atanh&gt;,'acosh': &lt;built-in function acosh&gt;, </span><br><span class="line"><span class="meta">#</span><span class="bash">中间略</span></span><br><span class="line">'trunc': &lt;built-in function trunc&gt;, 'acos': &lt;built-in function acos&gt;, 'sqrt': &lt;built-in</span><br><span class="line"> function sqrt&gt;, 'floor': &lt;built-in function floor&gt;, 'gamma': &lt;built-in function</span><br><span class="line"><span class="meta"> gamma&gt;</span><span class="bash">, <span class="string">'cosh'</span>: &lt;built-in <span class="keyword">function</span> cosh&gt;&#125;</span></span><br><span class="line">import tensorflow</span><br><span class="line">tensorflow.__dict__</span><br><span class="line"><span class="meta">#</span><span class="bash">包的所有模块、函数等命名空间信息。大家可以试一下。</span></span><br></pre></td></tr></table></figure>
+<p>大家可以动手试试其他的场景，比如函数内部查看locals() 。函数内部的变量global声明后，查看globals()字典会有怎样变化。这里就不再一一验证举栗了。</p>
+<p>对于包，我们以tensorflow为例：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> tensorflow</span><br><span class="line">tensorflow.__dict__</span><br><span class="line"><span class="comment">##中间略，只摘取部分信息。命名空间中包含module和function的信息。</span></span><br><span class="line"><span class="string">'angle'</span>: &lt;function tensorflow.python.ops.math_ops.angle&gt;,</span><br><span class="line"> <span class="string">'app'</span>: &lt;module <span class="string">'tensorflow.python.platform.app'</span> <span class="keyword">from</span> <span class="string">'/root/anaconda3/lib/python3.6/site-packages/tensorflow/python/platform/app.py'</span>&gt;,</span><br><span class="line"> <span class="string">'arg_max'</span>: &lt;function tensorflow.python.ops.gen_math_ops.arg_max&gt;,</span><br></pre></td></tr></table></figure>
+<h3 id="Import的过程"><a href="#Import的过程" class="headerlink" title="Import的过程"></a>Import的过程</h3><p>当我们执行import 模块、包时，主要有三个过程：检索、加载、名字绑定。</p>
+<h4 id="第一步：检索（Finder）"><a href="#第一步：检索（Finder）" class="headerlink" title="第一步：检索（Finder）"></a>第一步：检索（Finder）</h4><p>Python解释器会对模块所属位置进行搜索：</p>
+<h5 id="（1）检索：内置模块（已经加载到缓存中的模块）"><a href="#（1）检索：内置模块（已经加载到缓存中的模块）" class="headerlink" title="（1）检索：内置模块（已经加载到缓存中的模块）"></a>（1）检索：内置模块（已经加载到缓存中的模块）</h5><p>内置模块（已经加载到缓存中的模块），即在 <code>sys.modules</code> 中检索。Python已经加载到内存中的模块均会在这个字典中进行登记。如果已经登记，不再重复加载。直接将模块的名字加入正在import的模块的namespace。可以通过下面方法查看：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;</span><span class="bash">&gt;&gt; import sys</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash">&gt;&gt; <span class="built_in">print</span>(sys.modules)</span></span><br><span class="line">&#123;'_signal': &lt;module '_signal' (built-in)&gt;, 'os.path': &lt;module 'ntpath' from 'C:</span><br><span class="line">\Anaconda3\\lib\\ntpath.py'&gt;,pickle': &lt;module 'pickle' from 'C:\\Anaconda3\\lib\\pickle.py'&gt;, </span><br><span class="line"><span class="meta">#</span><span class="bash">中间略</span></span><br><span class="line">'subprocess':module 'subprocess' from 'C:\\Anaconda3\\lib\\subprocess.py'&gt;, 'sys': &lt;module '</span><br><span class="line">ys' (built-in)&gt;, 'ctypes.util': &lt;module 'ctypes.util' from 'C:\\Anaconda3\\lib\</span><br><span class="line">ctypes\\util.py'&gt;, '_weakref': &lt;module '_weakref' (built-in)&gt;, '_imp': &lt;module</span><br><span class="line">_imp' (built-in)&gt;&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>如果不是built-in，value中会有模块的绝对路径信息。</p>
+<p>通过key查找模块位置，如果value为None，就会抛出错误信息：ModuleNotFoundError。</p>
+<p>如果key不存在，就会进入下一步检索。</p>
+</blockquote>
+<p>如果我们导入过包，例如tensorflow。</p>
+<p>注意如果要使用其中模块，需要该模块的全名（即全路径信息），例如：<code>tensorflow.examples.tutorials.mnist.input_data</code> 。因为sys.modules中只有全路径的key。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> tensorflow</span><br><span class="line">print(sys.modules)</span><br><span class="line"><span class="comment">##这个字典中会有tensorflow所有子包、模块的信息和具体的路径。</span></span><br><span class="line"><span class="comment">#'tensorflow.examples.tutorials.mnist.input_data': &lt;module 'tensorflow.examples.tutorials.mnist.input_data' from '/root/anaconda3/lib/python3.6/site-packages/tensorflow/examples/tutorials/mnist/input_data.py'&gt;</span></span><br></pre></td></tr></table></figure>
+<h5 id="（2）检索-sys-meta-path"><a href="#（2）检索-sys-meta-path" class="headerlink" title="（2）检索 sys.meta_path"></a>（2）检索 <a href="http://docs.python.org/2/library/sys.html#sys.meta_path" target="_blank" rel="noopener">sys.meta_path</a></h5><p>逐个遍历其中的 <a href="http://docs.python.org/2/glossary.html#term-finder" target="_blank" rel="noopener">finder</a> 来查找模块。否则进入下一步检索。</p>
+<h5 id="（3）检索模块所属包目录"><a href="#（3）检索模块所属包目录" class="headerlink" title="（3）检索模块所属包目录"></a>（3）检索模块所属包目录</h5><p>如果模块Module在包（Package）中（如<code>import Package.Module</code>），则以<code>Package.__path__</code>为搜索路径进行查找。</p>
+<p><strong>（4）检索环境变量</strong></p>
+<p>如果模块不在一个包中（如<code>import Module</code>），则以 <a href="http://docs.python.org/2/library/sys.html#sys.path" target="_blank" rel="noopener">sys.path</a> 为搜索路径进行查找。</p>
+<blockquote>
+<p>如果上面检索均为找到，抛出错误信息：ModuleNotFoundError。</p>
+</blockquote>
+<h4 id="第二步：加载（Loader）"><a href="#第二步：加载（Loader）" class="headerlink" title="第二步：加载（Loader）"></a>第二步：加载（Loader）</h4><p>加载完成对模块的初始化处理：</p>
+<ul>
+<li>设置属性。包括<code>__name__</code>、<code>__file__</code>、<code>__package__</code>和<code>__loader__</code> 。</li>
+</ul>
+<ul>
+<li>编译源码。编译生成字节码文件（<code>.pyc</code>文件），如果是包，则是其对应的<code>__init__.py</code>文件编译为字节码（*.pyc）。如果字节码文件已存在且仍然是最新的（时间戳和py文件一致），则不会重新编译。</li>
+</ul>
+<ul>
+<li>加载到内存。模块在第一次被加载时被编译，载入内存，并将信息加入到sys.modules中。</li>
+</ul>
+<blockquote>
+<p>也可以强制用<code>reload()</code>函数重新加载模块（包）。</p>
+</blockquote>
+<h4 id="第三步：名字绑定"><a href="#第三步：名字绑定" class="headerlink" title="第三步：名字绑定"></a>第三步：名字绑定</h4><p>将模块和包的命名空间信息导入到当前执行Python文件的namespace（命名空间）。</p>
+<h3 id="将模块、包的路径加入检索路径"><a href="#将模块、包的路径加入检索路径" class="headerlink" title="将模块、包的路径加入检索路径"></a>将模块、包的路径加入检索路径</h3><p>讲完了枯燥的理论背景，下面我们来介绍实际应用。当你写好一个模块文件，如何正确完成import模块？主要有下面两类方法：</p>
+<h4 id="动态方法（sys-path中添加）"><a href="#动态方法（sys-path中添加）" class="headerlink" title="动态方法（sys.path中添加）"></a>动态方法（sys.path中添加）</h4><p>我们知道检索路径中sys.path，所以可以在import模块之前将模块的绝对路径添加到sys.path中。同样导入包需要加入包的文件夹绝对路径。具体方法如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="comment">##sys.path.append(dir)</span></span><br><span class="line">sys.path.append(<span class="string">'your\module（package）\file\path'</span>)</span><br><span class="line"><span class="comment">##sys.path.insert(pos,dir)</span></span><br><span class="line">sys.path.insert(<span class="number">0</span>,<span class="string">'your\module（package）\file\path'</span>)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注意：</p>
+<p>1、这里pos参数是插入sys.path这个list数据的位置，pos=0，即list第一位，优先级高。</p>
+<p>2、python程序向sys.path添加的目录只在此程序的生命周期之内有效。程序结束，失效。所以这是一种动态方法。</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#win7</span></span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line">print(sys.path)</span><br><span class="line"><span class="comment">#输出</span></span><br><span class="line">[<span class="string">''</span>, <span class="string">'C:\\Python27\\lib\\site-packages\\pip-8.1.1-py2.7.egg'</span>, <span class="string">'C:\\windows\\syst</span></span><br><span class="line"><span class="string">em32\\python27.zip'</span>, <span class="string">'C:\\Python27\\DLLs'</span>, <span class="string">'C:\\Python27\\lib'</span>, <span class="string">'C:\\Python27\\l</span></span><br><span class="line"><span class="string">ib\\plat-win'</span>, <span class="string">'C:\\Python27\\lib\\lib-tk'</span>, <span class="string">'C:\\Python27'</span>, <span class="string">'C:\\Users\\rongxian</span></span><br><span class="line"><span class="string">g\\AppData\\Roaming\\Python\\Python27\\site-packages'</span>, <span class="string">'C:\\Python27\\lib\\site-</span></span><br><span class="line"><span class="string">packages'</span>]</span><br></pre></td></tr></table></figure>
+<h4 id="静态方法"><a href="#静态方法" class="headerlink" title="静态方法"></a>静态方法</h4><p>（1）另外检索路径还有系统环境变量，所以可以将模块（包）路径添加在系统环境变量中。</p>
+<p>（2）粗暴一点直接将模块（包）拷贝到sys.path的其中一个路径下面。但是这种管理比较乱。</p>
+<p>（3）Python在遍历sys.path的目录过程中，会解析 <code>.pth</code> 文件，将文件中所记录的路径加入到 sys.path ，这样 .pth 文件中的路径也可以找到了。例如我们在<code>C:\Python27\lib\site-packages</code> 中新建一个<code>.pth</code>文件。例如：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># .pth file for the your module or package</span></span><br><span class="line"><span class="string">'your\module（package）\file\path'</span></span><br></pre></td></tr></table></figure>
+<p>这样在模块（包）上线时，我们只需要将模块（包）的目录或者文件绝对路径放在新建的.path文件中即可。</p>
+<h3 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h3><p>【1】<a href="http://www.cnblogs.com/russellluo/p/3328683.html#_3" target="_blank" rel="noopener">http://www.cnblogs.com/russellluo/p/3328683.html#_3</a></p>
+
+      
+    </div>
+
+    
+
+    <div>
+      
+        
+      
+    </div>
+    
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/python/" rel="tag"><i class="fa fa-tag"></i> python</a>
+          
+            <a href="/tags/import/" rel="tag"><i class="fa fa-tag"></i> import</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/04/05/2018-04-01-datasets_example/" rel="next" title="数据科学实践中常用开放数据集介绍">
+                <i class="fa fa-chevron-left"></i> 数据科学实践中常用开放数据集介绍
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/04/14/2018-04-14-interprete_and_compile/" rel="prev" title="计算机语言中编译和解释的总结">
+                计算机语言中编译和解释的总结 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar/person.png" alt="rong xiang">
+            
+              <p class="site-author-name" itemprop="name">rong xiang</p>
+              <p class="site-description motion-element" itemprop="description">Keep a Pure Curiosity</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">30</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">23</span>
+                    <span class="site-state-item-name">categories</span>
+                  
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">18</span>
+                    <span class="site-state-item-name">tags</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/zjrongxiang" title="GitHub &rarr; https://github.com/zjrongxiang" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="mailto:rongxiang1986@163.com" title="E-Mail &rarr; mailto:rongxiang1986@163.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="http://weibo.com/u/1971060643" title="Weibo &rarr; http://weibo.com/u/1971060643" rel="noopener" target="_blank"><i class="fa fa-fw fa-weibo"></i>Weibo</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Link
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://weibo.com/fly51fly?refer_flag=1005055010_" title="https://weibo.com/fly51fly?refer_flag=1005055010_" rel="noopener" target="_blank">爱生活爱可可</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#包和模块"><span class="nav-number">1.</span> <span class="nav-text">包和模块</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Import-方法"><span class="nav-number">2.</span> <span class="nav-text">Import 方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Import-模块方法"><span class="nav-number">2.1.</span> <span class="nav-text">Import 模块方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Import-包方法"><span class="nav-number">2.2.</span> <span class="nav-text">Import 包方法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#命名空间（namespace）"><span class="nav-number">3.</span> <span class="nav-text">命名空间（namespace）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#定义"><span class="nav-number">3.1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#命名空间的检索顺序"><span class="nav-number">3.2.</span> <span class="nav-text">命名空间的检索顺序</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#举栗子"><span class="nav-number">3.3.</span> <span class="nav-text">举栗子</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Import的过程"><span class="nav-number">4.</span> <span class="nav-text">Import的过程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#第一步：检索（Finder）"><span class="nav-number">4.1.</span> <span class="nav-text">第一步：检索（Finder）</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#（1）检索：内置模块（已经加载到缓存中的模块）"><span class="nav-number">4.1.1.</span> <span class="nav-text">（1）检索：内置模块（已经加载到缓存中的模块）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#（2）检索-sys-meta-path"><span class="nav-number">4.1.2.</span> <span class="nav-text">（2）检索 sys.meta_path</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#（3）检索模块所属包目录"><span class="nav-number">4.1.3.</span> <span class="nav-text">（3）检索模块所属包目录</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第二步：加载（Loader）"><span class="nav-number">4.2.</span> <span class="nav-text">第二步：加载（Loader）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第三步：名字绑定"><span class="nav-number">4.3.</span> <span class="nav-text">第三步：名字绑定</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#将模块、包的路径加入检索路径"><span class="nav-number">5.</span> <span class="nav-text">将模块、包的路径加入检索路径</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#动态方法（sys-path中添加）"><span class="nav-number">5.1.</span> <span class="nav-text">动态方法（sys.path中添加）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#静态方法"><span class="nav-number">5.2.</span> <span class="nav-text">静态方法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考文章"><span class="nav-number">6.</span> <span class="nav-text">参考文章</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">rong xiang</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v6.7.0</div>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="Total Visitors">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="Total Views">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=6.7.0"></script>
+
+  <script src="/js/src/motion.js?v=6.7.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/schemes/muse.js?v=6.7.0"></script>
+
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=6.7.0"></script>
+<script src="/js/src/post-details.js?v=6.7.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=6.7.0"></script>
+
+
+
+  
+  
+    
+  <script id="dsq-count-scr" src="https://https-zjrongxiang-github-io.disqus.com/count.js" async></script>
+
+
+<script>
+  var disqus_config = function () {
+    this.page.url = "https://zjrongxiang.github.io/2018/04/14/2018-04-14-python_import/";
+    this.page.identifier = "2018/04/14/2018-04-14-python_import/";
+    this.page.title = '深入理解Python语言中import机制';
+    };
+  function loadComments () {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://https-zjrongxiang-github-io.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', '' + +new Date());
+    (d.head || d.body).appendChild(s);
+  }
+  
+    loadComments();
+  
+</script>
+
+  
+
+
+
+
+
+  
+
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <style>
+    .copy-btn {
+      display: inline-block;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 20px;
+      color: #333;
+      white-space: nowrap;
+      vertical-align: middle;
+      cursor: pointer;
+      background-color: #eee;
+      background-image: linear-gradient(#fcfcfc, #eee);
+      border: 1px solid #d5d5d5;
+      border-radius: 3px;
+      user-select: none;
+      outline: 0;
+    }
+
+    .highlight-wrap .copy-btn {
+      transition: opacity .3s ease-in-out;
+      opacity: 0;
+      padding: 2px 6px;
+      position: absolute;
+      right: 4px;
+      top: 8px;
+    }
+
+    .highlight-wrap:hover .copy-btn,
+    .highlight-wrap .copy-btn:focus {
+      opacity: 1
+    }
+
+    .highlight-wrap {
+      position: relative;
+    }
+  </style>
+  <script>
+    $('.highlight').each(function (i, e) {
+      var $wrap = $('<div>').addClass('highlight-wrap');
+      $(e).after($wrap);
+      $wrap.append($('<button>').addClass('copy-btn').append('Copy').on('click', function (e) {
+        var code = $(this).parent().find('.code').find('.line').map(function (i, e) {
+          return $(e).text();
+        }).toArray().join('\n');
+        var ta = document.createElement('textarea');
+        var range = document.createRange(); //For Chrome
+        var sel = window.getSelection(); //For Chrome
+        var yPosition = window.pageYOffset || document.documentElement.scrollTop;
+        ta.style.top = yPosition + 'px'; //Prevent page scroll
+        ta.style.position = 'absolute';
+        ta.style.opacity = '0';
+        ta.value = code;
+        ta.textContent = code; //For FireFox
+        ta.contentEditable = true;
+        ta.readOnly = false;
+        document.body.appendChild(ta);
+        range.selectNode(ta);
+        sel.removeAllRanges();
+        sel.addRange(range);
+        ta.setSelectionRange(0, code.length);
+        var result = document.execCommand('copy');
+        
+          if (result) $(this).text('Copied');
+          else $(this).text('Copy failed');
+        
+        ta.blur(); //For iOS
+        $(this).blur();
+      })).on('mouseleave', function (e) {
+        var $b = $(this).find('.copy-btn');
+        setTimeout(function () {
+          $b.text('Copy');
+        }, 300);
+      }).append(e);
+    })
+  </script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+
+  
+  
+
+  
+  
+
+  
+
+
+</body>
+</html>
