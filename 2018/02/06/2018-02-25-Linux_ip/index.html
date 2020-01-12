@@ -546,8 +546,8 @@
       
         <p>有一台Linux台式机（Ubuntu 16.04.3 LTS (GNU/Linux 4.13.0-32-generic x86_64)）。之前IP是DHCP服务分配的。准备给服务器分配静态IP，方便使用。</p>
 <p>ubuntu的网络参数保存在文件/etc/network/interfaces中。</p>
-<h4 id="1、编辑interfaces文件"><a href="#1、编辑interfaces文件" class="headerlink" title="1、编辑interfaces文件"></a>1、编辑interfaces文件</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/network/interfaces</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> interfaces(5) file used by ifup(8) and ifdown(8)</span></span><br><span class="line">auto lo</span><br><span class="line">iface lo inet loopback</span><br></pre></td></tr></table></figure>
-<h4 id="2、添加静态IP信息及DNS信息"><a href="#2、添加静态IP信息及DNS信息" class="headerlink" title="2、添加静态IP信息及DNS信息"></a>2、添加静态IP信息及DNS信息</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> interfaces(5) file used by ifup(8) and ifdown(8)</span></span><br><span class="line">auto lo</span><br><span class="line">iface lo inet loopback</span><br><span class="line"></span><br><span class="line">auto enp0s31f6</span><br><span class="line">iface enp0s31f6 inet static</span><br><span class="line">address 192.168.31.62</span><br><span class="line">gateway 192.168.31.254</span><br><span class="line">netmask 255.255.255.0</span><br><span class="line">dns-nameservers 192.168.31.1 8.8.8.8</span><br></pre></td></tr></table></figure>
+<h4 id="1、编辑interfaces文件"><a href="#1、编辑interfaces文件" class="headerlink" title="1、编辑interfaces文件"></a>1、编辑interfaces文件</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/network/interfaces</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> interfaces(5) file used by ifup(8) and ifdown(8)</span><br><span class="line">auto lo</span><br><span class="line">iface lo inet loopback</span><br></pre></td></tr></table></figure>
+<h4 id="2、添加静态IP信息及DNS信息"><a href="#2、添加静态IP信息及DNS信息" class="headerlink" title="2、添加静态IP信息及DNS信息"></a>2、添加静态IP信息及DNS信息</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> interfaces(5) file used by ifup(8) and ifdown(8)</span><br><span class="line">auto lo</span><br><span class="line">iface lo inet loopback</span><br><span class="line"></span><br><span class="line">auto enp0s31f6</span><br><span class="line">iface enp0s31f6 inet static</span><br><span class="line">address 192.168.31.62</span><br><span class="line">gateway 192.168.31.254</span><br><span class="line">netmask 255.255.255.0</span><br><span class="line">dns-nameservers 192.168.31.1 8.8.8.8</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -614,8 +614,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/02/06/2018-02-09-SAS_install/" rel="next" title="SAS 9.4 部署及SID文件调整">
-                <i class="fa fa-chevron-left"></i> SAS 9.4 部署及SID文件调整
+              <a href="/2018/01/25/2018-01-25-Redis-study/" rel="next" title="Redis学习笔记（数据类型及常用命令）">
+                <i class="fa fa-chevron-left"></i> Redis学习笔记（数据类型及常用命令）
               </a>
             
           </div>
@@ -624,8 +624,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/03/01/2018-03-12-raspberry_apt-get/" rel="prev" title="树莓派：更改APT为国内源">
-                树莓派：更改APT为国内源 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/02/06/2018-02-09-SAS_install/" rel="prev" title="SAS 9.4 部署及SID文件调整">
+                SAS 9.4 部署及SID文件调整 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
