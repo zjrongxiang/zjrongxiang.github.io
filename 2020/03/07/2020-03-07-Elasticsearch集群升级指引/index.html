@@ -117,21 +117,17 @@
 
 
 
-  <meta name="description" content="树莓派摄像头和USB摄像头 树莓派有配套的摄像头模块（Raspberry Pi camera board），如下图。 另外树莓派也支持USB摄像头。关于树莓派支持的USB摄像头有个清单参考（需要梯子）。大家购买前最好确认一下是否在兼容清单中。   部署步骤第一步：检查USB摄像头和树莓派的兼容性将USB摄像头和树莓派连接，查看USB接口连接情况。 12345root@raspberrypi:/#">
-<meta name="keywords" content="raspberry">
+  <meta name="description" content="目录 背景 第一部分   版本升级指引 第二部分   升级方法和具体步骤 总结 参考文献及资料   背景Elasticsearch集群的版本升级是一项重要的集群维护工作。本篇文章参考官方文档，将详细介绍相关细节。 第一部分 版本升级指引1.1 同步升级Elastic Stack组件对于Elasticsearch的生态圈组件需要同步升级，具体配套版本可以参考官方提供的升级指南。  https://w">
 <meta property="og:type" content="article">
-<meta property="og:title" content="树莓派：使用USB摄像头自制家庭监控">
-<meta property="og:url" content="https://zjrongxiang.github.io/2018/03/18/2018-03-18-raspberry_usb_camera/index.html">
+<meta property="og:title" content="Elasticsearch集群升级指引">
+<meta property="og:url" content="https://zjrongxiang.github.io/2020/03/07/2020-03-07-Elasticsearch集群升级指引/index.html">
 <meta property="og:site_name" content="RongXiang">
-<meta property="og:description" content="树莓派摄像头和USB摄像头 树莓派有配套的摄像头模块（Raspberry Pi camera board），如下图。 另外树莓派也支持USB摄像头。关于树莓派支持的USB摄像头有个清单参考（需要梯子）。大家购买前最好确认一下是否在兼容清单中。   部署步骤第一步：检查USB摄像头和树莓派的兼容性将USB摄像头和树莓派连接，查看USB接口连接情况。 12345root@raspberrypi:/#">
+<meta property="og:description" content="目录 背景 第一部分   版本升级指引 第二部分   升级方法和具体步骤 总结 参考文献及资料   背景Elasticsearch集群的版本升级是一项重要的集群维护工作。本篇文章参考官方文档，将详细介绍相关细节。 第一部分 版本升级指引1.1 同步升级Elastic Stack组件对于Elasticsearch的生态圈组件需要同步升级，具体配套版本可以参考官方提供的升级指南。  https://w">
 <meta property="og:locale" content="en">
-<meta property="og:image" content="https://zjrongxiang.github.io/images/picture/camera_pi.png">
-<meta property="og:image" content="https://zjrongxiang.github.io/images/picture/example.png">
-<meta property="og:updated_time" content="2018-04-04T14:31:39.756Z">
+<meta property="og:updated_time" content="2020-03-07T00:35:38.538Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="树莓派：使用USB摄像头自制家庭监控">
-<meta name="twitter:description" content="树莓派摄像头和USB摄像头 树莓派有配套的摄像头模块（Raspberry Pi camera board），如下图。 另外树莓派也支持USB摄像头。关于树莓派支持的USB摄像头有个清单参考（需要梯子）。大家购买前最好确认一下是否在兼容清单中。   部署步骤第一步：检查USB摄像头和树莓派的兼容性将USB摄像头和树莓派连接，查看USB接口连接情况。 12345root@raspberrypi:/#">
-<meta name="twitter:image" content="https://zjrongxiang.github.io/images/picture/camera_pi.png">
+<meta name="twitter:title" content="Elasticsearch集群升级指引">
+<meta name="twitter:description" content="目录 背景 第一部分   版本升级指引 第二部分   升级方法和具体步骤 总结 参考文献及资料   背景Elasticsearch集群的版本升级是一项重要的集群维护工作。本篇文章参考官方文档，将详细介绍相关细节。 第一部分 版本升级指引1.1 同步升级Elastic Stack组件对于Elasticsearch的生态圈组件需要同步升级，具体配套版本可以参考官方提供的升级指南。  https://w">
 
 
 
@@ -140,7 +136,7 @@
 
 
 
-  <link rel="canonical" href="https://zjrongxiang.github.io/2018/03/18/2018-03-18-raspberry_usb_camera/">
+  <link rel="canonical" href="https://zjrongxiang.github.io/2020/03/07/2020-03-07-Elasticsearch集群升级指引/">
 
 
 
@@ -150,7 +146,7 @@
   };
 </script>
 
-  <title>树莓派：使用USB摄像头自制家庭监控 | RongXiang</title>
+  <title>Elasticsearch集群升级指引 | RongXiang</title>
   
 
 
@@ -426,7 +422,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zjrongxiang.github.io/2018/03/18/2018-03-18-raspberry_usb_camera/">
+    <link itemprop="mainEntityOfPage" href="https://zjrongxiang.github.io/2020/03/07/2020-03-07-Elasticsearch集群升级指引/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="rong xiang">
@@ -443,7 +439,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">树莓派：使用USB摄像头自制家庭监控
+          <h1 class="post-title" itemprop="name headline">Elasticsearch集群升级指引
 
               
             
@@ -469,24 +465,12 @@
                 
               
 
-              <time title="Created: 2018-03-18 19:30:00" itemprop="dateCreated datePublished" datetime="2018-03-18T19:30:00+08:00">2018-03-18</time>
+              <time title="Created: 2020-03-07 22:30:00 / Modified: 08:35:38" itemprop="dateCreated datePublished" datetime="2020-03-07T22:30:00+08:00">2020-03-07</time>
             
 
             
               
 
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Edited on</span>
-                
-                <time title="Modified: 2018-04-04 22:31:39" itemprop="dateModified" datetime="2018-04-04T22:31:39+08:00">2018-04-04</time>
               
             
           </span>
@@ -503,7 +487,7 @@
                 <span class="post-meta-item-text">In</span>
               
               
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/raspberry/" itemprop="url" rel="index"><span itemprop="name">raspberry</span></a></span>
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/Elasticsearch/" itemprop="url" rel="index"><span itemprop="name">Elasticsearch</span></a></span>
 
                 
                 
@@ -518,9 +502,9 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/03/18/2018-03-18-raspberry_usb_camera/#comments" itemprop="discussionUrl">
+                <a href="/2020/03/07/2020-03-07-Elasticsearch集群升级指引/#comments" itemprop="discussionUrl">
                 
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/03/18/2018-03-18-raspberry_usb_camera/" itemprop="commentCount"></span>
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/03/07/2020-03-07-Elasticsearch集群升级指引/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -548,43 +532,187 @@
       
 
       
-        <h3 id="树莓派摄像头和USB摄像头"><a href="#树莓派摄像头和USB摄像头" class="headerlink" title="树莓派摄像头和USB摄像头"></a>树莓派摄像头和USB摄像头</h3><blockquote>
-<p>树莓派有配套的摄像头模块（Raspberry Pi camera board），如下图。</p>
-<p>另外树莓派也支持USB摄像头。关于树莓派支持的USB摄像头有个<a href="https://elinux.org/RPi_USB_Webcams" target="_blank" rel="noopener">清单参考</a>（需要梯子）。大家购买前最好确认一下是否在兼容清单中。</p>
-</blockquote>
-<p><img src="\images\picture\camera_pi.png" alt="camera_pi"></p>
-<h3 id="部署步骤"><a href="#部署步骤" class="headerlink" title="部署步骤"></a>部署步骤</h3><h4 id="第一步：检查USB摄像头和树莓派的兼容性"><a href="#第一步：检查USB摄像头和树莓派的兼容性" class="headerlink" title="第一步：检查USB摄像头和树莓派的兼容性"></a>第一步：检查USB摄像头和树莓派的兼容性</h4><p>将USB摄像头和树莓派连接，查看USB接口连接情况。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">root@raspberrypi:/# lsusb</span><br><span class="line">Bus 001 Device 004: ID 046d:0825 Logitech, Inc. Webcam C270</span><br><span class="line">Bus 001 Device 003: ID 0424:ec00 Standard Microsystems Corp. SMSC9512/9514 Fast Ethernet Adapter</span><br><span class="line">Bus 001 Device 002: ID 0424:9514 Standard Microsystems Corp.</span><br><span class="line">Bus 001 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub</span><br></pre></td></tr></table></figure>
-<p>发现004口上面连接并识别了摄像头（我的是Logitech 270摄像头）。</p>
+        <h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ul>
+<li>背景</li>
+<li>第一部分   版本升级指引</li>
+<li>第二部分   升级方法和具体步骤</li>
+<li>总结</li>
+<li>参考文献及资料 </li>
+</ul>
+<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>Elasticsearch集群的版本升级是一项重要的集群维护工作。本篇文章参考官方文档，将详细介绍相关细节。</p>
+<h2 id="第一部分-版本升级指引"><a href="#第一部分-版本升级指引" class="headerlink" title="第一部分 版本升级指引"></a>第一部分 版本升级指引</h2><h3 id="1-1-同步升级Elastic-Stack组件"><a href="#1-1-同步升级Elastic-Stack组件" class="headerlink" title="1.1 同步升级Elastic Stack组件"></a>1.1 同步升级Elastic Stack组件</h3><p>对于Elasticsearch的生态圈组件需要同步升级，具体配套版本可以参考官方提供的升级指南。</p>
 <blockquote>
-<p>如果没有识别出来，需要查看USB兼容清单是否有该型号。另外由于树莓派供电功率较小，也有可能是USB供电功率不足，需要有外置电源的USB摄像头。</p>
+<p><a href="https://www.elastic.co/cn/products/upgrade_guide" target="_blank" rel="noopener">https://www.elastic.co/cn/products/upgrade_guide</a></p>
 </blockquote>
-<p>另外还可以查看设备驱动情况：</p>
-<figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">root<span class="variable">@raspberrypi</span><span class="symbol">:/</span><span class="comment"># ls /dev/vid*</span></span><br><span class="line">/dev/video<span class="number">0</span></span><br></pre></td></tr></table></figure>
-<p>发现video0设备，说明识别了USB摄像头（罗技的c270i）</p>
-<h4 id="第二步：MOTION软件实现"><a href="#第二步：MOTION软件实现" class="headerlink" title="第二步：MOTION软件实现"></a>第二步：MOTION软件实现</h4><p>对于USB摄像头，有多种软件包可以实现拍照和摄像等功能，这里使用<a href="https://github.com/Motion-Project/motion" target="_blank" rel="noopener">motion</a>。</p>
-<h5 id="安装motion"><a href="#安装motion" class="headerlink" title="安装motion"></a>安装motion</h5>  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@raspberrypi:/# sudo apt-get install motion</span><br></pre></td></tr></table></figure>
-<h5 id="编辑配置配置文件"><a href="#编辑配置配置文件" class="headerlink" title="编辑配置配置文件"></a>编辑配置配置文件</h5>  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@raspberrypi:~# vi /etc/motion/motion.conf</span><br></pre></td></tr></table></figure>
-<h5 id="调整相关参数"><a href="#调整相关参数" class="headerlink" title="调整相关参数"></a>调整相关参数</h5>  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> The mini-http server listens to this port <span class="keyword">for</span> requests (default: 0 = disabled)</span></span><br><span class="line">stream_port 8082</span><br><span class="line"><span class="meta">#</span><span class="bash"> web界面访问端口</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> TCP/IP port <span class="keyword">for</span> the http server to listen on (default: 0 = disabled)</span></span><br><span class="line">webcontrol_port 8080</span><br><span class="line"><span class="meta">#</span><span class="bash">控制端口</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> Restrict control connections to localhost only (default: on)</span></span><br><span class="line">webcontrol_localhost off</span><br><span class="line"><span class="meta">#</span><span class="bash"> Target base directory <span class="keyword">for</span> pictures and films</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> Recommended to use absolute path. (Default: current working directory)</span></span><br><span class="line">target_dir /var/lib/motion</span><br><span class="line"><span class="meta">#</span><span class="bash">照片及视频存放路径</span></span><br></pre></td></tr></table></figure>
-<p>其他参数调整如下：</p>
-<p>​          <em>ffmpeg_output_movies</em>=off</p>
-<p>​           <em>stream_localhost</em>=off</p>
-<p>​           <em>webcontrol_localhost</em>=off</p>
-<p>  ​         <em>locate_motion_mode</em>=peview</p>
-<p>  ​         <em>locate_motion_style</em>=redbox</p>
-<p>​           <em>text_changes</em>=on</p>
-<h5 id="开启motion进程"><a href="#开启motion进程" class="headerlink" title="开启motion进程"></a>开启motion进程</h5><p>修改motion文件，设置为守护进程运行（即参数配置为：yes）：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> vi /etc/default/motion</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> <span class="built_in">set</span> to <span class="string">'yes'</span> to <span class="built_in">enable</span> the motion daemon</span></span><br><span class="line">start_motion_daemon=yes</span><br></pre></td></tr></table></figure>
-<p>启进程：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">root@raspberrypi:/etc/init.d# motion start</span><br><span class="line">[0] [NTC] [ALL] conf_load: Processing thread 0 - config file /etc/motion/motion.conf</span><br><span class="line">[0] [ALR] [ALL] conf_cmdparse: Unknown config option "sdl_threadnr"</span><br><span class="line">[0] [NTC] [ALL] motion_startup: Motion 3.2.12+git20140228 Started</span><br><span class="line">[0] [NTC] [ALL] motion_startup: Logging to syslog</span><br><span class="line">[0] [NTC] [ALL] motion_startup: Using log type (ALL) log level (NTC)</span><br><span class="line">[0] [NTC] [ALL] become_daemon: Motion going to daemon mode</span><br></pre></td></tr></table></figure>
-<h5 id="查看监控画面"><a href="#查看监控画面" class="headerlink" title="查看监控画面"></a>查看监控画面</h5><p>地址栏中输入地址和端口号（IP：8082），上面配置的web界面访问端口为8082：</p>
-<p><img src="\images\picture\example.png" alt=""></p>
-<h5 id="查看监控数据存放目录"><a href="#查看监控数据存放目录" class="headerlink" title="查看监控数据存放目录"></a>查看监控数据存放目录</h5><p>另外目录/var/lib/motion中存放历史数据。</p>
-<h4 id="第三步：内网穿透（外网访问web监控界面）"><a href="#第三步：内网穿透（外网访问web监控界面）" class="headerlink" title="第三步：内网穿透（外网访问web监控界面）"></a>第三步：内网穿透（外网访问web监控界面）</h4><p>实现上面的步骤，你只能在家里本地局域网访问监控界面，意义不大。</p>
-<p>由于目前中国宽带服务公司都不会给家庭网络外网地址。所以需要内网穿透，实现外网访问家庭内网。</p>
-<p>具体可以使用frp软件实现内网穿透。具体做法参考的博客中另一篇介绍frp的分享文章。</p>
-<h3 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h3><p>【1】 <a href="https://www.bouvet.no/bouvet-deler/utbrudd/building-a-motion-activated-security-camera-with-the-raspberry-pi-zero" target="_blank" rel="noopener">https://www.bouvet.no/bouvet-deler/utbrudd/building-a-motion-activated-security-camera-with-the-raspberry-pi-zero</a></p>
-<p>【2】 <a href="https://medium.com/@Cvrsor/how-to-make-a-diy-home-alarm-system-with-a-raspberry-pi-and-a-webcam-2d5a2d61da3d" target="_blank" rel="noopener">https://medium.com/@Cvrsor/how-to-make-a-diy-home-alarm-system-with-a-raspberry-pi-and-a-webcam-2d5a2d61da3d</a></p>
+<h3 id="1-2-索引兼容性"><a href="#1-2-索引兼容性" class="headerlink" title="1.2 索引兼容性"></a>1.2 索引兼容性</h3><p>Elasticsearch对于老版本的索引（index）兼容性如下：</p>
+<ul>
+<li>Elasticsearch 6.x兼容Elasticsearch 5.x中创建的索引，但不兼容Elasticsearch 2.x或更旧版本的索引。</li>
+<li>Elasticsearch 5.x兼容Elasticsearch 2.x中创建的索引，但不不兼容Elasticsearch1.x或更旧版本的索引。</li>
+</ul>
+<p>如果升级过程中遇到索引不兼容场景，升级后集群将无法正常启动。</p>
+<h3 id="1-3-版本升级路线"><a href="#1-3-版本升级路线" class="headerlink" title="1.3 版本升级路线"></a>1.3 版本升级路线</h3><p>Elasticsearch版本升级具体路线总结如下：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">序号</th>
+<th style="text-align:center">原版本</th>
+<th style="text-align:center">升级目标版本</th>
+<th style="text-align:center">支持的升级类型</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">1</td>
+<td style="text-align:center"><code>5.x</code></td>
+<td style="text-align:center"><code>5.y</code></td>
+<td style="text-align:center">滚动升级（其中 <code>y &gt; x</code>）</td>
+</tr>
+<tr>
+<td style="text-align:center">2</td>
+<td style="text-align:center"><code>5.6</code></td>
+<td style="text-align:center"><code>6.x</code></td>
+<td style="text-align:center">滚动升级</td>
+</tr>
+<tr>
+<td style="text-align:center">3</td>
+<td style="text-align:center"><code>5.0-5.5</code></td>
+<td style="text-align:center"><code>6.x</code></td>
+<td style="text-align:center">集群重启</td>
+</tr>
+<tr>
+<td style="text-align:center">4</td>
+<td style="text-align:center"><code>&lt;5.x</code></td>
+<td style="text-align:center"><code>6.x</code></td>
+<td style="text-align:center"><code>reindex</code>升级</td>
+</tr>
+<tr>
+<td style="text-align:center">5</td>
+<td style="text-align:center"><code>6.x</code></td>
+<td style="text-align:center"><code>6.y</code></td>
+<td style="text-align:center">滚动升级（其中 y &gt; x）</td>
+</tr>
+<tr>
+<td style="text-align:center">6</td>
+<td style="text-align:center"><code>1.x</code></td>
+<td style="text-align:center"><code>5.x</code></td>
+<td style="text-align:center"><code>reindex</code>升级</td>
+</tr>
+<tr>
+<td style="text-align:center">7</td>
+<td style="text-align:center"><code>2.x</code></td>
+<td style="text-align:center"><code>2.y</code></td>
+<td style="text-align:center">滚动升级（其中 <code>y &gt; x</code>）</td>
+</tr>
+<tr>
+<td style="text-align:center">8</td>
+<td style="text-align:center"><code>2.x</code></td>
+<td style="text-align:center"><code>5.x</code></td>
+<td style="text-align:center">集群重启</td>
+</tr>
+<tr>
+<td style="text-align:center">9</td>
+<td style="text-align:center"><code>5.0.0 pre GA</code></td>
+<td style="text-align:center"><code>5.x</code></td>
+<td style="text-align:center">集群重启</td>
+</tr>
+<tr>
+<td style="text-align:center">10</td>
+<td style="text-align:center"><code>5.x</code></td>
+<td style="text-align:center"><code>5.y</code></td>
+<td style="text-align:center">滚动升级（其中 <code>y &gt; x</code>）</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>关于Elasticsearch的版本序列需要特别说明一下。Elasticsearch版本序列不是连续递增的，从<code>2.4.x</code>版本后直接跳跃到<code>5.0.x</code>。所以对于<code>5.x</code>版本，如果按照严格顺序递增编号，应该是<code>3.x</code>。之所以没有连续编号，主要是为了保持ELK（<code>Elasticsearch 、 Logstash 、 Kibana</code>）整体版本的统一。</p>
+</blockquote>
+<p>其中第4种情况，小于<code>5.x</code>其实就是<code>2.x</code>和<code>1.x</code>。由于<code>6.x</code>对于更低版本的索引不兼容，所以需要对原集群的中索引实施<code>reindex</code>。方案分别为：</p>
+<h4 id="1-3-1-2-x升级到6-x"><a href="#1-3-1-2-x升级到6-x" class="headerlink" title="1.3.1 2.x升级到6.x"></a>1.3.1 2.x升级到6.x</h4><p>按照上面的升级路线有两种升级方案：</p>
+<ul>
+<li>方案1：先由2.x升级到5.6版本（reindex升级索引版本），然后由5.6升级到6.x（滚动升级）；</li>
+<li>方案2：创建全新的6.x集群，然后将旧集群中的索引数据远程reindex到新集群中；</li>
+</ul>
+<h4 id="1-3-2-1-x升级到6-x"><a href="#1-3-2-1-x升级到6-x" class="headerlink" title="1.3.2 1.x升级到6.x"></a>1.3.2 1.x升级到6.x</h4><p>同样有两个方案：</p>
+<ul>
+<li>方案1：先由1.x升级到2.4.x版本（reindex升级索引版本），最后按照上面2.x升级到6.x的方案实施；</li>
+<li>方案2：创建全新的6.x集群，然后将旧集群中的索引reindex到新集群中；</li>
+</ul>
+<h2 id="第二部分-升级方法和具体步骤"><a href="#第二部分-升级方法和具体步骤" class="headerlink" title="第二部分 升级方法和具体步骤"></a>第二部分 升级方法和具体步骤</h2><p>集群升级路线中，针对不同的版本之间升级，一共有三种升级方案：滚动升级、集群重启、reindex。下面将分别介绍。</p>
+<h3 id="2-1-滚动升级"><a href="#2-1-滚动升级" class="headerlink" title="2.1 滚动升级"></a>2.1 滚动升级</h3><p>所谓滚动升级指的是集群中节点逐个将版本升级至目标（高）版本，升级期间集群保持对外服务不中断。这种升级方案都是针对同一个大版本内的升级，即x.y升级到x.z（z&gt;y）。特别的，5.6升级到6.x也是支持使用滚动升级方式的。</p>
+<blockquote>
+<p><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/rolling-upgrades.html" target="_blank" rel="noopener">https://www.elastic.co/guide/en/elasticsearch/reference/current/rolling-upgrades.html</a></p>
+</blockquote>
+<p>通常滚动升级的步骤如下：</p>
+<h4 id="第1步-禁用副本分片（shards）分配"><a href="#第1步-禁用副本分片（shards）分配" class="headerlink" title="第1步 禁用副本分片（shards）分配"></a>第1步 禁用副本分片（shards）分配</h4><p>在下宕升级节点前，需要提前禁止副本分片的分配。</p>
+<blockquote>
+<p>节点下宕后，副本分配进程会等待<code>index.unassigned.node_left.delayed_timeout</code>（默认情况下为1分钟），然后再开始将该节点上的分片复制到群集中的其他节点，这会导致大量I/O。由于节点很快将重新启动，所以并不需要重新分配。</p>
+</blockquote>
+<p>API命令如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">PUT _cluster/settings</span><br><span class="line">&#123;</span><br><span class="line">  "persistent": &#123;</span><br><span class="line">    "cluster.routing.allocation.enable": "primaries"</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="第2步-执行同步刷新"><a href="#第2步-执行同步刷新" class="headerlink" title="第2步 执行同步刷新"></a>第2步 执行同步刷新</h4><blockquote>
+<p>重启集群时如果translog过大，日志回放恢复数据耗时较长，建议手动同步刷新，减少translog。</p>
+<p>注意：这个过程较为缓慢。</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">POST _flush/synced</span><br></pre></td></tr></table></figure>
+<h4 id="第3步-停止机器学习作业"><a href="#第3步-停止机器学习作业" class="headerlink" title="第3步 停止机器学习作业"></a>第3步 停止机器学习作业</h4><p>如果集群中运行了机器学习任务，需要停止任务运行。</p>
+<blockquote>
+<p>参考：<a href="https://www.elastic.co/guide/en/elastic-stack-overview/6.8/stopping-ml.html" target="_blank" rel="noopener">https://www.elastic.co/guide/en/elastic-stack-overview/6.8/stopping-ml.html</a></p>
+</blockquote>
+<h4 id="第4部-下宕待升级节点并安装主版本和插件"><a href="#第4部-下宕待升级节点并安装主版本和插件" class="headerlink" title="第4部 下宕待升级节点并安装主版本和插件"></a>第4部 下宕待升级节点并安装主版本和插件</h4><p>对升级节点实施下宕，开始文件系统的升级。</p>
+<h4 id="第5步-启动节点"><a href="#第5步-启动节点" class="headerlink" title="第5步 启动节点"></a>第5步 启动节点</h4><p>启动节点，并用下面的API检查节点是否加入集群。</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="builtin-name">GET</span> _cat/nodes</span><br></pre></td></tr></table></figure>
+<h4 id="第6步-重启分片分配"><a href="#第6步-重启分片分配" class="headerlink" title="第6步 重启分片分配"></a>第6步 重启分片分配</h4><p>节点加入集群后，设置启用分片分配开始使用该节点。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">PUT _cluster/settings</span><br><span class="line">&#123;</span><br><span class="line">  "persistent": &#123;</span><br><span class="line">    "cluster.routing.allocation.enable": null</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在升级下一个节点前，等待集群分片完成。可以通过下面的API检查集群状态：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GET _cat/health?v</span><br></pre></td></tr></table></figure>
+<p>等待集群的状态由red变成yellow，再到green。说明集群完成所有主分片和副分片的分配。</p>
+<h4 id="第7步-重复升级其他节点"><a href="#第7步-重复升级其他节点" class="headerlink" title="第7步 重复升级其他节点"></a>第7步 重复升级其他节点</h4><p>重复滚动升级集群其他节点。</p>
+<h4 id="第8步-重启机器学习任务"><a href="#第8步-重启机器学习任务" class="headerlink" title="第8步 重启机器学习任务"></a>第8步 重启机器学习任务</h4><p>如果集群中有机器学习任务，需要从新启动。</p>
+<h3 id="2-2-集群整体重启"><a href="#2-2-集群整体重启" class="headerlink" title="2.2 集群整体重启"></a>2.2 集群整体重启</h3><p>集群整体重启指的是升级前将集群所有节点均下宕，集群停止对外服务，待所有节点完成升级后，整体启动集群，恢复对外服务。例如：5.6之前的版本升级到6.x需要重启集群实施升级。</p>
+<blockquote>
+<p><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/restart-upgrade.html" target="_blank" rel="noopener">https://www.elastic.co/guide/en/elasticsearch/reference/current/restart-upgrade.html</a></p>
+</blockquote>
+<p>集群重启升级步骤和滚动方式相似，主要步骤如下：</p>
+<h4 id="第1步-禁用副本分片（shards）分配-1"><a href="#第1步-禁用副本分片（shards）分配-1" class="headerlink" title="第1步 禁用副本分片（shards）分配"></a>第1步 禁用副本分片（shards）分配</h4><p>下宕升级节点前需要，提前禁止副本分片的分配。（参考滚动升级）</p>
+<h4 id="第2步-停止不必要的索引并执行同步刷新"><a href="#第2步-停止不必要的索引并执行同步刷新" class="headerlink" title="第2步 停止不必要的索引并执行同步刷新"></a>第2步 停止不必要的索引并执行同步刷新</h4><p>参考滚动升级。</p>
+<h4 id="第3步-停止机器学习作业-1"><a href="#第3步-停止机器学习作业-1" class="headerlink" title="第3步 停止机器学习作业"></a>第3步 停止机器学习作业</h4><p>参考滚动升级</p>
+<h4 id="第4部-下宕所有节点并安装主版本和插件"><a href="#第4部-下宕所有节点并安装主版本和插件" class="headerlink" title="第4部 下宕所有节点并安装主版本和插件"></a>第4部 下宕所有节点并安装主版本和插件</h4><p>对集群所有节点实施下宕，开始文件系统版本升级。</p>
+<h4 id="第5步-启动节点并等待集群状态为yellow"><a href="#第5步-启动节点并等待集群状态为yellow" class="headerlink" title="第5步 启动节点并等待集群状态为yellow"></a>第5步 启动节点并等待集群状态为yellow</h4><p>启动所有节点，并用下面的API检查所有节点是否加入集群。</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="builtin-name">GET</span> _cat/nodes</span><br></pre></td></tr></table></figure>
+<h4 id="第6步-重启分片分配-1"><a href="#第6步-重启分片分配-1" class="headerlink" title="第6步 重启分片分配"></a>第6步 重启分片分配</h4><p>节点加入集群后，设置启用分片分配开始使用该节点。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">PUT _cluster/settings</span><br><span class="line">&#123;</span><br><span class="line">  "persistent": &#123;</span><br><span class="line">    "cluster.routing.allocation.enable": null</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在升级下一个节点前，等待集群分片完成。可以通过下面的API检查集群状态：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GET _cat/health?v</span><br></pre></td></tr></table></figure>
+<p>等待集群的状态由yellow变为green。说明集群完成所有主分片和副分片的分配。</p>
+<h4 id="第7步-重启机器学习任务"><a href="#第7步-重启机器学习任务" class="headerlink" title="第7步 重启机器学习任务"></a>第7步 重启机器学习任务</h4><p>参考滚动升级</p>
+<h3 id="2-3-reindex"><a href="#2-3-reindex" class="headerlink" title="2.3 reindex"></a>2.3 reindex</h3><p>Elasticsearch中相邻版本的index具有兼容性，但是跨度较大的版本不再向下兼容。在上文（1.2 索引兼容性）中已做介绍。而在ElasticSearch中，索引的field设置是不能被修改的，如果要修改一个field，那么应该重新按照新的mapping，建立一个index，然后将数据批量查询出来，重新用bulk api写入新index中。</p>
+<blockquote>
+<p>批量查询的时候，建议采用scroll api，并且采用多线程并发的方式来reindex数据，每次scroll就查询指定日期的一段数据，交给一个线程即可。</p>
+</blockquote>
+<h4 id="第1步-搭建新版本集群"><a href="#第1步-搭建新版本集群" class="headerlink" title="第1步 搭建新版本集群"></a>第1步 搭建新版本集群</h4><p>申请服务器资源，搭建全新版本的ElasticSearch集群。将对外服务全部指向新集群。</p>
+<h4 id="第2步-将老集群中数据reindex到新集群"><a href="#第2步-将老集群中数据reindex到新集群" class="headerlink" title="第2步 将老集群中数据reindex到新集群"></a>第2步 将老集群中数据reindex到新集群</h4><p>在老集群上使用reindex API将老集群中index历史数据逐步迁移至新集群。</p>
+<blockquote>
+<p>如果集群数据量较大，迁移过程是一个很缓慢的过程。</p>
+</blockquote>
+<p>API案例（下面是简单的配置）：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">POST _reindex</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">"source"</span>: &#123;</span><br><span class="line">    <span class="attr">"remote"</span>: &#123;</span><br><span class="line">      <span class="attr">"host"</span>: <span class="string">"http://otherhost:9200"</span>,</span><br><span class="line">      <span class="attr">"username"</span>: <span class="string">"user"</span>,</span><br><span class="line">      <span class="attr">"password"</span>: <span class="string">"pass"</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">"index"</span>: <span class="string">"source"</span>,</span><br><span class="line">    <span class="attr">"query"</span>: &#123;</span><br><span class="line">      <span class="attr">"match"</span>: &#123;</span><br><span class="line">        <span class="attr">"test"</span>: <span class="string">"data"</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">"dest"</span>: &#123;</span><br><span class="line">    <span class="attr">"index"</span>: <span class="string">"dest"</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">//host为远程集群（新集群）的地址。</span><br><span class="line">//username和password针对安全集群的密钥验证。</span><br><span class="line">//"index": "source"为旧集群中index名，dest的所对应的是新集群目标index名。</span><br></pre></td></tr></table></figure>
+<p>迁移完成后，可以对旧集群中数据实施清理。清理完成后根据情况需要，旧节点可以离线升级文件系统，最后作为全新的节点加入新集群。</p>
+<blockquote>
+<p>如果旧集群中历史数据不重要，可以删除数据后，搭建全新的集群。</p>
+</blockquote>
+<h3 id="2-4-分步升级"><a href="#2-4-分步升级" class="headerlink" title="2.4 分步升级"></a>2.4 分步升级</h3><p>对于跨度较大的版本升级，如果不采用新建集群再实施reindex方式，那么就需要分步升级。例如A、B、C依次为三个版本，版本级别A&lt;B&lt;C，其中index数据B兼容A，C兼容B，但是C不兼容A。这种情况需要分步升级：</p>
+<ul>
+<li>A升级到B，使用滚动升级或者集群整体重启方式。</li>
+<li>对于B版本的集群，将A版本的所有数据reindex到B版本。这个过程较为耗时。</li>
+<li>等到集群中所有历史index（新建的index自然是B版本）均为B版本后，升级集群版本到C版本。</li>
+</ul>
+<blockquote>
+<p>如果index数据是时间序列类的数据，可以不实施reindex，等到历史数据生命周期结束后（集群中不在有A版本的index数据），再从B版本升级到C版本。</p>
+</blockquote>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>（1）一般Elasticsearch大版本之间跨度升级需要重启整体集群。</p>
+<p>（2）部分ElasticSearch大版本间index并不兼容，需要对数据重索引（reindex）。</p>
+<p>（3）大版本中的小版本升级，通常只需要滚动重启方式即可。</p>
+<h2 id="参考材料"><a href="#参考材料" class="headerlink" title="参考材料"></a>参考材料</h2><p>1、Elasticsearch官网  链接：<a href="https://www.elastic.co/cn/" target="_blank" rel="noopener">https://www.elastic.co/cn/</a></p>
 
       
     </div>
@@ -612,12 +740,6 @@
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/raspberry/" rel="tag"><i class="fa fa-tag"></i> raspberry</a>
-          
-        </div>
-      
 
       
       
@@ -627,8 +749,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/03/14/2018-03-14-动手实现Ubuntu系统WOL远程唤醒/" rel="next" title="动手实现Ubuntu系统WOL远程唤醒">
-                <i class="fa fa-chevron-left"></i> 动手实现Ubuntu系统WOL远程唤醒
+              <a href="/2020/03/02/2020-01-01-Kafka系列文章（第五篇Kafka安全）/" rel="next" title="Kafka系列文章（第五篇 Kafka安全集群）">
+                <i class="fa fa-chevron-left"></i> Kafka系列文章（第五篇 Kafka安全集群）
               </a>
             
           </div>
@@ -636,10 +758,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/03/19/2018-03-26-jupyter-notebook/" rel="prev" title="jupyter notebook:主题和字体的美化">
-                jupyter notebook:主题和字体的美化 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -924,7 +1042,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#树莓派摄像头和USB摄像头"><span class="nav-number">1.</span> <span class="nav-text">树莓派摄像头和USB摄像头</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#部署步骤"><span class="nav-number">2.</span> <span class="nav-text">部署步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#第一步：检查USB摄像头和树莓派的兼容性"><span class="nav-number">2.1.</span> <span class="nav-text">第一步：检查USB摄像头和树莓派的兼容性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第二步：MOTION软件实现"><span class="nav-number">2.2.</span> <span class="nav-text">第二步：MOTION软件实现</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#安装motion"><span class="nav-number">2.2.1.</span> <span class="nav-text">安装motion</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#编辑配置配置文件"><span class="nav-number">2.2.2.</span> <span class="nav-text">编辑配置配置文件</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#调整相关参数"><span class="nav-number">2.2.3.</span> <span class="nav-text">调整相关参数</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#开启motion进程"><span class="nav-number">2.2.4.</span> <span class="nav-text">开启motion进程</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#查看监控画面"><span class="nav-number">2.2.5.</span> <span class="nav-text">查看监控画面</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#查看监控数据存放目录"><span class="nav-number">2.2.6.</span> <span class="nav-text">查看监控数据存放目录</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第三步：内网穿透（外网访问web监控界面）"><span class="nav-number">2.3.</span> <span class="nav-text">第三步：内网穿透（外网访问web监控界面）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考文章"><span class="nav-number">3.</span> <span class="nav-text">参考文章</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#目录"><span class="nav-number">1.</span> <span class="nav-text">目录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#背景"><span class="nav-number">2.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第一部分-版本升级指引"><span class="nav-number">3.</span> <span class="nav-text">第一部分 版本升级指引</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-同步升级Elastic-Stack组件"><span class="nav-number">3.1.</span> <span class="nav-text">1.1 同步升级Elastic Stack组件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-索引兼容性"><span class="nav-number">3.2.</span> <span class="nav-text">1.2 索引兼容性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-版本升级路线"><span class="nav-number">3.3.</span> <span class="nav-text">1.3 版本升级路线</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-3-1-2-x升级到6-x"><span class="nav-number">3.3.1.</span> <span class="nav-text">1.3.1 2.x升级到6.x</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-3-2-1-x升级到6-x"><span class="nav-number">3.3.2.</span> <span class="nav-text">1.3.2 1.x升级到6.x</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第二部分-升级方法和具体步骤"><span class="nav-number">4.</span> <span class="nav-text">第二部分 升级方法和具体步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-滚动升级"><span class="nav-number">4.1.</span> <span class="nav-text">2.1 滚动升级</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#第1步-禁用副本分片（shards）分配"><span class="nav-number">4.1.1.</span> <span class="nav-text">第1步 禁用副本分片（shards）分配</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第2步-执行同步刷新"><span class="nav-number">4.1.2.</span> <span class="nav-text">第2步 执行同步刷新</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第3步-停止机器学习作业"><span class="nav-number">4.1.3.</span> <span class="nav-text">第3步 停止机器学习作业</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第4部-下宕待升级节点并安装主版本和插件"><span class="nav-number">4.1.4.</span> <span class="nav-text">第4部 下宕待升级节点并安装主版本和插件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第5步-启动节点"><span class="nav-number">4.1.5.</span> <span class="nav-text">第5步 启动节点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第6步-重启分片分配"><span class="nav-number">4.1.6.</span> <span class="nav-text">第6步 重启分片分配</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第7步-重复升级其他节点"><span class="nav-number">4.1.7.</span> <span class="nav-text">第7步 重复升级其他节点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第8步-重启机器学习任务"><span class="nav-number">4.1.8.</span> <span class="nav-text">第8步 重启机器学习任务</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-集群整体重启"><span class="nav-number">4.2.</span> <span class="nav-text">2.2 集群整体重启</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#第1步-禁用副本分片（shards）分配-1"><span class="nav-number">4.2.1.</span> <span class="nav-text">第1步 禁用副本分片（shards）分配</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第2步-停止不必要的索引并执行同步刷新"><span class="nav-number">4.2.2.</span> <span class="nav-text">第2步 停止不必要的索引并执行同步刷新</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第3步-停止机器学习作业-1"><span class="nav-number">4.2.3.</span> <span class="nav-text">第3步 停止机器学习作业</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第4部-下宕所有节点并安装主版本和插件"><span class="nav-number">4.2.4.</span> <span class="nav-text">第4部 下宕所有节点并安装主版本和插件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第5步-启动节点并等待集群状态为yellow"><span class="nav-number">4.2.5.</span> <span class="nav-text">第5步 启动节点并等待集群状态为yellow</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第6步-重启分片分配-1"><span class="nav-number">4.2.6.</span> <span class="nav-text">第6步 重启分片分配</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第7步-重启机器学习任务"><span class="nav-number">4.2.7.</span> <span class="nav-text">第7步 重启机器学习任务</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-reindex"><span class="nav-number">4.3.</span> <span class="nav-text">2.3 reindex</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#第1步-搭建新版本集群"><span class="nav-number">4.3.1.</span> <span class="nav-text">第1步 搭建新版本集群</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第2步-将老集群中数据reindex到新集群"><span class="nav-number">4.3.2.</span> <span class="nav-text">第2步 将老集群中数据reindex到新集群</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-分步升级"><span class="nav-number">4.4.</span> <span class="nav-text">2.4 分步升级</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">5.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考材料"><span class="nav-number">6.</span> <span class="nav-text">参考材料</span></a></li></ol></div>
             
 
           </div>
@@ -1105,9 +1223,9 @@
 
 <script>
   var disqus_config = function () {
-    this.page.url = "https://zjrongxiang.github.io/2018/03/18/2018-03-18-raspberry_usb_camera/";
-    this.page.identifier = "2018/03/18/2018-03-18-raspberry_usb_camera/";
-    this.page.title = '树莓派：使用USB摄像头自制家庭监控';
+    this.page.url = "https://zjrongxiang.github.io/2020/03/07/2020-03-07-Elasticsearch集群升级指引/";
+    this.page.identifier = "2020/03/07/2020-03-07-Elasticsearch集群升级指引/";
+    this.page.title = 'Elasticsearch集群升级指引';
     };
   function loadComments () {
     var d = document, s = d.createElement('script');
