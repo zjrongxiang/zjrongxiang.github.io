@@ -117,17 +117,17 @@
 
 
 
-  <meta name="description" content="背景本篇博客主要介绍通过局域网唤醒服务器（远程启动计算机）。具体在Ubuntu操作系统上实现。具体数据流为：通过互联网远程登录长期开机的树莓派，然后通过树莓派唤醒同一个局域网的高性能服务器。  目前中国家庭宽带网络都是没有外网IP的，如果外网访问家庭网络，需要做端口映射，实现远程访问。  什么是WoL（Wake on LAN）电脑处在关机（或休眠）状态时，只要主机保持连接电源、网线连接网卡，其实网">
+  <meta name="description" content="目录 背景  第一部分   检查主机板块和网卡是否支持Wol  第二部分   部署步骤  参考文献及资料   背景本篇博客主要介绍通过局域网唤醒服务器（远程启动计算机）。具体在Ubuntu操作系统上实现。具体数据流为：通过互联网远程登录长期开机的树莓派，然后通过树莓派唤醒同一个局域网的高性能服务器。  目前中国家庭宽带网络都是没有外网IP的，如果外网访问家庭网络，需要做端口映射，实现远程访问。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="动手实现Ubuntu系统WOL远程唤醒">
 <meta property="og:url" content="https://zjrongxiang.github.io/2018/03/14/2018-03-14-动手实现Ubuntu系统WOL远程唤醒/index.html">
 <meta property="og:site_name" content="RongXiang">
-<meta property="og:description" content="背景本篇博客主要介绍通过局域网唤醒服务器（远程启动计算机）。具体在Ubuntu操作系统上实现。具体数据流为：通过互联网远程登录长期开机的树莓派，然后通过树莓派唤醒同一个局域网的高性能服务器。  目前中国家庭宽带网络都是没有外网IP的，如果外网访问家庭网络，需要做端口映射，实现远程访问。  什么是WoL（Wake on LAN）电脑处在关机（或休眠）状态时，只要主机保持连接电源、网线连接网卡，其实网">
+<meta property="og:description" content="目录 背景  第一部分   检查主机板块和网卡是否支持Wol  第二部分   部署步骤  参考文献及资料   背景本篇博客主要介绍通过局域网唤醒服务器（远程启动计算机）。具体在Ubuntu操作系统上实现。具体数据流为：通过互联网远程登录长期开机的树莓派，然后通过树莓派唤醒同一个局域网的高性能服务器。  目前中国家庭宽带网络都是没有外网IP的，如果外网访问家庭网络，需要做端口映射，实现远程访问。">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-04-25T14:33:00.197Z">
+<meta property="og:updated_time" content="2020-03-22T02:46:05.025Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="动手实现Ubuntu系统WOL远程唤醒">
-<meta name="twitter:description" content="背景本篇博客主要介绍通过局域网唤醒服务器（远程启动计算机）。具体在Ubuntu操作系统上实现。具体数据流为：通过互联网远程登录长期开机的树莓派，然后通过树莓派唤醒同一个局域网的高性能服务器。  目前中国家庭宽带网络都是没有外网IP的，如果外网访问家庭网络，需要做端口映射，实现远程访问。  什么是WoL（Wake on LAN）电脑处在关机（或休眠）状态时，只要主机保持连接电源、网线连接网卡，其实网">
+<meta name="twitter:description" content="目录 背景  第一部分   检查主机板块和网卡是否支持Wol  第二部分   部署步骤  参考文献及资料   背景本篇博客主要介绍通过局域网唤醒服务器（远程启动计算机）。具体在Ubuntu操作系统上实现。具体数据流为：通过互联网远程登录长期开机的树莓派，然后通过树莓派唤醒同一个局域网的高性能服务器。  目前中国家庭宽带网络都是没有外网IP的，如果外网访问家庭网络，需要做端口映射，实现远程访问。">
 
 
 
@@ -482,7 +482,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2019-04-25 22:33:00" itemprop="dateModified" datetime="2019-04-25T22:33:00+08:00">2019-04-25</time>
+                <time title="Modified: 2020-03-22 10:46:05" itemprop="dateModified" datetime="2020-03-22T10:46:05+08:00">2020-03-22</time>
               
             
           </span>
@@ -499,7 +499,7 @@
                 <span class="post-meta-item-text">In</span>
               
               
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/ubuntu/" itemprop="url" rel="index"><span itemprop="name">ubuntu</span></a></span>
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/Ubuntu/" itemprop="url" rel="index"><span itemprop="name">Ubuntu</span></a></span>
 
                 
                 
@@ -544,27 +544,37 @@
       
 
       
-        <h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>本篇博客主要介绍通过局域网唤醒服务器（远程启动计算机）。具体在Ubuntu操作系统上实现。具体数据流为：通过互联网远程登录长期开机的树莓派，然后通过树莓派唤醒同一个局域网的高性能服务器。</p>
+        <h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ul>
+<li><p>背景</p>
+</li>
+<li><p>第一部分   检查主机板块和网卡是否支持Wol</p>
+</li>
+<li><p>第二部分   部署步骤</p>
+</li>
+<li><p>参考文献及资料</p>
+</li>
+</ul>
+<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>本篇博客主要介绍通过局域网唤醒服务器（远程启动计算机）。具体在Ubuntu操作系统上实现。具体数据流为：通过互联网远程登录长期开机的树莓派，然后通过树莓派唤醒同一个局域网的高性能服务器。</p>
 <blockquote>
 <p>目前中国家庭宽带网络都是没有外网IP的，如果外网访问家庭网络，需要做端口映射，实现远程访问。</p>
 </blockquote>
-<h4 id="什么是WoL（Wake-on-LAN）"><a href="#什么是WoL（Wake-on-LAN）" class="headerlink" title="什么是WoL（Wake on LAN）"></a>什么是WoL（Wake on LAN）</h4><p>电脑处在关机（或休眠）状态时，只要主机保持连接电源、网线连接网卡，其实网卡和主板仍然有微弱供电。这部分供电能让网卡监听和解读来自外部网络的广播信息。其中会对一种特殊的广播信息Magic Packet（魔法数据包）进行侦测。Magic Packet网络包以广播的形式发送，发送的范围可以是整个局域网或者指定的子网。另外Magic Packet中唤醒服务器IP可以是多个，侦测主机一旦发现包中的唤醒IP集中包含自己的IP，会通知主板、电源供电器，开始执行唤醒，打开机器。</p>
-<h3 id="第一部分-检查主机板块和网卡是否支持Wol"><a href="#第一部分-检查主机板块和网卡是否支持Wol" class="headerlink" title="第一部分 检查主机板块和网卡是否支持Wol"></a>第一部分 检查主机板块和网卡是否支持Wol</h3><ul>
+<h3 id="什么是WoL（Wake-on-LAN）"><a href="#什么是WoL（Wake-on-LAN）" class="headerlink" title="什么是WoL（Wake on LAN）"></a>什么是WoL（Wake on LAN）</h3><p>电脑处在关机（或休眠）状态时，只要主机保持连接电源、网线连接网卡，其实网卡和主板仍然有微弱供电。这部分供电能让网卡监听和解读来自外部网络的广播信息。其中会对一种特殊的广播信息Magic Packet（魔法数据包）进行侦测。Magic Packet网络包以广播的形式发送，发送的范围可以是整个局域网或者指定的子网。另外Magic Packet中唤醒服务器IP可以是多个，侦测主机一旦发现包中的唤醒IP集中包含自己的IP，会通知主板、电源供电器，开始执行唤醒，打开机器。</p>
+<h2 id="第一部分-检查主机板块和网卡是否支持Wol"><a href="#第一部分-检查主机板块和网卡是否支持Wol" class="headerlink" title="第一部分 检查主机板块和网卡是否支持Wol"></a>第一部分 检查主机板块和网卡是否支持Wol</h2><ul>
 <li><p>主板是否支持：进入BIOS，将“Power Management Setup”中的“Wake Up On LAN”或“Resume by LAN”项设置为“Enable”或“On”</p>
 </li>
 <li><p>网卡是否支持：</p>
 </li>
 </ul>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> ethtool enp0s31f6</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> ethtool enp0s31f6</span><br></pre></td></tr></table></figure>
 <p>其中有下面的字段信息：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Supports Wake-on: pumbg</span><br><span class="line">Wake-on: g</span><br></pre></td></tr></table></figure>
-<h3 id="第二部分-部署步骤"><a href="#第二部分-部署步骤" class="headerlink" title="第二部分 部署步骤"></a>第二部分 部署步骤</h3><h4 id="2-1-方法1"><a href="#2-1-方法1" class="headerlink" title="2.1 方法1"></a>2.1 方法1</h4><p>需要安装wakeonlan包：</p>
+<h2 id="第二部分-部署步骤"><a href="#第二部分-部署步骤" class="headerlink" title="第二部分 部署步骤"></a>第二部分 部署步骤</h2><h3 id="2-1-方法1"><a href="#2-1-方法1" class="headerlink" title="2.1 方法1"></a>2.1 方法1</h3><p>需要安装wakeonlan包：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@raspberrypi:~# sudo apt-get install wakeonlan</span><br></pre></td></tr></table></figure>
 <p>下面的命令通过树莓派发送魔术包：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">root@raspberrypi:~# wakeonlan -i 192.168.1.3 b0:6f:bf:b0:9f:2f</span><br><span class="line">Sending magic packet to 192.168.1.3:9 with b0:6f:b0:bf:9f:2f</span><br></pre></td></tr></table></figure>
-<h4 id="2-2-方法2"><a href="#2-2-方法2" class="headerlink" title="2.2 方法2"></a>2.2 方法2</h4><p>在网关配置ARP信息（IP与物理地址进行绑定），发送网段的广播：</p>
+<h3 id="2-2-方法2"><a href="#2-2-方法2" class="headerlink" title="2.2 方法2"></a>2.2 方法2</h3><p>在网关配置ARP信息（IP与物理地址进行绑定），发送网段的广播：</p>
 <figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">root</span>@<span class="selector-tag">raspberrypi</span>:~# <span class="selector-tag">wakeonlan</span> <span class="selector-tag">-i</span> <span class="selector-tag">192</span><span class="selector-class">.168</span><span class="selector-class">.1</span><span class="selector-class">.0</span> <span class="selector-tag">b0</span><span class="selector-pseudo">:6f</span><span class="selector-pseudo">:bf</span><span class="selector-pseudo">:b0</span><span class="selector-pseudo">:9f</span><span class="selector-pseudo">:2f</span></span><br><span class="line"><span class="selector-tag">Sending</span> <span class="selector-tag">magic</span> <span class="selector-tag">packet</span> <span class="selector-tag">to</span> <span class="selector-tag">192</span><span class="selector-class">.168</span><span class="selector-class">.1</span><span class="selector-class">.0</span><span class="selector-pseudo">:9</span> <span class="selector-tag">with</span> <span class="selector-tag">b0</span><span class="selector-pseudo">:6f</span><span class="selector-pseudo">:b0</span><span class="selector-pseudo">:bf</span><span class="selector-pseudo">:9f</span><span class="selector-pseudo">:2f</span></span><br></pre></td></tr></table></figure>
-<h3 id="参考文献及链接"><a href="#参考文献及链接" class="headerlink" title="参考文献及链接"></a>参考文献及链接</h3><p>1、WakeOnLan 链接：<a href="https://help.ubuntu.com/community/WakeOnLan" target="_blank" rel="noopener">https://help.ubuntu.com/community/WakeOnLan</a></p>
+<h2 id="参考文献及链接"><a href="#参考文献及链接" class="headerlink" title="参考文献及链接"></a>参考文献及链接</h2><p>1、WakeOnLan 链接：<a href="https://help.ubuntu.com/community/WakeOnLan" target="_blank" rel="noopener">https://help.ubuntu.com/community/WakeOnLan</a></p>
 <p>2、wiki 链接：<a href="https://en.wikipedia.org/wiki/Wake-on-LAN" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Wake-on-LAN</a></p>
 <p>3、Ubuntu 與 Wake on LAN 链接：<a href="http://softsmith.blogspot.com/2014/05/ubuntu-wake-on-lan.html" target="_blank" rel="noopener">http://softsmith.blogspot.com/2014/05/ubuntu-wake-on-lan.html</a></p>
 
@@ -576,6 +586,36 @@
     <div>
       
         
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script type="text/javascript" src="http://jslibs.wuxubj.cn/sweetalert_mini/jquery-1.7.1.min.js"></script>
+  <script src="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.mini.css">
+  <p><span>本文标题:</span><a href="/2018/03/14/2018-03-14-动手实现Ubuntu系统WOL远程唤醒/">动手实现Ubuntu系统WOL远程唤醒</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 rong xiang 的个人博客">rong xiang</a></p>
+  <p><span>发布时间:</span>2018年03月14日 - 19:03</p>
+  <p><span>最后更新:</span>2020年03月22日 - 10:03</p>
+  <p><span>原始链接:</span><a href="/2018/03/14/2018-03-14-动手实现Ubuntu系统WOL远程唤醒/" title="动手实现Ubuntu系统WOL远程唤醒">https://zjrongxiang.github.io/2018/03/14/2018-03-14-动手实现Ubuntu系统WOL远程唤醒/</a>
+    <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://zjrongxiang.github.io/2018/03/14/2018-03-14-动手实现Ubuntu系统WOL远程唤醒/" aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
+</div>
+<script> 
+    var clipboard = new Clipboard('.fa-clipboard');
+    clipboard.on('success', $(function(){
+      $(".fa-clipboard").click(function(){
+        swal({   
+          title: "",   
+          text: '复制成功',   
+          html: false,
+          timer: 500,   
+          showConfirmButton: false
+        });
+      });
+    }));  
+</script>
+
       
     </div>
     
@@ -603,8 +643,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/03/14/2018-03-14-deeplearning_camera/" rel="next" title="动手实现深度学习相机">
-                <i class="fa fa-chevron-left"></i> 动手实现深度学习相机
+              <a href="/2018/03/01/2018-03-12-树莓派更改APT为国内阿里云源/" rel="next" title="树莓派更改APT为国内阿里云源">
+                <i class="fa fa-chevron-left"></i> 树莓派更改APT为国内阿里云源
               </a>
             
           </div>
@@ -613,8 +653,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/03/18/2018-03-18-raspberry_usb_camera/" rel="prev" title="树莓派：使用USB摄像头自制家庭监控">
-                树莓派：使用USB摄像头自制家庭监控 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/03/14/2018-03-15-Ubuntu添加国内apt更新源/" rel="prev" title="Ubuntu添加国内apt更新源">
+                Ubuntu添加国内apt更新源 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -757,59 +797,14 @@
                     
                       
                     
-                    <span class="site-state-item-count">25</span>
+                      
+                    
+                    <span class="site-state-item-count">26</span>
                     <span class="site-state-item-name">categories</span>
                   
                 </div>
               
 
-              
-                
-                
-                <div class="site-state-item site-state-tags">
-                  
-                    
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                    <span class="site-state-item-count">18</span>
-                    <span class="site-state-item-name">tags</span>
-                  
-                </div>
               
             </nav>
           
@@ -900,7 +895,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#背景"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#什么是WoL（Wake-on-LAN）"><span class="nav-number">1.1.</span> <span class="nav-text">什么是WoL（Wake on LAN）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第一部分-检查主机板块和网卡是否支持Wol"><span class="nav-number">2.</span> <span class="nav-text">第一部分 检查主机板块和网卡是否支持Wol</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第二部分-部署步骤"><span class="nav-number">3.</span> <span class="nav-text">第二部分 部署步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-方法1"><span class="nav-number">3.1.</span> <span class="nav-text">2.1 方法1</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-方法2"><span class="nav-number">3.2.</span> <span class="nav-text">2.2 方法2</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考文献及链接"><span class="nav-number">4.</span> <span class="nav-text">参考文献及链接</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#目录"><span class="nav-number">1.</span> <span class="nav-text">目录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#背景"><span class="nav-number">2.</span> <span class="nav-text">背景</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是WoL（Wake-on-LAN）"><span class="nav-number">2.1.</span> <span class="nav-text">什么是WoL（Wake on LAN）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第一部分-检查主机板块和网卡是否支持Wol"><span class="nav-number">3.</span> <span class="nav-text">第一部分 检查主机板块和网卡是否支持Wol</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第二部分-部署步骤"><span class="nav-number">4.</span> <span class="nav-text">第二部分 部署步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-方法1"><span class="nav-number">4.1.</span> <span class="nav-text">2.1 方法1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-方法2"><span class="nav-number">4.2.</span> <span class="nav-text">2.2 方法2</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文献及链接"><span class="nav-number">5.</span> <span class="nav-text">参考文献及链接</span></a></li></ol></div>
             
 
           </div>

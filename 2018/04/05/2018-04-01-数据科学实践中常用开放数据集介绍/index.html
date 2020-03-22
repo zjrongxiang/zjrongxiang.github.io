@@ -1,0 +1,1889 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="en">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<script>
+    (function(){
+        if(''){
+            if (prompt('请输入文章密码') !== ''){
+                alert('密码错误！');
+                history.back();
+            }
+        }
+    })();
+</script>
+
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2">
+
+
+
+  
+  
+  <link rel="stylesheet" href="/lib/Han/dist/han.min.css?v=3.3">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=6.7.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.7.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.7.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '6.7.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="目录 背景  第一部分   开放数据集  参考文献及资料   背景数据科学研究的对象是数据，学习过程中需要相关数据集辅助大家练习、做实验。从而体会数据科学中算法方法论。中国古语云：巧妇难有无米之炊，说的就是数据对于数据科学学习的重要性。 这篇文章收集介绍了各种常用的开放数据集，供大家学习参考。会持续更新。 第二部分 开放数据集这里主要将开放数据分为三类：图像类、自然语言（NLP）类、音频类。 1.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据科学实践中常用开放数据集介绍">
+<meta property="og:url" content="https://zjrongxiang.github.io/2018/04/05/2018-04-01-数据科学实践中常用开放数据集介绍/index.html">
+<meta property="og:site_name" content="RongXiang">
+<meta property="og:description" content="目录 背景  第一部分   开放数据集  参考文献及资料   背景数据科学研究的对象是数据，学习过程中需要相关数据集辅助大家练习、做实验。从而体会数据科学中算法方法论。中国古语云：巧妇难有无米之炊，说的就是数据对于数据科学学习的重要性。 这篇文章收集介绍了各种常用的开放数据集，供大家学习参考。会持续更新。 第二部分 开放数据集这里主要将开放数据分为三类：图像类、自然语言（NLP）类、音频类。 1.">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://zjrongxiang.github.io/images/picture/digits.jpeg">
+<meta property="og:image" content="https://zjrongxiang.github.io/images/picture/MNIST-Matrix.png">
+<meta property="og:updated_time" content="2020-03-22T03:15:07.926Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="数据科学实践中常用开放数据集介绍">
+<meta name="twitter:description" content="目录 背景  第一部分   开放数据集  参考文献及资料   背景数据科学研究的对象是数据，学习过程中需要相关数据集辅助大家练习、做实验。从而体会数据科学中算法方法论。中国古语云：巧妇难有无米之炊，说的就是数据对于数据科学学习的重要性。 这篇文章收集介绍了各种常用的开放数据集，供大家学习参考。会持续更新。 第二部分 开放数据集这里主要将开放数据分为三类：图像类、自然语言（NLP）类、音频类。 1.">
+<meta name="twitter:image" content="https://zjrongxiang.github.io/images/picture/digits.jpeg">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="RongXiang" type="application/atom+xml">
+
+
+
+
+  <link rel="canonical" href="https://zjrongxiang.github.io/2018/04/05/2018-04-01-数据科学实践中常用开放数据集介绍/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>数据科学实践中常用开放数据集介绍 | RongXiang</title>
+  
+
+
+
+
+  <script async src="//www.googletagmanager.com/gtag/js?id=UA-113063423-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-113063423-1');
+  </script>
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+    <!-- <a href="https://github.com/zjrongxiang"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png" alt="Fork me on GitHub"></a> -->
+    <a href="https://github.com/zjrongxiang"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_green_007200.png" alt="Fork me on GitHub"></a>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">RongXiang</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">我的烂笔头</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>About</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>Tags</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>Categories</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-schedule">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/schedule/" rel="section"><i class="menu-item-icon fa fa-fw fa-calendar"></i> <br>Schedule</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>Search</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="Searching..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zjrongxiang.github.io/2018/04/05/2018-04-01-数据科学实践中常用开放数据集介绍/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="rong xiang">
+      <meta itemprop="description" content="Keep a Pure Curiosity">
+      <meta itemprop="image" content="/images/avatar/person.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="RongXiang">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">数据科学实践中常用开放数据集介绍
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2018-04-05 19:30:00" itemprop="dateCreated datePublished" datetime="2018-04-05T19:30:00+08:00">2018-04-05</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2020-03-22 11:15:07" itemprop="dateModified" datetime="2020-03-22T11:15:07+08:00">2020-03-22</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/Bigdata/" itemprop="url" rel="index"><span itemprop="name">Bigdata</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/04/05/2018-04-01-数据科学实践中常用开放数据集介绍/#comments" itemprop="discussionUrl">
+                
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/04/05/2018-04-01-数据科学实践中常用开放数据集介绍/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ul>
+<li><p>背景</p>
+</li>
+<li><p>第一部分   开放数据集</p>
+</li>
+<li><p>参考文献及资料</p>
+</li>
+</ul>
+<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>数据科学研究的对象是数据，学习过程中需要相关数据集辅助大家练习、做实验。从而体会数据科学中算法方法论。中国古语云：巧妇难有无米之炊，说的就是数据对于数据科学学习的重要性。</p>
+<p>这篇文章收集介绍了各种常用的开放数据集，供大家学习参考。会持续更新。</p>
+<h2 id="第二部分-开放数据集"><a href="#第二部分-开放数据集" class="headerlink" title="第二部分 开放数据集"></a>第二部分 开放数据集</h2><p>这里主要将开放数据分为三类：图像类、自然语言（NLP）类、音频类。</p>
+<h3 id="1-1-图像类"><a href="#1-1-图像类" class="headerlink" title="1.1 图像类"></a>1.1 图像类</h3><h4 id="MNIST手写数据集"><a href="#MNIST手写数据集" class="headerlink" title="MNIST手写数据集"></a>MNIST手写数据集</h4><ul>
+<li><p>介绍：</p>
+<p>MNIST（全称：Modified National Institute of Standards and Technology database）数据集是常见的深度学习开放数据集（基本属于深度学习的hello world数据集）。这是一个手写阿拉伯数据集（0-9数字），数据主要采集于美国高中学生。数据集总量为7W个手写数字图像（训练集6w个、测试机1w个）。</p>
+<p><img src="\images\picture\digits.jpeg" alt=""></p>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">文件</th>
+<th style="text-align:center">内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><a href="http://yann.lecun.com/exdb/mnist/train-images-idx3-ubyte.gz" target="_blank" rel="noopener">train-images-idx3-ubyte.gz</a></td>
+<td style="text-align:center">训练集图片 - 60000张训练图片</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="http://yann.lecun.com/exdb/mnist/train-labels-idx1-ubyte.gz" target="_blank" rel="noopener">train-labels-idx1-ubyte.gz</a></td>
+<td style="text-align:center">训练集图片对应的数字标签（0-9）</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="http://yann.lecun.com/exdb/mnist/t10k-images-idx3-ubyte.gz" target="_blank" rel="noopener">t10k-images-idx3-ubyte.gz</a></td>
+<td style="text-align:center">测试集图片 - 10000 张 图片</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="http://yann.lecun.com/exdb/mnist/t10k-labels-idx1-ubyte.gz" target="_blank" rel="noopener">t10k-labels-idx1-ubyte.gz</a></td>
+<td style="text-align:center">测试集图片对应的数字标签</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><p>数据存储大小：二进制文件，50M，压缩形式约10M。每张图像被归一化成28*28的像素矩阵。</p>
+</li>
+<li><p>图像数据格式：像素值为0到255. 0表示背景（白色），255表示前景（黑色）。例如下面手写数字1的数据矩阵表示：</p>
+<p><img src="\images\picture\MNIST-Matrix.png" alt="图像数据矩阵"></p>
+</li>
+<li><p>官方网页连接：<a href="http://yann.lecun.com/exdb/mnist/" target="_blank" rel="noopener">http://yann.lecun.com/exdb/mnist/</a></p>
+</li>
+<li><p>读取数据案例（Python）：</p>
+<p>Tensorflow中已经有对MNIST数据集解析的脚本，我们可以直接调用：</p>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">文件</th>
+<th style="text-align:center">目的</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><a href="https://github.com/tensorflow/tensorflow/blob/r1.1/tensorflow/examples/tutorials/mnist/input_data.py" target="_blank" rel="noopener">input_data.py</a>、<a href="https://github.com/tensorflow/tensorflow/blob/r1.1/tensorflow/contrib/learn/python/learn/datasets/mnist.py" target="_blank" rel="noopener">mnist.py</a></td>
+<td style="text-align:center">用于读取MNIST数据集</td>
+</tr>
+</tbody>
+</table>
+  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"><span class="comment">#tf为1.7版本</span></span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">from</span> tensorflow.examples.tutorials.mnist <span class="keyword">import</span> input_data</span><br><span class="line"></span><br><span class="line">data_dir = <span class="string">'/root/tftest/mnistdata/'</span></span><br><span class="line"><span class="comment">#data_dir为数据集文件存放目录</span></span><br><span class="line">mnist = input_data.read_data_sets(data_dir, one_hot=<span class="keyword">True</span>，validation_size=<span class="number">5000</span>)</span><br><span class="line"><span class="comment">#mnist = input_data.read_data_sets(data_dir, one_hot=False)</span></span><br><span class="line"><span class="comment">#one_hot参数True，表示标签进行one-hot编码处理。</span></span><br><span class="line"><span class="comment">#validation_size参数可以从训练集中划出一部分数据作为验证集。默认是5w个，可以自己调节。</span></span><br><span class="line"></span><br><span class="line">x_train,y_train,x_test,y_test,x_vali,y_vali = \</span><br><span class="line">mnist.train.images,mnist.train.labels,mnist.test.images,mnist.test.labels,\</span><br><span class="line">mnist.validation.images,mnist.validation.labels</span><br><span class="line"><span class="comment">#x_train的数据类型为：&lt;class 'numpy.ndarray'&gt;</span></span><br></pre></td></tr></table></figure>
+<p>​       上面的例子划分好数据就可以喂给各种算法模型进行训练。</p>
+<ul>
+<li><p>扩展：EMNIST数据集：<a href="https://arxiv.org/abs/1702.05373。" target="_blank" rel="noopener">https://arxiv.org/abs/1702.05373。</a></p>
+<p>按照MNIST规范，数据集更大：包含240,000个训练图像和40,000个手写数字测试图像。</p>
+</li>
+</ul>
+<h4 id="MS-COCO图像分割数据集"><a href="#MS-COCO图像分割数据集" class="headerlink" title="MS-COCO图像分割数据集"></a>MS-COCO图像分割数据集</h4><ul>
+<li><p>介绍：</p>
+<p>MS-COCO（全称是Common Objects in Context）是微软团队提供的一个可以用来进行图像识别的数据集。数据集中的图像分为训练、验证和测试集。COCO数据集现在有3种标注类型：<strong>object instances（目标实例）, object keypoints（目标上的关键点）, 和image captions（看图说话）</strong>，使用JSON文件存储。</p>
+<p>一共有33w张图像，80个对象类别，每幅图5个字母、25w个关键点。</p>
+</li>
+<li><p>数据存储大小：约25G（压缩形式）</p>
+</li>
+<li><p>数据格式：中文介绍可以参考知乎这篇文章：<a href="https://zhuanlan.zhihu.com/p/29393415" target="_blank" rel="noopener">COCO数据集的标注格式</a> 。</p>
+</li>
+<li><p>官方网站：<a href="http://mscoco.org/" target="_blank" rel="noopener">http://mscoco.org/</a></p>
+</li>
+</ul>
+<h4 id="ImageNet图像数据集"><a href="#ImageNet图像数据集" class="headerlink" title="ImageNet图像数据集"></a>ImageNet图像数据集</h4><ul>
+<li><p>介绍：</p>
+<p>Imagenet是深度学习中大名鼎鼎的数据集。数据集有1400多万幅图片，涵盖2万多个类别；其中有超过百万的图片有明确的类别标注和图像中物体位置的标注。深度学习中关于图像分类、定位、检测等研究工作大多基于此数据集展开。Imagenet数据集文档详细，有专门的团队维护，使用非常方便，在计算机视觉领域研究论文中应用非常广，几乎成为了目前深度学习图像领域算法性能检验的“标准”数据集。</p>
+</li>
+<li><p>数据存储大小：约150G</p>
+</li>
+<li><p>官方网站：<a href="http://www.image-net.org/" target="_blank" rel="noopener">http://www.image-net.org/</a></p>
+</li>
+</ul>
+<p>Open Image图像数据集</p>
+<ul>
+<li><p>介绍：</p>
+<p>Open Image为Google提供。数据集包含近900万个图像URL。这些图像已经用数千个类的图像级标签边框进行了注释。该数据集包含9,011,219张图像的训练集，41,260张图像的验证集以及125,436张图像的测试集。</p>
+</li>
+<li><p>数据大小：500G</p>
+</li>
+<li><p>官方网站：<a href="https://github.com/openimages/dataset" target="_blank" rel="noopener">https://github.com/openimages/dataset</a></p>
+</li>
+</ul>
+<h4 id="VisualQA图像数据库"><a href="#VisualQA图像数据库" class="headerlink" title="VisualQA图像数据库"></a>VisualQA图像数据库</h4><ul>
+<li><p>介绍：</p>
+<p>VQA是一个包含有关图像的开放式问题的数据集。这些问题需要理解视野和语言。数据集有265,016张图片。</p>
+</li>
+<li><p>数据大小：25G</p>
+</li>
+<li><p>官方网站：<a href="http://www.visualqa.org/" target="_blank" rel="noopener">http://www.visualqa.org/</a></p>
+</li>
+</ul>
+<h4 id="The-Street-View-House-Numbers-SVHN-Dataset街边号码牌数据集"><a href="#The-Street-View-House-Numbers-SVHN-Dataset街边号码牌数据集" class="headerlink" title="The Street View House Numbers (SVHN) Dataset街边号码牌数据集"></a>The Street View House Numbers (SVHN) Dataset街边号码牌数据集</h4><ul>
+<li><p>介绍：</p>
+<p>SVHN图像数据集用于开发机器学习和对象识别算法，对数据预处理和格式化的要求最低。它可以被看作与<a href="http://yann.lecun.com/exdb/mnist/" target="_blank" rel="noopener">MNIST</a>相似，但是将更多标记数据（超过600,000个数字图像）并入一个数量级并且来自显着更难以解决的真实世界问题（识别自然场景图像中的数字和数字）。SVHN数据从谷歌街景图片中的房屋号码中获得的。书记含有用于训练的73257个数字，用于测试的26032个数字以及用作额外训练数据的531131个附加数字。</p>
+</li>
+<li><p>数据集大小： [train.tar.gz]， [test.tar.gz]， [extra.tar.gz ] 共三个文件。</p>
+</li>
+<li><p>官方网站：<a href="http://ufldl.stanford.edu/housenumbers/" target="_blank" rel="noopener">http://ufldl.stanford.edu/housenumbers/</a></p>
+</li>
+</ul>
+<h4 id="CIFAR-10图像数据集"><a href="#CIFAR-10图像数据集" class="headerlink" title="CIFAR-10图像数据集"></a>CIFAR-10图像数据集</h4><ul>
+<li><p>介绍：</p>
+<p>CIFAR-10数据集由10个类的60,000个图像组成（每个类在上图中表示为一行）。总共有50,000个训练图像和10,000个测试图像。数据集分为6个部分 - 5个培训批次和1个测试批次。每批有10,000个图像。</p>
+</li>
+<li><p>数据大小：170M</p>
+</li>
+<li><p>官方网站：<a href="http://www.cs.toronto.edu/~kriz/cifar.html" target="_blank" rel="noopener">http://www.cs.toronto.edu/~kriz/cifar.html</a></p>
+</li>
+</ul>
+<h4 id="Fashion-MNIST"><a href="#Fashion-MNIST" class="headerlink" title="Fashion-MNIST"></a>Fashion-MNIST</h4><ul>
+<li><p>介绍</p>
+<p>Fashion-MNIST包含60,000个训练图像和10,000个测试图像。它是一个类似MNIST的时尚产品数据库。开发人员认为MNIST已被过度使用，因此他们将其作为该数据集的直接替代品。每张图片都以灰度显示，并与10个类别的标签相关联。</p>
+</li>
+<li><p>数据集大小：30M</p>
+</li>
+<li><p>官方网站：<a href="https://github.com/zalandoresearch/fashion-mnist" target="_blank" rel="noopener">https://github.com/zalandoresearch/fashion-mnist</a></p>
+</li>
+</ul>
+<h3 id="1-2-自然语言类数据库"><a href="#1-2-自然语言类数据库" class="headerlink" title="1.2 自然语言类数据库"></a>1.2 自然语言类数据库</h3><h4 id="IMDB电影评论数据集"><a href="#IMDB电影评论数据集" class="headerlink" title="IMDB电影评论数据集"></a>IMDB电影评论数据集</h4><ul>
+<li><p>介绍：</p>
+<p>这是电影爱好者的梦幻数据集。它具有比此领域以前的任何数据集更多的数据。除了训练和测试评估示例之外，还有更多未标记的数据供您使用。原始文本和预处理的单词格式包也包括在内。</p>
+</li>
+<li><p>数据集大小：80 M</p>
+</li>
+<li><p>官方网站：<a href="http://ai.stanford.edu/~amaas/data/sentiment/" target="_blank" rel="noopener">http://ai.stanford.edu/~amaas/data/sentiment/</a></p>
+</li>
+<li><p>模型案例：<a href="https://arxiv.org/abs/1705.09207" target="_blank" rel="noopener">https://arxiv.org/abs/1705.09207</a></p>
+</li>
+</ul>
+<h4 id="Twenty-Newsgroups-Data-Set"><a href="#Twenty-Newsgroups-Data-Set" class="headerlink" title="Twenty Newsgroups Data Set"></a>Twenty Newsgroups Data Set</h4><ul>
+<li><p>介绍：</p>
+<p>该数据集包含有关新闻组的信息。为了管理这个数据集，从20个不同的新闻组中获取了1000篇Usenet文章。这些文章具有典型特征，如主题行，签名和引号。</p>
+</li>
+<li><p>数据集大小：20 M</p>
+</li>
+<li><p>官方网站：<a href="https://archive.ics.uci.edu/ml/datasets/Twenty+Newsgroups" target="_blank" rel="noopener">https://archive.ics.uci.edu/ml/datasets/Twenty+Newsgroups</a></p>
+</li>
+<li><p>模型案例：<a href="https://arxiv.org/abs/1606.01781" target="_blank" rel="noopener">https://arxiv.org/abs/1606.01781</a></p>
+</li>
+</ul>
+<h4 id="Sentiment140情感分析数据集"><a href="#Sentiment140情感分析数据集" class="headerlink" title="Sentiment140情感分析数据集"></a>Sentiment140情感分析数据集</h4><ul>
+<li><p>介绍：</p>
+<p>Sentiment140是一个可用于情感分析的数据集。</p>
+</li>
+<li><p>数据集大小：80 M</p>
+</li>
+<li><p>官方网站：<a href="http://help.sentiment140.com/for-students/" target="_blank" rel="noopener">http://help.sentiment140.com/for-students/</a></p>
+</li>
+<li><p>模型案例：<a href="http://www.aclweb.org/anthology/W17-5202" target="_blank" rel="noopener">http://www.aclweb.org/anthology/W17-5202</a></p>
+</li>
+</ul>
+<h4 id="WordNet"><a href="#WordNet" class="headerlink" title="WordNet"></a>WordNet</h4><ul>
+<li><p>介绍：</p>
+<p>WordNet是英语synsets的大型数据库。Synsets是同义词组，每个描述不同的概念。WordNet的结构使其成为NLP非常有用的工具。</p>
+</li>
+<li><p>数据集大小：10 M</p>
+</li>
+<li><p>官方网站：<a href="https://wordnet.princeton.edu/" target="_blank" rel="noopener">https://wordnet.princeton.edu/</a></p>
+</li>
+<li><p>模型案例：<a href="https://aclanthology.info/pdf/R/R11/R11-1097.pdf" target="_blank" rel="noopener">https://aclanthology.info/pdf/R/R11/R11-1097.pdf</a></p>
+</li>
+</ul>
+<h4 id="Yelp评论"><a href="#Yelp评论" class="headerlink" title="Yelp评论"></a>Yelp评论</h4><ul>
+<li><p>介绍：</p>
+<p>这是Yelp为了学习目的而发布的一个开放数据集。它由数百万用户评论，商业属性和来自多个大都市地区的超过20万张照片组成。这是一个非常常用的全球NLP挑战数据集。</p>
+</li>
+<li><p>数据集大小：2.66 GB JSON，2.9 GB SQL和7.5 GB照片（全部压缩）</p>
+</li>
+<li><p>官方网站：<a href="https://www.yelp.com/dataset" target="_blank" rel="noopener">https://www.yelp.com/dataset</a></p>
+</li>
+<li><p>模型案例：<a href="https://arxiv.org/pdf/1710.00519.pdf" target="_blank" rel="noopener">https://arxiv.org/pdf/1710.00519.pdf</a></p>
+</li>
+</ul>
+<h4 id="维基百科语料库"><a href="#维基百科语料库" class="headerlink" title="维基百科语料库"></a>维基百科语料库</h4><ul>
+<li><p>介绍：</p>
+<p>该数据集是维基百科全文的集合。它包含来自400多万篇文章的将近19亿字。什么使得这个强大的NLP数据集是你可以通过单词，短语或段落本身的一部分进行搜索。</p>
+</li>
+<li><p>数据集大小： 20 MB</p>
+</li>
+<li><p>官方网站：<a href="https://corpus.byu.edu/wiki/" target="_blank" rel="noopener">https://corpus.byu.edu/wiki/</a></p>
+</li>
+<li><p>模型案例：<a href="https://arxiv.org/pdf/1711.03953.pdf" target="_blank" rel="noopener">https://arxiv.org/pdf/1711.03953.pdf</a></p>
+</li>
+</ul>
+<h4 id="博客作者身份语料库"><a href="#博客作者身份语料库" class="headerlink" title="博客作者身份语料库"></a>博客作者身份语料库</h4><ul>
+<li><p>介绍：</p>
+<p>此数据集包含从数千名博主收集的博客帖子，从blogger.com收集。每个博客都作为一个单独的文件提供。每个博客至少包含200次常用英语单词。</p>
+</li>
+<li><p>数据集大小： 300 MB</p>
+</li>
+<li><p>官方网站：<a href="http://u.cs.biu.ac.il/~koppel/BlogCorpus.htm" target="_blank" rel="noopener">http://u.cs.biu.ac.il/~koppel/BlogCorpus.htm</a></p>
+</li>
+<li><p>模型案例：<a href="https://arxiv.org/pdf/1609.06686.pdf" target="_blank" rel="noopener">https://arxiv.org/pdf/1609.06686.pdf</a></p>
+</li>
+</ul>
+<h4 id="欧洲语言的机器翻译"><a href="#欧洲语言的机器翻译" class="headerlink" title="欧洲语言的机器翻译"></a>欧洲语言的机器翻译</h4><ul>
+<li><p>介绍：</p>
+<p>数据集包含四种欧洲语言。</p>
+</li>
+<li><p>数据集大小： 约15 G</p>
+</li>
+<li><p>官方网站：<a href="http://statmt.org/wmt11/translation-task.html" target="_blank" rel="noopener">http://statmt.org/wmt11/translation-task.html</a></p>
+</li>
+<li><p>模型案例：<a href="https://arxiv.org/abs/1706.03762" target="_blank" rel="noopener">https://arxiv.org/abs/1706.03762</a></p>
+</li>
+</ul>
+<h3 id="1-3-音频-语音数据集"><a href="#1-3-音频-语音数据集" class="headerlink" title="1.3 音频/语音数据集"></a>1.3 音频/语音数据集</h3><h4 id="口语数字数据集"><a href="#口语数字数据集" class="headerlink" title="口语数字数据集"></a>口语数字数据集</h4><ul>
+<li><p>介绍：</p>
+<p>为了解决识别音频样本中的口头数字的任务而创建。这是一个开放的数据集，所以希望随着人们继续贡献更多样本，它会不断增长。</p>
+</li>
+<li><p>数据集大小： 约10 G=M</p>
+</li>
+<li><p>记录数量：1500个音频样本</p>
+</li>
+<li><p>官方网站：<a href="https://github.com/Jakobovski/free-spoken-digit-dataset" target="_blank" rel="noopener">https://github.com/Jakobovski/free-spoken-digit-dataset</a></p>
+</li>
+<li><p>模型案例：<a href="https://arxiv.org/pdf/1712.00866" target="_blank" rel="noopener">https://arxiv.org/pdf/1712.00866</a></p>
+</li>
+</ul>
+<h4 id="免费音乐档案（FMA）"><a href="#免费音乐档案（FMA）" class="headerlink" title="免费音乐档案（FMA）"></a>免费音乐档案（FMA）</h4><ul>
+<li><p>介绍：</p>
+<p>FMA是音乐分析的数据集。数据集由全长和HQ音频，预先计算的特征以及音轨和用户级元数据组成。它是一个开放数据集，用于评估MIR中的几个任务。以下是数据集连同其包含的csv文件列表：</p>
+<ul>
+<li><code>tracks.csv</code>：所有106,574首曲目的每首曲目元数据，如ID，标题，艺术家，流派，标签和播放次数。</li>
+<li><code>genres.csv</code>：所有163种风格的ID与他们的名字和父母（用于推断流派层次和顶级流派）。</li>
+<li><code>features.csv</code>：用<a href="https://librosa.github.io/librosa/" target="_blank" rel="noopener">librosa</a>提取的共同特征  。</li>
+<li><code>echonest.csv</code>：由<a href="http://the.echonest.com/" target="_blank" rel="noopener">Echonest</a>  （现在的  <a href="https://www.spotify.com/" target="_blank" rel="noopener">Spotify</a>）为13,129首音轨的子集提供的音频功能  。</li>
+</ul>
+</li>
+<li><p>数据集大小： 约1T</p>
+</li>
+<li><p>记录数量：1500个音频样本</p>
+</li>
+<li><p>官方网站：<a href="https://github.com/mdeff/fma" target="_blank" rel="noopener">https://github.com/mdeff/fma</a></p>
+</li>
+<li><p>模型案例：<a href="https://arxiv.org/pdf/1803.05337.pdf" target="_blank" rel="noopener">https://arxiv.org/pdf/1803.05337.pdf</a></p>
+</li>
+</ul>
+<h4 id="舞厅"><a href="#舞厅" class="headerlink" title="舞厅"></a>舞厅</h4><ul>
+<li><p>介绍：</p>
+<p>该数据集包含舞厅跳舞音频文件。以真实音频格式提供了许多舞蹈风格的一些特征摘录。 以下是数据集的一些特征：</p>
+</li>
+<li><p>数据集大小： 约14 G</p>
+</li>
+<li><p>记录数量：约700个音频样本</p>
+</li>
+<li><p>官方网站：<a href="http://mtg.upf.edu/ismir2004/contest/tempoContest/node5.html" target="_blank" rel="noopener">http://mtg.upf.edu/ismir2004/contest/tempoContest/node5.html</a></p>
+</li>
+<li><p>模型案例：<a href="https://pdfs.semanticscholar.org/0cc2/952bf70c84e0199fcf8e58a8680a7903521e.pdf" target="_blank" rel="noopener">https://pdfs.semanticscholar.org/0cc2/952bf70c84e0199fcf8e58a8680a7903521e.pdf</a></p>
+</li>
+</ul>
+<h4 id="百万歌曲数据集"><a href="#百万歌曲数据集" class="headerlink" title="百万歌曲数据集"></a>百万歌曲数据集</h4><ul>
+<li><p>介绍：</p>
+<p>百万歌曲数据集是音频功能和元数据的一百万当代流行音乐曲目可自由可用的集合。 其目的是：</p>
+<ul>
+<li>鼓励对扩大到商业规模的算法进行研究</li>
+<li>为评估研究提供参考数据集</li>
+<li>作为使用API创建大型数据集的捷径（例如Echo Nest的）</li>
+<li>帮助新研究人员在MIR领域开始工作</li>
+</ul>
+<p>数据集的核心是一百万首歌曲的特征分析和元数据。该数据集不包含任何音频，只包含派生的功能。示例音频可以通过使用哥伦比亚大学提供的<a href="https://github.com/tb2332/MSongsDB/tree/master/Tasks_Demos/Preview7digital" target="_blank" rel="noopener">代码</a>从<a href="http://www.7digital.com/" target="_blank" rel="noopener">7digital等</a>服务中获取。</p>
+</li>
+<li><p>数据集大小： 约280 G</p>
+</li>
+<li><p>记录数量：它的一百万首歌曲！</p>
+</li>
+<li><p>官方网站：<a href="https://labrosa.ee.columbia.edu/millionsong/" target="_blank" rel="noopener">https://labrosa.ee.columbia.edu/millionsong/</a></p>
+</li>
+<li><p>模型案例：<a href="http://www.ke.tu-darmstadt.de/events/PL-12/papers/08-aiolli.pdf" target="_blank" rel="noopener">http://www.ke.tu-darmstadt.de/events/PL-12/papers/08-aiolli.pdf</a></p>
+</li>
+</ul>
+<h4 id="LibriSpeech"><a href="#LibriSpeech" class="headerlink" title="LibriSpeech"></a>LibriSpeech</h4><ul>
+<li><p>介绍：</p>
+<p>该数据集是大约1000小时的英语语音的大型语料库。这些数据来自LibriVox项目的有声读物。它已被分割并正确对齐。如果您正在寻找一个起点，请查看已准备好的声学模型，这些模型在<a href="http://www.kaldi-asr.org/downloads/build/6/trunk/egs/" target="_blank" rel="noopener">kaldi-asr.org</a>和语言模型上进行了训练，适合评估，<a href="http://www.openslr.org/11/" target="_blank" rel="noopener">网址</a>为<a href="http://www.openslr.org/11/" target="_blank" rel="noopener">http://www.openslr.org/11/</a>。</p>
+</li>
+<li><p>数据集大小： 约60 G</p>
+</li>
+<li><p>记录数量：1000小时的演讲</p>
+</li>
+<li><p>官方网站：<a href="http://www.openslr.org/12/" target="_blank" rel="noopener">http://www.openslr.org/12/</a></p>
+</li>
+<li><p>模型案例：<a href="https://arxiv.org/abs/1712.09444" target="_blank" rel="noopener">https://arxiv.org/abs/1712.09444</a></p>
+</li>
+</ul>
+<h4 id="VoxCeleb"><a href="#VoxCeleb" class="headerlink" title="VoxCeleb"></a>VoxCeleb</h4><ul>
+<li><p>介绍：</p>
+<p>VoxCeleb是一个大型的说话人识别数据集。它包含约1,200名来自YouTube视频的约10万个话语。数据大部分是性别平衡的（男性占55％）。名人跨越不同的口音，职业和年龄。开发和测试集之间没有重叠。对于隔离和识别哪个超级巨星来说，这是一个有趣的用例。</p>
+</li>
+<li><p>数据集大小： 约150 M</p>
+</li>
+<li><p>记录数量： 1,251位名人的100,000条话语</p>
+</li>
+<li><p>官方网站：<a href="http://www.robots.ox.ac.uk/~vgg/data/voxceleb/" target="_blank" rel="noopener">http://www.robots.ox.ac.uk/~vgg/data/voxceleb/</a></p>
+</li>
+<li><p>模型案例：<a href="https://www.robots.ox.ac.uk/~vgg/publications/2017/Nagrani17/nagrani17.pdf" target="_blank" rel="noopener">https://www.robots.ox.ac.uk/~vgg/publications/2017/Nagrani17/nagrani17.pdf</a></p>
+</li>
+</ul>
+<h3 id="1-4-比赛数据"><a href="#1-4-比赛数据" class="headerlink" title="1.4 比赛数据"></a>1.4 比赛数据</h3><h4 id="Twitter情绪分析数据"><a href="#Twitter情绪分析数据" class="headerlink" title="Twitter情绪分析数据"></a>Twitter情绪分析数据</h4><ul>
+<li><p>介绍：</p>
+<p>仇恨以种族主义和性别歧视为形式的言论已成为叽叽喳喳的麻烦，重要的是将这类推文与其他人分开。在这个实践问题中，我们提供既有正常又有仇恨推文的Twitter数据。您作为数据科学家的任务是确定推文是仇恨推文，哪些不是。</p>
+</li>
+<li><p>数据集大小： 约3 M</p>
+</li>
+<li><p>记录数量： 31,962条推文</p>
+</li>
+<li><p>官方网站：<a href="https://datahack.analyticsvidhya.com/contest/practice-problem-twitter-sentiment-analysis/" target="_blank" rel="noopener">https://datahack.analyticsvidhya.com/contest/practice-problem-twitter-sentiment-analysis/</a></p>
+</li>
+</ul>
+<h4 id="印度演员的年龄检测"><a href="#印度演员的年龄检测" class="headerlink" title="印度演员的年龄检测"></a>印度演员的年龄检测</h4><ul>
+<li><p>介绍：</p>
+<p>对于任何深度学习爱好者来说，这是一个令人着迷的挑战。该数据集包含数千个印度演员的图像，你的任务是确定他们的年龄。所有图像都是手动选择的，并从视频帧中剪切，导致尺度，姿势，表情，照度，年龄，分辨率，遮挡和化妆的高度可变性。</p>
+</li>
+<li><p>数据集大小： 约48 M</p>
+</li>
+<li><p>记录数量： 训练集中的19,906幅图像和测试集中的6636幅图像</p>
+</li>
+<li><p>官方网站：<a href="https://datahack.analyticsvidhya.com/contest/practice-problem-age-detection/" target="_blank" rel="noopener">https://datahack.analyticsvidhya.com/contest/practice-problem-age-detection/</a></p>
+</li>
+</ul>
+<h4 id="城市声音分类"><a href="#城市声音分类" class="headerlink" title="城市声音分类"></a>城市声音分类</h4><ul>
+<li><p>介绍：</p>
+<p>这个数据集包含超过8000个来自10个班级的城市声音摘录。这个实践问题旨在向您介绍常见分类方案中的音频处理。</p>
+</li>
+<li><p>数据集大小： 训练集 - 3 GB（压缩），测试集 - 2 GB（压缩）</p>
+</li>
+<li><p>记录数量： 来自10个班级的8732个城市声音标注的声音片段（&lt;= 4s）</p>
+</li>
+<li><p>官方网站：<a href="https://datahack.analyticsvidhya.com/contest/practice-problem-urban-sound-classification/" target="_blank" rel="noopener">https://datahack.analyticsvidhya.com/contest/practice-problem-urban-sound-classification/</a></p>
+</li>
+</ul>
+<h2 id="参考文献及资料"><a href="#参考文献及资料" class="headerlink" title="参考文献及资料"></a>参考文献及资料</h2><p>【1】   <a href="https://www.tensorflow.org/versions/r1.1/get_started/mnist/beginners" target="_blank" rel="noopener">https://www.tensorflow.org/versions/r1.1/get_started/mnist/beginners</a></p>
+<p>【2】  <a href="https://www.analyticsvidhya.com/blog/2018/03/comprehensive-collection-deep-learning-datasets/" target="_blank" rel="noopener">https://www.analyticsvidhya.com/blog/2018/03/comprehensive-collection-deep-learning-datasets/</a></p>
+<p>【3】  <a href="https://deeplearning4j.org/cn/opendata" target="_blank" rel="noopener">https://deeplearning4j.org/cn/opendata</a></p>
+
+      
+    </div>
+
+    
+
+    <div>
+      
+        
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script type="text/javascript" src="http://jslibs.wuxubj.cn/sweetalert_mini/jquery-1.7.1.min.js"></script>
+  <script src="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.mini.css">
+  <p><span>本文标题:</span><a href="/2018/04/05/2018-04-01-数据科学实践中常用开放数据集介绍/">数据科学实践中常用开放数据集介绍</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 rong xiang 的个人博客">rong xiang</a></p>
+  <p><span>发布时间:</span>2018年04月05日 - 19:04</p>
+  <p><span>最后更新:</span>2020年03月22日 - 11:03</p>
+  <p><span>原始链接:</span><a href="/2018/04/05/2018-04-01-数据科学实践中常用开放数据集介绍/" title="数据科学实践中常用开放数据集介绍">https://zjrongxiang.github.io/2018/04/05/2018-04-01-数据科学实践中常用开放数据集介绍/</a>
+    <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://zjrongxiang.github.io/2018/04/05/2018-04-01-数据科学实践中常用开放数据集介绍/" aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
+</div>
+<script> 
+    var clipboard = new Clipboard('.fa-clipboard');
+    clipboard.on('success', $(function(){
+      $(".fa-clipboard").click(function(){
+        swal({   
+          title: "",   
+          text: '复制成功',   
+          html: false,
+          timer: 500,   
+          showConfirmButton: false
+        });
+      });
+    }));  
+</script>
+
+      
+    </div>
+    
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/04/01/2018-04-05-Hexo解决Typora编辑table无法被解析问题/" rel="next" title="Hexo:解决Typora编辑table无法被解析问题">
+                <i class="fa fa-chevron-left"></i> Hexo:解决Typora编辑table无法被解析问题
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/04/14/2018-04-14-深入理解Python语言中import机制/" rel="prev" title="深入理解Python语言中import机制">
+                深入理解Python语言中import机制 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar/person.png" alt="rong xiang">
+            
+              <p class="site-author-name" itemprop="name">rong xiang</p>
+              <p class="site-description motion-element" itemprop="description">Keep a Pure Curiosity</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">33</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">26</span>
+                    <span class="site-state-item-name">categories</span>
+                  
+                </div>
+              
+
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/zjrongxiang" title="GitHub &rarr; https://github.com/zjrongxiang" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="mailto:rongxiang1986@163.com" title="E-Mail &rarr; mailto:rongxiang1986@163.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="http://weibo.com/u/1971060643" title="Weibo &rarr; http://weibo.com/u/1971060643" rel="noopener" target="_blank"><i class="fa fa-fw fa-weibo"></i>Weibo</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Link
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://weibo.com/fly51fly?refer_flag=1005055010_" title="https://weibo.com/fly51fly?refer_flag=1005055010_" rel="noopener" target="_blank">爱生活爱可可</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#目录"><span class="nav-number">1.</span> <span class="nav-text">目录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#背景"><span class="nav-number">2.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第二部分-开放数据集"><span class="nav-number">3.</span> <span class="nav-text">第二部分 开放数据集</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-图像类"><span class="nav-number">3.1.</span> <span class="nav-text">1.1 图像类</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#MNIST手写数据集"><span class="nav-number">3.1.1.</span> <span class="nav-text">MNIST手写数据集</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MS-COCO图像分割数据集"><span class="nav-number">3.1.2.</span> <span class="nav-text">MS-COCO图像分割数据集</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ImageNet图像数据集"><span class="nav-number">3.1.3.</span> <span class="nav-text">ImageNet图像数据集</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#VisualQA图像数据库"><span class="nav-number">3.1.4.</span> <span class="nav-text">VisualQA图像数据库</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#The-Street-View-House-Numbers-SVHN-Dataset街边号码牌数据集"><span class="nav-number">3.1.5.</span> <span class="nav-text">The Street View House Numbers (SVHN) Dataset街边号码牌数据集</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CIFAR-10图像数据集"><span class="nav-number">3.1.6.</span> <span class="nav-text">CIFAR-10图像数据集</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Fashion-MNIST"><span class="nav-number">3.1.7.</span> <span class="nav-text">Fashion-MNIST</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-自然语言类数据库"><span class="nav-number">3.2.</span> <span class="nav-text">1.2 自然语言类数据库</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#IMDB电影评论数据集"><span class="nav-number">3.2.1.</span> <span class="nav-text">IMDB电影评论数据集</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Twenty-Newsgroups-Data-Set"><span class="nav-number">3.2.2.</span> <span class="nav-text">Twenty Newsgroups Data Set</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Sentiment140情感分析数据集"><span class="nav-number">3.2.3.</span> <span class="nav-text">Sentiment140情感分析数据集</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#WordNet"><span class="nav-number">3.2.4.</span> <span class="nav-text">WordNet</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Yelp评论"><span class="nav-number">3.2.5.</span> <span class="nav-text">Yelp评论</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#维基百科语料库"><span class="nav-number">3.2.6.</span> <span class="nav-text">维基百科语料库</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#博客作者身份语料库"><span class="nav-number">3.2.7.</span> <span class="nav-text">博客作者身份语料库</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#欧洲语言的机器翻译"><span class="nav-number">3.2.8.</span> <span class="nav-text">欧洲语言的机器翻译</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-音频-语音数据集"><span class="nav-number">3.3.</span> <span class="nav-text">1.3 音频/语音数据集</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#口语数字数据集"><span class="nav-number">3.3.1.</span> <span class="nav-text">口语数字数据集</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#免费音乐档案（FMA）"><span class="nav-number">3.3.2.</span> <span class="nav-text">免费音乐档案（FMA）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#舞厅"><span class="nav-number">3.3.3.</span> <span class="nav-text">舞厅</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#百万歌曲数据集"><span class="nav-number">3.3.4.</span> <span class="nav-text">百万歌曲数据集</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#LibriSpeech"><span class="nav-number">3.3.5.</span> <span class="nav-text">LibriSpeech</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#VoxCeleb"><span class="nav-number">3.3.6.</span> <span class="nav-text">VoxCeleb</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-比赛数据"><span class="nav-number">3.4.</span> <span class="nav-text">1.4 比赛数据</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Twitter情绪分析数据"><span class="nav-number">3.4.1.</span> <span class="nav-text">Twitter情绪分析数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#印度演员的年龄检测"><span class="nav-number">3.4.2.</span> <span class="nav-text">印度演员的年龄检测</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#城市声音分类"><span class="nav-number">3.4.3.</span> <span class="nav-text">城市声音分类</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文献及资料"><span class="nav-number">4.</span> <span class="nav-text">参考文献及资料</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">rong xiang</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v6.7.0</div>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="Total Visitors">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="Total Views">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=6.7.0"></script>
+
+  <script src="/js/src/motion.js?v=6.7.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/schemes/muse.js?v=6.7.0"></script>
+
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=6.7.0"></script>
+<script src="/js/src/post-details.js?v=6.7.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=6.7.0"></script>
+
+
+
+  
+  
+    
+  <script id="dsq-count-scr" src="https://https-zjrongxiang-github-io.disqus.com/count.js" async></script>
+
+
+<script>
+  var disqus_config = function () {
+    this.page.url = "https://zjrongxiang.github.io/2018/04/05/2018-04-01-数据科学实践中常用开放数据集介绍/";
+    this.page.identifier = "2018/04/05/2018-04-01-数据科学实践中常用开放数据集介绍/";
+    this.page.title = '数据科学实践中常用开放数据集介绍';
+    };
+  function loadComments () {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://https-zjrongxiang-github-io.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', '' + +new Date());
+    (d.head || d.body).appendChild(s);
+  }
+  
+    loadComments();
+  
+</script>
+
+  
+
+
+
+
+
+  
+
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <style>
+    .copy-btn {
+      display: inline-block;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 20px;
+      color: #333;
+      white-space: nowrap;
+      vertical-align: middle;
+      cursor: pointer;
+      background-color: #eee;
+      background-image: linear-gradient(#fcfcfc, #eee);
+      border: 1px solid #d5d5d5;
+      border-radius: 3px;
+      user-select: none;
+      outline: 0;
+    }
+
+    .highlight-wrap .copy-btn {
+      transition: opacity .3s ease-in-out;
+      opacity: 0;
+      padding: 2px 6px;
+      position: absolute;
+      right: 4px;
+      top: 8px;
+    }
+
+    .highlight-wrap:hover .copy-btn,
+    .highlight-wrap .copy-btn:focus {
+      opacity: 1
+    }
+
+    .highlight-wrap {
+      position: relative;
+    }
+  </style>
+  <script>
+    $('.highlight').each(function (i, e) {
+      var $wrap = $('<div>').addClass('highlight-wrap');
+      $(e).after($wrap);
+      $wrap.append($('<button>').addClass('copy-btn').append('Copy').on('click', function (e) {
+        var code = $(this).parent().find('.code').find('.line').map(function (i, e) {
+          return $(e).text();
+        }).toArray().join('\n');
+        var ta = document.createElement('textarea');
+        var range = document.createRange(); //For Chrome
+        var sel = window.getSelection(); //For Chrome
+        var yPosition = window.pageYOffset || document.documentElement.scrollTop;
+        ta.style.top = yPosition + 'px'; //Prevent page scroll
+        ta.style.position = 'absolute';
+        ta.style.opacity = '0';
+        ta.value = code;
+        ta.textContent = code; //For FireFox
+        ta.contentEditable = true;
+        ta.readOnly = false;
+        document.body.appendChild(ta);
+        range.selectNode(ta);
+        sel.removeAllRanges();
+        sel.addRange(range);
+        ta.setSelectionRange(0, code.length);
+        var result = document.execCommand('copy');
+        
+          if (result) $(this).text('Copied');
+          else $(this).text('Copy failed');
+        
+        ta.blur(); //For iOS
+        $(this).blur();
+      })).on('mouseleave', function (e) {
+        var $b = $(this).find('.copy-btn');
+        setTimeout(function () {
+          $b.text('Copy');
+        }, 300);
+      }).append(e);
+    })
+  </script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+
+  
+  
+
+  
+  
+
+  
+
+
+</body>
+</html>
