@@ -1,0 +1,1828 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="en">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<script>
+    (function(){
+        if(''){
+            if (prompt('请输入文章密码') !== ''){
+                alert('密码错误！');
+                history.back();
+            }
+        }
+    })();
+</script>
+
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2">
+
+
+
+  
+  
+  <link rel="stylesheet" href="/lib/Han/dist/han.min.css?v=3.3">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=6.7.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.7.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.7.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '6.7.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="目录[TOC] ##背景 Elasticseach是一个基于Apache Lucene的开源检索引擎，允许用户近实时的存储、检索和分析数据。虽然 Elasticsearch 专为快速查询而设计，但其性能在很大程度上取决于应用使用的场景、索引的数据量以及应用用户查询数据的速度。本文主要参考Elasticseach官方文档和社区在集群调优上的经验，根据个人经验主要分为：集群的性能调优、集群稳定性调优、">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Elasticsearch性能调优总结">
+<meta property="og:url" content="https://zjrongxiang.github.io/2019/01/27/2019-01-27-Elasticsearch系列文章-性能调优总结/index.html">
+<meta property="og:site_name" content="RongXiang">
+<meta property="og:description" content="目录[TOC] ##背景 Elasticseach是一个基于Apache Lucene的开源检索引擎，允许用户近实时的存储、检索和分析数据。虽然 Elasticsearch 专为快速查询而设计，但其性能在很大程度上取决于应用使用的场景、索引的数据量以及应用用户查询数据的速度。本文主要参考Elasticseach官方文档和社区在集群调优上的经验，根据个人经验主要分为：集群的性能调优、集群稳定性调优、">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-08-21T07:16:57.933Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Elasticsearch性能调优总结">
+<meta name="twitter:description" content="目录[TOC] ##背景 Elasticseach是一个基于Apache Lucene的开源检索引擎，允许用户近实时的存储、检索和分析数据。虽然 Elasticsearch 专为快速查询而设计，但其性能在很大程度上取决于应用使用的场景、索引的数据量以及应用用户查询数据的速度。本文主要参考Elasticseach官方文档和社区在集群调优上的经验，根据个人经验主要分为：集群的性能调优、集群稳定性调优、">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="RongXiang" type="application/atom+xml">
+
+
+
+
+  <link rel="canonical" href="https://zjrongxiang.github.io/2019/01/27/2019-01-27-Elasticsearch系列文章-性能调优总结/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Elasticsearch性能调优总结 | RongXiang</title>
+  
+
+
+
+
+  <script async src="//www.googletagmanager.com/gtag/js?id=UA-113063423-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-113063423-1');
+  </script>
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+    <!-- <a href="https://github.com/zjrongxiang"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png" alt="Fork me on GitHub"></a> -->
+    <a href="https://github.com/zjrongxiang"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_green_007200.png" alt="Fork me on GitHub"></a>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">RongXiang</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">我的烂笔头</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>About</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>Tags</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>Categories</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-schedule">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/schedule/" rel="section"><i class="menu-item-icon fa fa-fw fa-calendar"></i> <br>Schedule</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>Search</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="Searching..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zjrongxiang.github.io/2019/01/27/2019-01-27-Elasticsearch系列文章-性能调优总结/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="rong xiang">
+      <meta itemprop="description" content="Keep a Pure Curiosity">
+      <meta itemprop="image" content="/images/avatar/person.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="RongXiang">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Elasticsearch性能调优总结
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-01-27 19:30:00" itemprop="dateCreated datePublished" datetime="2019-01-27T19:30:00+08:00">2019-01-27</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2019-08-21 15:16:57" itemprop="dateModified" datetime="2019-08-21T15:16:57+08:00">2019-08-21</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/Elasticsearch/" itemprop="url" rel="index"><span itemprop="name">Elasticsearch</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/01/27/2019-01-27-Elasticsearch系列文章-性能调优总结/#comments" itemprop="discussionUrl">
+                
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/01/27/2019-01-27-Elasticsearch系列文章-性能调优总结/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><p>[TOC]</p>
+<p>##背景</p>
+<p>Elasticseach是一个基于Apache Lucene的开源检索引擎，允许用户近实时的存储、检索和分析数据。虽然 Elasticsearch 专为快速查询而设计，但其性能在很大程度上取决于应用使用的场景、索引的数据量以及应用用户查询数据的速度。本文主要参考Elasticseach官方文档和社区在集群调优上的经验，根据个人经验主要分为：集群的性能调优、集群稳定性调优、业务使用调优。</p>
+<p>##第一部分 性能调优</p>
+<p>###1.1 操作系统侧基线调优建议</p>
+<p>####1.1.1 关闭交换分区（或降低Swappiness值）</p>
+<blockquote>
+<p>swap空间是一块物理磁盘空间，操作系统使用这块空间保存从内存中换出的不常用内存数据，这样可以分配出更多的内存给当前使用的应用进程。</p>
+<p>然而技术都是有适用场景的。相对于内存，磁盘的读写较慢（内存读写速度为纳秒级、磁盘的速度只能达到毫秒级），当系统发生大量的内存数据交换时，将影响系统运行性能。而elasticsearch对读写有较高的性能要求，如果进程使用的内存数据被写入swap磁盘，接着又换出读入内存，将极大影响性能，所以通常建议关闭或减少swap分区。</p>
+<p>关于Linux系统swap交换分区的介绍可以参考下面的文章：</p>
+<p><a href="https://www.linux.com/news/all-about-linux-swap-space" target="_blank" rel="noopener">https://www.linux.com/news/all-about-linux-swap-space</a></p>
+</blockquote>
+<ul>
+<li>临时禁用swap（操作系统重启失效）：</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">swapoff -a</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>永久禁用swap：</p>
+<p>将/etc/fstab 文件中包含swap的行注释掉</p>
+</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sed -i '/swap/s/^/#/' /etc/fstabswapoff -a</span><br></pre></td></tr></table></figure>
+<p>对于应用混用部署环境中，如果不能关闭swap分区的场景，Linux提供swappiness参数（0-100）控制。swappiness=0的时候表示最大限度使用物理内存，swappiness=100表示积极使用swap分区，及时将不用的内存数据搬运到swap中。操作系统默认值为60，即物理内存使用率操作40%（100-60），开始使用swap分区。这个值决定操作系统交换内存的频率。可以预防正常情况下发生交换，但仍允许操作系统在紧急情况下发生交换。</p>
+<ul>
+<li>临时调整</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sysctl vm.swappiness=10</span><br></pre></td></tr></table></figure>
+<ul>
+<li>永久调整</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> root用户</span></span><br><span class="line">vi /etc/sysctl.conf</span><br><span class="line"><span class="meta">#</span><span class="bash"> 添加 vm.swappiness = 10</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 生效</span></span><br><span class="line">sysctl -p</span><br></pre></td></tr></table></figure>
+<p>另外ElasticSearch 自身也提供相关优化参数。打开配置文件中的mlockall开关，它的作用就是运行JVM虚拟机时锁住内存，禁止操作系统将其内存数据交换出去。在elasticsearch.yml配置中修改如下：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bootstrap.<span class="string">mlockall:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+<p>ElasticSearch 提供下面的API可以查询集群是否配置该参数：</p>
+<figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">curl -XGET localhost:<span class="number">9200</span>/_nodes?filter_path=**.mlockall</span><br><span class="line">##回显：&#123;<span class="string">"nodes"</span>:&#123;<span class="string">"VyKDGurkQiygV-of4B1ZAQ"</span>:&#123;<span class="string">"process"</span>:&#123;<span class="string">"mlockall"</span>:true&#125;&#125;&#125;&#125;</span><br></pre></td></tr></table></figure>
+<p>####1.1.2 其他操作系统资源限制调整</p>
+<p>调整操作系统部分资源限制配置，提高性能。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 修改系统资源限制</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 单用户可以打开的最大文件数量，可以设置为官方推荐的65536或更大些</span></span><br><span class="line">echo "* - nofile 655360" &gt;&gt;/etc/security/limits.conf</span><br><span class="line"><span class="meta">#</span><span class="bash"> 单用户内存地址空间</span></span><br><span class="line">echo "* - as unlimited" &gt;&gt;/etc/security/limits.conf</span><br><span class="line"><span class="meta">#</span><span class="bash"> 单用户线程数</span></span><br><span class="line">echo "* - nproc 2056474" &gt;&gt;/etc/security/limits.conf</span><br><span class="line"><span class="meta">#</span><span class="bash"> 单用户文件大小</span></span><br><span class="line">echo "* - fsize unlimited" &gt;&gt;/etc/security/limits.conf</span><br><span class="line"><span class="meta">#</span><span class="bash"> 单用户锁定内存</span></span><br><span class="line">echo "* - memlock unlimited" &gt;&gt;/etc/security/limits.conf</span><br><span class="line"><span class="meta">#</span><span class="bash"> 单进程可以使用的最大map内存区域数量</span></span><br><span class="line">echo "vm.max_map_count = 655300" &gt;&gt;/etc/sysctl.conf</span><br><span class="line"><span class="meta">#</span><span class="bash"> TCP全连接队列参数设置， 这样设置的目的是防止节点数较多（比如超过100）的ES集群中，节点异常重启时全连接队列在启动瞬间打满，造成节点hang住，整个集群响应迟滞的情况</span></span><br><span class="line">echo "net.ipv4.tcp_abort_on_overflow = 1" &gt;&gt;/etc/sysctl.confecho "net.core.somaxconn = 2048" &gt;&gt;/etc/sysctl.conf</span><br><span class="line"><span class="meta">#</span><span class="bash"> 降低tcp alive time，防止无效链接占用链接数</span></span><br><span class="line">echo 300 &gt;/proc/sys/net/ipv4/tcp_keepalive_time</span><br></pre></td></tr></table></figure>
+<p>####1.1.3 多个path.data路径的设置</p>
+<p>使用多个IO设备（设置多个path.data）存储shards，能够增加总的存储空间并提升IO性能。另外查询时shards并行检索，IO会分散负载到各个磁盘，提高查询效率。</p>
+<blockquote>
+<p>ElasticSearch 2.0之前的版本，可以配置多个path.data路径，但是其相当于RAID 0，每个分片（shards）的数据会分布在所有的磁盘上。如果集群中一个节点上有一块盘坏了损坏，该节点上所有的shards都会损坏了。需要恢复该节点上的所有shards。<br>2.0.0版本之后，这个功能得到了优化：每个shards所有的数据只会在一块磁盘上面。这样即使一个节点的一块磁盘损坏了，也只是损失了该磁盘上的shards，其它磁盘上的shards安然无事。只需要恢复该块盘上的shards即可。提高了数据分布式存储的高可用。</p>
+<p>集群升级到2.0.0版本时，旧版本一个shard分布到所有磁盘上的数据，会调整拷贝到一块盘上。</p>
+<p>参考官方文档：</p>
+<p><a href="https://www.elastic.co/guide/en/elasticsearch/reference/master/path-settings.html" target="_blank" rel="noopener">https://www.elastic.co/guide/en/elasticsearch/reference/master/path-settings.html</a></p>
+</blockquote>
+<p>####1.1.4 磁盘挂载选项</p>
+<p>服务器挂载磁盘时，可以做如下性能参数调优：</p>
+<ul>
+<li>noatime：禁止记录访问时间戳，提高文件系统读写性能</li>
+<li>data=writeback： 不记录data journal，提高文件系统写入性能</li>
+<li>barrier=0：barrier保证journal先于data刷到磁盘，上面关闭了journal，这里的barrier也就没必要开启了</li>
+<li>nobh：关闭buffer_head，防止内核打断大块数据的IO操作</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mount -o noatime,data=writeback,barrier=0,nobh /dev/sda /es_data_dir</span><br></pre></td></tr></table></figure>
+<p>####1.1.5 磁盘设备优化</p>
+<p>elasticsearch对读写性能要求较高，当然磁盘性能越高越好，生产建议使用固态SSD。读写速度媲美于内存，另外SSD磁盘采用电梯调度算法，提供了更智能的请求调度算法，不需要内核去做多余的调整 。</p>
+<p>使用SSD（PCI-E接口SSD卡/SATA接口SSD盘）通常比机械硬盘（SATA盘/SAS盘）查询速度快5~10倍。但是写入性能提升不明显。</p>
+<blockquote>
+<p>当然一分钱一分货，SSD比SAS贵不少。</p>
+</blockquote>
+<p>###1.2 elasticsearch 配置文件优化</p>
+<p>####1.2.1 增加写入buffer和bulk队列长度</p>
+<p>elasticsearch在处理索引的时候会存在一个索引缓冲buffer，可以为其设置需要分配的缓冲buffer内存大小，这是一个全局设置。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 这意味着分配给一个节点的总存储器的10％将被用作索引的缓冲区大小</span></span><br><span class="line">indices.memory.index_buffer_size: 10%</span><br><span class="line">thread_pool.bulk.queue_size: 1024</span><br></pre></td></tr></table></figure>
+<p>####1.2.2 计算disk使用量时，不考虑正在搬迁的shard</p>
+<p>在规模比较大的集群中，可以防止新建shard时扫描所有的shard的元数据，提升shard的分配速度。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cluster.routing.allocation.disk.include_relocations: false</span><br></pre></td></tr></table></figure>
+<p>##第二部分 集群稳定性调优</p>
+<p>###2.1 操作系统参数调优</p>
+<p>主要为资源限制配置，参考1.1.2章节。</p>
+<p>###2.2 Elasticsearch 配置</p>
+<p>####2.2.1 JVM虚拟机参数</p>
+<blockquote>
+<p>Elasticsearch由java语言编写开发。在 Java 中，所有的对象都分配在堆上，并通过一个指针进行引用。 普通对象指针（OOP）指向这些对象，通常为 CPU 字长的大小：32 位或 64 位，取决于你的处理器。指针引用的就是这个 OOP 值的字节位置。</p>
+<p>对于 32 位的系统，意味着堆内存大小最大为 4 GB。对于 64 位的系统， 可以使用更大的内存，但是 64 位的指针意味着更大的浪费，因为你的指针本身大了。更大的指针在主内存和各级缓存（例如 LLC，L1 等）之间移动数据的时候，会占用更多的带宽.</p>
+<p>配置文件默认堆内存的大小为1G，官方建议将堆大小保持在接近32 GB（最佳建议30.5 GB阈值）。超过32G，jvm会禁用内存对象指针压缩技术，造成内存浪费。</p>
+<p>关于堆大小的设置，elasticsearh官网有比较详细的说明：</p>
+<p><a href="https://www.elastic.co/guide/en/elasticsearch/guide/current/heap-sizing.html" target="_blank" rel="noopener">https://www.elastic.co/guide/en/elasticsearch/guide/current/heap-sizing.html</a></p>
+</blockquote>
+<p>-Xms和-Xmx设置为相同的值，推荐设置为：min（机器内存的一半左右，30.5G)。剩余留给系统cache使用。</p>
+<p>另外jvm堆内存建议不要低于2G，否则有可能因为内存不足导致elasticsearch进程无法正常启动或内存溢出（OOM）。</p>
+<blockquote>
+<p>假设你是土豪，机器有 128 GB 的内存，你可以创建两个节点，每个节点内存分配不超过 32 GB。 也就是说不超过 64 GB 内存给 elasticsearch的堆内存，剩下的超过 64 GB 的内存给 Lucene。</p>
+</blockquote>
+<p>####2.2.2 节点配置参数</p>
+<p>设置内存熔断参数，防止写入或查询压力过高导致OOM，具体数值可根据使用场景调整。 </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">indices.breaker.total.limit: 30% </span><br><span class="line">indices.breaker.request.limit: 6% </span><br><span class="line">indices.breaker.fielddata.limit: 3%</span><br></pre></td></tr></table></figure>
+<p>减少查询使用的cache，避免cache占用过多的jvm内存，具体数值可根据使用场景调整。 </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">indices.queries.cache.count: 500 </span><br><span class="line">indices.queries.cache.size: 5%</span><br></pre></td></tr></table></figure>
+<p>单机多节点时，主从shard分配以ip为依据，分配到不同的机器上，避免单机挂掉导致数据丢失。 </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cluster.routing.allocation.awareness.attributes: ip </span><br><span class="line">node.attr.ip: 1.1.1.1</span><br></pre></td></tr></table></figure>
+<p>###2.3 集群使用方式</p>
+<p>####2.3.1 设置专用master节点<br>Elasticsearch集群的元数据管理、Index的新建、删除操作、节点的加入和隔离、定期将整个集群的健康状态信息广播给各节点等管理任务，均由master节点角色负责。当集群的节点数较大时，集群的管理任务需要消耗大量资源。建议设置专用master节点，master只负责集群管理工作，不负责存储数据（无数据读写压力），提高集群管理的稳定性。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 专有master节点的配置文件（elasticsearch.yml）增加如下属性：</span></span><br><span class="line">node.master: true </span><br><span class="line">node.data: false </span><br><span class="line">node.ingest: false</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 数据节点的配置文件增加如下属性（与上面的属性相反）：</span></span><br><span class="line">node.master: false </span><br><span class="line">node.data: true </span><br><span class="line">node.ingest: true</span><br></pre></td></tr></table></figure>
+<h4 id="2-3-2-大内存物理机多实例部署"><a href="#2-3-2-大内存物理机多实例部署" class="headerlink" title="2.3.2 大内存物理机多实例部署"></a>2.3.2 大内存物理机多实例部署</h4><p>之前章节也提到，假如你的机器有128G内存，可以创建两个Data Node实例，使用32G内存。也就是说64G内存给ES的堆内存，剩下的64G给Lucene。如果你选择第二种，你需要配置（默认是false）：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cluster.routing.allocation.same_shard.host:true</span><br></pre></td></tr></table></figure>
+<p>这会防止同一个shard的主副本存在同一个物理机上（因为如果都在一个机器上，副本的高可用性就没有了）</p>
+<p>####2.3.3 控制集群中index（索引）和shard（分片）总量</p>
+<p>集群中master节点负责集群元数据管理，定期会同步给各节点（集群每个节点都会存储一份）。</p>
+<blockquote>
+<p>Elasticsearch元数据存储在clusterstate中。例如所有节点元信息（indices、节点各种统计参数）、所有index/shard的元信息（mapping, location, size）、元数据ingest等。</p>
+</blockquote>
+<p>elasticsearch在创建新shard时，要根据现有的分片分布情况指定分片分配策略，从而使各个节点上的分片数基本一致，此过程中就需要深入遍历clusterstate。当集群中的index/shard过多时，clusterstate结构会变得过于复杂，导致遍历clusterstate效率低下，集群响应迟滞。</p>
+<p>当index/shard数量过多时，可以考虑从以下几方面优化：</p>
+<ul>
+<li>降低数据量较小的index的shard数量</li>
+<li>把一些有关联的index合并成一个index</li>
+<li>数据按某个维度做拆分，写入多个集群</li>
+</ul>
+<p>####2.3.4 Segment Memory优化</p>
+<blockquote>
+<p>elasticsearch底层使用Lucene实现存储，Lucene的一个index由若干segment组成，每个segment都会建立自己的倒排索引用于数据查询。Lucene为了加速查询，为每个segment的倒排做了一层前缀索引，这个索引在Lucene4.0以后采用的数据结构是FST (Finite State Transducer)。Lucene加载segment的时候将其全量装载到内存中，加快查询速度。</p>
+<p>这部分内存被称为Segment Memory， 常驻内存，占用heap，无法被GC。</p>
+</blockquote>
+<p>前面提到，为利用JVM的对象指针压缩技术来节约内存，通常建议JVM内存分配不要超过32G。当集群的数据量过大时，Segment Memory会吃掉大量的堆内存，而JVM内存空间有限，此时就需要想办法降低Segment Memory的使用量了。</p>
+<p>常用方法有：</p>
+<ul>
+<li><p>定期清理删除不使用的index</p>
+</li>
+<li><p>对于不常访问的index，可以通过close接口将其关闭，用到时再打开（此时数据仍然保存在磁盘，只是释放掉了内存，无法检索，需要时可以重启open）</p>
+</li>
+<li><p>通过force_merge api接口强制合并segment，降低segment数量，从而减少Segment Memory</p>
+<blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;</span><span class="bash"> curl -XPOST <span class="string">"http://localhost:9200/library/_forcemerge?max_num_segments=1</span></span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"></span></span><br></pre></td></tr></table></figure>
+</blockquote>
+</li>
+</ul>
+<p>###2.4 温热数据分离架构</p>
+<p>当Elasticsearch集群用于大量实时数据分析的场景时，elasticsearch官方推荐使用基于时间的索引，并且集群使用三种不同类型的节点：Master、Hot-Node、Warm-Node，进行结构分层。即所谓的“Hot-Warm”集群架构。</p>
+<blockquote>
+<p>参考官方文章：</p>
+<p><a href="https://www.elastic.co/blog/hot-warm-architecture-in-elasticsearch-5-x" target="_blank" rel="noopener">https://www.elastic.co/blog/hot-warm-architecture-in-elasticsearch-5-x</a></p>
+</blockquote>
+<h2 id="第三部分-业务使用调优"><a href="#第三部分-业务使用调优" class="headerlink" title="第三部分  业务使用调优"></a>第三部分  业务使用调优</h2><p>###3.1 控制字段的存储选项</p>
+<p>elasticsearch底层使用Lucene存储数据，主要包括行存（StoreFiled）、列存（DocValues）和倒排索引（InvertIndex）三部分。 大多数使用场景中，没有必要同时存储这三个部分，可以通过下面的参数来做适当调整：</p>
+<ul>
+<li><p>StoreFiled： 行存，其中占比最大的是source字段，它控制doc原始数据的存储。在写入数据时，elasticsearch把doc原始数据的整个json结构体当做一个string，存储为source字段。查询时，可以通过source字段拿到当初写入时的整个json结构体。 所以，如果没有取出整个原始json结构体的需求，可以通过下面的命令，在mapping中关闭source字段或者只在source中存储部分字段，数据查询时仍可通过elasticsearch的docvaluefields获取所有字段的值。 </p>
+<blockquote>
+<p>注意：关闭source后， update, updatebyquery, reindex等接口将无法正常使用，所以有update等需求的index不能关闭source。</p>
+</blockquote>
+</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 关闭 _source</span></span><br><span class="line">PUT my_index &#123;"mappings": &#123;"my_type": &#123;"_source": &#123;"enabled": false&#125;&#125;&#125;&#125;</span><br><span class="line"><span class="meta">#</span><span class="bash"> _source只存储部分字段，通过includes指定要存储的字段或者通过excludes滤除不需要的字段，例如</span></span><br><span class="line">PUT my_index&#123;"mappings": &#123;"_doc": &#123;"_source": &#123;"includes": ["*.count","meta.*"], "excludes": ["meta.description","meta.other.*"]&#125;&#125;&#125;&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>docvalues：控制列存。 ES主要使用列存来支持sorting, aggregations和scripts功能，对于没有上述需求的字段，可以通过下面的命令关闭docvalues，降低存储成本。</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PUT my_index&#123;"mappings": &#123;"my_type": &#123;"properties": &#123;"session_id": &#123;"type": "keyword",   "doc_values": false&#125;&#125;&#125;&#125;&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>index：控制倒排索引。 ES默认对于所有字段都开启了倒排索引，用于查询。对于没有查询需求的字段，可以通过下面的命令关闭倒排索引。</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PUT my_index&#123;"mappings": &#123;"my_type": &#123;"properties": &#123;"session_id": &#123;"type": "keyword",   "index": false&#125;&#125;&#125;&#125;&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>all：ES的一个特殊的字段，ES把用户写入json的所有字段值拼接成一个字符串后，做分词，然后保存倒排索引，用于支持整个json的全文检索。 这种需求适用的场景较少，可以通过下面的命令将all字段关闭，节约存储成本和cpu开销。（ES 6.0+以上的版本不再支持_all字段，不需要设置）</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PUT /my_index&#123;"mapping": &#123;"my_type": &#123;"_all": &#123;"enabled": false&#125;&#125;&#125;&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>fieldnames：该字段用于exists查询，来确认某个doc里面有无一个字段存在。若没有这种需求，可以将其关闭。</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PUT /my_index&#123;"mapping": &#123;"my_type": &#123;"_field_names": &#123;"enabled": false&#125;&#125;&#125;&#125;</span><br></pre></td></tr></table></figure>
+<p>###3.2 开启最佳压缩</p>
+<p>对于打开了上述_source字段的index，可以通过下面的命令来把Lucene适用的压缩算法替换成 DEFLATE，提高数据压缩率。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">PUT /my_index/_settings</span><br><span class="line">&#123;</span><br><span class="line">    <span class="string">"index.codec"</span>: <span class="string">"best_compression"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>###3.3 bulk批量写入</p>
+<p>在向elasticsearch集群写入数据时，建议尽量使用bulk接口批量写入，提高写入效率。每个bulk请求的doc数量设定区间推荐为1k~1w，具体可根据业务场景选取一个适当的数量。</p>
+<blockquote>
+<p>例如Logstash向elasticsearch集群写数时，其中batch size是一个重要的调优参数（优化的大小需要根据doc的大小和服务器性能来确定）。如果写入过程中遇到大量EsRejectedExecutionException说明elasticsearch集群索引性能已经达到极限了。</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">POST _bulk</span><br><span class="line">&#123; <span class="string">"index"</span> : &#123; <span class="string">"_index"</span> : <span class="string">"test"</span>, <span class="string">"_type"</span> : <span class="string">"type1"</span> &#125; &#125;</span><br><span class="line">&#123; <span class="string">"field1"</span> : <span class="string">"value1"</span> &#125;</span><br><span class="line">&#123; <span class="string">"index"</span> : &#123; <span class="string">"_index"</span> : <span class="string">"test"</span>, <span class="string">"_type"</span> : <span class="string">"type1"</span> &#125; &#125;</span><br><span class="line">&#123; <span class="string">"field1"</span> : <span class="string">"value2"</span> &#125;</span><br></pre></td></tr></table></figure>
+<p>###3.4 调整translog同步策略</p>
+<p>默认情况下，translog的持久化策略是，对于每个写入请求都做一次flush，刷新translog数据到磁盘上。这种频繁的磁盘IO操作是严重影响写入性能的，如果可以接受一定概率的数据丢失（这种硬件故障的概率很小），可以通过下面的命令调整 translog 持久化策略为异步周期性执行，并适当调整translog的刷盘周期。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">PUT my_index</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"settings"</span>: &#123;</span><br><span class="line">    <span class="string">"index"</span>: &#123;</span><br><span class="line">      <span class="string">"translog"</span>: &#123;</span><br><span class="line">        <span class="string">"sync_interval"</span>: <span class="string">"5s"</span>,</span><br><span class="line">        <span class="string">"durability"</span>: <span class="string">"async"</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>###3.5 适当增加refresh时间间隔<br>elasticsearch为了提高索引性能，数据的写入采用延迟写入机制。数据首先写入内存，当操作一定时间间隔（index.refresh_interval）会统一发起一次写入磁盘的操作。即将内存中的segment数据写入磁盘，也就是这时候我们才能对数据进行访问。所以严格的说elasticsearch提供的近实时检索功能，这个延时大小就是index.refresh_interval参数（默认为1秒）决定的。</p>
+<p>默认情况下，elasticsearch每一秒会refresh一次，产生一个新的segment，这样会导致产生的segment较多，从而segment merge较为频繁，系统开销较大。如果对数据的实时检索要求较低，可以提高refresh的时间间隔，降低系统开销。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">PUT my_index</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"settings"</span>: &#123;</span><br><span class="line">    <span class="string">"index"</span>: &#123;</span><br><span class="line">        <span class="string">"refresh_interval"</span> : <span class="string">"30s"</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>###3.6 merge并发控制</p>
+<p>elasticsearch的一个index由多个shard组成，而一个shard其实就是一个Lucene的index，它又由多个segment组成，且Lucene会不断地把一些小的segment合并成一个大的segment，这个过程被称为merge。</p>
+<p>默认值是Math.max(1, Math.min(4, Runtime.getRuntime().availableProcessors() / 2))，当节点配置的cpu核数较高时，merge占用的资源可能会偏高，影响集群的性能，可以通过下面的命令调整某个index的merge过程的并发度：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">PUT /my_index/_settings</span><br><span class="line">&#123;</span><br><span class="line">    <span class="string">"index.merge.scheduler.max_thread_count"</span>: <span class="number">2</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>###3.7 写入数据不指定_id，让elasticsearch自动产生</p>
+<blockquote>
+<p>文档唯一标识由四个元数据字段组成：_id：文档的字符串 ID;_type：文档的类型名;_index：文档所在的索引</p>
+<p>_uid：_type 和 _id 连接成的 type#id。</p>
+</blockquote>
+<p>当用户指定_id写入数据时，elasticsearch会先发起查询来确定index中是否已经有相同id的doc存在，若有则先删除原有doc再写入新doc。这样每次写入时，都会耗费一定的资源做查询。如果用户写入数据时不指定id，则通过内部算法产生一个随机的id，并且保证id的唯一性，这样就可以跳过前面查询id的步骤，提高写入效率。 所以，在不需要通过id字段去重、update的使用场景中，写入不指定id可以提升写入速率。</p>
+<blockquote>
+<p>自动生成的id，长度为20个字符，URL安全，base64编码，GUID，分布式系统并行生成时不可能会发生冲突。</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 写入时指定_id，这里_id=1</span></span><br><span class="line">POST _bulk</span><br><span class="line">&#123; "index" : &#123; "_index" : "test", "_type" : "type1", "_id" : "1" &#125; &#125;</span><br><span class="line">&#123; "field1" : "value1" &#125;</span><br><span class="line"><span class="meta">#</span><span class="bash"> 写入时不指定_id</span></span><br><span class="line">POST _bulk</span><br><span class="line">&#123; "index" : &#123; "_index" : "test", "_type" : "type1" &#125; &#125;</span><br><span class="line">&#123; "field1" : "value1" &#125;</span><br></pre></td></tr></table></figure>
+<p>###3.8 使用routing</p>
+<blockquote>
+<p>Elasticsearch的路由机制与其分片机制直接相关。路由即通过哈希算法，将具有相同哈希值的文档放置到同一个主分片中。这里机制原理和通过哈希算法实现数据库负载均衡原理是相同的。</p>
+<p>Elasticsearch有一个默认的路由算法：它会将文档的ID值作为依据将其哈希到相应的主分片上，这种算法基本上会保持所有数据在所有分片上的一个平均分布，而不会产生数据热点。</p>
+<p>默认的Routing模式在很多情况下都是能满足需求的。但是在我们更深入地理解我们的数据的特征之后，使用自定义的Routing模式可能会带来更好的性能。</p>
+<p>所有的文档API（get，index，delete，update和mget）都能接收一个routing参数，可以用来形成个性化文档分片映射。一个个性化的routing值可以确保相关的文档存储到同样的分片上。</p>
+<p>参考官方文档：</p>
+<p><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/mapping-routing-field.html" target="_blank" rel="noopener">https://www.elastic.co/guide/en/elasticsearch/reference/current/mapping-routing-field.html</a></p>
+</blockquote>
+<p>对于数据量较大的index，一般会配置多个shard来分摊压力。这种场景下，一个查询会同时搜索所有的shard，然后再将各个shard的结果合并后，返回给用户。具体过程如下：</p>
+<ol>
+<li><p>查询的请求会被发送到一个节点</p>
+</li>
+<li><p>接收到这个请求的节点，将这个查询广播到这个索引的每个分片上（可能是主分片，也可能是复制分片）</p>
+</li>
+<li><p>每个分片执行这个搜索查询并返回结果</p>
+</li>
+<li><p>结果在通道节点上合并、排序并返回给用户</p>
+</li>
+</ol>
+<p>对于高并发的小查询场景，每个分片通常仅抓取极少量数据，此时查询过程中的调度开销远大于实际读取数据的开销，且查询速度取决于最慢的一个分片。</p>
+<p>开启routing功能后，会将routing相同的数据写入到同一个分片中（也可以是多个，由index.routingpartitionsize参数控制）。如果查询时指定routing，那么只会查询routing指向的那个分片，可显著降低调度开销，提升查询效率。</p>
+<p> routing的使用方式如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 写入</span></span><br><span class="line">PUT my_index/my_type/1?routing=user1</span><br><span class="line">&#123;</span><br><span class="line">  "title": "This is a document"</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 查询</span></span><br><span class="line">GET my_index/_search?routing=user1,user2 </span><br><span class="line">&#123;</span><br><span class="line">  "query": &#123;</span><br><span class="line">    "match": &#123;</span><br><span class="line">      "title": "document"</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>###3.9 为string类型的字段选取合适的存储方式</p>
+<ul>
+<li>存为text类型的字段（string字段默认类型为text）： 做分词后存储倒排索引，支持全文检索，可以通过下面几个参数优化其存储方式：<ul>
+<li>norms：用于在搜索时计算该doc的_score（代表这条数据与搜索条件的相关度），如果不需要评分，可以将其关闭。</li>
+<li>indexoptions：控制倒排索引中包括哪些信息（docs、freqs、positions、offsets）。对于不太注重score/highlighting的使用场景，可以设为 docs来降低内存/磁盘资源消耗。</li>
+<li>fields: 用于添加子字段。对于有sort和聚合查询需求的场景，可以添加一个keyword子字段以支持这两种功能。</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">PUT my_index</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"mappings"</span>: &#123;</span><br><span class="line">    <span class="string">"my_type"</span>: &#123;</span><br><span class="line">      <span class="string">"properties"</span>: &#123;</span><br><span class="line">        <span class="string">"title"</span>: &#123; </span><br><span class="line">          <span class="string">"type"</span>: <span class="string">"text"</span>,</span><br><span class="line">          <span class="string">"norms"</span>: <span class="literal">false</span>,</span><br><span class="line">          <span class="string">"index_options"</span>: <span class="string">"docs"</span>,</span><br><span class="line">          <span class="string">"fields"</span>: &#123;</span><br><span class="line">            <span class="string">"raw"</span>: &#123; </span><br><span class="line">              <span class="string">"type"</span>:  <span class="string">"keyword"</span></span><br><span class="line">            &#125;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>存为keyword类型的字段： 不做分词，不支持全文检索。text分词消耗CPU资源，冗余存储keyword子字段占用存储空间。如果没有全文索引需求，只是要通过整个字段做搜索，可以设置该字段的类型为keyword，提升写入速率，降低存储成本。 设置字段类型的方法有两种：一是创建一个具体的index时，指定字段的类型；二是通过创建template，控制某一类index的字段类型。</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 1. 通过mapping指定 tags 字段为keyword类型</span></span><br><span class="line">PUT my_index</span><br><span class="line">&#123;</span><br><span class="line">  "mappings": &#123;</span><br><span class="line">    "my_type": &#123;</span><br><span class="line">      "properties": &#123;</span><br><span class="line">        "tags": &#123;</span><br><span class="line">          "type":  "keyword"</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 2. 通过template，指定my_index*类的index，其所有string字段默认为keyword类型</span></span><br><span class="line">PUT _template/my_template</span><br><span class="line">&#123;</span><br><span class="line">    "order": 0,</span><br><span class="line">    "template": "my_index*",</span><br><span class="line">    "mappings": &#123;</span><br><span class="line">      "_default_": &#123;</span><br><span class="line">        "dynamic_templates": [</span><br><span class="line">          &#123;</span><br><span class="line">            "strings": &#123;</span><br><span class="line">              "match_mapping_type": "string",</span><br><span class="line">              "mapping": &#123;</span><br><span class="line">                "type": "keyword",</span><br><span class="line">                "ignore_above": 256</span><br><span class="line">              &#125;</span><br><span class="line">            &#125;</span><br><span class="line">          &#125;</span><br><span class="line">        ]</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    "aliases": &#123;&#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<p>###3.10 查询时，使用query-bool-filter组合取代普通query</p>
+<p>默认情况下，ES通过一定的算法计算返回的每条数据与查询语句的相关度，并通过score字段来表征。但对于非全文索引的使用场景，用户并不care查询结果与查询条件的相关度，只是想精确的查找目标数据。此时，可以通过query-bool-filter组合来让ES不计算score，并且尽可能的缓存filter的结果集，供后续包含相同filter的查询使用，提高查询效率。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 普通查询</span></span><br><span class="line">POST my_index/_search</span><br><span class="line">&#123;</span><br><span class="line">  "query": &#123;</span><br><span class="line">    "term" : &#123; "user" : "Kimchy" &#125; </span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> query-bool-filter 加速查询</span></span><br><span class="line">POST my_index/_search</span><br><span class="line">&#123;</span><br><span class="line">  "query": &#123;</span><br><span class="line">    "bool": &#123;</span><br><span class="line">      "filter": &#123;</span><br><span class="line">        "term": &#123; "user": "Kimchy" &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>###3.11 index命名按日期滚动</p>
+<p>写入elasticsearch的数据最好通过某种方式分割，存入不同的index。常见的做法是将数据按模块、功能分类，写入不同的index，然后按照时间去滚动生成index。这样做的好处是各种数据分开管理不会混淆，也易于提高查询效率。同时index按时间滚动，数据过期时删除整个index，要比一条条删除数据效率高很多，因为删除整个index是直接删除底层文件，而delete by query是查询-标记-删除。</p>
+<p>举例说明，假如有两个source1和source2两个数据生产者产生的数据，那么index规划可以是这样的：一类index名称是source1 + {日期}，另一类index名称是source2+ {日期}。</p>
+<blockquote>
+<p>对于名字中的日期，可以在写入数据时自己指定精确的日期，也可以通过elasticsearch的ingest pipeline中的index-name-processor实现（会有写入性能损耗）。参考官方文档：</p>
+<p><a href="https://www.elastic.co/guide/en/elasticsearch/reference/5.6/date-index-name-processor.html" target="_blank" rel="noopener">https://www.elastic.co/guide/en/elasticsearch/reference/5.6/date-index-name-processor.html</a></p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> module_a 类index</span></span><br><span class="line">- 创建index：</span><br><span class="line">PUT module_a@2018_01_01</span><br><span class="line">&#123;</span><br><span class="line">    "settings" : &#123;</span><br><span class="line">        "index" : &#123;</span><br><span class="line">            "number_of_shards" : 3, </span><br><span class="line">            "number_of_replicas" : 2 </span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">PUT module_a@2018_01_02</span><br><span class="line">&#123;</span><br><span class="line">    "settings" : &#123;</span><br><span class="line">        "index" : &#123;</span><br><span class="line">            "number_of_shards" : 3, </span><br><span class="line">            "number_of_replicas" : 2 </span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">- 查询数据：</span><br><span class="line">GET module_a@*/_search</span><br></pre></td></tr></table></figure>
+<p>###3.12 按需控制index的分片数和副本数</p>
+<blockquote>
+<p>分片（shard）：Elasticsearch中的一个索引（index）由多个分片（shard）组成，每个shard承载index的一部分数据。</p>
+<p>副本（replica）：index也可以设定副本数（numberofreplicas），也就是同一个shard有多少个备份。对于查询压力较大的index，可以考虑提高副本数（numberofreplicas），通过多个副本均摊查询压力。</p>
+<p>Elasticsearch默认副本数量为3，能提高集群的业务检索性能，但是会影响索引的写入性能（写入过程需要等待所有副本写完，才算完成一次更新写入）。</p>
+</blockquote>
+<p>shard数量设置过多或过低都会引发一些问题：</p>
+<ul>
+<li>shard数量过多，则批量写入、查询请求被分割为过多的子写入、查询，导致该index的写入、查询拒绝率上升。</li>
+<li>对于数据量较大的index，当其shard数量过小时，无法充分利用节点资源，造成机器资源利用率不高或不均衡，影响写入、查询的效率。</li>
+</ul>
+<p>对于每个index的shard数量，可以根据数据总量、写入压力、节点数量等综合考量后设定，然后根据数据增长状态定期检测下shard数量是否合理，推荐方案是：</p>
+<ul>
+<li>对于数据量较小（100GB以下）的index，往往写入压力查询压力相对较低，一般设置3~5个shard，副本设置为1（也就是一主一从） 。</li>
+<li>对于数据量较大（100GB以上）的index：<ul>
+<li>一般把单个shard的数据量控制在（20GB~50GB）</li>
+<li>让index压力分摊至多个节点：可通过index.routing.allocation.totalshardsper_node参数，强制限定一个节点上该index的shard数量，让shard尽量分配到不同节点上</li>
+<li>综合考虑整个index的shard数量，如果shard数量（不包括副本）超过50个，就很可能引发拒绝率上升的问题，此时可考虑把该index拆分为多个独立的index，分摊数据量，同时配合routing使用，降低每个查询需要访问的shard数量。</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>所以有一种优化建议：在index创建写入过程中将副本数设为0，待index完成后将副本数按需量改回来，这样也可以提高效率。</p>
+</blockquote>
+<h3 id="3-13-增加负载均衡（查询）节点"><a href="#3-13-增加负载均衡（查询）节点" class="headerlink" title="3.13 增加负载均衡（查询）节点"></a>3.13 增加负载均衡（查询）节点</h3><p>负载均衡节点需要如下配置：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">node.master: false</span><br><span class="line">node.data: false</span><br></pre></td></tr></table></figure>
+<p>该节点服务器即不会被选作主节点，也不会存储任何索引数据，节点只能处理路由请求，处理搜索，分发索引操作等，从本质上来说该客户节点主要作用是负载均衡。 </p>
+<p>在查询的时候，通常会涉及到从多个节点服务器上查询数据，并请求分发到多个指定的节点服务器，并对各个节点服务器返回的结果进行一个汇总处理，最终返回给客户端。</p>
+<p>性能方面对该节点要求是内存越大越好。</p>
+<p>###3.14 关闭data节点服务器中的http功能</p>
+<p>针对ElasticSearch集群中的所有data节点，不用开启http服务。将其中的配置参数这样设置：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http.enabled: false</span><br></pre></td></tr></table></figure>
+<p>同时不安装head, marvel等监控插件，这样保证data节点服务器只需处理创建/更新/删除/查询索引数据等操作。<br>http功能可以在非数据节点服务器上开启，上述相关的监控插件也安装到这些服务器上，用于监控ElasticSearch集群状态等数据信息。这样做一来出于数据安全考虑，二来出于服务性能考虑。</p>
+<p>###3.15 调整集群热数据分布</p>
+<p>集群在分配数据分片的时候，如果不指定路由，分片是均匀分派到各个节点上。当节点上存在太多热点数据分片时候，我们可以通过API手动进行调整分片的存储位置。</p>
+<p>下面的API中，indexname：需要移动的索引名称，shard：分片编号，from_node:分片的原归属节点名称，to_node:分片的移动目的节点名称。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">curl -XPOST 'http://localhost:9200/_cluster/reroute' -d '&#123;</span><br><span class="line">"commands" : [</span><br><span class="line">&#123;"move" :&#123;</span><br><span class="line">"index" : "indexname", "shard" : 1,</span><br><span class="line">"from_node" : "nodename", "to_node" : "nodename"&#125;&#125;]</span><br><span class="line">&#125;'</span><br></pre></td></tr></table></figure>
+<p>##总结</p>
+<p>Elasticsearch 的性能取决于很多因素，包括文档结构、文档大小、索引设置 / 映射、请求率、数据集大小和查询命中次数等等。每个优化策略都自身的优化需求场景，没有技术银弹。因此，针对需求场景进行性能测试、收集数据，然后调优非常重要。</p>
+<p>##参考文献</p>
+<p>1、A Heap of Trouble: Managing Elasticsearch’s Managed Heap  链接：<a href="https://www.elastic.co/blog/a-heap-of-trouble" target="_blank" rel="noopener">https://www.elastic.co/blog/a-heap-of-trouble</a></p>
+<p>2、elasticsearch官方网站 链接：<a href="https://www.elastic.co/" target="_blank" rel="noopener">https://www.elastic.co/</a></p>
+<p>3、《深入理解Elasticsearch》</p>
+
+      
+    </div>
+
+    
+
+    <div>
+      
+        
+      
+    </div>
+    
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/01/27/2019-01-27-Elasticsearch系列文章-冷热节点架构/" rel="next" title="Elasticsearch温热集群架构">
+                <i class="fa fa-chevron-left"></i> Elasticsearch温热集群架构
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/05/06/2019-05-06-Sqlflow初体验/" rel="prev" title="sqlflow初体验">
+                sqlflow初体验 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar/person.png" alt="rong xiang">
+            
+              <p class="site-author-name" itemprop="name">rong xiang</p>
+              <p class="site-description motion-element" itemprop="description">Keep a Pure Curiosity</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">85</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">43</span>
+                    <span class="site-state-item-name">categories</span>
+                  
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">2</span>
+                    <span class="site-state-item-name">tags</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/zjrongxiang" title="GitHub &rarr; https://github.com/zjrongxiang" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="mailto:rongxiang1986@163.com" title="E-Mail &rarr; mailto:rongxiang1986@163.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="http://weibo.com/u/1971060643" title="Weibo &rarr; http://weibo.com/u/1971060643" rel="noopener" target="_blank"><i class="fa fa-fw fa-weibo"></i>Weibo</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Link
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://weibo.com/fly51fly?refer_flag=1005055010_" title="https://weibo.com/fly51fly?refer_flag=1005055010_" rel="noopener" target="_blank">爱生活爱可可</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#目录"><span class="nav-number">1.</span> <span class="nav-text">目录</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-2-大内存物理机多实例部署"><span class="nav-number">1.0.1.</span> <span class="nav-text">2.3.2 大内存物理机多实例部署</span></a></li></ol></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#第三部分-业务使用调优"><span class="nav-number">2.</span> <span class="nav-text">第三部分  业务使用调优</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-13-增加负载均衡（查询）节点"><span class="nav-number">2.1.</span> <span class="nav-text">3.13 增加负载均衡（查询）节点</span></a></li></ol></li></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">rong xiang</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v6.7.0</div>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="Total Visitors">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="Total Views">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=6.7.0"></script>
+
+  <script src="/js/src/motion.js?v=6.7.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/schemes/muse.js?v=6.7.0"></script>
+
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=6.7.0"></script>
+<script src="/js/src/post-details.js?v=6.7.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=6.7.0"></script>
+
+
+
+  
+  
+    
+  <script id="dsq-count-scr" src="https://https-zjrongxiang-github-io.disqus.com/count.js" async></script>
+
+
+<script>
+  var disqus_config = function () {
+    this.page.url = "https://zjrongxiang.github.io/2019/01/27/2019-01-27-Elasticsearch系列文章-性能调优总结/";
+    this.page.identifier = "2019/01/27/2019-01-27-Elasticsearch系列文章-性能调优总结/";
+    this.page.title = 'Elasticsearch性能调优总结';
+    };
+  function loadComments () {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://https-zjrongxiang-github-io.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', '' + +new Date());
+    (d.head || d.body).appendChild(s);
+  }
+  
+    loadComments();
+  
+</script>
+
+  
+
+
+
+
+
+  
+
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <style>
+    .copy-btn {
+      display: inline-block;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 20px;
+      color: #333;
+      white-space: nowrap;
+      vertical-align: middle;
+      cursor: pointer;
+      background-color: #eee;
+      background-image: linear-gradient(#fcfcfc, #eee);
+      border: 1px solid #d5d5d5;
+      border-radius: 3px;
+      user-select: none;
+      outline: 0;
+    }
+
+    .highlight-wrap .copy-btn {
+      transition: opacity .3s ease-in-out;
+      opacity: 0;
+      padding: 2px 6px;
+      position: absolute;
+      right: 4px;
+      top: 8px;
+    }
+
+    .highlight-wrap:hover .copy-btn,
+    .highlight-wrap .copy-btn:focus {
+      opacity: 1
+    }
+
+    .highlight-wrap {
+      position: relative;
+    }
+  </style>
+  <script>
+    $('.highlight').each(function (i, e) {
+      var $wrap = $('<div>').addClass('highlight-wrap');
+      $(e).after($wrap);
+      $wrap.append($('<button>').addClass('copy-btn').append('Copy').on('click', function (e) {
+        var code = $(this).parent().find('.code').find('.line').map(function (i, e) {
+          return $(e).text();
+        }).toArray().join('\n');
+        var ta = document.createElement('textarea');
+        var range = document.createRange(); //For Chrome
+        var sel = window.getSelection(); //For Chrome
+        var yPosition = window.pageYOffset || document.documentElement.scrollTop;
+        ta.style.top = yPosition + 'px'; //Prevent page scroll
+        ta.style.position = 'absolute';
+        ta.style.opacity = '0';
+        ta.value = code;
+        ta.textContent = code; //For FireFox
+        ta.contentEditable = true;
+        ta.readOnly = false;
+        document.body.appendChild(ta);
+        range.selectNode(ta);
+        sel.removeAllRanges();
+        sel.addRange(range);
+        ta.setSelectionRange(0, code.length);
+        var result = document.execCommand('copy');
+        
+          if (result) $(this).text('Copied');
+          else $(this).text('Copy failed');
+        
+        ta.blur(); //For iOS
+        $(this).blur();
+      })).on('mouseleave', function (e) {
+        var $b = $(this).find('.copy-btn');
+        setTimeout(function () {
+          $b.text('Copy');
+        }, 300);
+      }).append(e);
+    })
+  </script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+
+  
+  
+
+  
+  
+
+  
+
+
+</body>
+</html>

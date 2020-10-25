@@ -126,7 +126,7 @@
 <meta property="og:locale" content="en">
 <meta property="og:image" content="https://zjrongxiang.github.io/images/picture/camera_pi.png">
 <meta property="og:image" content="https://zjrongxiang.github.io/images/picture/example.png">
-<meta property="og:updated_time" content="2020-03-22T03:07:02.594Z">
+<meta property="og:updated_time" content="2020-08-28T12:41:32.749Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="树莓派使用USB摄像头自制家庭监控">
 <meta name="twitter:description" content="目录 背景 第一部分  部署步骤 参考文献及资料  背景树莓派摄像头和USB摄像头 树莓派有配套的摄像头模块（Raspberry Pi camera board），如下图。 另外树莓派也支持USB摄像头。关于树莓派支持的USB摄像头有个清单参考（需要梯子）。大家购买前最好确认一下是否在兼容清单中。   第一部分 部署步骤第一步：检查USB摄像头和树莓派的兼容性将USB摄像头和树莓派连接，查看USB">
@@ -485,7 +485,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2020-03-22 11:07:02" itemprop="dateModified" datetime="2020-03-22T11:07:02+08:00">2020-03-22</time>
+                <time title="Modified: 2020-08-28 20:41:32" itemprop="dateModified" datetime="2020-08-28T20:41:32+08:00">2020-08-28</time>
               
             
           </span>
@@ -577,6 +577,8 @@
 <p>  ​         <em>locate_motion_mode</em>=peview</p>
 <p>  ​         <em>locate_motion_style</em>=redbox</p>
 <p>​           <em>text_changes</em>=on</p>
+<p>如果需要对网页进行加密，可以调整下面的配置实现：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> Set the authentication method (default: 0)</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 0 = disabled</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 1 = Basic authentication</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 2 = MD5 digest (the safer authentication)</span></span><br><span class="line">stream_auth_method 1</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> Authentication <span class="keyword">for</span> the stream. Syntax username:password</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> Default: not defined (Disabled)</span></span><br><span class="line">stream_authentication admin:admin1234</span><br></pre></td></tr></table></figure>
 <h5 id="开启motion进程"><a href="#开启motion进程" class="headerlink" title="开启motion进程"></a>开启motion进程</h5><p>修改motion文件，设置为守护进程运行（即参数配置为：yes）：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> vi /etc/default/motion</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> <span class="built_in">set</span> to <span class="string">'yes'</span> to <span class="built_in">enable</span> the motion daemon</span></span><br><span class="line">start_motion_daemon=yes</span><br></pre></td></tr></table></figure>
 <p>启进程：</p>
@@ -607,7 +609,7 @@
   <p><span>本文标题:</span><a href="/2018/03/18/2018-03-18-树莓派使用USB摄像头自制家庭监控/">树莓派使用USB摄像头自制家庭监控</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 rong xiang 的个人博客">rong xiang</a></p>
   <p><span>发布时间:</span>2018年03月18日 - 19:03</p>
-  <p><span>最后更新:</span>2020年03月22日 - 11:03</p>
+  <p><span>最后更新:</span>2020年08月28日 - 20:08</p>
   <p><span>原始链接:</span><a href="/2018/03/18/2018-03-18-树莓派使用USB摄像头自制家庭监控/" title="树莓派使用USB摄像头自制家庭监控">https://zjrongxiang.github.io/2018/03/18/2018-03-18-树莓派使用USB摄像头自制家庭监控/</a>
     <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://zjrongxiang.github.io/2018/03/18/2018-03-18-树莓派使用USB摄像头自制家庭监控/" aria-label="复制成功！"></i></span>
   </p>
@@ -655,8 +657,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/03/14/2018-03-15-Ubuntu系统常用命令汇总/" rel="next" title="Ubuntu系统常用命令汇总">
-                <i class="fa fa-chevron-left"></i> Ubuntu系统常用命令汇总
+              <a href="/2018/03/14/2018-03-15-Ubuntu添加国内apt更新源/" rel="next" title="Ubuntu添加国内apt更新源">
+                <i class="fa fa-chevron-left"></i> Ubuntu添加国内apt更新源
               </a>
             
           </div>
@@ -746,7 +748,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">46</span>
+                    <span class="site-state-item-count">85</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -817,12 +819,55 @@
                     
                       
                     
-                    <span class="site-state-item-count">29</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">43</span>
                     <span class="site-state-item-name">categories</span>
                   
                 </div>
               
 
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">2</span>
+                    <span class="site-state-item-name">tags</span>
+                  
+                </div>
               
             </nav>
           

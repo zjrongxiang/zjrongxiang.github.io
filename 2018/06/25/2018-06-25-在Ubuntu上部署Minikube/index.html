@@ -125,7 +125,7 @@
 <meta property="og:description" content="[TOC] 背景Kubernetes是Google推出的容器编排工具，这是Google保密十几年的强大武器Borg的开源版本。Kubernetes这个名字源于古希腊，意思是舵手。既然docker被比喻成大海上驮着集装箱的鲸鱼，那么Kubernetes就是舵手，掌握鲸鱼的游弋方向，寓意深刻。 Kubernetes第一个正式版本于2015年7月发布。从Kubernetes 1.3开始提供了一个叫Min">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="https://zjrongxiang.github.io/images/picture/minikube.jpeg">
-<meta property="og:updated_time" content="2020-03-22T03:39:29.883Z">
+<meta property="og:updated_time" content="2020-08-10T14:32:25.184Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="在Ubuntu上部署Minikube">
 <meta name="twitter:description" content="[TOC] 背景Kubernetes是Google推出的容器编排工具，这是Google保密十几年的强大武器Borg的开源版本。Kubernetes这个名字源于古希腊，意思是舵手。既然docker被比喻成大海上驮着集装箱的鲸鱼，那么Kubernetes就是舵手，掌握鲸鱼的游弋方向，寓意深刻。 Kubernetes第一个正式版本于2015年7月发布。从Kubernetes 1.3开始提供了一个叫Min">
@@ -484,7 +484,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2020-03-22 11:39:29" itemprop="dateModified" datetime="2020-03-22T11:39:29+08:00">2020-03-22</time>
+                <time title="Modified: 2020-08-10 22:32:25" itemprop="dateModified" datetime="2020-08-10T22:32:25+08:00">2020-08-10</time>
               
             
           </span>
@@ -578,11 +578,25 @@
 </ul>
 <p>本篇在Ubuntu部署VirtualBox虚拟驱动。</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> wget https://download.virtualbox.org/virtualbox/5.1.38/virtualbox-5.1_5.1.38-122592~Ubuntu~xenial_i386.deb</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">dpkg -i virtualbox-5.1_5.1.38-122592~Ubuntu~xenial_i386.deb</span></span><br></pre></td></tr></table></figure>
-<h3 id="第二部分-安装minikube"><a href="#第二部分-安装minikube" class="headerlink" title="第二部分 安装minikube"></a>第二部分 安装minikube</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> curl -Lo minikube http://kubernetes.oss-cn-hangzhou.aliyuncs.com/minikube/releases/v0.28.0/minikube-linux-amd64 &amp;&amp; chmod +x minikube &amp;&amp; sudo mv minikube /usr/<span class="built_in">local</span>/bin/</span></span><br><span class="line"><span class="meta">  %</span><span class="bash"> Total    % Received % Xferd  Average Speed   Time    Time     Time  Current</span></span><br><span class="line">                                 Dload  Upload   Total   Spent    Left  Speed</span><br><span class="line">100 40.8M  100 40.8M    0     0  4671k      0  0:00:08  0:00:08 --:--:-- 7574k</span><br></pre></td></tr></table></figure>
+<h3 id="第二部分-安装minikube"><a href="#第二部分-安装minikube" class="headerlink" title="第二部分 安装minikube"></a>第二部分 安装minikube</h3><p>从阿里云下载最新版本的minikube：</p>
+<p>最新版本在这个网址获取：<a href="https://github.com/AliyunContainerService/minikube" target="_blank" rel="noopener">https://github.com/AliyunContainerService/minikube</a></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> curl -Lo minikube http://kubernetes.oss-cn-hangzhou.aliyuncs.com/minikube/releases/v1.12.1/minikube-linux-amd64 &amp;&amp; chmod +x minikube &amp;&amp; sudo mv minikube /usr/<span class="built_in">local</span>/bin/</span></span><br><span class="line"><span class="meta">  %</span><span class="bash"> Total    % Received % Xferd  Average Speed   Time    Time     Time  Current</span></span><br><span class="line">                                 Dload  Upload   Total   Spent    Left  Speed</span><br><span class="line">100 40.8M  100 40.8M    0     0  4671k      0  0:00:08  0:00:08 --:--:-- 7574k</span><br></pre></td></tr></table></figure>
 <h3 id="第三部分-安装Kubectl"><a href="#第三部分-安装Kubectl" class="headerlink" title="第三部分 安装Kubectl"></a>第三部分 安装Kubectl</h3><p>kubectl即kubernetes的客户端，通过他可以进行类似docker run等容器管理操作 。</p>
 <p>下载：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> curl -Lo kubectl https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl</span></span><br><span class="line"><span class="meta">  %</span><span class="bash"> Total    % Received % Xferd  Average Speed   Time    Time     Time  Current</span></span><br><span class="line">                                 Dload  Upload   Total   Spent    Left  Speed</span><br><span class="line">100 52.5M  100 52.5M    0     0  6654k      0  0:00:08  0:00:08 --:--:-- 10.3M</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> chmod +x kubectl</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> mv kubectl /usr/<span class="built_in">local</span>/bin/</span></span><br></pre></td></tr></table></figure>
-<h3 id="第四部分-启集群"><a href="#第四部分-启集群" class="headerlink" title="第四部分 启集群"></a>第四部分 启集群</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">root@deeplearning:~# minikube start --registry-mirror=https://registry.docker-cn.com</span><br><span class="line">Starting local Kubernetes v1.10.0 cluster...</span><br><span class="line">Starting VM...</span><br><span class="line">Downloading Minikube ISO</span><br><span class="line"> 153.08 MB / 153.08 MB [============================================] 100.00% 0s</span><br><span class="line">Getting VM IP address...</span><br><span class="line">Moving files into cluster...</span><br><span class="line">Downloading kubeadm v1.10.0</span><br><span class="line">Downloading kubelet v1.10.0</span><br><span class="line">Finished Downloading kubelet v1.10.0</span><br><span class="line">Finished Downloading kubeadm v1.10.0</span><br><span class="line">Setting up certs...</span><br><span class="line">Connecting to cluster...</span><br><span class="line">Setting up kubeconfig...</span><br><span class="line">Starting cluster components...</span><br><span class="line">Kubectl is now configured to use the cluster.</span><br><span class="line">Loading cached images from config file.</span><br></pre></td></tr></table></figure>
+<h3 id="第四部分-启集群"><a href="#第四部分-启集群" class="headerlink" title="第四部分 启集群"></a>第四部分 启集群</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">root@deeplearning:~# minikube start --vm-driver=virtualbox --registry-mirror=https://registry.docker-cn.com --image-mirror-country=cn --image-repository=registry.cn-hangzhou.aliyuncs.com/google_containers --force=true --kubernetes-version="v1.15.3"</span><br><span class="line">Starting local Kubernetes v1.10.0 cluster...</span><br><span class="line">Starting VM...</span><br><span class="line">Downloading Minikube ISO</span><br><span class="line"> 153.08 MB / 153.08 MB [============================================] 100.00% 0s</span><br><span class="line">Getting VM IP address...</span><br><span class="line">Moving files into cluster...</span><br><span class="line">Downloading kubeadm v1.10.0</span><br><span class="line">Downloading kubelet v1.10.0</span><br><span class="line">Finished Downloading kubelet v1.10.0</span><br><span class="line">Finished Downloading kubeadm v1.10.0</span><br><span class="line">Setting up certs...</span><br><span class="line">Connecting to cluster...</span><br><span class="line">Setting up kubeconfig...</span><br><span class="line">Starting cluster components...</span><br><span class="line">Kubectl is now configured to use the cluster.</span><br><span class="line">Loading cached images from config file.</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>为了访问海外的资源，阿里云提供了一系列基础设施，请按照如下参数进行配置。其中常见参数</p>
+<ul>
+<li><code>--driver=***</code> 从1.5.0版本开始，Minikube缺省使用本地最好的驱动来创建Kubernetes本地环境，测试过的版本 <code>docker</code>, <code>kvm</code></li>
+<li><code>--image-mirror-country cn</code> 将缺省利用 registry.cn-hangzhou.aliyuncs.com/google_containers 作为安装Kubernetes的容器镜像仓库 （阿里云版本可选）</li>
+<li><code>--iso-url=***</code> 利用阿里云的镜像地址下载相应的 .iso 文件 （阿里云版本可选）</li>
+<li><code>--registry-mirror=***</code>为了拉取Docker Hub镜像，需要为 Docker daemon 配置镜像加速，参考<a href="https://cr.console.aliyun.com/cn-hangzhou/instances/mirrors" target="_blank" rel="noopener">阿里云镜像服务</a></li>
+<li><code>--cpus=2</code>: 为minikube虚拟机分配CPU核数</li>
+<li><code>--memory=2048mb</code>: 为minikube虚拟机分配内存数</li>
+<li><code>--kubernetes-version=***</code>: minikube 虚拟机将使用的 kubernetes 版本</li>
+</ul>
+</blockquote>
 <p>进入minikube虚拟机：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">root@deeplearning:~# minikube ssh</span><br><span class="line">                         _             _            </span><br><span class="line">            _         _ ( )           ( )           </span><br><span class="line">  ___ ___  (_)  ___  (_)| |/')  _   _ | |_      __  </span><br><span class="line">/' _ ` _ `\| |/' _ `\| || , &lt;  ( ) ( )| '_`\  /'__`\</span><br><span class="line">| ( ) ( ) || || ( ) || || |\`\ | (_) || |_) )(  ___/</span><br><span class="line">(_) (_) (_)(_)(_) (_)(_)(_) (_)`\___/'(_,__/'`\____)</span><br><span class="line"></span><br><span class="line"><span class="meta">$</span><span class="bash"> </span></span><br><span class="line"><span class="meta">#</span><span class="bash">  通过<span class="built_in">exit</span>退出集群</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">exit</span></span></span><br><span class="line">logout</span><br></pre></td></tr></table></figure>
 <p>虚拟机地址：</p>
@@ -601,11 +615,19 @@
 <p>然后启动虚拟机，这时候局域网上的其他服务器就可以通过宿主机的IP:30000访问web UI。</p>
 <p>或者：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> kubectl proxy --address=<span class="string">'0.0.0.0'</span> --<span class="built_in">disable</span>-filter=<span class="literal">true</span></span></span><br></pre></td></tr></table></figure>
+<p>对于最新的版本（v1.12.1）：</p>
+<p>首先地址映射：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">root@deeplearning:~# kubectl proxy &amp;</span><br><span class="line">Starting to serve on 127.0.0.1:8001</span><br></pre></td></tr></table></figure>
+<p>然后生成token：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">root@deeplearning:~# kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.0-beta1/aio/deploy/recommended.yaml</span><br><span class="line"></span><br><span class="line">root@deeplearning:~# kubectl create serviceaccount dashboard-admin -n kube-system</span><br><span class="line"><span class="meta">#</span><span class="bash">创建用于登录dashborad的serviceaccount账号</span></span><br><span class="line">serviceaccount "dashboard-admin" created</span><br><span class="line"></span><br><span class="line">root@deeplearning:~# kubectl create clusterrolebinding dashboard-cluster-admin --clusterrole=cluster-admin --serviceaccount=kube-system:dashboard-admin</span><br><span class="line">clusterrolebinding.rbac.authorization.k8s.io/dashboard-cluster-admin created  </span><br><span class="line"><span class="meta">#</span><span class="bash">创建一个clusterrolebingding，将名称为cluster-admin的clusterrole绑定到我们刚刚从的serviceaccount上，名称空间和sa使用:作为间隔</span></span><br><span class="line"></span><br><span class="line">root@deeplearning:~# kubectl get secret -n kube-system</span><br><span class="line"><span class="meta">#</span><span class="bash">创建完成后系统会自动创建一个secret，名称以serviceaccount名称开头</span></span><br><span class="line">NAME                                             TYPE                                  DATA      AGE</span><br><span class="line">......</span><br><span class="line">dashboard-admin-token-twwfl                      kubernetes.io/service-account-token   3      46s</span><br><span class="line">.....</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">使用describe查看该secret的详细信息，主要是token一段</span></span><br><span class="line">root@deeplearning:~# kubectl describe secret dashboard-admin-token-twwfl -n kube-system</span><br><span class="line">Name:         dashboard-admin-token-twwfl</span><br><span class="line">Namespace:    kube-system</span><br><span class="line">Labels:       &lt;none&gt;</span><br><span class="line">Annotations:  kubernetes.io/service-account.name: dashboard-admin</span><br><span class="line">              kubernetes.io/service-account.uid: ae20b337-3729-4c97-9852-19e160b37427</span><br><span class="line"></span><br><span class="line">Type:  kubernetes.io/service-account-token</span><br><span class="line"></span><br><span class="line">Data</span><br><span class="line">====</span><br><span class="line">token:      eyJhbGciOiJSUzI1NiIsImtpZCI6IjZGSnZhZ2FiTUhlMTBoN1dYWFB6cmwzSkphNWVNQ0ZLWGZ0NEhOOUZST1UifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJrdWJlLXN5c3RlbSIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VjcmV0Lm5hbWUiOiJkYXNoYm9hcmQtYWRtaW4tdG9rZW4tdHd3ZmwiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC5uYW1lIjoiZGFzaGJvYXJkLWFkbWluIiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZXJ2aWNlLWFjY291bnQudWlkIjoiYWUyMGIzMzctMzcyOS00Yzk3LTk4NTItMTllMTYwYjM3NDI3Iiwic3ViIjoic3lzdGVtOnNlcnZpY2VhY2NvdW50Omt1YmUtc3lzdGVtOmRhc2hib2FyZC1hZG1pbiJ9.lOL6l1uWwEBfw4bbsdRyhvRnLzeOakz-kf38rc2RXPzBgMHqeLgsLw2o7TwRRp84XVNPoDaIa6HwW_6StxYZG5dfiCdUlClWHgepl-z3dq9r49IPqh-ZJLA56D1BZP-iRptmFjJHy5uAXPOyRRg-a43FwM0VZa4aaSe-NKdh7eceJxig0t_mJJbSYdIG_PqZS-JiBsJPb8KYl_GEWSNB4jzQ0SA8CZrB9Yl_ifhTL3vAie6FgLawPXENjz1puufene2Kymo-fVEmGK6KedRdIm4gCpg5NGmuEdJB3ikEzObN_Mv5JbK9wTmGW0s1-6m5ogdshpvKmSBQZ9Vuik_Qfw</span><br><span class="line">ca.crt:     1066 bytes</span><br><span class="line">namespace:  11 bytes</span><br></pre></td></tr></table></figure>
+<p>打开下面url，使用token方式登录：</p>
+<p><a href="http://127.0.0.1:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/#/login" target="_blank" rel="noopener">http://127.0.0.1:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/#/login</a></p>
 <h3 id="附录-补充VBoxManage管理"><a href="#附录-补充VBoxManage管理" class="headerlink" title="附录  补充VBoxManage管理"></a>附录  补充VBoxManage管理</h3><p>查询虚拟机：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> VBoxManage list vms</span></span><br><span class="line">"&lt;inaccessible&gt;" &#123;4a3cefe1-11d1-45d2-91c5-1e39fccb6a8d&#125;</span><br><span class="line">"minikube" &#123;dfcd1bdf-afc1-49e6-a270-9d8ff14bf167&#125;</span><br></pre></td></tr></table></figure>
 <p>删除虚拟机：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> VBoxManage unregistervm --delete 4a3cefe1-11d1-45d2-91c5-1e39fccb6a8d</span></span><br></pre></td></tr></table></figure>
 <h3 id="参考文献及材料"><a href="#参考文献及材料" class="headerlink" title="参考文献及材料"></a>参考文献及材料</h3><p>1、Minitube项目地址：<a href="https://github.com/kubernetes/minikube" target="_blank" rel="noopener">https://github.com/kubernetes/minikube</a> </p>
+<p>2、<a href="https://www.cnblogs.com/panwenbin-logs/p/10052554.html" target="_blank" rel="noopener">kubernetes学习笔记之十一：kubernetes dashboard认证及分级授权</a></p>
 
       
     </div>
@@ -624,7 +646,7 @@
   <p><span>本文标题:</span><a href="/2018/06/25/2018-06-25-在Ubuntu上部署Minikube/">在Ubuntu上部署Minikube</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 rong xiang 的个人博客">rong xiang</a></p>
   <p><span>发布时间:</span>2018年06月25日 - 19:06</p>
-  <p><span>最后更新:</span>2020年03月22日 - 11:03</p>
+  <p><span>最后更新:</span>2020年08月10日 - 22:08</p>
   <p><span>原始链接:</span><a href="/2018/06/25/2018-06-25-在Ubuntu上部署Minikube/" title="在Ubuntu上部署Minikube">https://zjrongxiang.github.io/2018/06/25/2018-06-25-在Ubuntu上部署Minikube/</a>
     <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://zjrongxiang.github.io/2018/06/25/2018-06-25-在Ubuntu上部署Minikube/" aria-label="复制成功！"></i></span>
   </p>
@@ -672,8 +694,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/04/16/2018-04-15-5分钟介绍深度学习（科普）/" rel="next" title="5分钟介绍深度学习（科普）">
-                <i class="fa fa-chevron-left"></i> 5分钟介绍深度学习（科普）
+              <a href="/2018/06/09/2018-06-09-机器学习系列文章-集成学习综述/" rel="next" title="机器学习系列文章-集成学习综述">
+                <i class="fa fa-chevron-left"></i> 机器学习系列文章-集成学习综述
               </a>
             
           </div>
@@ -763,7 +785,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">46</span>
+                    <span class="site-state-item-count">85</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -834,12 +856,55 @@
                     
                       
                     
-                    <span class="site-state-item-count">29</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">43</span>
                     <span class="site-state-item-name">categories</span>
                   
                 </div>
               
 
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">2</span>
+                    <span class="site-state-item-name">tags</span>
+                  
+                </div>
               
             </nav>
           

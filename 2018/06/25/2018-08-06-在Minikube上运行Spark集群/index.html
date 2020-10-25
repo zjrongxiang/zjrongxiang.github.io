@@ -125,7 +125,7 @@
 <meta property="og:description" content="[TOC] 背景​     Spark2.3版本开始支持使用spark-submit直接提交任务给Kubernetes集群。执行机制原理：  Spark创建一个在Kubernetes pod中运行的Spark驱动程序。 驱动程序创建执行程序，这些执行程序也在Kubernetes pod中运行并连接到它们，并执行应用程序代码。 当应用程序完成时，执行程序窗格会终止并清理，但驱动程序窗格会保留日志并在">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="https://spark.apache.org/docs/latest/img/k8s-cluster-mode.png">
-<meta property="og:updated_time" content="2020-03-22T03:39:48.386Z">
+<meta property="og:updated_time" content="2020-08-11T13:14:36.212Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="在Minikube上运行Spark集群">
 <meta name="twitter:description" content="[TOC] 背景​     Spark2.3版本开始支持使用spark-submit直接提交任务给Kubernetes集群。执行机制原理：  Spark创建一个在Kubernetes pod中运行的Spark驱动程序。 驱动程序创建执行程序，这些执行程序也在Kubernetes pod中运行并连接到它们，并执行应用程序代码。 当应用程序完成时，执行程序窗格会终止并清理，但驱动程序窗格会保留日志并在">
@@ -484,7 +484,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2020-03-22 11:39:48" itemprop="dateModified" datetime="2020-03-22T11:39:48+08:00">2020-03-22</time>
+                <time title="Modified: 2020-08-11 21:14:36" itemprop="dateModified" datetime="2020-08-11T21:14:36+08:00">2020-08-11</time>
               
             
           </span>
@@ -578,7 +578,7 @@
 </blockquote>
 <p>在<a href="https://hub.docker.com/上查看，镜像确实push上去了。" target="_blank" rel="noopener">https://hub.docker.com/上查看，镜像确实push上去了。</a></p>
 <h3 id="第二部分-提交Spark作业"><a href="#第二部分-提交Spark作业" class="headerlink" title="第二部分 提交Spark作业"></a>第二部分 提交Spark作业</h3><h4 id="2-1-作业提交"><a href="#2-1-作业提交" class="headerlink" title="2.1 作业提交"></a>2.1 作业提交</h4><p>提前配置serviceaccount信息。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> kubectl create serviceaccount spark</span></span><br><span class="line">serviceaccount/spark created</span><br><span class="line"><span class="meta">#</span><span class="bash"> kubectl create clusterrolebinding spark-role --clusterrole=edit --serviceaccount=default:spark --namespace=default</span></span><br><span class="line">clusterrolebinding.rbac.authorization.k8s.io/spark-role created</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> kubectl create serviceaccount spark</span></span><br><span class="line">serviceaccount/spark created</span><br><span class="line"><span class="meta">#</span><span class="bash"> kubectl create clusterrolebinding spark-role --clusterrole=admin --serviceaccount=default:spark --namespace=default</span></span><br><span class="line">clusterrolebinding.rbac.authorization.k8s.io/spark-role created</span><br></pre></td></tr></table></figure>
 <p> 提交作业：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> ./spark-submit \</span></span><br><span class="line">--master k8s://https://192.168.99.100:8443 \</span><br><span class="line">--deploy-mode cluster \</span><br><span class="line">--name spark-pi \</span><br><span class="line">--class org.apache.spark.examples.SparkPi \</span><br><span class="line">--conf spark.kubernetes.authenticate.driver.serviceAccountName=spark \</span><br><span class="line">--conf spark.kubernetes.authenticate.executor.serviceAccountName=spark \</span><br><span class="line">--conf spark.executor.instances=2 \</span><br><span class="line">--conf spark.kubernetes.container.image=rongxiang1986/spark:2.3.0 \</span><br><span class="line">local:///opt/spark/examples/jars/spark-examples_2.11-2.3.0.jar</span><br></pre></td></tr></table></figure>
 <p>提交命令的参数含义分别是：</p>
@@ -603,6 +603,11 @@
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Pi is roughly 3.1336756683783418</span><br></pre></td></tr></table></figure>
 <p>如果作业通过cluster提交，driver容器会被保留，可以查看：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> minikube service list</span></span><br><span class="line">|-------------|------------------------------------------------------|-----------------------------|</span><br><span class="line">|  NAMESPACE  |                         NAME                         |             URL             |</span><br><span class="line">|-------------|------------------------------------------------------|-----------------------------|</span><br><span class="line">| default     | kubernetes                                           | No node port                |</span><br><span class="line">| default     | spark-pi-27fcc168740e372292b27185d124ad7b-driver-svc | No node port                |</span><br><span class="line">| kube-system | kube-dns                                             | No node port                |</span><br><span class="line">| kube-system | kubernetes-dashboard                                 | http://192.168.99.100:30000 |</span><br><span class="line">|-------------|------------------------------------------------------|-----------------------------|</span><br></pre></td></tr></table></figure>
+<h3 id="第三部分-常见报错异常处理"><a href="#第三部分-常见报错异常处理" class="headerlink" title="第三部分 常见报错异常处理"></a>第三部分 常见报错异常处理</h3><p>1、如果遇到下面的报错信息，可能是Spark版本太低，建议升级大于2.4.5+以上版本后重试。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">2020-08-09 10:13:14 WARN KubernetesClusterManager:66 - The executor's init-container config map is not specified. Executors will therefore not attempt to fetch remote or submitted dependencies.</span><br><span class="line">2020-08-09 10:13:14 WARN KubernetesClusterManager:66 - The executor's init-container config map key is not specified. Executors will therefore not attempt to fetch remote or submitted dependencies.</span><br><span class="line">2020-08-09 10:13:15 WARN WatchConnectionManager:185 - Exec Failure: HTTP 403, Status: 403 -</span><br><span class="line">java.net.ProtocolException: Expected HTTP 101 response but was '403 Forbidden'</span><br><span class="line">at okhttp3.internal.ws.RealWebSocket.checkResponse(RealWebSocket.java:216)</span><br><span class="line">at okhttp3.internal.ws.RealWebSocket$2.onResponse(RealWebSocket.java:183)</span><br><span class="line">at okhttp3.RealCall$AsyncCall.execute(RealCall.java:141)</span><br><span class="line">at okhttp3.internal.NamedRunnable.run(NamedRunnable.java:32)</span><br><span class="line">at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)</span><br><span class="line">at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)</span><br><span class="line">at java.lang.Thread.run(Thread.java:748)</span><br><span class="line">2020-08-09 10:13:15 ERROR SparkContext:91 - Error initializing SparkContext.</span><br><span class="line">io.fabric8.kubernetes.client.KubernetesClientException: </span><br><span class="line">at io.fabric8.kubernetes.client.dsl.internal.WatchConnectionManager$2.onFailure(WatchConnectionManager.java:188)</span><br><span class="line">at okhttp3.internal.ws.RealWebSocket.failWebSocket(RealWebSocket.java:543)</span><br><span class="line">at okhttp3.internal.ws.RealWebSocket$2.onResponse(RealWebSocket.java:185)</span><br><span class="line">at okhttp3.RealCall$AsyncCall.execute(RealCall.java:141)</span><br><span class="line">at okhttp3.internal.NamedRunnable.run(NamedRunnable.java:32)</span><br><span class="line">at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)</span><br><span class="line">at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)</span><br><span class="line">at java.lang.Thread.run(Thread.java:748)</span><br></pre></td></tr></table></figure>
+<p>2、如果发现拉取镜像的比较慢，或者任务状态一直停留也pulling。这是由于minikube主机中本地是没有这个私有镜像，需要进入minikube组件提前将dockerhub中的远程镜像拉取到本地。否则每次提交任务，都会从远程拉取，由于网络条件的限制（你懂的），导致每次拉取都很慢或者超时。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">root@deeplearning:~# minikube ssh</span><br><span class="line">                         _             _            </span><br><span class="line">            _         _ ( )           ( )           </span><br><span class="line">  ___ ___  (_)  ___  (_)| |/')  _   _ | |_      __  </span><br><span class="line">/' _ ` _ `\| |/' _ `\| || , &lt;  ( ) ( )| '_`\  /'__`\</span><br><span class="line">| ( ) ( ) || || ( ) || || |\`\ | (_) || |_) )(  ___/</span><br><span class="line">(_) (_) (_)(_)(_) (_)(_)(_) (_)`\___/'(_,__/'`\____)</span><br><span class="line"></span><br><span class="line"><span class="meta">$</span><span class="bash"> docker images</span></span><br><span class="line"><span class="meta">#</span><span class="bash">显示本地没有，然后手动提前拉取到本地</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> docker pull rongxiang1986/spark:2.4.6</span></span><br></pre></td></tr></table></figure>
+<p>2、spark 任务每个容器至少需要一个CPU，如果启动的minikube集群的资源是默认的2CPU，如果单个任务申请多个执行器就会报资源不足。所以在创建minikube集群时，提前分配足够的资源。</p>
 <h3 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h3><p>1、Running Spark on Kubernetes ：<a href="https://spark.apache.org/docs/latest/running-on-kubernetes.html" target="_blank" rel="noopener">https://spark.apache.org/docs/latest/running-on-kubernetes.html</a></p>
 <p>2、在Minikube Kubernetes集群上运行Spark工作：<a href="https://iamninad.com/running-spark-job-on-kubernetes-minikube/" target="_blank" rel="noopener">https://iamninad.com/running-spark-job-on-kubernetes-minikube/</a></p>
 
@@ -623,7 +628,7 @@
   <p><span>本文标题:</span><a href="/2018/06/25/2018-08-06-在Minikube上运行Spark集群/">在Minikube上运行Spark集群</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 rong xiang 的个人博客">rong xiang</a></p>
   <p><span>发布时间:</span>2018年06月25日 - 19:06</p>
-  <p><span>最后更新:</span>2020年03月22日 - 11:03</p>
+  <p><span>最后更新:</span>2020年08月11日 - 21:08</p>
   <p><span>原始链接:</span><a href="/2018/06/25/2018-08-06-在Minikube上运行Spark集群/" title="在Minikube上运行Spark集群">https://zjrongxiang.github.io/2018/06/25/2018-08-06-在Minikube上运行Spark集群/</a>
     <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://zjrongxiang.github.io/2018/06/25/2018-08-06-在Minikube上运行Spark集群/" aria-label="复制成功！"></i></span>
   </p>
@@ -671,8 +676,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/06/25/2019-07-27-在Minikube上运行Kafka集群/" rel="next" title="在Minikube上运行Kafka集群">
-                <i class="fa fa-chevron-left"></i> 在Minikube上运行Kafka集群
+              <a href="/2018/06/25/2018-08-06-关于正则表达式使用和总结/" rel="next" title="关于正则表达式使用和总结">
+                <i class="fa fa-chevron-left"></i> 关于正则表达式使用和总结
               </a>
             
           </div>
@@ -762,7 +767,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">46</span>
+                    <span class="site-state-item-count">85</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -833,12 +838,55 @@
                     
                       
                     
-                    <span class="site-state-item-count">29</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">43</span>
                     <span class="site-state-item-name">categories</span>
                   
                 </div>
               
 
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">2</span>
+                    <span class="site-state-item-name">tags</span>
+                  
+                </div>
               
             </nav>
           
@@ -929,7 +977,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#背景"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第一部分-环境准备"><span class="nav-number">2.</span> <span class="nav-text">第一部分 环境准备</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-minikube虚拟机准备"><span class="nav-number">2.1.</span> <span class="nav-text">1.1 minikube虚拟机准备</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-Spark环境准备"><span class="nav-number">2.2.</span> <span class="nav-text">1.2 Spark环境准备</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第二部分-提交Spark作业"><span class="nav-number">3.</span> <span class="nav-text">第二部分 提交Spark作业</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-作业提交"><span class="nav-number">3.1.</span> <span class="nav-text">2.1 作业提交</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-日志查询"><span class="nav-number">3.2.</span> <span class="nav-text">2.2 日志查询</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考文献"><span class="nav-number">4.</span> <span class="nav-text">参考文献</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#背景"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第一部分-环境准备"><span class="nav-number">2.</span> <span class="nav-text">第一部分 环境准备</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-minikube虚拟机准备"><span class="nav-number">2.1.</span> <span class="nav-text">1.1 minikube虚拟机准备</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-Spark环境准备"><span class="nav-number">2.2.</span> <span class="nav-text">1.2 Spark环境准备</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第二部分-提交Spark作业"><span class="nav-number">3.</span> <span class="nav-text">第二部分 提交Spark作业</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-作业提交"><span class="nav-number">3.1.</span> <span class="nav-text">2.1 作业提交</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-日志查询"><span class="nav-number">3.2.</span> <span class="nav-text">2.2 日志查询</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第三部分-常见报错异常处理"><span class="nav-number">4.</span> <span class="nav-text">第三部分 常见报错异常处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考文献"><span class="nav-number">5.</span> <span class="nav-text">参考文献</span></a></li></ol></div>
             
 
           </div>

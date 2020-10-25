@@ -117,17 +117,20 @@
 
 
 
-  <meta name="description" content="背景Hive（蜂巢）是Hadoop的组件，官方介绍为：  Hive™: A data warehouse infrastructure that provides data summarization and ad hoc querying.  Hive有三种部署方式（本质是Hive Metastore的三种部署方式）：  Embedded Metastore Database (Derby) 内">
+  <meta name="description" content="背景​      机器学习方法（监督学习、无监督学习、强化学习）通常认为由模型、策略和算法三个部分构成。例如在监督学习，模型需要从数据中学习条件概率分布（概率模型）或者决策函数（非概率模型）。而模型的假设空间（hypothesis space）就是所有可能的条件概率分布或者决策函数的总体（集合）。 ​       假设空间通常是庞大的，例如深度神经网络结构能够表示一大类输入层到输出层的函数集合。这">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hive介绍及部署">
-<meta property="og:url" content="https://zjrongxiang.github.io/2018/08/14/2018-08-13-Hive-install/index.html">
+<meta property="og:title" content="机器学习系列文章-性能评估度量总结">
+<meta property="og:url" content="https://zjrongxiang.github.io/2018/01/25/2018-01-27-机器学习系列文章-性能评估度量总结/index.html">
 <meta property="og:site_name" content="RongXiang">
-<meta property="og:description" content="背景Hive（蜂巢）是Hadoop的组件，官方介绍为：  Hive™: A data warehouse infrastructure that provides data summarization and ad hoc querying.  Hive有三种部署方式（本质是Hive Metastore的三种部署方式）：  Embedded Metastore Database (Derby) 内">
+<meta property="og:description" content="背景​      机器学习方法（监督学习、无监督学习、强化学习）通常认为由模型、策略和算法三个部分构成。例如在监督学习，模型需要从数据中学习条件概率分布（概率模型）或者决策函数（非概率模型）。而模型的假设空间（hypothesis space）就是所有可能的条件概率分布或者决策函数的总体（集合）。 ​       假设空间通常是庞大的，例如深度神经网络结构能够表示一大类输入层到输出层的函数集合。这">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2020-03-22T03:39:57.055Z">
+<meta property="og:image" content="http://7xjbdi.com1.z0.glb.clouddn.com/ROC.png">
+<meta property="og:image" content="http://7xjbdi.com1.z0.glb.clouddn.com/f03add592a75ef5b5e7346a5209b0cb8.png">
+<meta property="og:updated_time" content="2020-10-05T13:30:18.438Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hive介绍及部署">
-<meta name="twitter:description" content="背景Hive（蜂巢）是Hadoop的组件，官方介绍为：  Hive™: A data warehouse infrastructure that provides data summarization and ad hoc querying.  Hive有三种部署方式（本质是Hive Metastore的三种部署方式）：  Embedded Metastore Database (Derby) 内">
+<meta name="twitter:title" content="机器学习系列文章-性能评估度量总结">
+<meta name="twitter:description" content="背景​      机器学习方法（监督学习、无监督学习、强化学习）通常认为由模型、策略和算法三个部分构成。例如在监督学习，模型需要从数据中学习条件概率分布（概率模型）或者决策函数（非概率模型）。而模型的假设空间（hypothesis space）就是所有可能的条件概率分布或者决策函数的总体（集合）。 ​       假设空间通常是庞大的，例如深度神经网络结构能够表示一大类输入层到输出层的函数集合。这">
+<meta name="twitter:image" content="http://7xjbdi.com1.z0.glb.clouddn.com/ROC.png">
 
 
 
@@ -136,7 +139,7 @@
 
 
 
-  <link rel="canonical" href="https://zjrongxiang.github.io/2018/08/14/2018-08-13-Hive-install/">
+  <link rel="canonical" href="https://zjrongxiang.github.io/2018/01/25/2018-01-27-机器学习系列文章-性能评估度量总结/">
 
 
 
@@ -146,7 +149,7 @@
   };
 </script>
 
-  <title>Hive介绍及部署 | RongXiang</title>
+  <title>机器学习系列文章-性能评估度量总结 | RongXiang</title>
   
 
 
@@ -422,7 +425,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zjrongxiang.github.io/2018/08/14/2018-08-13-Hive-install/">
+    <link itemprop="mainEntityOfPage" href="https://zjrongxiang.github.io/2018/01/25/2018-01-27-机器学习系列文章-性能评估度量总结/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="rong xiang">
@@ -439,7 +442,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Hive介绍及部署
+          <h1 class="post-title" itemprop="name headline">机器学习系列文章-性能评估度量总结
 
               
             
@@ -465,7 +468,7 @@
                 
               
 
-              <time title="Created: 2018-08-14 19:30:00" itemprop="dateCreated datePublished" datetime="2018-08-14T19:30:00+08:00">2018-08-14</time>
+              <time title="Created: 2018-01-25 19:30:00" itemprop="dateCreated datePublished" datetime="2018-01-25T19:30:00+08:00">2018-01-25</time>
             
 
             
@@ -482,7 +485,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2020-03-22 11:39:57" itemprop="dateModified" datetime="2020-03-22T11:39:57+08:00">2020-03-22</time>
+                <time title="Modified: 2020-10-05 21:30:18" itemprop="dateModified" datetime="2020-10-05T21:30:18+08:00">2020-10-05</time>
               
             
           </span>
@@ -499,7 +502,7 @@
                 <span class="post-meta-item-text">In</span>
               
               
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/hadoop/" itemprop="url" rel="index"><span itemprop="name">hadoop</span></a></span>
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/machine-learning/" itemprop="url" rel="index"><span itemprop="name">machine learning</span></a></span>
 
                 
                 
@@ -514,9 +517,9 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/08/14/2018-08-13-Hive-install/#comments" itemprop="discussionUrl">
+                <a href="/2018/01/25/2018-01-27-机器学习系列文章-性能评估度量总结/#comments" itemprop="discussionUrl">
                 
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/08/14/2018-08-13-Hive-install/" itemprop="commentCount"></span>
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/01/25/2018-01-27-机器学习系列文章-性能评估度量总结/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -544,97 +547,212 @@
       
 
       
-        <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>Hive（蜂巢）是Hadoop的组件，官方介绍为：</p>
+        <h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>​      机器学习方法（监督学习、无监督学习、强化学习）通常认为由模型、策略和算法三个部分构成。例如在监督学习，模型需要从数据中学习条件概率分布（概率模型）或者决策函数（非概率模型）。而模型的假设空间（hypothesis space）就是所有可能的条件概率分布或者决策函数的总体（集合）。</p>
+<p>​       假设空间通常是庞大的，例如深度神经网络结构能够表示一大类输入层到输出层的函数集合。这样就需要我们设定一个可以量化评测假设空间中函数优劣的度量标准，选出最优解。</p>
 <blockquote>
-<p><a href="http://hive.apache.org/" target="_blank" rel="noopener"><strong>Hive™</strong></a>: A data warehouse infrastructure that provides data summarization and ad hoc querying.</p>
+<p>另外我们从数学上理解：这里定义在假设空间上的度量，其实是一个泛函（函数的函数）。</p>
 </blockquote>
-<p>Hive有三种部署方式（本质是Hive Metastore的三种部署方式）：</p>
-<ol>
-<li><p>Embedded Metastore Database (Derby) 内嵌模式</p>
-<p>内嵌模式使用的是内嵌的Derby数据库来存储元数据，也不需要额外起Metastore服务。这个是默认的，配置简单，但是一次只能一个客户端连接（Derby只提供单进程存储），适用于用来实验，不适用于生产环境。 </p>
+<h3 id="几个概念的理解"><a href="#几个概念的理解" class="headerlink" title="几个概念的理解"></a>几个概念的理解</h3><p>​       另外我们在优化模型中，经常遇到三个概念：损失函数（loss function）、代价函数（cost function）、目标函数（object function）。</p>
+<p>​       很多书对三个概念的定义范畴不太一致。例如《统计学习方法（李航）》将损失函数和代价函数认为等同，而《深度学习（Yoshua）》书中认为三者等同。个人比较赞同下面的理解：</p>
+<ul>
+<li><p>loss function 为定义在单个样本（点）上的函数。</p>
 </li>
-<li><p>Local Metastore Server 本地元存储</p>
-<p>采用外部数据库来存储元数据 。本地元存储不需要单独起metastore服务，用的是跟hive在同一个进程里的metastore服务 。</p>
-<p>目前支持：Derby，Mysql，微软SQLServer，Oracle和Postgres </p>
+<li><p>cost function 为全体样本误差的期望，也就是损失函数（loss function）的平均。</p>
 </li>
-<li><p>Remote Metastore Server 远程元存储</p>
-<p>采用外部数据库来存储元数据 。远程元存储需要单独起metastore服务，然后每个客户端都在配置文件里配置连接到该metastore服务。远程元存储的metastore服务和hive运行在不同的进程里。</p>
-<p>远程元存储是生产环境部署方式。</p>
+<li><p>object function（目标函数 ）定义为：cost function + 正则化项。</p>
 </li>
-</ol>
-<h2 id="本地部署过程"><a href="#本地部署过程" class="headerlink" title="本地部署过程"></a>本地部署过程</h2><blockquote>
-<p>由于设备资源限制，没有太多机器配置类似生产环境的集群环境。所以通过docker搭建大集群环境。</p>
-</blockquote>
-<h4 id="搭建目标："><a href="#搭建目标：" class="headerlink" title="搭建目标："></a>搭建目标：</h4><ul>
-<li>集群中hadoop集群由3台构成（1台master，2台slaves）</li>
-<li>Hive的元数据库使用Mysql，并且单独包裹在一个docker环境中。</li>
 </ul>
-<h4 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h4><p>准备hadoop集群环境。启docker集群：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">CONTAINER ID   IMAGE    COMMAND      CREATED    STATUS   PORTS      NAMES</span><br><span class="line">c27312e13270  kiwenlau/hadoop:1.0  "sh -c 'service ssh …"  2 hours ago  Up 2 hours hadoop-slave2</span><br><span class="line">f8b69885f3ef  kiwenlau/hadoop:1.0  "sh -c 'service ssh …" 2 hours ago  Up 2 hours hadoop-slave1</span><br><span class="line">439b359d230e  kiwenlau/hadoop:1.0  "sh -c 'service ssh …"   2 hours ago  Up 2 hours  0.0.0.0:8088-&gt;8088/tcp, 0.0.0.0:50070-&gt;50070/tcp   hadoop-master</span><br></pre></td></tr></table></figure>
-<h4 id="Hive部署"><a href="#Hive部署" class="headerlink" title="Hive部署"></a>Hive部署</h4><h5 id="下载安装包："><a href="#下载安装包：" class="headerlink" title="下载安装包："></a>下载安装包：</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 进入hadoop-master主机，进入hadoop目录：/use/<span class="built_in">local</span>/hadoop</span></span><br><span class="line">wget http://apache.claz.org/hive/hive-2.3.3/apache-hive-2.3.3-bin.tar.gz</span><br><span class="line">tar -zxvf apache-hive-2.3.3-bin.tar.gz</span><br><span class="line">mv apache-hive-2.3.3-bin hive</span><br></pre></td></tr></table></figure>
-<h5 id="配置Hive环境变量："><a href="#配置Hive环境变量：" class="headerlink" title="配置Hive环境变量："></a>配置Hive环境变量：</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/profile</span><br><span class="line"><span class="meta">#</span><span class="bash">hive</span></span><br><span class="line">export HIVE_HOME=/usr/local/hadoop/hive</span><br><span class="line">PATH=$JAVA_HOME/bin:$HADOOP_HOME/bin:$HIVE_HOME/bin:$PATH</span><br><span class="line"><span class="meta">#</span><span class="bash"> 生效环境变量</span></span><br><span class="line">source /etc/profile</span><br></pre></td></tr></table></figure>
-<h5 id="调整Hive的配置文件："><a href="#调整Hive的配置文件：" class="headerlink" title="调整Hive的配置文件："></a>调整Hive的配置文件：</h5><figure class="highlight vala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta"># 进入hive 配置文件目录：</span></span><br><span class="line">cd conf</span><br><span class="line">cp hive-<span class="keyword">default</span>.xml.template hive-site.xml</span><br><span class="line"><span class="meta"># 修改配置文件</span></span><br><span class="line">vim hive-site.xml</span><br></pre></td></tr></table></figure>
-<h5 id="新建HDFS分布式文件目录："><a href="#新建HDFS分布式文件目录：" class="headerlink" title="新建HDFS分布式文件目录："></a>新建HDFS分布式文件目录：</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> hadoop已经设置好环境变量，新建下面目录</span></span><br><span class="line">hadoop fs -mkdir -p /user/hive/warehouse  </span><br><span class="line">hadoop fs -mkdir -p /user/hive/tmp  </span><br><span class="line">hadoop fs -mkdir -p /user/hive/log </span><br><span class="line"><span class="meta">#</span><span class="bash"> 设置目录权限</span></span><br><span class="line">hadoop fs -chmod -R 777 /user/hive/warehouse  </span><br><span class="line">hadoop fs -chmod -R 777 /user/hive/tmp  </span><br><span class="line">hadoop fs -chmod -R 777 /user/hive/log</span><br></pre></td></tr></table></figure>
-<p>可以用下面命令进行检查：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">root@hadoop-master:/usr/local/hadoop/hive/conf# hadoop fs -ls /user/hive</span><br><span class="line">Found 3 items</span><br><span class="line">drwxrwxrwx   - root supergroup          0 2018-08-14 07:34 /user/hive/log</span><br><span class="line">drwxrwxrwx   - root supergroup          0 2018-08-14 07:34 /user/hive/tmp</span><br><span class="line">drwxrwxrwx   - root supergroup          0 2018-08-14 07:34 /user/hive/warehouse</span><br></pre></td></tr></table></figure>
-<h5 id="修改配置文件（hive-site-xml）："><a href="#修改配置文件（hive-site-xml）：" class="headerlink" title="修改配置文件（hive-site.xml）："></a>修改配置文件（hive-site.xml）：</h5><p>hive数据仓库数据路径：/user/hive/warehouse</p>
-<p>需要使用hdfs新建文件目录。</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>hive.metastore.warehouse.dir<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>/user/hive/warehouse<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">description</span>&gt;</span>location of default database for the warehouse<span class="tag">&lt;/<span class="name">description</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>配置查询日志存放目录：</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>hive.querylog.location<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>/user/hive/log/hadoop<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">description</span>&gt;</span>Location of Hive run time structured log file<span class="tag">&lt;/<span class="name">description</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>数据库JDBC连接配置（172.18.0.5为mysql的ip地址，暴露3306端口）：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;property&gt;</span><br><span class="line">    &lt;name&gt;javax.jdo.option.ConnectionURL&lt;/name&gt;</span><br><span class="line">    &lt;value&gt;jdbc:mysql://172.18.0.5:3306/hive?createDatabaseIfNotExist=true&amp;amp;useSSL=false&lt;/value&gt;</span><br><span class="line">    &lt;description&gt;</span><br><span class="line">&lt;/property&gt;</span><br></pre></td></tr></table></figure>
-<p>数据库驱动：</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>javax.jdo.option.ConnectionDriverName<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>com.mysql.jdbc.Driver<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">description</span>&gt;</span>Driver class name for a JDBC metastore<span class="tag">&lt;/<span class="name">description</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>数据库用户名：</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>javax.jdo.option.ConnectionUserName<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>root<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">description</span>&gt;</span>Username to use against metastore database<span class="tag">&lt;/<span class="name">description</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>数据库密码：</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>javax.jdo.option.ConnectionPassword<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>123456<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">description</span>&gt;</span>password to use against metastore database<span class="tag">&lt;/<span class="name">description</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>配置Hive临时目录：</p>
-<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir <span class="regexp">/usr/</span>local<span class="regexp">/hadoop/</span>hive<span class="regexp">/tmp</span></span><br></pre></td></tr></table></figure>
-<p>并在 <code>hive-site.xml</code> 中修改:</p>
-<p>把<code>${system:java.io.tmpdir}</code> 改成真实物理绝对路径  /usr/local/hadoop/hive/tmp</p>
-<p>把 <code>${system:user.name}</code> 改成 <code>${user.name}</code></p>
+<p>​      这样，代价函数和目标函数就可以理解为：定义在假设空间上的性能度量（泛函）。</p>
 <blockquote>
-<p>可以在外面编辑好配置文件，拷贝进docke：</p>
-<figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt; docker cp hive-site.<span class="keyword">xml</span> <span class="title">439b359d230e</span>:/usr/local/hadoop/hive/conf/hive-site.xml</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+<p>注意：大家在阅读其他材料时，在概念没有达成一致情况下，需根据前后文，寻找确切的定义，避免混淆。</p>
 </blockquote>
+<h3 id="性能度量介绍"><a href="#性能度量介绍" class="headerlink" title="性能度量介绍"></a>性能度量介绍</h3><p>常用性能度量按照学习类型分类主要如下：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">学习类型</th>
+<th>性能度量</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">分类</td>
+<td>accuracy、precision、recall、F1 Score、ROC Curve、auc等</td>
+</tr>
+<tr>
+<td style="text-align:center">回归</td>
+<td>MAE、MSE等</td>
+</tr>
+</tbody>
+</table>
+<h4 id="回归问题"><a href="#回归问题" class="headerlink" title="回归问题"></a>回归问题</h4><p>给定一个训练数据集： $Train={(x_1,y_1),(x_2,y_2),…,(x_N,y_N)}$，这里 $x_i \in R^n$ 和 $y_i \in R$ 分别是输入和输出。学习系统基于训练数据集构建拟合函数 $f  st. Y=f(X)$，对新的输入$x_{new}$，函数$f$ 给出预测输出 $y_{new}$。记测试集：$Test={(x_1,y_1),(x_2,y_2),…,(x_M,y_M)}$ ，其中$Y={y_1,y_2,…,y_M}$ ，$Y={\hat{y_1},\hat{y_2},…,\hat{y_M}}$，则有：</p>
+<ul>
+<li>MAE（Mean Absolute Error 平均绝对误差）</li>
+</ul>
+<p>$$<br>MAE(f)=MAE(Y,\hat{Y})=\dfrac{1}{M}\sum_{i=1}^M{|y_i-\hat{y_i}|}<br>$$</p>
 <blockquote>
+<p>注：数学形式是向量的$L_1$范数。</p>
 </blockquote>
-<h4 id="配置hive-env-sh文件："><a href="#配置hive-env-sh文件：" class="headerlink" title="配置hive-env.sh文件："></a>配置hive-env.sh文件：</h4><p>尾部加上下面的配置（或者修改注释部分的配置亦可）：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">HADOOP_HOME=/usr/local/hadoop</span><br><span class="line">export HIVE_CONF_DIR=/usr/local/hadoop/hive/conf</span><br><span class="line">export HIVE_AUX_JARS_PATH=/usr/local/hadoop/hive/lib</span><br></pre></td></tr></table></figure>
-<h4 id="配置Mysql"><a href="#配置Mysql" class="headerlink" title="配置Mysql"></a>配置Mysql</h4><p>启mysql容器，容器名：first-mysql，使用和hadoop一个桥接网络hadoop，密码为123456</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run --name first-mysql --net=hadoop -p 3306:3306 -e MYSQL\_ROOT\_PASSWORD=123456 -d mysql:5.7</span><br></pre></td></tr></table></figure>
-<p>回显：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">CONTAINER ID        IMAGE                 COMMAND                  CREATED             STATUS              PORTS                                              NAMES</span><br><span class="line">84ae224cee53        mysql:5.7             "docker-entrypoint.s…"   32 minutes ago      Up 32 minutes       0.0.0.0:3306-&gt;3306/tcp                             first-mysql</span><br></pre></td></tr></table></figure>
-<p>在Hadoop-master中配置mysql客户端（用来访问mysql服务器）：</p>
-<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-<span class="builtin-name">get</span> install mysql-client-core-5.6</span><br></pre></td></tr></table></figure>
-<p>测试远程连接：</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">mysql</span> <span class="selector-tag">-h172</span><span class="selector-class">.18</span><span class="selector-class">.0</span><span class="selector-class">.5</span> <span class="selector-tag">-P3306</span> <span class="selector-tag">-uroot</span> <span class="selector-tag">-p123456</span></span><br></pre></td></tr></table></figure>
-<p>新建数据库，数据库名为hive：</p>
-<figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; <span class="keyword">CREATE</span> <span class="keyword">DATABASE</span> hive;</span><br><span class="line">Query OK, 1 row affected (0.00 sec)</span><br></pre></td></tr></table></figure>
-<p>初始化（Hive主机上）：</p>
-<figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">cd</span> <span class="string">/usr/local/hadoop/hive/bin</span></span><br><span class="line"><span class="string">./schematool</span> -initSchema -dbType mysql</span><br></pre></td></tr></table></figure>
-<p>回显：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">root@hadoop-master:/usr/local/hadoop/hive/bin# ./schematool -initSchema -dbType mysql</span><br><span class="line">SLF4J: Class path contains multiple SLF4J bindings.</span><br><span class="line">。。。（略）</span><br><span class="line">schemaTool completed</span><br><span class="line"><span class="meta">#</span><span class="bash"> 初始化成功</span></span><br></pre></td></tr></table></figure>
-<p>下载配置mysql驱动包，放在Hive的lib路径下面：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd /usr/local/hadoop/hive/lib</span><br><span class="line">wget http://central.maven.org/maven2/mysql/mysql-connector-java/5.1.38/mysql-connector-java-5.1.38.jar</span><br></pre></td></tr></table></figure>
-<h3 id="启动Hive"><a href="#启动Hive" class="headerlink" title="启动Hive"></a>启动Hive</h3><p>做完上面准备工作后，开始启动hive：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">root@hadoop-master:/usr/local/hadoop/hive/bin# ./hive</span><br><span class="line">SLF4J: Class path contains multiple SLF4J bindings.</span><br><span class="line">SLF4J: Found binding in [jar:file:/usr/local/hadoop/hive/lib/log4j-slf4j-impl-2.6.2.jar!/org/slf4j/impl/StaticLoggerBinder.class]</span><br><span class="line">SLF4J: Found binding in [jar:file:/usr/local/hadoop/share/hadoop/common/lib/slf4j-log4j12-1.7.10.jar!/org/slf4j/impl/StaticLoggerBinder.class]</span><br><span class="line">SLF4J: See http://www.slf4j.org/codes.html#multiple_bindings for an explanation.</span><br><span class="line">SLF4J: Actual binding is of type [org.apache.logging.slf4j.Log4jLoggerFactory]</span><br><span class="line"></span><br><span class="line">Logging initialized using configuration in jar:file:/usr/local/hadoop/hive/lib/hive-common-2.3.3.jar!/hive-log4j2.properties Async: true</span><br><span class="line">Hive-on-MR is deprecated in Hive 2 and may not be available in the future versions. Consider using a different execution engine (i.e. tez, spark) or using Hive 1.X releases.</span><br><span class="line"><span class="meta">hive&gt;</span><span class="bash"></span></span><br></pre></td></tr></table></figure>
-<p>最后进入hive的命令界面。</p>
-<h3 id="踩坑备注"><a href="#踩坑备注" class="headerlink" title="踩坑备注"></a>踩坑备注</h3><p>1、Hive提示SSL连接警告</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Tue Aug 14 10:53:12 UTC 2018 WARN: Establishing SSL connection without server's identity verification is not recommended. According to MySQL 5.5.45+, 5.6.26+ and 5.7.6+ requirements SSL connection must be established by default if explicit option isn't set. For compliance with existing applications not using SSL the verifyServerCertificate property is set to 'false'. You need either to explicitly disable SSL by setting useSSL=false, or set useSSL=true and provide truststore for server certificate verification.</span><br></pre></td></tr></table></figure>
-<p>虽然Hive SQL执行成功，但是报上面的错误。产生的原因是使用JDBC连接MySQL服务器时为设置<code>useSSL</code>参数 。</p>
-<p>解决办法：javax.jdo.option.ConnectionURL 配置的value值进行调整，设置<code>useSSL=false</code> ，注意xml中的语法。</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">name</span>&gt;</span>javax.jdo.option.ConnectionURL<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">value</span>&gt;</span>jdbc:mysql://172.18.0.5:3306/hive?createDatabaseIfNotExist=true&amp;amp;useSSL=false<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">description</span>&gt;</span></span><br><span class="line">    JDBC connect string for a JDBC metastore.</span><br><span class="line">    To use SSL to encrypt/authenticate the connection, provide database-specific SSL flag in the connection URL.</span><br><span class="line">    For example, jdbc:postgresql://myhost/db?ssl=true for postgres database.</span><br><span class="line">  <span class="tag">&lt;/<span class="name">description</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>重启Hive，不再有警告。</p>
-<h2 id="远程部署"><a href="#远程部署" class="headerlink" title="远程部署"></a>远程部署</h2><p>对于远程部署需要单独启metastore服务，具体需要调整下面的配置文件（hive-site.xml）：</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span>  </span><br><span class="line">		<span class="tag">&lt;<span class="name">name</span>&gt;</span>hive.metastore.uris<span class="tag">&lt;/<span class="name">name</span>&gt;</span>  </span><br><span class="line">	<span class="tag">&lt;<span class="name">value</span>&gt;</span>thrift://hadoop-master:9083<span class="tag">&lt;/<span class="name">value</span>&gt;</span>  </span><br><span class="line">	<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>启动metastore服务：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nohup hive --service metastore &amp;</span><br></pre></td></tr></table></figure>
-<p>当然这属于简单方式将Hive都扎堆部署在一个容器中。可以在集群其他几点启metastore服务，提升架构的高可用性，避免单点问题。</p>
-<h3 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h3><p>1、Apache Hive-2.3.0 快速搭建与使用，<a href="https://segmentfault.com/a/1190000011303459" target="_blank" rel="noopener">https://segmentfault.com/a/1190000011303459</a></p>
-<p>2、Hive提示警告SSL，<a href="https://blog.csdn.net/u012922838/article/details/73291524" target="_blank" rel="noopener">https://blog.csdn.net/u012922838/article/details/73291524</a></p>
+<ul>
+<li>MSE（Mean Squared Error 均方误差）</li>
+</ul>
+<p>$$<br>MSE(f)=MSE(Y,\hat{Y})=\dfrac{1}{M}\sum_{i=1}^M{|y_i-\hat{y_i}|^2}<br>$$</p>
+<blockquote>
+<p>注：数学形式是向量的$L_2$范数。</p>
+</blockquote>
+<h5 id="在sklearn包中已经封装相关性能函数供调用："><a href="#在sklearn包中已经封装相关性能函数供调用：" class="headerlink" title="在sklearn包中已经封装相关性能函数供调用："></a>在sklearn包中已经封装相关性能函数供调用：</h5><table>
+<thead>
+<tr>
+<th style="text-align:left">性能容量函数</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><a href="http://scikit-learn.org/stable/modules/generated/sklearn.metrics.explained_variance_score.html#sklearn.metrics.explained_variance_score" target="_blank" rel="noopener"><code>metrics.explained_variance_score</code></a>(y_true, y_pred)</td>
+<td>Explained variance regression score function</td>
+</tr>
+<tr>
+<td style="text-align:left"><a href="http://scikit-learn.org/stable/modules/generated/sklearn.metrics.mean_absolute_error.html#sklearn.metrics.mean_absolute_error" target="_blank" rel="noopener"><code>metrics.mean_absolute_error</code></a>(y_true, y_pred)</td>
+<td>Mean absolute error regression loss</td>
+</tr>
+<tr>
+<td style="text-align:left"><a href="http://scikit-learn.org/stable/modules/generated/sklearn.metrics.mean_squared_error.html#sklearn.metrics.mean_squared_error" target="_blank" rel="noopener"><code>metrics.mean_squared_error</code></a>(y_true, y_pred[, …])</td>
+<td>Mean squared error regression loss</td>
+</tr>
+<tr>
+<td style="text-align:left"><a href="http://scikit-learn.org/stable/modules/generated/sklearn.metrics.mean_squared_log_error.html#sklearn.metrics.mean_squared_log_error" target="_blank" rel="noopener"><code>metrics.mean_squared_log_error</code></a>(y_true, y_pred)</td>
+<td>Mean squared logarithmic error regression loss</td>
+</tr>
+<tr>
+<td style="text-align:left"><a href="http://scikit-learn.org/stable/modules/generated/sklearn.metrics.median_absolute_error.html#sklearn.metrics.median_absolute_error" target="_blank" rel="noopener"><code>metrics.median_absolute_error</code></a>(y_true, y_pred)</td>
+<td>Median absolute error regression loss</td>
+</tr>
+<tr>
+<td style="text-align:left"><a href="http://scikit-learn.org/stable/modules/generated/sklearn.metrics.r2_score.html#sklearn.metrics.r2_score" target="_blank" rel="noopener"><code>metrics.r2_score</code></a>(y_true, y_pred[, …])</td>
+<td>R^2 (coefficient of determination) regression score function.</td>
+</tr>
+</tbody>
+</table>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> mean_absolute_error <span class="keyword">as</span> mae</span><br><span class="line"><span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> mean_squared_error <span class="keyword">as</span> mse</span><br><span class="line">y_true = [<span class="number">3</span>, <span class="number">-0.5</span>, <span class="number">2</span>, <span class="number">7</span>]</span><br><span class="line">y_pred = [<span class="number">2.5</span>, <span class="number">0.0</span>, <span class="number">2</span>, <span class="number">8</span>]</span><br><span class="line">mae(y_true, y_pred)</span><br><span class="line">mse(y_true, y_pred)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注：其他性能函数可以查看sklearn的介绍。</p>
+</blockquote>
+<h4 id="分类问题"><a href="#分类问题" class="headerlink" title="分类问题"></a>分类问题</h4><p>对于分类问题我们先介绍一个重要概念：混淆矩阵。为了方便讨论，我们以二分类问题为例。</p>
+<blockquote>
+<p>注意：混淆矩阵的定义很多材料也有差异，主要是记号上的区别。这里使用<a href="https://en.wikipedia.org/wiki/Confusion_matrix" target="_blank" rel="noopener">wiki百科</a>的记号标准。</p>
+</blockquote>
+<h5 id="混淆矩阵（Confusion-matrix）"><a href="#混淆矩阵（Confusion-matrix）" class="headerlink" title="混淆矩阵（Confusion matrix）"></a>混淆矩阵（Confusion matrix）</h5><ul>
+<li>True Positive(TP)：将正类预测为正类数（预测正确）</li>
+<li>True Negative(TN)：将负类预测为负类数（预测正确）</li>
+<li>False Positive(FP)：将负类预测为正类数 （预测错误）（Type I error）</li>
+<li>False Negative(FN)：将正类预测为负类数（预测错误）（Type  II error）</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>预测\真实</th>
+<th>Positive</th>
+<th>Negative</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>True</td>
+<td>True Positive（TP）</td>
+<td>False Positive（FP） （Type I error）</td>
+</tr>
+<tr>
+<td>False</td>
+<td>False Negative（FN）（Type  II error）</td>
+<td>True negative（TN）</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><p><strong>ACC（accuracy）准确率</strong></p>
+<p>分类正确的样本数占样本总数的比例 。</p>
+</li>
+</ul>
+<p>$$<br>ACC=\dfrac{正确预测的正类+正确预测的反类}{预测样本总量}=\dfrac{TP+TN}{TP+TN+FP+FN}<br>$$</p>
+<blockquote>
+<p>缺点：在正负类样本分布不均衡的情况下，例如异常检测中如果使用该性能指标，由于样本中异常点（负类）占比很小，这样即使样本全部预测成正类，准确率也有很好的表现。该性能度量无法指导算法寻找最优解。</p>
+</blockquote>
+<ul>
+<li><strong>Precision（精确度）</strong></li>
+</ul>
+<p>​       预测为True中，预测正确的样本占比。<br>$$<br>Precision=\dfrac{正确预测的正类}{预测为正类样本总量}=\dfrac{TP}{TP+FP}<br>$$</p>
+<blockquote>
+<p>缺点：和ACC相同。</p>
+</blockquote>
+<ul>
+<li><strong>Recall（召回率）</strong></li>
+</ul>
+<p>​        正确预测的正例占实际正例的比例。<br>$$<br>Recall=\dfrac{正确预测的正类}{实际正类样本总量}=\dfrac{TP}{TP+FN}<br>$$</p>
+<ul>
+<li><p><strong>F1（F-score）</strong></p>
+<p>精确率和召回率的调和均值。</p>
+</li>
+</ul>
+<p>$$<br>\dfrac{1}{F_1}=\dfrac{1}{Precision}+\dfrac{1}{recall},整理：F_1=\dfrac{2TP}{2TP+FP+FN}<br>$$</p>
+<blockquote>
+<p>精确率和召回率都高的情况下，F1 Score也会很高 。</p>
+</blockquote>
+<ul>
+<li><strong>ROC（receiver operating characteristic curve）曲线</strong></li>
+</ul>
+<p>对于分类问题，模型通常输出的结果为样本点属于类别的概率大小，例如样本属于正类（1类）的概率为0.76，等等。通常我们会设定一个阀值（例如0.5），概率值大于阀值则认为样本属于正类，否则属于负类。</p>
+<blockquote>
+<p>上面的性能指标都是基于通过阀值判断后的结果（0或1）进行度量。</p>
+</blockquote>
+<p>这里引入两个度量：<br>$$<br>TPR=\dfrac{TP}{TP+FN}；FPR=\dfrac{FP}{FP+TN}<br>$$</p>
+<blockquote>
+<p>TPR：实际为正样本中，被正确地判断为正例的比率 。</p>
+<p>FPR：实际为负样本中，被错误地判断为正例的比率。 </p>
+</blockquote>
+<p>根据不同的概率阀值$threshold \in [0,1] $，计算FPR和TPR的值，得到坐标值$(FPR,TPR)$，即ROC曲线上的一点。采样足够多的坐标点就得到了ROC曲线。如下图。</p>
+<p><img src="http://7xjbdi.com1.z0.glb.clouddn.com/ROC.png" alt="此处输入图片的描述"> </p>
+<ul>
+<li><p><strong>AUC</strong></p>
+<p>有了ROC曲线，可以计算曲线下的面积，这就是AUC（Area under the Curve of ROC ）。 AUC值越大的分类器，正确率越高。对于AUC有下面的讨论：</p>
+</li>
+<li><p>AUC=1，<strong>完美分类器</strong>，采用这个预测模型时，不管设定什么阈值都能得出完美预测。绝大多数预测的场合，不存在完美分类器。下图红线。</p>
+</li>
+<li>0.5&lt;AUC&lt;1，优于<strong>随机猜测</strong>。这个分类器（模型）妥善设定阈值的话，能有预测价值。</li>
+<li>AUC=0.5，跟<strong>随机猜测一样</strong>（例：丢铜板），模型没有预测价值。</li>
+<li>0&lt;0.5AUC&lt;0.5，比<strong>随机猜测</strong>还差；但只要总是反预测而行，就优于随机猜测，因此不存在0&lt;0.5AUC&lt;0.5 的情况。</li>
+</ul>
+<p><img src="http://7xjbdi.com1.z0.glb.clouddn.com/f03add592a75ef5b5e7346a5209b0cb8.png" alt="此处输入图片的描述"> </p>
+<ul>
+<li><strong>log_loss（对数损失 ）</strong></li>
+</ul>
+<p>$$<br>logloss(f)=\dfrac{1}{M}\sum_{i=1}^M \sum_{j=1}^Cy_{i,j}log(P_{i,j}(x_i))<br>$$</p>
+<p>​         其中$M$为样本数，$C$为类别数，$y_{i,j}$为第$x_i$属于$j$类的符号函数。$p_{i,j}$为$x_i$为$j$类的概率。</p>
+<blockquote>
+<p>这个性能度量其实是在算数据真实分布和预测分布的交叉熵（cross entropy ）。交叉熵越小说明预测分布和真实分布越接近。表明模型具体有较强的泛化能力。</p>
+<p>事实上，这里有个小的trick需要说明一下：</p>
+<p>信息论中用相对熵用来度量同一个随机变量不同概率分布的“距离”，也称为KL散度。记随机变量$X$有两个分布$p和q$,数学形式为：<br>$$<br>KL(p||q)=\int_Xp(X)log(\dfrac{p(X)}{q(X)})dx=-\int_Xp(X)log(q(X))dx+\int_Xp(X)log(p(X))dx<br>$$<br>右边等式的第一项是交叉熵，第二项是p的信息熵（常量）。所以为了使得KL散度最小化，需要交叉熵越小。即极小化相对熵和交叉熵是一回事（等价）。</p>
+</blockquote>
+<p>同样sklearn包中对上面的性能度量均有封装函数。</p>
+<h4 id="性能度量使用和总结"><a href="#性能度量使用和总结" class="headerlink" title="性能度量使用和总结"></a>性能度量使用和总结</h4><p>选择恰当的性能函数对于提升模型的泛化能力是一个重要因素。学习的目的是得到泛化误差小的模型，实际问题中使得测试集上误差最小。通常会遇到下面两种情况：</p>
+<p>当模型在训练集上表现良好、在测试集上误差较大，称为过拟合；而模型在训练集上误差就很大时，称为欠拟合。</p>
+<ul>
+<li>欠拟合解决手段有：数据增强、增加训练次数等。</li>
+<li>过拟合则有：减少模型参数，减少特征空间，交叉验证，正则化项，Dropout（神经网络中使用）等。</li>
+</ul>
+<p>为了防止模型的过拟合通常性能度量会包含正则项。</p>
+<p>另外也可以使用多个性能度量对模型进行度量，例如$F_1 score$为精确率和召回率两个性能度量的调和值。</p>
+<blockquote>
+<p>学习的过程转化为最小化性能度量的最优化问题。接着我们得到性能度量函数的极大似然函数。问题转换log极大似然函数最大化问题。这时通常没有解析解（线性回归是有解析解的），只能通过数值方法来寻找最优参数。</p>
+<p>这里不再展开说了。</p>
+</blockquote>
+<p>当然对于其他学习任务同样是有性能度量的。比如无监督的聚类问题，K-Means算法中性能度量为：寻找最佳K个质心，使得所有点到所属质心的距离和最小。无监督的降维技术PCA算法的性能度量为：寻找坐标变化，使得新的坐标系下，使得主要坐标轴上的分量的方差最大化。强化学习中Q Learing的性能容量为：对于每个状态（state）选择最佳动作（action）使得奖赏（reword）最大化。</p>
+<p>广义上理解，性能度量是假设空间上的泛函，用于量化（度量）假设空间，从而指导算法寻找最优解。</p>
+<h3 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h3><p>1、ROC和AUC介绍以及如何计算AUC（<a href="http://alexkong.net/2013/06/introduction-to-auc-and-roc/）" target="_blank" rel="noopener">http://alexkong.net/2013/06/introduction-to-auc-and-roc/）</a></p>
+<p>2、sklearn（<a href="http://scikit-learn.org/stable/modules/classes.html#module-sklearn.metrics）" target="_blank" rel="noopener">http://scikit-learn.org/stable/modules/classes.html#module-sklearn.metrics）</a></p>
+<p>3、wiki百科 （<a href="https://zh.wikipedia.org/wiki/ROC%E6%9B%B2%E7%BA%BF）" target="_blank" rel="noopener">https://zh.wikipedia.org/wiki/ROC%E6%9B%B2%E7%BA%BF）</a></p>
+<p>4、统计学习方法</p>
+<p>5、深度学习</p>
 
       
     </div>
@@ -644,36 +762,6 @@
     <div>
       
         
-<div class="my_post_copyright">
-  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
-  <!-- JS库 sweetalert 可修改路径 -->
-  <script type="text/javascript" src="http://jslibs.wuxubj.cn/sweetalert_mini/jquery-1.7.1.min.js"></script>
-  <script src="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.min.js"></script>
-  <link rel="stylesheet" type="text/css" href="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.mini.css">
-  <p><span>本文标题:</span><a href="/2018/08/14/2018-08-13-Hive-install/">Hive介绍及部署</a></p>
-  <p><span>文章作者:</span><a href="/" title="访问 rong xiang 的个人博客">rong xiang</a></p>
-  <p><span>发布时间:</span>2018年08月14日 - 19:08</p>
-  <p><span>最后更新:</span>2020年03月22日 - 11:03</p>
-  <p><span>原始链接:</span><a href="/2018/08/14/2018-08-13-Hive-install/" title="Hive介绍及部署">https://zjrongxiang.github.io/2018/08/14/2018-08-13-Hive-install/</a>
-    <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://zjrongxiang.github.io/2018/08/14/2018-08-13-Hive-install/" aria-label="复制成功！"></i></span>
-  </p>
-  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
-</div>
-<script> 
-    var clipboard = new Clipboard('.fa-clipboard');
-    clipboard.on('success', $(function(){
-      $(".fa-clipboard").click(function(){
-        swal({   
-          title: "",   
-          text: '复制成功',   
-          html: false,
-          timer: 500,   
-          showConfirmButton: false
-        });
-      });
-    }));  
-</script>
-
       
     </div>
     
@@ -701,8 +789,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/06/25/2019-04-23-在Minikube上运行Flink集群（一）/" rel="next" title="在Minikube上运行Flink集群">
-                <i class="fa fa-chevron-left"></i> 在Minikube上运行Flink集群
+              <a href="/2018/01/25/2018-01-25-Python标准库timeit的使用简介/" rel="next" title="Python标准库timeit的使用简介">
+                <i class="fa fa-chevron-left"></i> Python标准库timeit的使用简介
               </a>
             
           </div>
@@ -711,8 +799,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/05/06/2019-05-06-Sqlflow初体验/" rel="prev" title="sqlflow初体验">
-                sqlflow初体验 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/01/25/2018-01-25-Redis学习笔记(数据类型及常用命令)/" rel="prev" title="Redis学习笔记（数据类型及常用命令）">
+                Redis学习笔记（数据类型及常用命令） <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -792,7 +880,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">46</span>
+                    <span class="site-state-item-count">85</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -863,12 +951,55 @@
                     
                       
                     
-                    <span class="site-state-item-count">29</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">43</span>
                     <span class="site-state-item-name">categories</span>
                   
                 </div>
               
 
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">2</span>
+                    <span class="site-state-item-name">tags</span>
+                  
+                </div>
               
             </nav>
           
@@ -959,7 +1090,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#背景"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#本地部署过程"><span class="nav-number">2.</span> <span class="nav-text">本地部署过程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#搭建目标："><span class="nav-number">2.0.1.</span> <span class="nav-text">搭建目标：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#环境准备"><span class="nav-number">2.0.2.</span> <span class="nav-text">环境准备</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Hive部署"><span class="nav-number">2.0.3.</span> <span class="nav-text">Hive部署</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#下载安装包："><span class="nav-number">2.0.3.1.</span> <span class="nav-text">下载安装包：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#配置Hive环境变量："><span class="nav-number">2.0.3.2.</span> <span class="nav-text">配置Hive环境变量：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#调整Hive的配置文件："><span class="nav-number">2.0.3.3.</span> <span class="nav-text">调整Hive的配置文件：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#新建HDFS分布式文件目录："><span class="nav-number">2.0.3.4.</span> <span class="nav-text">新建HDFS分布式文件目录：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#修改配置文件（hive-site-xml）："><span class="nav-number">2.0.3.5.</span> <span class="nav-text">修改配置文件（hive-site.xml）：</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#配置hive-env-sh文件："><span class="nav-number">2.0.4.</span> <span class="nav-text">配置hive-env.sh文件：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#配置Mysql"><span class="nav-number">2.0.5.</span> <span class="nav-text">配置Mysql</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#启动Hive"><span class="nav-number">2.1.</span> <span class="nav-text">启动Hive</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#踩坑备注"><span class="nav-number">2.2.</span> <span class="nav-text">踩坑备注</span></a></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#远程部署"><span class="nav-number">3.</span> <span class="nav-text">远程部署</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#参考文献"><span class="nav-number">3.1.</span> <span class="nav-text">参考文献</span></a></li></ol></li></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#背景"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#几个概念的理解"><span class="nav-number">2.</span> <span class="nav-text">几个概念的理解</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#性能度量介绍"><span class="nav-number">3.</span> <span class="nav-text">性能度量介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#回归问题"><span class="nav-number">3.1.</span> <span class="nav-text">回归问题</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#在sklearn包中已经封装相关性能函数供调用："><span class="nav-number">3.1.1.</span> <span class="nav-text">在sklearn包中已经封装相关性能函数供调用：</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#分类问题"><span class="nav-number">3.2.</span> <span class="nav-text">分类问题</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#混淆矩阵（Confusion-matrix）"><span class="nav-number">3.2.1.</span> <span class="nav-text">混淆矩阵（Confusion matrix）</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#性能度量使用和总结"><span class="nav-number">3.3.</span> <span class="nav-text">性能度量使用和总结</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考文献"><span class="nav-number">4.</span> <span class="nav-text">参考文献</span></a></li></ol></div>
             
 
           </div>
@@ -1140,9 +1271,9 @@
 
 <script>
   var disqus_config = function () {
-    this.page.url = "https://zjrongxiang.github.io/2018/08/14/2018-08-13-Hive-install/";
-    this.page.identifier = "2018/08/14/2018-08-13-Hive-install/";
-    this.page.title = 'Hive介绍及部署';
+    this.page.url = "https://zjrongxiang.github.io/2018/01/25/2018-01-27-机器学习系列文章-性能评估度量总结/";
+    this.page.identifier = "2018/01/25/2018-01-27-机器学习系列文章-性能评估度量总结/";
+    this.page.title = '机器学习系列文章-性能评估度量总结';
     };
   function loadComments () {
     var d = document, s = d.createElement('script');

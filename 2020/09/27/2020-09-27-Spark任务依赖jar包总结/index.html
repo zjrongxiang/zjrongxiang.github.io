@@ -117,17 +117,19 @@
 
 
 
-  <meta name="description" content="目录 背景 第一部分   版本升级指引 第二部分   升级方法和具体步骤 总结 参考文献及资料   背景Elasticsearch集群的版本升级是一项重要的集群维护工作。本篇文章参考官方文档，将详细介绍相关细节。 第一部分 版本升级指引1.1 同步升级Elastic Stack组件对于Elasticsearch的生态圈组件需要同步升级，具体配套版本可以参考官方提供的升级指南。  https://w">
+  <meta name="description" content="目录 背景 第一部分  常用快捷键 参考文献及资料  背景编写了Spark批任务（Java），使用maven打包成jar包，提交到Yarn集群，报jar包冲突的错误。查阅资料了解一下背后的原理。 https://stackoverflow.com/questions/16222748/building-a-fat-jar-using-maven 第一部分 Spark任务加载jar包原理Spark任">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Elasticsearch集群升级指引">
-<meta property="og:url" content="https://zjrongxiang.github.io/2020/03/07/2020-03-07-Elasticsearch集群升级指引/index.html">
+<meta property="og:title" content="Spark任务依赖jar包总结">
+<meta property="og:url" content="https://zjrongxiang.github.io/2020/09/27/2020-09-27-Spark任务依赖jar包总结/index.html">
 <meta property="og:site_name" content="RongXiang">
-<meta property="og:description" content="目录 背景 第一部分   版本升级指引 第二部分   升级方法和具体步骤 总结 参考文献及资料   背景Elasticsearch集群的版本升级是一项重要的集群维护工作。本篇文章参考官方文档，将详细介绍相关细节。 第一部分 版本升级指引1.1 同步升级Elastic Stack组件对于Elasticsearch的生态圈组件需要同步升级，具体配套版本可以参考官方提供的升级指南。  https://w">
+<meta property="og:description" content="目录 背景 第一部分  常用快捷键 参考文献及资料  背景编写了Spark批任务（Java），使用maven打包成jar包，提交到Yarn集群，报jar包冲突的错误。查阅资料了解一下背后的原理。 https://stackoverflow.com/questions/16222748/building-a-fat-jar-using-maven 第一部分 Spark任务加载jar包原理Spark任">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2020-03-22T03:42:15.763Z">
+<meta property="og:image" content="https://common.cnblogs.com/images/copycode.gif">
+<meta property="og:updated_time" content="2020-10-12T14:33:42.271Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Elasticsearch集群升级指引">
-<meta name="twitter:description" content="目录 背景 第一部分   版本升级指引 第二部分   升级方法和具体步骤 总结 参考文献及资料   背景Elasticsearch集群的版本升级是一项重要的集群维护工作。本篇文章参考官方文档，将详细介绍相关细节。 第一部分 版本升级指引1.1 同步升级Elastic Stack组件对于Elasticsearch的生态圈组件需要同步升级，具体配套版本可以参考官方提供的升级指南。  https://w">
+<meta name="twitter:title" content="Spark任务依赖jar包总结">
+<meta name="twitter:description" content="目录 背景 第一部分  常用快捷键 参考文献及资料  背景编写了Spark批任务（Java），使用maven打包成jar包，提交到Yarn集群，报jar包冲突的错误。查阅资料了解一下背后的原理。 https://stackoverflow.com/questions/16222748/building-a-fat-jar-using-maven 第一部分 Spark任务加载jar包原理Spark任">
+<meta name="twitter:image" content="https://common.cnblogs.com/images/copycode.gif">
 
 
 
@@ -136,7 +138,7 @@
 
 
 
-  <link rel="canonical" href="https://zjrongxiang.github.io/2020/03/07/2020-03-07-Elasticsearch集群升级指引/">
+  <link rel="canonical" href="https://zjrongxiang.github.io/2020/09/27/2020-09-27-Spark任务依赖jar包总结/">
 
 
 
@@ -146,7 +148,7 @@
   };
 </script>
 
-  <title>Elasticsearch集群升级指引 | RongXiang</title>
+  <title>Spark任务依赖jar包总结 | RongXiang</title>
   
 
 
@@ -422,7 +424,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zjrongxiang.github.io/2020/03/07/2020-03-07-Elasticsearch集群升级指引/">
+    <link itemprop="mainEntityOfPage" href="https://zjrongxiang.github.io/2020/09/27/2020-09-27-Spark任务依赖jar包总结/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="rong xiang">
@@ -439,7 +441,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Elasticsearch集群升级指引
+          <h1 class="post-title" itemprop="name headline">Spark任务依赖jar包总结
 
               
             
@@ -465,7 +467,7 @@
                 
               
 
-              <time title="Created: 2020-03-07 22:30:00" itemprop="dateCreated datePublished" datetime="2020-03-07T22:30:00+08:00">2020-03-07</time>
+              <time title="Created: 2020-09-27 13:30:00" itemprop="dateCreated datePublished" datetime="2020-09-27T13:30:00+08:00">2020-09-27</time>
             
 
             
@@ -482,7 +484,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2020-03-22 11:42:15" itemprop="dateModified" datetime="2020-03-22T11:42:15+08:00">2020-03-22</time>
+                <time title="Modified: 2020-10-12 22:33:42" itemprop="dateModified" datetime="2020-10-12T22:33:42+08:00">2020-10-12</time>
               
             
           </span>
@@ -499,7 +501,7 @@
                 <span class="post-meta-item-text">In</span>
               
               
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/Elasticsearch/" itemprop="url" rel="index"><span itemprop="name">Elasticsearch</span></a></span>
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/Java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a></span>
 
                 
                 
@@ -514,9 +516,9 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2020/03/07/2020-03-07-Elasticsearch集群升级指引/#comments" itemprop="discussionUrl">
+                <a href="/2020/09/27/2020-09-27-Spark任务依赖jar包总结/#comments" itemprop="discussionUrl">
                 
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/03/07/2020-03-07-Elasticsearch集群升级指引/" itemprop="commentCount"></span>
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/09/27/2020-09-27-Spark任务依赖jar包总结/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -546,185 +548,44 @@
       
         <h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ul>
 <li>背景</li>
-<li>第一部分   版本升级指引</li>
-<li>第二部分   升级方法和具体步骤</li>
-<li>总结</li>
-<li>参考文献及资料 </li>
+<li>第一部分  常用快捷键</li>
+<li>参考文献及资料</li>
 </ul>
-<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>Elasticsearch集群的版本升级是一项重要的集群维护工作。本篇文章参考官方文档，将详细介绍相关细节。</p>
-<h2 id="第一部分-版本升级指引"><a href="#第一部分-版本升级指引" class="headerlink" title="第一部分 版本升级指引"></a>第一部分 版本升级指引</h2><h3 id="1-1-同步升级Elastic-Stack组件"><a href="#1-1-同步升级Elastic-Stack组件" class="headerlink" title="1.1 同步升级Elastic Stack组件"></a>1.1 同步升级Elastic Stack组件</h3><p>对于Elasticsearch的生态圈组件需要同步升级，具体配套版本可以参考官方提供的升级指南。</p>
-<blockquote>
-<p><a href="https://www.elastic.co/cn/products/upgrade_guide" target="_blank" rel="noopener">https://www.elastic.co/cn/products/upgrade_guide</a></p>
-</blockquote>
-<h3 id="1-2-索引兼容性"><a href="#1-2-索引兼容性" class="headerlink" title="1.2 索引兼容性"></a>1.2 索引兼容性</h3><p>Elasticsearch对于老版本的索引（index）兼容性如下：</p>
-<ul>
-<li>Elasticsearch 6.x兼容Elasticsearch 5.x中创建的索引，但不兼容Elasticsearch 2.x或更旧版本的索引。</li>
-<li>Elasticsearch 5.x兼容Elasticsearch 2.x中创建的索引，但不不兼容Elasticsearch1.x或更旧版本的索引。</li>
-</ul>
-<p>如果升级过程中遇到索引不兼容场景，升级后集群将无法正常启动。</p>
-<h3 id="1-3-版本升级路线"><a href="#1-3-版本升级路线" class="headerlink" title="1.3 版本升级路线"></a>1.3 版本升级路线</h3><p>Elasticsearch版本升级具体路线总结如下：</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">序号</th>
-<th style="text-align:center">原版本</th>
-<th style="text-align:center">升级目标版本</th>
-<th style="text-align:center">支持的升级类型</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">1</td>
-<td style="text-align:center"><code>5.x</code></td>
-<td style="text-align:center"><code>5.y</code></td>
-<td style="text-align:center">滚动升级（其中 <code>y &gt; x</code>）</td>
-</tr>
-<tr>
-<td style="text-align:center">2</td>
-<td style="text-align:center"><code>5.6</code></td>
-<td style="text-align:center"><code>6.x</code></td>
-<td style="text-align:center">滚动升级</td>
-</tr>
-<tr>
-<td style="text-align:center">3</td>
-<td style="text-align:center"><code>5.0-5.5</code></td>
-<td style="text-align:center"><code>6.x</code></td>
-<td style="text-align:center">集群重启</td>
-</tr>
-<tr>
-<td style="text-align:center">4</td>
-<td style="text-align:center"><code>&lt;5.x</code></td>
-<td style="text-align:center"><code>6.x</code></td>
-<td style="text-align:center"><code>reindex</code>升级</td>
-</tr>
-<tr>
-<td style="text-align:center">5</td>
-<td style="text-align:center"><code>6.x</code></td>
-<td style="text-align:center"><code>6.y</code></td>
-<td style="text-align:center">滚动升级（其中 y &gt; x）</td>
-</tr>
-<tr>
-<td style="text-align:center">6</td>
-<td style="text-align:center"><code>1.x</code></td>
-<td style="text-align:center"><code>5.x</code></td>
-<td style="text-align:center"><code>reindex</code>升级</td>
-</tr>
-<tr>
-<td style="text-align:center">7</td>
-<td style="text-align:center"><code>2.x</code></td>
-<td style="text-align:center"><code>2.y</code></td>
-<td style="text-align:center">滚动升级（其中 <code>y &gt; x</code>）</td>
-</tr>
-<tr>
-<td style="text-align:center">8</td>
-<td style="text-align:center"><code>2.x</code></td>
-<td style="text-align:center"><code>5.x</code></td>
-<td style="text-align:center">集群重启</td>
-</tr>
-<tr>
-<td style="text-align:center">9</td>
-<td style="text-align:center"><code>5.0.0 pre GA</code></td>
-<td style="text-align:center"><code>5.x</code></td>
-<td style="text-align:center">集群重启</td>
-</tr>
-<tr>
-<td style="text-align:center">10</td>
-<td style="text-align:center"><code>5.x</code></td>
-<td style="text-align:center"><code>5.y</code></td>
-<td style="text-align:center">滚动升级（其中 <code>y &gt; x</code>）</td>
-</tr>
-</tbody>
-</table>
-<blockquote>
-<p>关于Elasticsearch的版本序列需要特别说明一下。Elasticsearch版本序列不是连续递增的，从<code>2.4.x</code>版本后直接跳跃到<code>5.0.x</code>。所以对于<code>5.x</code>版本，如果按照严格顺序递增编号，应该是<code>3.x</code>。之所以没有连续编号，主要是为了保持ELK（<code>Elasticsearch 、 Logstash 、 Kibana</code>）整体版本的统一。</p>
-</blockquote>
-<p>其中第4种情况，小于<code>5.x</code>其实就是<code>2.x</code>和<code>1.x</code>。由于<code>6.x</code>对于更低版本的索引不兼容，所以需要对原集群的中索引实施<code>reindex</code>。方案分别为：</p>
-<h4 id="1-3-1-2-x升级到6-x"><a href="#1-3-1-2-x升级到6-x" class="headerlink" title="1.3.1 2.x升级到6.x"></a>1.3.1 2.x升级到6.x</h4><p>按照上面的升级路线有两种升级方案：</p>
-<ul>
-<li>方案1：先由2.x升级到5.6版本（reindex升级索引版本），然后由5.6升级到6.x（滚动升级）；</li>
-<li>方案2：创建全新的6.x集群，然后将旧集群中的索引数据远程reindex到新集群中；</li>
-</ul>
-<h4 id="1-3-2-1-x升级到6-x"><a href="#1-3-2-1-x升级到6-x" class="headerlink" title="1.3.2 1.x升级到6.x"></a>1.3.2 1.x升级到6.x</h4><p>同样有两个方案：</p>
-<ul>
-<li>方案1：先由1.x升级到2.4.x版本（reindex升级索引版本），最后按照上面2.x升级到6.x的方案实施；</li>
-<li>方案2：创建全新的6.x集群，然后将旧集群中的索引reindex到新集群中；</li>
-</ul>
-<h2 id="第二部分-升级方法和具体步骤"><a href="#第二部分-升级方法和具体步骤" class="headerlink" title="第二部分 升级方法和具体步骤"></a>第二部分 升级方法和具体步骤</h2><p>集群升级路线中，针对不同的版本之间升级，一共有三种升级方案：滚动升级、集群重启、reindex。下面将分别介绍。</p>
-<h3 id="2-1-滚动升级"><a href="#2-1-滚动升级" class="headerlink" title="2.1 滚动升级"></a>2.1 滚动升级</h3><p>所谓滚动升级指的是集群中节点逐个将版本升级至目标（高）版本，升级期间集群保持对外服务不中断。这种升级方案都是针对同一个大版本内的升级，即x.y升级到x.z（z&gt;y）。特别的，5.6升级到6.x也是支持使用滚动升级方式的。</p>
-<blockquote>
-<p><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/rolling-upgrades.html" target="_blank" rel="noopener">https://www.elastic.co/guide/en/elasticsearch/reference/current/rolling-upgrades.html</a></p>
-</blockquote>
-<p>通常滚动升级的步骤如下：</p>
-<h4 id="第1步-禁用副本分片（shards）分配"><a href="#第1步-禁用副本分片（shards）分配" class="headerlink" title="第1步 禁用副本分片（shards）分配"></a>第1步 禁用副本分片（shards）分配</h4><p>在下宕升级节点前，需要提前禁止副本分片的分配。</p>
-<blockquote>
-<p>节点下宕后，副本分配进程会等待<code>index.unassigned.node_left.delayed_timeout</code>（默认情况下为1分钟），然后再开始将该节点上的分片复制到群集中的其他节点，这会导致大量I/O。由于节点很快将重新启动，所以并不需要重新分配。</p>
-</blockquote>
-<p>API命令如下：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">PUT _cluster/settings</span><br><span class="line">&#123;</span><br><span class="line">  "persistent": &#123;</span><br><span class="line">    "cluster.routing.allocation.enable": "primaries"</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="第2步-执行同步刷新"><a href="#第2步-执行同步刷新" class="headerlink" title="第2步 执行同步刷新"></a>第2步 执行同步刷新</h4><blockquote>
-<p>重启集群时如果translog过大，日志回放恢复数据耗时较长，建议手动同步刷新，减少translog。</p>
-<p>注意：这个过程较为缓慢。</p>
-</blockquote>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">POST _flush/synced</span><br></pre></td></tr></table></figure>
-<h4 id="第3步-停止机器学习作业"><a href="#第3步-停止机器学习作业" class="headerlink" title="第3步 停止机器学习作业"></a>第3步 停止机器学习作业</h4><p>如果集群中运行了机器学习任务，需要停止任务运行。</p>
-<blockquote>
-<p>参考：<a href="https://www.elastic.co/guide/en/elastic-stack-overview/6.8/stopping-ml.html" target="_blank" rel="noopener">https://www.elastic.co/guide/en/elastic-stack-overview/6.8/stopping-ml.html</a></p>
-</blockquote>
-<h4 id="第4部-下宕待升级节点并安装主版本和插件"><a href="#第4部-下宕待升级节点并安装主版本和插件" class="headerlink" title="第4部 下宕待升级节点并安装主版本和插件"></a>第4部 下宕待升级节点并安装主版本和插件</h4><p>对升级节点实施下宕，开始文件系统的升级。</p>
-<h4 id="第5步-启动节点"><a href="#第5步-启动节点" class="headerlink" title="第5步 启动节点"></a>第5步 启动节点</h4><p>启动节点，并用下面的API检查节点是否加入集群。</p>
-<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="builtin-name">GET</span> _cat/nodes</span><br></pre></td></tr></table></figure>
-<h4 id="第6步-重启分片分配"><a href="#第6步-重启分片分配" class="headerlink" title="第6步 重启分片分配"></a>第6步 重启分片分配</h4><p>节点加入集群后，设置启用分片分配开始使用该节点。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">PUT _cluster/settings</span><br><span class="line">&#123;</span><br><span class="line">  "persistent": &#123;</span><br><span class="line">    "cluster.routing.allocation.enable": null</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>在升级下一个节点前，等待集群分片完成。可以通过下面的API检查集群状态：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GET _cat/health?v</span><br></pre></td></tr></table></figure>
-<p>等待集群的状态由red变成yellow，再到green。说明集群完成所有主分片和副分片的分配。</p>
-<h4 id="第7步-重复升级其他节点"><a href="#第7步-重复升级其他节点" class="headerlink" title="第7步 重复升级其他节点"></a>第7步 重复升级其他节点</h4><p>重复滚动升级集群其他节点。</p>
-<h4 id="第8步-重启机器学习任务"><a href="#第8步-重启机器学习任务" class="headerlink" title="第8步 重启机器学习任务"></a>第8步 重启机器学习任务</h4><p>如果集群中有机器学习任务，需要从新启动。</p>
-<h3 id="2-2-集群整体重启"><a href="#2-2-集群整体重启" class="headerlink" title="2.2 集群整体重启"></a>2.2 集群整体重启</h3><p>集群整体重启指的是升级前将集群所有节点均下宕，集群停止对外服务，待所有节点完成升级后，整体启动集群，恢复对外服务。例如：5.6之前的版本升级到6.x需要重启集群实施升级。</p>
-<blockquote>
-<p><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/restart-upgrade.html" target="_blank" rel="noopener">https://www.elastic.co/guide/en/elasticsearch/reference/current/restart-upgrade.html</a></p>
-</blockquote>
-<p>集群重启升级步骤和滚动方式相似，主要步骤如下：</p>
-<h4 id="第1步-禁用副本分片（shards）分配-1"><a href="#第1步-禁用副本分片（shards）分配-1" class="headerlink" title="第1步 禁用副本分片（shards）分配"></a>第1步 禁用副本分片（shards）分配</h4><p>下宕升级节点前需要，提前禁止副本分片的分配。（参考滚动升级）</p>
-<h4 id="第2步-停止不必要的索引并执行同步刷新"><a href="#第2步-停止不必要的索引并执行同步刷新" class="headerlink" title="第2步 停止不必要的索引并执行同步刷新"></a>第2步 停止不必要的索引并执行同步刷新</h4><p>参考滚动升级。</p>
-<h4 id="第3步-停止机器学习作业-1"><a href="#第3步-停止机器学习作业-1" class="headerlink" title="第3步 停止机器学习作业"></a>第3步 停止机器学习作业</h4><p>参考滚动升级</p>
-<h4 id="第4部-下宕所有节点并安装主版本和插件"><a href="#第4部-下宕所有节点并安装主版本和插件" class="headerlink" title="第4部 下宕所有节点并安装主版本和插件"></a>第4部 下宕所有节点并安装主版本和插件</h4><p>对集群所有节点实施下宕，开始文件系统版本升级。</p>
-<h4 id="第5步-启动节点并等待集群状态为yellow"><a href="#第5步-启动节点并等待集群状态为yellow" class="headerlink" title="第5步 启动节点并等待集群状态为yellow"></a>第5步 启动节点并等待集群状态为yellow</h4><p>启动所有节点，并用下面的API检查所有节点是否加入集群。</p>
-<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="builtin-name">GET</span> _cat/nodes</span><br></pre></td></tr></table></figure>
-<h4 id="第6步-重启分片分配-1"><a href="#第6步-重启分片分配-1" class="headerlink" title="第6步 重启分片分配"></a>第6步 重启分片分配</h4><p>节点加入集群后，设置启用分片分配开始使用该节点。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">PUT _cluster/settings</span><br><span class="line">&#123;</span><br><span class="line">  "persistent": &#123;</span><br><span class="line">    "cluster.routing.allocation.enable": null</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>在升级下一个节点前，等待集群分片完成。可以通过下面的API检查集群状态：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GET _cat/health?v</span><br></pre></td></tr></table></figure>
-<p>等待集群的状态由yellow变为green。说明集群完成所有主分片和副分片的分配。</p>
-<h4 id="第7步-重启机器学习任务"><a href="#第7步-重启机器学习任务" class="headerlink" title="第7步 重启机器学习任务"></a>第7步 重启机器学习任务</h4><p>参考滚动升级</p>
-<h3 id="2-3-reindex"><a href="#2-3-reindex" class="headerlink" title="2.3 reindex"></a>2.3 reindex</h3><p>Elasticsearch中相邻版本的index具有兼容性，但是跨度较大的版本不再向下兼容。在上文（1.2 索引兼容性）中已做介绍。而在ElasticSearch中，索引的field设置是不能被修改的，如果要修改一个field，那么应该重新按照新的mapping，建立一个index，然后将数据批量查询出来，重新用bulk api写入新index中。</p>
-<blockquote>
-<p>批量查询的时候，建议采用scroll api，并且采用多线程并发的方式来reindex数据，每次scroll就查询指定日期的一段数据，交给一个线程即可。</p>
-</blockquote>
-<h4 id="第1步-搭建新版本集群"><a href="#第1步-搭建新版本集群" class="headerlink" title="第1步 搭建新版本集群"></a>第1步 搭建新版本集群</h4><p>申请服务器资源，搭建全新版本的ElasticSearch集群。将对外服务全部指向新集群。</p>
-<h4 id="第2步-将老集群中数据reindex到新集群"><a href="#第2步-将老集群中数据reindex到新集群" class="headerlink" title="第2步 将老集群中数据reindex到新集群"></a>第2步 将老集群中数据reindex到新集群</h4><p>在老集群上使用reindex API将老集群中index历史数据逐步迁移至新集群。</p>
-<blockquote>
-<p>如果集群数据量较大，迁移过程是一个很缓慢的过程。</p>
-</blockquote>
-<p>API案例（下面是简单的配置）：</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">POST _reindex</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">"source"</span>: &#123;</span><br><span class="line">    <span class="attr">"remote"</span>: &#123;</span><br><span class="line">      <span class="attr">"host"</span>: <span class="string">"http://otherhost:9200"</span>,</span><br><span class="line">      <span class="attr">"username"</span>: <span class="string">"user"</span>,</span><br><span class="line">      <span class="attr">"password"</span>: <span class="string">"pass"</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">"index"</span>: <span class="string">"source"</span>,</span><br><span class="line">    <span class="attr">"query"</span>: &#123;</span><br><span class="line">      <span class="attr">"match"</span>: &#123;</span><br><span class="line">        <span class="attr">"test"</span>: <span class="string">"data"</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">"dest"</span>: &#123;</span><br><span class="line">    <span class="attr">"index"</span>: <span class="string">"dest"</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">//host为远程集群（新集群）的地址。</span><br><span class="line">//username和password针对安全集群的密钥验证。</span><br><span class="line">//"index": "source"为旧集群中index名，dest的所对应的是新集群目标index名。</span><br></pre></td></tr></table></figure>
-<p>迁移完成后，可以对旧集群中数据实施清理。清理完成后根据情况需要，旧节点可以离线升级文件系统，最后作为全新的节点加入新集群。</p>
-<blockquote>
-<p>如果旧集群中历史数据不重要，可以删除数据后，搭建全新的集群。</p>
-</blockquote>
-<h3 id="2-4-分步升级"><a href="#2-4-分步升级" class="headerlink" title="2.4 分步升级"></a>2.4 分步升级</h3><p>对于跨度较大的版本升级，如果不采用新建集群再实施reindex方式，那么就需要分步升级。例如A、B、C依次为三个版本，版本级别A&lt;B&lt;C，其中index数据B兼容A，C兼容B，但是C不兼容A。这种情况需要分步升级：</p>
-<ul>
-<li>A升级到B，使用滚动升级或者集群整体重启方式。</li>
-<li>对于B版本的集群，将A版本的所有数据reindex到B版本。这个过程较为耗时。</li>
-<li>等到集群中所有历史index（新建的index自然是B版本）均为B版本后，升级集群版本到C版本。</li>
-</ul>
-<blockquote>
-<p>如果index数据是时间序列类的数据，可以不实施reindex，等到历史数据生命周期结束后（集群中不在有A版本的index数据），再从B版本升级到C版本。</p>
-</blockquote>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>（1）一般Elasticsearch大版本之间跨度升级需要重启整体集群。</p>
-<p>（2）部分ElasticSearch大版本间index并不兼容，需要对数据重索引（reindex）。</p>
-<p>（3）大版本中的小版本升级，通常只需要滚动重启方式即可。</p>
-<h2 id="参考材料"><a href="#参考材料" class="headerlink" title="参考材料"></a>参考材料</h2><p>1、Elasticsearch官网  链接：<a href="https://www.elastic.co/cn/" target="_blank" rel="noopener">https://www.elastic.co/cn/</a></p>
+<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>编写了Spark批任务（Java），使用maven打包成jar包，提交到Yarn集群，报jar包冲突的错误。查阅资料了解一下背后的原理。</p>
+<p><a href="https://stackoverflow.com/questions/16222748/building-a-fat-jar-using-maven" target="_blank" rel="noopener">https://stackoverflow.com/questions/16222748/building-a-fat-jar-using-maven</a></p>
+<h2 id="第一部分-Spark任务加载jar包原理"><a href="#第一部分-Spark任务加载jar包原理" class="headerlink" title="第一部分 Spark任务加载jar包原理"></a>第一部分 Spark任务加载jar包原理</h2><p>Spark任务运行默认加载的配置从默认的配置文件中获取，如果配置参数用户重新定义，那么参数将会覆盖默认配置文件中加载的配置。</p>
+<p>spark-defaults.conf</p>
+<p><a href="https://exceptionshub.com/add-jars-to-a-spark-job-spark-submit.html" target="_blank" rel="noopener">https://exceptionshub.com/add-jars-to-a-spark-job-spark-submit.html</a></p>
+<p>原因是本地的jar包被SPARK_HOME/lib中的jar覆盖。spark程序在提交到yarn时，除了上传用户程序的jar，还会上传SPARK_HOME的lib目录下的所有jar包（参考附录2 )。如果你程序用到的jar与SPARK_HOME/lib下的jar发生冲突，那么默认会优先加载SPARK_HOME/lib下的jar，而不是你程序的jar，所以会发生“ NoSuchMethodError”。</p>
+<figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">mvn </span>dependency:tree -Dverbose</span><br></pre></td></tr></table></figure>
+<p>参数<code>spark.yarn.jars</code></p>
+<p>官方文档的解释：</p>
+<figure class="highlight vhdl"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">List <span class="keyword">of</span> libraries containing Spark code <span class="keyword">to</span> distribute <span class="keyword">to</span> YARN containers. By <span class="keyword">default</span>, Spark <span class="keyword">on</span> YARN will <span class="keyword">use</span> Spark jars installed locally, but the Spark jars can also be <span class="keyword">in</span> a world-readable location <span class="keyword">on</span> HDFS. This allows YARN <span class="keyword">to</span> cache it <span class="keyword">on</span> nodes so that it doesn<span class="symbol">'t</span> need <span class="keyword">to</span> be distributed each <span class="built_in">time</span> an application runs. <span class="keyword">To</span> point <span class="keyword">to</span> jars <span class="keyword">on</span> HDFS, <span class="keyword">for</span> example, set this <span class="keyword">configuration</span> <span class="keyword">to</span> hdfs:///some/path. Globs are allowed.</span><br></pre></td></tr></table></figure>
+<p>参数（1.5.1）：</p>
+<p><strong>spark.driver.extraClassPath</strong></p>
+<p><strong>spark.executor.extraClassPath</strong></p>
+<p>附加到driver的classpath的额外的classpath实体。</p>
+<p>附加到executors的classpath的额外的classpath实体。这个设置存在的主要目的是Spark与旧版本的向后兼容问题。用户一般不用设置这个选项</p>
+<p>额外的classpath条目需预先添加到驱动程序 classpath中。 注意 : 在客户端模式下，这一套配置不能通过 SparkConf 直接在应用在应用程序中，因为 JVM 驱动已经启用了。相反，请在配置文件中通过设置 –driver-class-path 选项或者选择默认属性。</p>
+<p>目录使用hdfs文件</p>
+<p>参数：</p>
+<p>spark.driver.extraLibraryPath</p>
+<p>spark.executor.extraLibraryPath</p>
+<p>指定启动driver的JVM时用到的库路径</p>
+<p>参数：（2.1.0版本后）</p>
+<p>spark.driver.userClassPathFirst</p>
+<p>spark.executor.userClassPathFirst</p>
+<p>(实验性)当在driver中加载类时，是否用户添加的jar比Spark自己的jar优先级高。这个属性可以降低Spark依赖和用户依赖的冲突。它现在还是一个实验性的特征。</p>
+<p>（实验）在驱动程序加载类库时，用户添加的 Jar 包是否优先于 Spark 自身的 Jar 包。这个特性可以用来缓解冲突引发的依赖性和用户依赖。目前只是实验功能。这是仅用于集群模式。</p>
+<p>参数：</p>
+<p>spark.yarn.dist.jars</p>
+<h2 id="第二部分-解决jar包冲突"><a href="#第二部分-解决jar包冲突" class="headerlink" title="第二部分 解决jar包冲突"></a>第二部分 解决jar包冲突</h2><h3 id="第四种方式"><a href="#第四种方式" class="headerlink" title="第四种方式"></a>第四种方式</h3><p><strong>操作：更改Spark的配置信息:SPARK_CLASSPATH, 将第三方的jar文件添加到SPARK_CLASSPATH环境变量中</strong></p>
+<p>注意事项：要求Spark应用运行的所有机器上必须存在被添加的第三方jar文件</p>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">A.创建一个保存第三方jar文件的文件夹:</span><br><span class="line"> 命令：$ mkdir external_jars</span><br><span class="line">B.修改Spark配置信息</span><br><span class="line"> 命令：$ vim conf/spark-env.sh</span><br><span class="line">修改内容：SPARK_CLASSPATH=$<span class="symbol">SPARK_CLASSPATH:</span>/opt/cdh-<span class="number">5.3</span>.<span class="number">6</span>/spark/external_jars/*</span><br><span class="line">C.将依赖的jar文件copy到新建的文件夹中</span><br><span class="line">命令：$ cp /opt/cdh-<span class="number">5.3</span>.<span class="number">6</span>/hive/<span class="class"><span class="keyword">lib</span>/<span class="title">mysql</span>-<span class="title">connector</span>-<span class="title">java</span>-5.1.27-<span class="title">bin</span>.<span class="title">jar</span> ./<span class="title">external_jars</span>/</span></span><br></pre></td></tr></table></figure>
+<h2 id="备注：（只针对spark-on-yarn-cluster-模式）"><a href="#备注：（只针对spark-on-yarn-cluster-模式）" class="headerlink" title="备注：（只针对spark on yarn(cluster)模式）"></a>备注：（只针对spark on yarn(cluster)模式）</h2><h3 id="spark-on-yarn-cluster-，如果应用依赖第三方jar文件"><a href="#spark-on-yarn-cluster-，如果应用依赖第三方jar文件" class="headerlink" title="spark on yarn(cluster)，如果应用依赖第三方jar文件"></a>spark on yarn(cluster)，如果应用依赖第三方jar文件</h3><h3 id="最终解决方案：将第三方的jar文件copy到-HADOOP-HOME-share-hadoop-common-lib文件夹中-Hadoop集群中所有机器均要求copy"><a href="#最终解决方案：将第三方的jar文件copy到-HADOOP-HOME-share-hadoop-common-lib文件夹中-Hadoop集群中所有机器均要求copy" class="headerlink" title="最终解决方案：将第三方的jar文件copy到${HADOOP_HOME}/share/hadoop/common/lib文件夹中(Hadoop集群中所有机器均要求copy)"></a>最终解决方案：将第三方的jar文件copy到${HADOOP_HOME}/share/hadoop/common/lib文件夹中(Hadoop集群中所有机器均要求copy)</h3><p><a href="https://blog.csdn.net/ifenggege/article/details/108327167" target="_blank" rel="noopener">https://blog.csdn.net/ifenggege/article/details/108327167</a></p>
+<h2 id="参考文献及资料"><a href="#参考文献及资料" class="headerlink" title="参考文献及资料"></a>参考文献及资料</h2><p>1、Running Spark on YARN，链接：<a href="https://spark.apache.org/docs/1.5.1/running-on-yarn.html" target="_blank" rel="noopener">https://spark.apache.org/docs/1.5.1/running-on-yarn.html</a></p>
+<p>2、解决jar包冲突新思路 - maven-shade-plugin，链接：<a href="https://zhuanlan.zhihu.com/p/62796806" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/62796806</a></p>
 
       
     </div>
@@ -734,36 +595,6 @@
     <div>
       
         
-<div class="my_post_copyright">
-  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
-  <!-- JS库 sweetalert 可修改路径 -->
-  <script type="text/javascript" src="http://jslibs.wuxubj.cn/sweetalert_mini/jquery-1.7.1.min.js"></script>
-  <script src="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.min.js"></script>
-  <link rel="stylesheet" type="text/css" href="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.mini.css">
-  <p><span>本文标题:</span><a href="/2020/03/07/2020-03-07-Elasticsearch集群升级指引/">Elasticsearch集群升级指引</a></p>
-  <p><span>文章作者:</span><a href="/" title="访问 rong xiang 的个人博客">rong xiang</a></p>
-  <p><span>发布时间:</span>2020年03月07日 - 22:03</p>
-  <p><span>最后更新:</span>2020年03月22日 - 11:03</p>
-  <p><span>原始链接:</span><a href="/2020/03/07/2020-03-07-Elasticsearch集群升级指引/" title="Elasticsearch集群升级指引">https://zjrongxiang.github.io/2020/03/07/2020-03-07-Elasticsearch集群升级指引/</a>
-    <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://zjrongxiang.github.io/2020/03/07/2020-03-07-Elasticsearch集群升级指引/" aria-label="复制成功！"></i></span>
-  </p>
-  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
-</div>
-<script> 
-    var clipboard = new Clipboard('.fa-clipboard');
-    clipboard.on('success', $(function(){
-      $(".fa-clipboard").click(function(){
-        swal({   
-          title: "",   
-          text: '复制成功',   
-          html: false,
-          timer: 500,   
-          showConfirmButton: false
-        });
-      });
-    }));  
-</script>
-
       
     </div>
     
@@ -791,8 +622,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/03/02/2020-01-01-Kafka系列文章（第五篇Kafka安全）/" rel="next" title="Kafka系列文章（第五篇 Kafka安全集群）">
-                <i class="fa fa-chevron-left"></i> Kafka系列文章（第五篇 Kafka安全集群）
+              <a href="/2020/09/12/2020-09-12-布隆过滤算法总结/" rel="next" title="布隆过滤算法总结">
+                <i class="fa fa-chevron-left"></i> 布隆过滤算法总结
               </a>
             
           </div>
@@ -801,8 +632,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2020/03/22/2020-03-22-小米路由器MT工具箱配置/" rel="prev" title="小米路由器MT工具箱配置">
-                小米路由器MT工具箱配置 <i class="fa fa-chevron-right"></i>
+              <a href="/2020/09/27/2020-09-27-非root用户部署keeplived总结/" rel="prev" title="Spark任务依赖jar包总结">
+                Spark任务依赖jar包总结 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -882,7 +713,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">46</span>
+                    <span class="site-state-item-count">85</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -953,12 +784,55 @@
                     
                       
                     
-                    <span class="site-state-item-count">29</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">43</span>
                     <span class="site-state-item-name">categories</span>
                   
                 </div>
               
 
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">2</span>
+                    <span class="site-state-item-name">tags</span>
+                  
+                </div>
               
             </nav>
           
@@ -1049,7 +923,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#目录"><span class="nav-number">1.</span> <span class="nav-text">目录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#背景"><span class="nav-number">2.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第一部分-版本升级指引"><span class="nav-number">3.</span> <span class="nav-text">第一部分 版本升级指引</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-同步升级Elastic-Stack组件"><span class="nav-number">3.1.</span> <span class="nav-text">1.1 同步升级Elastic Stack组件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-索引兼容性"><span class="nav-number">3.2.</span> <span class="nav-text">1.2 索引兼容性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-版本升级路线"><span class="nav-number">3.3.</span> <span class="nav-text">1.3 版本升级路线</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-3-1-2-x升级到6-x"><span class="nav-number">3.3.1.</span> <span class="nav-text">1.3.1 2.x升级到6.x</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-3-2-1-x升级到6-x"><span class="nav-number">3.3.2.</span> <span class="nav-text">1.3.2 1.x升级到6.x</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第二部分-升级方法和具体步骤"><span class="nav-number">4.</span> <span class="nav-text">第二部分 升级方法和具体步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-滚动升级"><span class="nav-number">4.1.</span> <span class="nav-text">2.1 滚动升级</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#第1步-禁用副本分片（shards）分配"><span class="nav-number">4.1.1.</span> <span class="nav-text">第1步 禁用副本分片（shards）分配</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第2步-执行同步刷新"><span class="nav-number">4.1.2.</span> <span class="nav-text">第2步 执行同步刷新</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第3步-停止机器学习作业"><span class="nav-number">4.1.3.</span> <span class="nav-text">第3步 停止机器学习作业</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第4部-下宕待升级节点并安装主版本和插件"><span class="nav-number">4.1.4.</span> <span class="nav-text">第4部 下宕待升级节点并安装主版本和插件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第5步-启动节点"><span class="nav-number">4.1.5.</span> <span class="nav-text">第5步 启动节点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第6步-重启分片分配"><span class="nav-number">4.1.6.</span> <span class="nav-text">第6步 重启分片分配</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第7步-重复升级其他节点"><span class="nav-number">4.1.7.</span> <span class="nav-text">第7步 重复升级其他节点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第8步-重启机器学习任务"><span class="nav-number">4.1.8.</span> <span class="nav-text">第8步 重启机器学习任务</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-集群整体重启"><span class="nav-number">4.2.</span> <span class="nav-text">2.2 集群整体重启</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#第1步-禁用副本分片（shards）分配-1"><span class="nav-number">4.2.1.</span> <span class="nav-text">第1步 禁用副本分片（shards）分配</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第2步-停止不必要的索引并执行同步刷新"><span class="nav-number">4.2.2.</span> <span class="nav-text">第2步 停止不必要的索引并执行同步刷新</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第3步-停止机器学习作业-1"><span class="nav-number">4.2.3.</span> <span class="nav-text">第3步 停止机器学习作业</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第4部-下宕所有节点并安装主版本和插件"><span class="nav-number">4.2.4.</span> <span class="nav-text">第4部 下宕所有节点并安装主版本和插件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第5步-启动节点并等待集群状态为yellow"><span class="nav-number">4.2.5.</span> <span class="nav-text">第5步 启动节点并等待集群状态为yellow</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第6步-重启分片分配-1"><span class="nav-number">4.2.6.</span> <span class="nav-text">第6步 重启分片分配</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第7步-重启机器学习任务"><span class="nav-number">4.2.7.</span> <span class="nav-text">第7步 重启机器学习任务</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-reindex"><span class="nav-number">4.3.</span> <span class="nav-text">2.3 reindex</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#第1步-搭建新版本集群"><span class="nav-number">4.3.1.</span> <span class="nav-text">第1步 搭建新版本集群</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第2步-将老集群中数据reindex到新集群"><span class="nav-number">4.3.2.</span> <span class="nav-text">第2步 将老集群中数据reindex到新集群</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-分步升级"><span class="nav-number">4.4.</span> <span class="nav-text">2.4 分步升级</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">5.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考材料"><span class="nav-number">6.</span> <span class="nav-text">参考材料</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#目录"><span class="nav-number">1.</span> <span class="nav-text">目录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#背景"><span class="nav-number">2.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第一部分-Spark任务加载jar包原理"><span class="nav-number">3.</span> <span class="nav-text">第一部分 Spark任务加载jar包原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第二部分-解决jar包冲突"><span class="nav-number">4.</span> <span class="nav-text">第二部分 解决jar包冲突</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#第四种方式"><span class="nav-number">4.1.</span> <span class="nav-text">第四种方式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#备注：（只针对spark-on-yarn-cluster-模式）"><span class="nav-number">5.</span> <span class="nav-text">备注：（只针对spark on yarn(cluster)模式）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#spark-on-yarn-cluster-，如果应用依赖第三方jar文件"><span class="nav-number">5.1.</span> <span class="nav-text">spark on yarn(cluster)，如果应用依赖第三方jar文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#最终解决方案：将第三方的jar文件copy到-HADOOP-HOME-share-hadoop-common-lib文件夹中-Hadoop集群中所有机器均要求copy"><span class="nav-number">5.2.</span> <span class="nav-text">最终解决方案：将第三方的jar文件copy到${HADOOP_HOME}/share/hadoop/common/lib文件夹中(Hadoop集群中所有机器均要求copy)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文献及资料"><span class="nav-number">6.</span> <span class="nav-text">参考文献及资料</span></a></li></ol></div>
             
 
           </div>
@@ -1230,9 +1104,9 @@
 
 <script>
   var disqus_config = function () {
-    this.page.url = "https://zjrongxiang.github.io/2020/03/07/2020-03-07-Elasticsearch集群升级指引/";
-    this.page.identifier = "2020/03/07/2020-03-07-Elasticsearch集群升级指引/";
-    this.page.title = 'Elasticsearch集群升级指引';
+    this.page.url = "https://zjrongxiang.github.io/2020/09/27/2020-09-27-Spark任务依赖jar包总结/";
+    this.page.identifier = "2020/09/27/2020-09-27-Spark任务依赖jar包总结/";
+    this.page.title = 'Spark任务依赖jar包总结';
     };
   function loadComments () {
     var d = document, s = d.createElement('script');

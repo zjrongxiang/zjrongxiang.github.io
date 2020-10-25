@@ -1,0 +1,1734 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="en">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<script>
+    (function(){
+        if(''){
+            if (prompt('请输入文章密码') !== ''){
+                alert('密码错误！');
+                history.back();
+            }
+        }
+    })();
+</script>
+
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2">
+
+
+
+  
+  
+  <link rel="stylesheet" href="/lib/Han/dist/han.min.css?v=3.3">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=6.7.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.7.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.7.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '6.7.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="文章分为两个部分：  第一部分，介绍集成学习的理论原理。  第二部分，实践部分。主要使用sklearn封装的包。   第一部分  理论原理什么是集成学习​      首先集成学习（ensemble learning）不是具体的算法，应该算一种算法思想（Algorithm Framework，类比EM算法）。在机器学习中，通过一定组合策略，将多种学习器组合起来，以此提升泛化能力的框架统称为集成学习。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="机器学习系列文章-集成学习综述">
+<meta property="og:url" content="https://zjrongxiang.github.io/2018/06/09/2018-06-09-机器学习系列文章-集成学习综述/index.html">
+<meta property="og:site_name" content="RongXiang">
+<meta property="og:description" content="文章分为两个部分：  第一部分，介绍集成学习的理论原理。  第二部分，实践部分。主要使用sklearn封装的包。   第一部分  理论原理什么是集成学习​      首先集成学习（ensemble learning）不是具体的算法，应该算一种算法思想（Algorithm Framework，类比EM算法）。在机器学习中，通过一定组合策略，将多种学习器组合起来，以此提升泛化能力的框架统称为集成学习。">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="http://mblogthumb2.phinf.naver.net/20160930_249/woosa7_1475241354577UP17G_PNG/bagging.png?type=w2">
+<meta property="og:image" content="http://images.cnblogs.com/cnblogs_com/LeftNotEasy/201101/201101022146336801.png">
+<meta property="og:image" content="https://i.stack.imgur.com/5b2VM.png">
+<meta property="og:image" content="https://i.stack.imgur.com/iwo91.png">
+<meta property="og:updated_time" content="2020-10-05T13:34:24.734Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="机器学习系列文章-集成学习综述">
+<meta name="twitter:description" content="文章分为两个部分：  第一部分，介绍集成学习的理论原理。  第二部分，实践部分。主要使用sklearn封装的包。   第一部分  理论原理什么是集成学习​      首先集成学习（ensemble learning）不是具体的算法，应该算一种算法思想（Algorithm Framework，类比EM算法）。在机器学习中，通过一定组合策略，将多种学习器组合起来，以此提升泛化能力的框架统称为集成学习。">
+<meta name="twitter:image" content="http://mblogthumb2.phinf.naver.net/20160930_249/woosa7_1475241354577UP17G_PNG/bagging.png?type=w2">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="RongXiang" type="application/atom+xml">
+
+
+
+
+  <link rel="canonical" href="https://zjrongxiang.github.io/2018/06/09/2018-06-09-机器学习系列文章-集成学习综述/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>机器学习系列文章-集成学习综述 | RongXiang</title>
+  
+
+
+
+
+  <script async src="//www.googletagmanager.com/gtag/js?id=UA-113063423-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-113063423-1');
+  </script>
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+    <!-- <a href="https://github.com/zjrongxiang"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png" alt="Fork me on GitHub"></a> -->
+    <a href="https://github.com/zjrongxiang"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_green_007200.png" alt="Fork me on GitHub"></a>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">RongXiang</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">我的烂笔头</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>About</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>Tags</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>Categories</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-schedule">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/schedule/" rel="section"><i class="menu-item-icon fa fa-fw fa-calendar"></i> <br>Schedule</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>Search</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="Searching..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zjrongxiang.github.io/2018/06/09/2018-06-09-机器学习系列文章-集成学习综述/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="rong xiang">
+      <meta itemprop="description" content="Keep a Pure Curiosity">
+      <meta itemprop="image" content="/images/avatar/person.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="RongXiang">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">机器学习系列文章-集成学习综述
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2018-06-09 19:30:00" itemprop="dateCreated datePublished" datetime="2018-06-09T19:30:00+08:00">2018-06-09</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2020-10-05 21:34:24" itemprop="dateModified" datetime="2020-10-05T21:34:24+08:00">2020-10-05</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/machine-learning/" itemprop="url" rel="index"><span itemprop="name">machine learning</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/06/09/2018-06-09-机器学习系列文章-集成学习综述/#comments" itemprop="discussionUrl">
+                
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/06/09/2018-06-09-机器学习系列文章-集成学习综述/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>文章分为两个部分：</p>
+<ul>
+<li><p>第一部分，介绍集成学习的理论原理。</p>
+</li>
+<li><p>第二部分，实践部分。主要使用sklearn封装的包。</p>
+</li>
+</ul>
+<h2 id="第一部分-理论原理"><a href="#第一部分-理论原理" class="headerlink" title="第一部分  理论原理"></a>第一部分  理论原理</h2><h3 id="什么是集成学习"><a href="#什么是集成学习" class="headerlink" title="什么是集成学习"></a>什么是集成学习</h3><p>​      首先集成学习（ensemble learning）不是具体的算法，应该算一种算法思想（Algorithm Framework，类比EM算法）。在机器学习中，通过一定组合策略，将多种学习器组合起来，以此提升泛化能力的框架统称为集成学习。</p>
+<p>​       集成学习框架可以分成两个部分：基分类器集合、组合策略。</p>
+<p>​       最常用的集成学习框架有：Bagging、Boosting、Stacking，在机器学习的比赛中被广泛使用。</p>
+<h3 id="Bagging"><a href="#Bagging" class="headerlink" title="Bagging"></a>Bagging</h3><p>Bootstrap aggregating 简称Bagging，下面的流程图很清楚的说明了Bagging的框架流程。</p>
+<p><img src="http://mblogthumb2.phinf.naver.net/20160930_249/woosa7_1475241354577UP17G_PNG/bagging.png?type=w2" alt="相关图片"> </p>
+<h4 id="算法流程"><a href="#算法流程" class="headerlink" title="算法流程"></a>算法流程</h4><blockquote>
+<p>算法输入：$TrainData \  D={(x_1,y_1),(x_2,y_2),…,(x_m,y_m)}$ </p>
+<p>​            基学习器： $L$</p>
+<p>​            训练迭代的次数： $T$</p>
+<p>算法过程：</p>
+<p>1、<strong>For</strong>   t =1,2,3，…,T   <strong>DO</strong>:</p>
+<p>2、对训练集$D$进行第t次随机采样，共采集m次，得到包含m个样本的采样集$Dt$</p>
+<p>3、$h_t=L(D,D_t)$</p>
+<p>4、<strong>end  for</strong></p>
+<p>算法输出：$H(x)=argmax_{y \in Y}{\sum_{t=1}^{T}I(h_t(x)=y)}$</p>
+</blockquote>
+<p><strong>关键步骤：</strong></p>
+<ul>
+<li>随机采样：每次采样，从训练集中采样固定数量的样本。并且是有放回的。每次未被采样的数据称为袋外数据（Out Of Bag, 简称OOB ），作为测试集，检测基学习器的泛化能力。</li>
+<li>Bagging的基学习器可以是“异质”的。</li>
+<li>Bagging的组合策略有：投票法（分类问题）、平均值（回归问题）。</li>
+</ul>
+<blockquote>
+<p>随机森林（Random Forest）是最常用的Bagging算法架构，基学习器使用CART决策树。当然RF对原架构有部分改动：</p>
+<ul>
+<li>RF中每个基分类器（决策树），每个节点对特征进行部分采样，然后在采样集中选择最优特征。提高基分类器的泛化能力。</li>
+<li>普通的CART并不对特征进行采样。</li>
+</ul>
+</blockquote>
+<h3 id="Boosting（Adaboost）"><a href="#Boosting（Adaboost）" class="headerlink" title="Boosting（Adaboost）"></a>Boosting（Adaboost）</h3><p>在Bagging框架下，基学习器是相互独立的学习过程。而在boosing框架中，基学习器存在前后依赖关系。可以将弱学习器（强于随机猜想）提升为强学习器。</p>
+<p><img src="http://images.cnblogs.com/cnblogs_com/LeftNotEasy/201101/201101022146336801.png" alt="“boosting”的图片搜索结果"> </p>
+<p>数据集有$n$个点，Boosting框架给数据集赋予了权重分布结构${w_i}_{i=1}^n$表示这个点重要性（这些权重值会在代价函数中体现）。对于前项学习器分类错误的点，提高权重（即提高下一项学习器代价函数对于“错”点关注）。最后得到一个学习器序列${y_i}_{i=1}^M$,最后通过加权得到最终的模型。</p>
+<p>上面的例子只是简单介绍。Boosting最出名的算法框架为Adaboost（adaptive boosting）。</p>
+<h4 id="Adaboost-算法流程"><a href="#Adaboost-算法流程" class="headerlink" title="Adaboost 算法流程"></a>Adaboost 算法流程</h4><p>以二元分类为例：</p>
+<blockquote>
+<p>算法输入：$TrainData \  D={(x_1,y_1),(x_2,y_2),…,(x_m,y_m)}$</p>
+<p>​            基学习器： $L$</p>
+<p>​            训练迭代的次数： $T$</p>
+<p>算法过程：</p>
+<p>1、初始化数据集权值分布：$D_1(x)=1/m$</p>
+<p>2、For  t=1,2,3,…,T     DO</p>
+<p>3、$h_t=L(D,D_t)$</p>
+<p>4、$\epsilon_t=P_{x\sim D_t}(h_t(x)\ne f(x))$</p>
+<p>5、if $\epsilon_t &gt;0.5$ then break</p>
+<p>6、$\alpha_t=\dfrac{1}{2}ln(\dfrac{1-\epsilon_t}{\epsilon_t} )$</p>
+<p>7、$D_{t+1}(x)=\dfrac{D_t(x)}{Z_t}exp(-\alpha_tf(x)h_t(x))$</p>
+<p>8、end for</p>
+<p>算法输出：$H(x)=sign{\sum_{t=1}^{T}}\alpha_t h_t(x)$</p>
+</blockquote>
+<blockquote>
+<p>注记：Boosting只能针对二分类的问题。对于多分类问题已经有相关的推广工作。</p>
+<p>Multi-class AdaBoost ：<a href="https://web.stanford.edu/~hastie/Papers/samme.pdf" target="_blank" rel="noopener">https://web.stanford.edu/~hastie/Papers/samme.pdf</a></p>
+<p>该论文的算法已经在sklearn中进行封装实现。第二部分我们将讲解。</p>
+</blockquote>
+<h3 id="Stacking"><a href="#Stacking" class="headerlink" title="Stacking"></a>Stacking</h3><h2 id="第二部分-实践"><a href="#第二部分-实践" class="headerlink" title="第二部分 实践"></a>第二部分 实践</h2><p>sklearn中有集成学习丰富的封装包：</p>
+<p>The <a href="http://scikit-learn.org/stable/modules/classes.html#module-sklearn.ensemble" target="_blank" rel="noopener"><code>sklearn.ensemble</code></a> module includes ensemble-based methods for classification, regression and anomaly detection.</p>
+<p><strong>User guide:</strong> See the <a href="http://scikit-learn.org/stable/modules/ensemble.html#ensemble" target="_blank" rel="noopener">Ensemble methods</a> section for further details.</p>
+<table>
+<thead>
+<tr>
+<th><a href="http://scikit-learn.org/stable/modules/generated/sklearn.ensemble.AdaBoostClassifier.html#sklearn.ensemble.AdaBoostClassifier" target="_blank" rel="noopener"><code>ensemble.AdaBoostClassifier</code></a>([…])</th>
+<th>An AdaBoost classifier.</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="http://scikit-learn.org/stable/modules/generated/sklearn.ensemble.AdaBoostRegressor.html#sklearn.ensemble.AdaBoostRegressor" target="_blank" rel="noopener"><code>ensemble.AdaBoostRegressor</code></a>([base_estimator, …])</td>
+<td>An AdaBoost regressor.</td>
+</tr>
+<tr>
+<td><a href="http://scikit-learn.org/stable/modules/generated/sklearn.ensemble.BaggingClassifier.html#sklearn.ensemble.BaggingClassifier" target="_blank" rel="noopener"><code>ensemble.BaggingClassifier</code></a>([base_estimator, …])</td>
+<td>A Bagging classifier.</td>
+</tr>
+<tr>
+<td><a href="http://scikit-learn.org/stable/modules/generated/sklearn.ensemble.BaggingRegressor.html#sklearn.ensemble.BaggingRegressor" target="_blank" rel="noopener"><code>ensemble.BaggingRegressor</code></a>([base_estimator, …])</td>
+<td>A Bagging regressor.</td>
+</tr>
+<tr>
+<td><a href="http://scikit-learn.org/stable/modules/generated/sklearn.ensemble.ExtraTreesClassifier.html#sklearn.ensemble.ExtraTreesClassifier" target="_blank" rel="noopener"><code>ensemble.ExtraTreesClassifier</code></a>([…])</td>
+<td>An extra-trees classifier.</td>
+</tr>
+<tr>
+<td><a href="http://scikit-learn.org/stable/modules/generated/sklearn.ensemble.ExtraTreesRegressor.html#sklearn.ensemble.ExtraTreesRegressor" target="_blank" rel="noopener"><code>ensemble.ExtraTreesRegressor</code></a>([n_estimators, …])</td>
+<td>An extra-trees regressor.</td>
+</tr>
+<tr>
+<td><a href="http://scikit-learn.org/stable/modules/generated/sklearn.ensemble.GradientBoostingClassifier.html#sklearn.ensemble.GradientBoostingClassifier" target="_blank" rel="noopener"><code>ensemble.GradientBoostingClassifier</code></a>([loss, …])</td>
+<td>Gradient Boosting for classification.</td>
+</tr>
+<tr>
+<td><a href="http://scikit-learn.org/stable/modules/generated/sklearn.ensemble.GradientBoostingRegressor.html#sklearn.ensemble.GradientBoostingRegressor" target="_blank" rel="noopener"><code>ensemble.GradientBoostingRegressor</code></a>([loss, …])</td>
+<td>Gradient Boosting for regression.</td>
+</tr>
+<tr>
+<td><a href="http://scikit-learn.org/stable/modules/generated/sklearn.ensemble.IsolationForest.html#sklearn.ensemble.IsolationForest" target="_blank" rel="noopener"><code>ensemble.IsolationForest</code></a>([n_estimators, …])</td>
+<td>Isolation Forest Algorithm</td>
+</tr>
+<tr>
+<td><a href="http://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html#sklearn.ensemble.RandomForestClassifier" target="_blank" rel="noopener"><code>ensemble.RandomForestClassifier</code></a>([…])</td>
+<td>A random forest classifier.</td>
+</tr>
+<tr>
+<td><a href="http://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestRegressor.html#sklearn.ensemble.RandomForestRegressor" target="_blank" rel="noopener"><code>ensemble.RandomForestRegressor</code></a>([…])</td>
+<td>A random forest regressor.</td>
+</tr>
+<tr>
+<td><a href="http://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomTreesEmbedding.html#sklearn.ensemble.RandomTreesEmbedding" target="_blank" rel="noopener"><code>ensemble.RandomTreesEmbedding</code></a>([…])</td>
+<td>An ensemble of totally random trees.</td>
+</tr>
+<tr>
+<td><a href="http://scikit-learn.org/stable/modules/generated/sklearn.ensemble.VotingClassifier.html#sklearn.ensemble.VotingClassifier" target="_blank" rel="noopener"><code>ensemble.VotingClassifier</code></a>(estimators[, …])</td>
+<td>Soft Voting/Majority Rule classifier for unfitted estimators.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="AdaBoostClassifier参数介绍"><a href="#AdaBoostClassifier参数介绍" class="headerlink" title="AdaBoostClassifier参数介绍"></a>AdaBoostClassifier参数介绍</h3><p>源码路径：sklearn\ensemble\weight_boosting.py</p>
+<p>主要参数：</p>
+<h4 id="base-estimator"><a href="#base-estimator" class="headerlink" title="base_estimator"></a>base_estimator</h4><blockquote>
+<figure class="highlight vbnet"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&gt; base_estimator : <span class="built_in">object</span>, <span class="keyword">optional</span> (<span class="keyword">default</span>=DecisionTreeClassifier)</span><br><span class="line">&gt;         The base estimator <span class="keyword">from</span> which the boosted ensemble <span class="keyword">is</span> built.</span><br><span class="line">&gt;         Support <span class="keyword">for</span> sample weighting <span class="keyword">is</span> required, <span class="keyword">as</span> well <span class="keyword">as</span> proper `classes_`</span><br><span class="line">&gt;         <span class="keyword">and</span> `n_classes_` attributes.</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>基分类器。默认为决策树（DecisionTreeClassifier）。基分类器的选择有个trick在algorithm参数中一并介绍。</p>
+<h4 id="n-estimators"><a href="#n-estimators" class="headerlink" title="n_estimators"></a>n_estimators</h4><blockquote>
+<pre><code>n_estimators : integer, optional (default=50)
+    The maximum number of estimators at which boosting is terminated.
+    In case of perfect fit, the learning procedure is stopped early.
+</code></pre></blockquote>
+<p>最大训练迭代次数。默认值为50。另外从boosting原理看，也可以理解为最大生成基学习器的序列长度。</p>
+<h4 id="learning-rate"><a href="#learning-rate" class="headerlink" title="learning_rate"></a>learning_rate</h4><blockquote>
+<figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&gt; learning_rate : float, optional (default=<span class="number">1.</span>)</span><br><span class="line">&gt;         Learning rate shrinks the contribution <span class="keyword">of</span> each classifier by</span><br><span class="line">&gt;         ``learning_rate``. There is a trade-off between ``learning_rate`` and</span><br><span class="line">&gt;         ``n_estimators``.</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>学习率（步长）。源码中的介绍也提到参数的选择和参数n_estimators是一个trade-off。</p>
+<h4 id="algorithm"><a href="#algorithm" class="headerlink" title="algorithm"></a>algorithm</h4><blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;</span><span class="bash"> algorithm : &#123;<span class="string">'SAMME'</span>, <span class="string">'SAMME.R'</span>&#125;, optional (default=<span class="string">'SAMME.R'</span>)</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash">         If <span class="string">'SAMME.R'</span> <span class="keyword">then</span> use the SAMME.R real boosting algorithm.</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash">         ``base_estimator`` must support calculation of class probabilities.</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash">         If <span class="string">'SAMME'</span> <span class="keyword">then</span> use the SAMME discrete boosting algorithm.</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash">         The SAMME.R algorithm typically converges faster than SAMME,</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash">         achieving a lower <span class="built_in">test</span> error with fewer boosting iterations.</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"></span></span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>算法，其实应该是权重更新算法。参数有两个选择：’SAMME’, ‘SAMME.R’，默认是“’SAMME.R”。理解两个算法的区别就需要我们回溯到原论文：《Multi-class AdaBoost》：</p>
+<h5 id="SAMME-算法"><a href="#SAMME-算法" class="headerlink" title="SAMME 算法"></a>SAMME 算法</h5><p><img src="https://i.stack.imgur.com/5b2VM.png" alt="img"> </p>
+<h5 id="SAMME-R-算法"><a href="#SAMME-R-算法" class="headerlink" title="SAMME.R 算法"></a>SAMME.R 算法</h5><p><img src="https://i.stack.imgur.com/iwo91.png" alt="enter image description here"> </p>
+<p>简单的理解：如果使用SAMME.R算法，需要基分类器的输出是概率值。即在sklearn框架中需要class中有predict_proba函数。</p>
+<p>可以通过下面的python脚本查看哪些分类器是满足的。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> inspect</span><br><span class="line"><span class="keyword">from</span> sklearn.utils.testing <span class="keyword">import</span> all_estimators</span><br><span class="line"><span class="keyword">for</span> name, clf <span class="keyword">in</span> all_estimators(type_filter=<span class="string">'classifier'</span>):</span><br><span class="line">    <span class="keyword">if</span> <span class="string">'sample_weight'</span> <span class="keyword">in</span> inspect.getargspec(clf().fit)[<span class="number">0</span>]:</span><br><span class="line">       print(name)</span><br></pre></td></tr></table></figure>
+<h4 id="random-state"><a href="#random-state" class="headerlink" title="random_state"></a>random_state</h4><blockquote>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&gt; random_state : int, RandomState<span class="built_in"> instance </span><span class="keyword">or</span> None, optional (<span class="attribute">default</span>=None)</span><br><span class="line">&gt;         <span class="keyword">If</span> int, random_state is the seed used by the random number generator;</span><br><span class="line">&gt;         <span class="keyword">If</span> RandomState instance, random_state is the random number generator;</span><br><span class="line">&gt;         <span class="keyword">If</span> None, the random number generator is the RandomState<span class="built_in"> instance </span>used</span><br><span class="line">&gt;         by `np.random`.</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>随机种子。参数随意，如果要结果能复现，需要相同的随机种子。</p>
+<h3 id="AdaBoostRegressor参数简介"><a href="#AdaBoostRegressor参数简介" class="headerlink" title="AdaBoostRegressor参数简介"></a>AdaBoostRegressor参数简介</h3><p>源码路径：sklearn\ensemble\weight_boosting.py</p>
+<p>主要参数：</p>
+<h4 id="base-estimator-1"><a href="#base-estimator-1" class="headerlink" title="base_estimator"></a>base_estimator</h4><blockquote>
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt; base_estimator : <span class="keyword">object</span>, optional (<span class="keyword">default</span>=DecisionTreeRegressor)</span><br><span class="line">&gt;         The <span class="keyword">base</span> estimator <span class="keyword">from</span> which the boosted ensemble <span class="keyword">is</span> built.</span><br><span class="line">&gt;         Support <span class="keyword">for</span> sample weighting <span class="keyword">is</span> required.</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>基回归器。默认为回归树（DecisionTreeRegressor）。</p>
+<h4 id="n-estimators-1"><a href="#n-estimators-1" class="headerlink" title="n_estimators"></a>n_estimators</h4><blockquote>
+<figure class="highlight delphi"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt; n_estimators : integer, optional (<span class="keyword">default</span>=<span class="number">50</span>)</span><br><span class="line">&gt;         The maximum number <span class="keyword">of</span> estimators at which boosting <span class="keyword">is</span> terminated.</span><br><span class="line">&gt;         <span class="keyword">In</span> <span class="keyword">case</span> <span class="keyword">of</span> perfect fit, the learning <span class="function"><span class="keyword">procedure</span> <span class="title">is</span> <span class="title">stopped</span> <span class="title">early</span>.</span></span><br><span class="line"><span class="function">&gt;</span></span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>最大训练迭代次数。默认值为50。同AdaBoostClassifier。</p>
+<h4 id="learning-rate-1"><a href="#learning-rate-1" class="headerlink" title="learning_rate"></a>learning_rate</h4><blockquote>
+<figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&gt; learning_rate : float, optional (default=<span class="number">1.</span>)</span><br><span class="line">&gt;         Learning rate shrinks the contribution <span class="keyword">of</span> each regressor by</span><br><span class="line">&gt;         ``learning_rate``. There is a trade-off between ``learning_rate`` and</span><br><span class="line">&gt;         ``n_estimators``.</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>学习率（步长）。</p>
+<h4 id="loss"><a href="#loss" class="headerlink" title="loss"></a>loss</h4><blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;</span><span class="bash"> loss : &#123;<span class="string">'linear'</span>, <span class="string">'square'</span>, <span class="string">'exponential'</span>&#125;, optional (default=<span class="string">'linear'</span>)</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash">         The loss <span class="keyword">function</span> to use when updating the weights after each</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash">         boosting iteration.</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"></span></span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>误差。</p>
+<p>这个参数只有AdaBoostRegressor有，Adaboost.R2算法需要用到。有线性‘linear’, 平方‘square’和指数 ‘exponential’三种选择, 默认是线性，一般使用线性就足够了，除非你怀疑这个参数导致拟合程度不好。这个值的意义在原理篇我们也讲到了，它对应了我们对第k个弱分类器的中第i个样本的误差的处理，即：如果是线性误差，则eki=|yi−Gk(xi)|Ekeki=|yi−Gk(xi)|Ek；如果是平方误差，则eki=(yi−Gk(xi))2E2keki=(yi−Gk(xi))2Ek2，如果是指数误差，则eki=1−exp（−yi+Gk(xi))Ek）eki=1−exp（−yi+Gk(xi))Ek），EkEk为训练集上的最大误差Ek=max|yi−Gk(xi)|i=1,2…m  </p>
+<h4 id="random-state-1"><a href="#random-state-1" class="headerlink" title="random_state"></a>random_state</h4><blockquote>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&gt; random_state : int, RandomState<span class="built_in"> instance </span><span class="keyword">or</span> None, optional (<span class="attribute">default</span>=None)</span><br><span class="line">&gt;         <span class="keyword">If</span> int, random_state is the seed used by the random number generator;</span><br><span class="line">&gt;         <span class="keyword">If</span> RandomState instance, random_state is the random number generator;</span><br><span class="line">&gt;         <span class="keyword">If</span> None, the random number generator is the RandomState<span class="built_in"> instance </span>used</span><br><span class="line">&gt;         by `np.random`.       </span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>随机数种子。</p>
+<h3 id="调参心得传授"><a href="#调参心得传授" class="headerlink" title="调参心得传授"></a>调参心得传授</h3><p>集成学习的参数按照层次可以分为两层：</p>
+<p>1、集成框架的参数。</p>
+<p>2、基分类器的参数。</p>
+<h3 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h3><h3 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h3><p>1、ROC和AUC介绍以及如何计算AUC（<a href="http://alexkong.net/2013/06/introduction-to-auc-and-roc/）" target="_blank" rel="noopener">http://alexkong.net/2013/06/introduction-to-auc-and-roc/）</a></p>
+<p>2、sklearn（<a href="http://scikit-learn.org/stable/modules/classes.html#module-sklearn.metrics）" target="_blank" rel="noopener">http://scikit-learn.org/stable/modules/classes.html#module-sklearn.metrics）</a></p>
+<p>3、wiki百科 （<a href="https://zh.wikipedia.org/wiki/ROC%E6%9B%B2%E7%BA%BF）" target="_blank" rel="noopener">https://zh.wikipedia.org/wiki/ROC%E6%9B%B2%E7%BA%BF）</a></p>
+<p>4、统计学习方法</p>
+<p>5、深度学习</p>
+
+      
+    </div>
+
+    
+
+    <div>
+      
+        
+      
+    </div>
+    
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/04/16/2018-04-15-5分钟介绍深度学习（科普）/" rel="next" title="5分钟介绍深度学习（科普）">
+                <i class="fa fa-chevron-left"></i> 5分钟介绍深度学习（科普）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/06/25/2018-06-25-在Ubuntu上部署Minikube/" rel="prev" title="在Ubuntu上部署Minikube">
+                在Ubuntu上部署Minikube <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar/person.png" alt="rong xiang">
+            
+              <p class="site-author-name" itemprop="name">rong xiang</p>
+              <p class="site-description motion-element" itemprop="description">Keep a Pure Curiosity</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">85</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">43</span>
+                    <span class="site-state-item-name">categories</span>
+                  
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">2</span>
+                    <span class="site-state-item-name">tags</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/zjrongxiang" title="GitHub &rarr; https://github.com/zjrongxiang" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="mailto:rongxiang1986@163.com" title="E-Mail &rarr; mailto:rongxiang1986@163.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="http://weibo.com/u/1971060643" title="Weibo &rarr; http://weibo.com/u/1971060643" rel="noopener" target="_blank"><i class="fa fa-fw fa-weibo"></i>Weibo</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Link
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://weibo.com/fly51fly?refer_flag=1005055010_" title="https://weibo.com/fly51fly?refer_flag=1005055010_" rel="noopener" target="_blank">爱生活爱可可</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#第一部分-理论原理"><span class="nav-number">1.</span> <span class="nav-text">第一部分  理论原理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是集成学习"><span class="nav-number">1.1.</span> <span class="nav-text">什么是集成学习</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Bagging"><span class="nav-number">1.2.</span> <span class="nav-text">Bagging</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#算法流程"><span class="nav-number">1.2.1.</span> <span class="nav-text">算法流程</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Boosting（Adaboost）"><span class="nav-number">1.3.</span> <span class="nav-text">Boosting（Adaboost）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Adaboost-算法流程"><span class="nav-number">1.3.1.</span> <span class="nav-text">Adaboost 算法流程</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Stacking"><span class="nav-number">1.4.</span> <span class="nav-text">Stacking</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第二部分-实践"><span class="nav-number">2.</span> <span class="nav-text">第二部分 实践</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#AdaBoostClassifier参数介绍"><span class="nav-number">2.1.</span> <span class="nav-text">AdaBoostClassifier参数介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#base-estimator"><span class="nav-number">2.1.1.</span> <span class="nav-text">base_estimator</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#n-estimators"><span class="nav-number">2.1.2.</span> <span class="nav-text">n_estimators</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#learning-rate"><span class="nav-number">2.1.3.</span> <span class="nav-text">learning_rate</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#algorithm"><span class="nav-number">2.1.4.</span> <span class="nav-text">algorithm</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#SAMME-算法"><span class="nav-number">2.1.4.1.</span> <span class="nav-text">SAMME 算法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#SAMME-R-算法"><span class="nav-number">2.1.4.2.</span> <span class="nav-text">SAMME.R 算法</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#random-state"><span class="nav-number">2.1.5.</span> <span class="nav-text">random_state</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AdaBoostRegressor参数简介"><span class="nav-number">2.2.</span> <span class="nav-text">AdaBoostRegressor参数简介</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#base-estimator-1"><span class="nav-number">2.2.1.</span> <span class="nav-text">base_estimator</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#n-estimators-1"><span class="nav-number">2.2.2.</span> <span class="nav-text">n_estimators</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#learning-rate-1"><span class="nav-number">2.2.3.</span> <span class="nav-text">learning_rate</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#loss"><span class="nav-number">2.2.4.</span> <span class="nav-text">loss</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#random-state-1"><span class="nav-number">2.2.5.</span> <span class="nav-text">random_state</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#调参心得传授"><span class="nav-number">2.3.</span> <span class="nav-text">调参心得传授</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#例子"><span class="nav-number">2.4.</span> <span class="nav-text">例子</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考文献"><span class="nav-number">2.5.</span> <span class="nav-text">参考文献</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">rong xiang</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v6.7.0</div>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="Total Visitors">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="Total Views">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=6.7.0"></script>
+
+  <script src="/js/src/motion.js?v=6.7.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/schemes/muse.js?v=6.7.0"></script>
+
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=6.7.0"></script>
+<script src="/js/src/post-details.js?v=6.7.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=6.7.0"></script>
+
+
+
+  
+  
+    
+  <script id="dsq-count-scr" src="https://https-zjrongxiang-github-io.disqus.com/count.js" async></script>
+
+
+<script>
+  var disqus_config = function () {
+    this.page.url = "https://zjrongxiang.github.io/2018/06/09/2018-06-09-机器学习系列文章-集成学习综述/";
+    this.page.identifier = "2018/06/09/2018-06-09-机器学习系列文章-集成学习综述/";
+    this.page.title = '机器学习系列文章-集成学习综述';
+    };
+  function loadComments () {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://https-zjrongxiang-github-io.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', '' + +new Date());
+    (d.head || d.body).appendChild(s);
+  }
+  
+    loadComments();
+  
+</script>
+
+  
+
+
+
+
+
+  
+
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <style>
+    .copy-btn {
+      display: inline-block;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 20px;
+      color: #333;
+      white-space: nowrap;
+      vertical-align: middle;
+      cursor: pointer;
+      background-color: #eee;
+      background-image: linear-gradient(#fcfcfc, #eee);
+      border: 1px solid #d5d5d5;
+      border-radius: 3px;
+      user-select: none;
+      outline: 0;
+    }
+
+    .highlight-wrap .copy-btn {
+      transition: opacity .3s ease-in-out;
+      opacity: 0;
+      padding: 2px 6px;
+      position: absolute;
+      right: 4px;
+      top: 8px;
+    }
+
+    .highlight-wrap:hover .copy-btn,
+    .highlight-wrap .copy-btn:focus {
+      opacity: 1
+    }
+
+    .highlight-wrap {
+      position: relative;
+    }
+  </style>
+  <script>
+    $('.highlight').each(function (i, e) {
+      var $wrap = $('<div>').addClass('highlight-wrap');
+      $(e).after($wrap);
+      $wrap.append($('<button>').addClass('copy-btn').append('Copy').on('click', function (e) {
+        var code = $(this).parent().find('.code').find('.line').map(function (i, e) {
+          return $(e).text();
+        }).toArray().join('\n');
+        var ta = document.createElement('textarea');
+        var range = document.createRange(); //For Chrome
+        var sel = window.getSelection(); //For Chrome
+        var yPosition = window.pageYOffset || document.documentElement.scrollTop;
+        ta.style.top = yPosition + 'px'; //Prevent page scroll
+        ta.style.position = 'absolute';
+        ta.style.opacity = '0';
+        ta.value = code;
+        ta.textContent = code; //For FireFox
+        ta.contentEditable = true;
+        ta.readOnly = false;
+        document.body.appendChild(ta);
+        range.selectNode(ta);
+        sel.removeAllRanges();
+        sel.addRange(range);
+        ta.setSelectionRange(0, code.length);
+        var result = document.execCommand('copy');
+        
+          if (result) $(this).text('Copied');
+          else $(this).text('Copy failed');
+        
+        ta.blur(); //For iOS
+        $(this).blur();
+      })).on('mouseleave', function (e) {
+        var $b = $(this).find('.copy-btn');
+        setTimeout(function () {
+          $b.text('Copy');
+        }, 300);
+      }).append(e);
+    })
+  </script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+
+  
+  
+
+  
+  
+
+  
+
+
+</body>
+</html>
