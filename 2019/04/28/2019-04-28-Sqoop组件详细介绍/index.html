@@ -14,8 +14,8 @@
   
 
 
-<html class="theme-next mist use-motion" lang="en">
-<head><meta name="generator" content="Hexo 3.8.0">
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
   <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
@@ -117,17 +117,20 @@
 
 
 
-  <meta name="description" content="目录 背景 第一部分   第二部分  参考文献及资料  背景参考文献及资料1、YARN Application Security，链接：https://hadoop.apache.org/docs/r2.7.4/hadoop-yarn/hadoop-yarn-site/YarnApplicationSecurity.html">
+  <meta name="description" content="目录 背景  第一部分   Sqoop原理  第一部分   Sqoop安装  第二部分     第三部分     第四部分   总结  参考文献及资料   背景在信息系统中，应用程序背后通常是关系型数据库（RDBMS），这类数据成为大数据的重要来源，在这样的需求背景下，诞生了Sqoop项目。 Apache Sqoop（发音：skup）是一个用于Hadoop生态系统（HDFS、Hive、HBase）">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Python中的递归和限制">
-<meta property="og:url" content="https://zjrongxiang.github.io/2020/10/10/2020-10-10-Python中的递归和限制/index.html">
+<meta property="og:title" content="Sqoop组件详细介绍">
+<meta property="og:url" content="https://zjrongxiang.github.io/2019/04/28/2019-04-28-Sqoop组件详细介绍/index.html">
 <meta property="og:site_name" content="RongXiang">
-<meta property="og:description" content="目录 背景 第一部分   第二部分  参考文献及资料  背景参考文献及资料1、YARN Application Security，链接：https://hadoop.apache.org/docs/r2.7.4/hadoop-yarn/hadoop-yarn-site/YarnApplicationSecurity.html">
-<meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2020-10-10T14:02:36.398Z">
+<meta property="og:description" content="目录 背景  第一部分   Sqoop原理  第一部分   Sqoop安装  第二部分     第三部分     第四部分   总结  参考文献及资料   背景在信息系统中，应用程序背后通常是关系型数据库（RDBMS），这类数据成为大数据的重要来源，在这样的需求背景下，诞生了Sqoop项目。 Apache Sqoop（发音：skup）是一个用于Hadoop生态系统（HDFS、Hive、HBase）">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="c:/Users/rongxiang/AppData/Roaming/Typora/typora-user-images/1556454954148.png">
+<meta property="og:image" content="c:/Users/rongxiang/AppData/Roaming/Typora/typora-user-images/1556456420252.png">
+<meta property="og:updated_time" content="2019-08-17T02:23:21.098Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Python中的递归和限制">
-<meta name="twitter:description" content="目录 背景 第一部分   第二部分  参考文献及资料  背景参考文献及资料1、YARN Application Security，链接：https://hadoop.apache.org/docs/r2.7.4/hadoop-yarn/hadoop-yarn-site/YarnApplicationSecurity.html">
+<meta name="twitter:title" content="Sqoop组件详细介绍">
+<meta name="twitter:description" content="目录 背景  第一部分   Sqoop原理  第一部分   Sqoop安装  第二部分     第三部分     第四部分   总结  参考文献及资料   背景在信息系统中，应用程序背后通常是关系型数据库（RDBMS），这类数据成为大数据的重要来源，在这样的需求背景下，诞生了Sqoop项目。 Apache Sqoop（发音：skup）是一个用于Hadoop生态系统（HDFS、Hive、HBase）">
+<meta name="twitter:image" content="c:/Users/rongxiang/AppData/Roaming/Typora/typora-user-images/1556454954148.png">
 
 
 
@@ -136,7 +139,7 @@
 
 
 
-  <link rel="canonical" href="https://zjrongxiang.github.io/2020/10/10/2020-10-10-Python中的递归和限制/">
+  <link rel="canonical" href="https://zjrongxiang.github.io/2019/04/28/2019-04-28-Sqoop组件详细介绍/">
 
 
 
@@ -146,7 +149,7 @@
   };
 </script>
 
-  <title>Python中的递归和限制 | RongXiang</title>
+  <title>Sqoop组件详细介绍 | RongXiang</title>
   
 
 
@@ -195,7 +198,7 @@
 
 </head>
 
-<body itemscope="" itemtype="http://schema.org/WebPage" lang="en">
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
 
   
   
@@ -207,7 +210,7 @@
     <!-- <a href="https://github.com/zjrongxiang"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png" alt="Fork me on GitHub"></a> -->
     <a href="https://github.com/zjrongxiang"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_green_007200.png" alt="Fork me on GitHub"></a>
 
-    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-wrapper">
   <div class="site-meta">
     
@@ -228,7 +231,7 @@
   </div>
 
   <div class="site-nav-toggle">
-    <button aria-label="Toggle navigation bar">
+    <button aria-label="切换导航栏">
       <span class="btn-bar"></span>
       <span class="btn-bar"></span>
       <span class="btn-bar"></span>
@@ -256,7 +259,7 @@
 
     
 
-    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
 
   </li>
         
@@ -273,7 +276,7 @@
 
     
 
-    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>About</a>
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
 
   </li>
         
@@ -290,7 +293,7 @@
 
     
 
-    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>Tags</a>
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
 
   </li>
         
@@ -307,7 +310,7 @@
 
     
 
-    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>Categories</a>
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
 
   </li>
         
@@ -324,7 +327,7 @@
 
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives</a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
 
   </li>
         
@@ -341,7 +344,7 @@
 
     
 
-    <a href="/schedule/" rel="section"><i class="menu-item-icon fa fa-fw fa-calendar"></i> <br>Schedule</a>
+    <a href="/schedule/" rel="section"><i class="menu-item-icon fa fa-fw fa-calendar"></i> <br>日程表</a>
 
   </li>
 
@@ -352,7 +355,7 @@
             <a href="javascript:;" class="popup-trigger">
           
             
-              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>Search</a>
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
         </li>
       
     </ul>
@@ -375,7 +378,7 @@
       <i class="fa fa-times-circle"></i>
     </span>
     <div class="local-search-input-wrapper">
-      <input autocomplete="off" placeholder="Searching..." spellcheck="false" type="text" id="local-search-input">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
     </div>
   </div>
   <div id="local-search-result"></div>
@@ -417,20 +420,20 @@
 
   
 
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
   
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zjrongxiang.github.io/2020/10/10/2020-10-10-Python中的递归和限制/">
+    <link itemprop="mainEntityOfPage" href="https://zjrongxiang.github.io/2019/04/28/2019-04-28-Sqoop组件详细介绍/">
 
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="rong xiang">
       <meta itemprop="description" content="Keep a Pure Curiosity">
       <meta itemprop="image" content="/images/avatar/person.png">
     </span>
 
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
       <meta itemprop="name" content="RongXiang">
     </span>
 
@@ -439,7 +442,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Python中的递归和限制
+          <h1 class="post-title" itemprop="name headline">Sqoop组件详细介绍
 
               
             
@@ -458,19 +461,31 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">发表于</span>
               
 
               
                 
               
 
-              <time title="Created: 2020-10-10 13:30:00 / Modified: 22:02:36" itemprop="dateCreated datePublished" datetime="2020-10-10T13:30:00+08:00">2020-10-10</time>
+              <time title="创建时间：2019-04-28 22:42:00" itemprop="dateCreated datePublished" datetime="2019-04-28T22:42:00+08:00">2019-04-28</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-08-17 10:23:21" itemprop="dateModified" datetime="2019-08-17T10:23:21+08:00">2019-08-17</time>
               
             
           </span>
@@ -484,10 +499,10 @@
                 <i class="fa fa-folder-o"></i>
               </span>
               
-                <span class="post-meta-item-text">In</span>
+                <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/Yarn/" itemprop="url" rel="index"><span itemprop="name">Yarn</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Sqoop/" itemprop="url" rel="index"><span itemprop="name">Sqoop</span></a></span>
 
                 
                 
@@ -502,9 +517,9 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2020/10/10/2020-10-10-Python中的递归和限制/#comments" itemprop="discussionUrl">
+                <a href="/2019/04/28/2019-04-28-Sqoop组件详细介绍/#comments" itemprop="discussionUrl">
                 
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/10/10/2020-10-10-Python中的递归和限制/" itemprop="commentCount"></span>
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/04/28/2019-04-28-Sqoop组件详细介绍/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -514,7 +529,42 @@
           
 
           
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
 
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">本文字数：</span>
+                
+                <span title="本文字数">7.8k</span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">7 分钟</span>
+              
+            </div>
           
 
           
@@ -533,12 +583,102 @@
 
       
         <h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ul>
-<li>背景</li>
-<li>第一部分  </li>
-<li>第二部分 </li>
-<li>参考文献及资料</li>
+<li><p>背景</p>
+</li>
+<li><p>第一部分   Sqoop原理</p>
+</li>
+<li><p>第一部分   Sqoop安装</p>
+</li>
+<li><p>第二部分   </p>
+</li>
+<li><p>第三部分   </p>
+</li>
+<li><p>第四部分   总结</p>
+</li>
+<li><p>参考文献及资料</p>
+</li>
 </ul>
-<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><h2 id="参考文献及资料"><a href="#参考文献及资料" class="headerlink" title="参考文献及资料"></a>参考文献及资料</h2><p>1、YARN Application Security，链接：<a href="https://hadoop.apache.org/docs/r2.7.4/hadoop-yarn/hadoop-yarn-site/YarnApplicationSecurity.html" target="_blank" rel="noopener">https://hadoop.apache.org/docs/r2.7.4/hadoop-yarn/hadoop-yarn-site/YarnApplicationSecurity.html</a></p>
+<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>在信息系统中，应用程序背后通常是关系型数据库（RDBMS），这类数据成为大数据的重要来源，在这样的需求背景下，诞生了Sqoop项目。</p>
+<p>Apache Sqoop（发音：skup）是一个用于Hadoop生态系统（HDFS、Hive、HBase）和关系型数据库（RDBMS）（例如：Mysql、Oracle、Postgres、Tidb等）之间传输数据的工具。Sqoop是Apache Software Foundation的开源软件产品，官网介绍如下：</p>
+<blockquote>
+<p>Apache Sqoop(TM) is a tool designed for efficiently transferring bulk data between <a href="http://hadoop.apache.org/" target="_blank" rel="noopener">Apache Hadoop</a> and structured datastores such as relational databases.</p>
+</blockquote>
+<p>另外sqoop的命名取自：SQl+hadOOP=SQOOP。Sqoop项目开始于2009年（最初由Cloudera开发和维护），最早作为Hadoop的一个第三方模块，后来为了方便用户快速部署使用、开发人员快速开发和迭代，Sqoop独立成为Apache的项目（时间轴上，2011年7月23日，开始由Apache孵化；到2012年4月，Sqoop项目被提升为Apache的顶级项目）。</p>
+<blockquote>
+<p>Latest stable release is 1.4.7 (<a href="http://www.apache.org/dyn/closer.lua/sqoop/1.4.7" target="_blank" rel="noopener">download</a>, <a href="http://sqoop.apache.org/docs/1.4.7/index.html" target="_blank" rel="noopener">documentation</a>). Latest cut of Sqoop2 is 1.99.7 (<a href="http://www.apache.org/dyn/closer.lua/sqoop/1.99.7" target="_blank" rel="noopener">download</a>, <a href="http://sqoop.apache.org/docs/1.99.7/index.html" target="_blank" rel="noopener">documentation</a>). Note that 1.99.7 is not compatible with 1.4.7 and not feature complete, it is not intended for production deployment.</p>
+</blockquote>
+<h4 id="Sqoop的两代版本"><a href="#Sqoop的两代版本" class="headerlink" title="Sqoop的两代版本"></a>Sqoop的两代版本</h4><p>Sqoop目前有两代版本，分别是是Sqoop1（1.4.x）和Sqoop2（1.99.x），两个版本不兼容，架构和用法上已经完全不同。Sqoop1最新稳定版为1.4.7，Sqoop2最新版本为1.99.7（1.99.7这个版本官网不建议部署生产系统）。</p>
+<p>Sqoop2相对于Sqoop1主要改进有：</p>
+<ul>
+<li>引入Sqoop Server，集中化管理Connector</li>
+<li>支持多种访问方式：CLI、WEB UI、Rest Api、Java API</li>
+<li>引入基于角色的安全机制</li>
+</ul>
+<p>两代Sqoop主要功能差异如下：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Feature（功能）</th>
+<th style="text-align:left">Sqoop 1</th>
+<th style="text-align:left">Sqoop 2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Connectors for all major RDBMS（连接所有主流RDBMS数据库）</td>
+<td style="text-align:left">Supported（支持）</td>
+<td style="text-align:left">Not supported.<strong>Workaround</strong>: Use the generic JDBC Connector which has been tested on the following databases: Microsoft SQL Server, PostgreSQL, MySQL and Oracle.This connector should work on any other JDBC compliant database. However, performance might not be comparable to that of specialized connectors in Sqoop.不再支持。但是使用通用连接器（generic JDBC Connector），性能上无法和专用连接器相比。</td>
+</tr>
+<tr>
+<td style="text-align:left">Kerberos Security Integration（Kerberos安全集成）</td>
+<td style="text-align:left">Supported（支持）</td>
+<td style="text-align:left">Supported（支持）</td>
+</tr>
+<tr>
+<td style="text-align:left">Data transfer from RDBMS to Hive or HBase（数据从RDBMS传输到hive或者Hbase）</td>
+<td style="text-align:left">Supported（支持）</td>
+<td style="text-align:left">Not supported.<strong>Workaround:</strong> Follow this two-step approach.Import data from RDBMS into HDFSLoad data into Hive or HBase manually using appropriate tools and commands such as the LOAD DATA statement in Hive。不支持。解决办法： 按照此两步方法操作。 将数据从 RDBMS 导入 HDFS 在 Hive 中使用相应的工具和命令（例如 LOAD DATA 语句），手动将数据载入 Hive 或 HBase。</td>
+</tr>
+<tr>
+<td style="text-align:left">Data transfer from Hive or HBase to RDBMS（数据从Hive或者Hbase传输到RDBMS）</td>
+<td style="text-align:left">Not supported.<strong>Workaround:</strong> Follow this two-step approach.Extract data from Hive or HBase into HDFS (either as a text or Avro file)Use Sqoop to export output of previous step to RDBMS。解决办法： 按照此两步方法操作。 从 Hive 或 HBase 将数据提取至 HDFS （作为文本或 Avro 文件） 使用 Sqoop 将上一步的输出导出至 RDBMS</td>
+<td style="text-align:left">Not supported.Follow the same workaround as for Sqoop 1.（参考Sqoop1）</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>Sqoop1支持集成Kerberos认证,Sqoop2的1.99.3版本还不支持(Sqoop 1.99.6版本已经支持)。</p>
+</blockquote>
+<p>两代Sqoop的架构数据流图如下：</p>
+<ul>
+<li><p>Sqoop1</p>
+<p>Sqoop1属于单机模式部署形态，使用客户端（CLI控制台）直接提交命令给hadoop集群，命令和脚本需要显示指定用户数据库名和密码。主要数据流如下：</p>
+</li>
+</ul>
+<p><img src="C:\Users\rongxiang\AppData\Roaming\Typora\typora-user-images\1556454954148.png" alt="1556454954148"></p>
+<ul>
+<li><p>Sqoop2</p>
+<p>Sqoop2属于C/S模式部署的形态，架构上引进了Server框架，对Connector实现集中管理。主要数据流如下：</p>
+<p><img src="C:\Users\rongxiang\AppData\Roaming\Typora\typora-user-images\1556456420252.png" alt="1556456420252"></p>
+</li>
+</ul>
+<blockquote>
+<p>Sqoop的metadata保存在Derby数据库中。</p>
+</blockquote>
+<p>两代版本的优缺点比较：Sqoop1使用客户端架构，用户需要在客户端部署Sqoop和相关连接器，而Sqoop2使用服务框架，连接器部署在Sqoop服务器上。从MR角度看，Sqoop1只是提交maper only作业，而Sqoop2提交了MapReduce作业，map完成从源传输数据，reduce根据指定的源转换数据，这是一个完整的MR抽象。另外从安全角度，Sqoop1每次任务都需要输入用户名和密钥，Sqoop2中由管理员设置源和目标的连接，普通用户只需要使用已经创建的连接，无需知道连接的详细信息。</p>
+<h2 id="第一部分-Sqoop原理"><a href="#第一部分-Sqoop原理" class="headerlink" title="第一部分 Sqoop原理"></a>第一部分 Sqoop原理</h2><p>Sqoop将导入和导出命令翻译成Mapreduce程序来实现。</p>
+<h2 id="第二部分-Sqoop的安装"><a href="#第二部分-Sqoop的安装" class="headerlink" title="第二部分 Sqoop的安装"></a>第二部分 Sqoop的安装</h2><p>Sqoop只是一个工具，只需要在一个节点上安装部署即可。</p>
+<p>Sqoop只能在Linux系统上部署。</p>
+<p>目前那部分</p>
+<h3 id="2-1-Sqoop1的部署"><a href="#2-1-Sqoop1的部署" class="headerlink" title="2.1 Sqoop1的部署"></a>2.1 Sqoop1的部署</h3><h3 id="2-2-Sqoop2的部署"><a href="#2-2-Sqoop2的部署" class="headerlink" title="2.2 Sqoop2的部署"></a>2.2 Sqoop2的部署</h3><h3 id="2-3-部署总结"><a href="#2-3-部署总结" class="headerlink" title="2.3 部署总结"></a>2.3 部署总结</h3><h2 id="第三部分-Sqoop的使用"><a href="#第三部分-Sqoop的使用" class="headerlink" title="第三部分 Sqoop的使用"></a>第三部分 Sqoop的使用</h2><h3 id="3-1-Sqoop1的使用"><a href="#3-1-Sqoop1的使用" class="headerlink" title="3.1 Sqoop1的使用"></a>3.1 Sqoop1的使用</h3><h3 id="3-2-Sqoop2的使用"><a href="#3-2-Sqoop2的使用" class="headerlink" title="3.2 Sqoop2的使用"></a>3.2 Sqoop2的使用</h3><h3 id="3-3-使用总结"><a href="#3-3-使用总结" class="headerlink" title="3.3 使用总结"></a>3.3 使用总结</h3><h2 id="第四部分-华为hadoop集群中Loader产品的使用"><a href="#第四部分-华为hadoop集群中Loader产品的使用" class="headerlink" title="第四部分 华为hadoop集群中Loader产品的使用"></a>第四部分 华为hadoop集群中Loader产品的使用</h2><p>华为Loader组件产品基于Sqoop开源组件进行封装和优化，并且Loader提供一个可视化的配置管理界面，有效的降低的用户使用门槛。</p>
+<h2 id="参考文献及资料"><a href="#参考文献及资料" class="headerlink" title="参考文献及资料"></a>参考文献及资料</h2><p>1、Sqoop项目官网 链接：<a href="http://sqoop.apache.org" target="_blank" rel="noopener">http://sqoop.apache.org</a></p>
+<p>2、Sqoop User Guide (v1.4.6) 链接：<a href="http://sqoop.apache.org/docs/1.4.6/SqoopUserGuide.html" target="_blank" rel="noopener">http://sqoop.apache.org/docs/1.4.6/SqoopUserGuide.html</a></p>
+<p>3、sqoop1vs sqoop2 链接：<a href="https://www.wikitechy.com/tutorials/sqoop/sqoop1-vs-sqoop2" target="_blank" rel="noopener">https://www.wikitechy.com/tutorials/sqoop/sqoop1-vs-sqoop2</a></p>
+<p>4、Feature Differences - Sqoop 1 and Sqoop 2 <a href="https://www.cloudera.com/documentation/enterprise/5-6-x/topics/cdh_ig_sqoop_vs_sqoop2.html" target="_blank" rel="noopener">https://www.cloudera.com/documentation/enterprise/5-6-x/topics/cdh_ig_sqoop_vs_sqoop2.html</a></p>
+<p>5、<a href="https://www.cnblogs.com/intsmaze/p/6775034.html" target="_blank" rel="noopener">sqoop关系型数据迁移原理以及map端内存为何不会爆掉窥探</a></p>
+<p>6、重拾初心——Sqoop1和Sqoop2的刨析对比 链接：<a href="https://blog.csdn.net/gamer_gyt/article/details/55225700" target="_blank" rel="noopener">https://blog.csdn.net/gamer_gyt/article/details/55225700</a></p>
+<p>7、sqoop2基本架构、部署和个人使用感受 <a href="https://cloud.tencent.com/info/d865fe6ed0d92d03bdf8512a4c9e4212.html" target="_blank" rel="noopener">https://cloud.tencent.com/info/d865fe6ed0d92d03bdf8512a4c9e4212.html</a></p>
+<p><a href="https://blog.csdn.net/qq_38776653/article/details/77802871" target="_blank" rel="noopener">https://blog.csdn.net/qq_38776653/article/details/77802871</a></p>
 
       
     </div>
@@ -575,8 +715,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/10/06/2020-10-06-MapReduce on Yarn机制总结/" rel="next" title="MapReduce on Yarn机制总结">
-                <i class="fa fa-chevron-left"></i> MapReduce on Yarn机制总结
+              <a href="/2019/04/25/2019-07-13-表示学习/" rel="next" title="Avro详细介绍">
+                <i class="fa fa-chevron-left"></i> Avro详细介绍
               </a>
             
           </div>
@@ -585,8 +725,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2020/10/13/2020-10-13-Spark和Elasticsearch交互实践总结/" rel="prev" title="Spark和Elasticsearch交互实践总结">
-                Spark和Elasticsearch交互实践总结 <i class="fa fa-chevron-right"></i>
+              <a href="/2019/05/06/2019-05-06-Sqlflow初体验/" rel="prev" title="sqlflow初体验">
+                sqlflow初体验 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -641,17 +781,17 @@
       
         <ul class="sidebar-nav motion-element">
           <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            Table of Contents
+            文章目录
           </li>
           <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            Overview
+            站点概览
           </li>
         </ul>
       
 
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
-          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
               <img class="site-author-image" itemprop="image" src="/images/avatar/person.png" alt="rong xiang">
             
@@ -666,8 +806,8 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">85</span>
-                    <span class="site-state-item-name">posts</span>
+                    <span class="site-state-item-count">107</span>
+                    <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
               
@@ -765,8 +905,22 @@
                     
                       
                     
-                    <span class="site-state-item-count">43</span>
-                    <span class="site-state-item-name">categories</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">50</span>
+                    <span class="site-state-item-name">分类</span>
                   
                 </div>
               
@@ -782,8 +936,10 @@
                     
                       
                     
-                    <span class="site-state-item-count">2</span>
-                    <span class="site-state-item-name">tags</span>
+                      
+                    
+                    <span class="site-state-item-count">3</span>
+                    <span class="site-state-item-name">标签</span>
                   
                 </div>
               
@@ -876,7 +1032,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#目录"><span class="nav-number">1.</span> <span class="nav-text">目录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#背景"><span class="nav-number">2.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文献及资料"><span class="nav-number">3.</span> <span class="nav-text">参考文献及资料</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#目录"><span class="nav-number">1.</span> <span class="nav-text">目录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#背景"><span class="nav-number">2.</span> <span class="nav-text">背景</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Sqoop的两代版本"><span class="nav-number">2.0.1.</span> <span class="nav-text">Sqoop的两代版本</span></a></li></ol></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#第一部分-Sqoop原理"><span class="nav-number">3.</span> <span class="nav-text">第一部分 Sqoop原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第二部分-Sqoop的安装"><span class="nav-number">4.</span> <span class="nav-text">第二部分 Sqoop的安装</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-Sqoop1的部署"><span class="nav-number">4.1.</span> <span class="nav-text">2.1 Sqoop1的部署</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-Sqoop2的部署"><span class="nav-number">4.2.</span> <span class="nav-text">2.2 Sqoop2的部署</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-部署总结"><span class="nav-number">4.3.</span> <span class="nav-text">2.3 部署总结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第三部分-Sqoop的使用"><span class="nav-number">5.</span> <span class="nav-text">第三部分 Sqoop的使用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-Sqoop1的使用"><span class="nav-number">5.1.</span> <span class="nav-text">3.1 Sqoop1的使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-Sqoop2的使用"><span class="nav-number">5.2.</span> <span class="nav-text">3.2 Sqoop2的使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-使用总结"><span class="nav-number">5.3.</span> <span class="nav-text">3.3 使用总结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第四部分-华为hadoop集群中Loader产品的使用"><span class="nav-number">6.</span> <span class="nav-text">第四部分 华为hadoop集群中Loader产品的使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文献及资料"><span class="nav-number">7.</span> <span class="nav-text">参考文献及资料</span></a></li></div>
             
 
           </div>
@@ -896,28 +1052,35 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-<div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; 2014 – <span itemprop="copyrightYear">2021</span>
   <span class="with-love" id="animate">
     <i class="fa fa-user"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">rong xiang</span>
 
   
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+    <span title="站点总字数">360k</span>
+  
 
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    
+    <span title="站点阅读时长">5:27</span>
   
 </div>
 
 
-  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.8.0</div>
 
 
-
-  <span class="post-meta-divider">|</span>
-
-
-
-  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v6.7.0</div>
 
 
         
@@ -928,7 +1091,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-user"></i>
     </span>
-    <span class="site-uv" title="Total Visitors">
+    <span class="site-uv" title="总访客量">
       <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
     </span>
   
@@ -941,7 +1104,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-eye"></i>
     </span>
-    <span class="site-pv" title="Total Views">
+    <span class="site-pv" title="总访问量">
       <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
     </span>
   
@@ -1057,9 +1220,9 @@
 
 <script>
   var disqus_config = function () {
-    this.page.url = "https://zjrongxiang.github.io/2020/10/10/2020-10-10-Python中的递归和限制/";
-    this.page.identifier = "2020/10/10/2020-10-10-Python中的递归和限制/";
-    this.page.title = 'Python中的递归和限制';
+    this.page.url = "https://zjrongxiang.github.io/2019/04/28/2019-04-28-Sqoop组件详细介绍/";
+    this.page.identifier = "2019/04/28/2019-04-28-Sqoop组件详细介绍/";
+    this.page.title = 'Sqoop组件详细介绍';
     };
   function loadComments () {
     var d = document, s = d.createElement('script');
@@ -1475,7 +1638,7 @@
     $('.highlight').each(function (i, e) {
       var $wrap = $('<div>').addClass('highlight-wrap');
       $(e).after($wrap);
-      $wrap.append($('<button>').addClass('copy-btn').append('Copy').on('click', function (e) {
+      $wrap.append($('<button>').addClass('copy-btn').append('复制').on('click', function (e) {
         var code = $(this).parent().find('.code').find('.line').map(function (i, e) {
           return $(e).text();
         }).toArray().join('\n');
@@ -1497,15 +1660,15 @@
         ta.setSelectionRange(0, code.length);
         var result = document.execCommand('copy');
         
-          if (result) $(this).text('Copied');
-          else $(this).text('Copy failed');
+          if (result) $(this).text('复制成功');
+          else $(this).text('复制失败');
         
         ta.blur(); //For iOS
         $(this).blur();
       })).on('mouseleave', function (e) {
         var $b = $(this).find('.copy-btn');
         setTimeout(function () {
-          $b.text('Copy');
+          $b.text('复制');
         }, 300);
       }).append(e);
     })

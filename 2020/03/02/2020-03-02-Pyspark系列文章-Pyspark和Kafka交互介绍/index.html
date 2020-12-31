@@ -14,8 +14,8 @@
   
 
 
-<html class="theme-next mist use-motion" lang="en">
-<head><meta name="generator" content="Hexo 3.8.0">
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
   <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
@@ -123,13 +123,13 @@
 <meta property="og:url" content="https://zjrongxiang.github.io/2020/03/02/2020-03-02-Pyspark系列文章-Pyspark和Kafka交互介绍/index.html">
 <meta property="og:site_name" content="RongXiang">
 <meta property="og:description" content="目录 背景  第一部分  Receiver接口模式  第二部分  Direct接口模式  第三部分  PySpark和Kafka交互  第四部分   任务提交  参考文献及资料   背景Apache Kafka项目是大数据处理中重要的消息引擎。Spark Streaming作为重要的流处理计算框架通常和Kafka结合使用。Spark Streaming（新旧版本）支持Kafka的编程模型有两种：R">
-<meta property="og:locale" content="en">
+<meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="c:/Users/rongxiang/Desktop/python的模块学习/picture/SparkStreamingHistory.png">
 <meta property="og:image" content="c:/Users/rongxiang/Desktop/python的模块学习/picture/ReceiverOld.png">
 <meta property="og:image" content="c:/Users/rongxiang/Desktop/python的模块学习/picture/ReceiverWAL.png">
 <meta property="og:image" content="c:/Users/rongxiang/Desktop/python的模块学习/picture/Direct.png">
 <meta property="og:image" content="c:/Users/rongxiang/Desktop/python的模块学习/picture/spark-streaming-checkpoint-in-apache-spark-1.jpg">
-<meta property="og:updated_time" content="2020-09-23T11:27:07.120Z">
+<meta property="og:updated_time" content="2020-12-03T13:28:29.523Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="PySpark和Kafka交互介绍">
 <meta name="twitter:description" content="目录 背景  第一部分  Receiver接口模式  第二部分  Direct接口模式  第三部分  PySpark和Kafka交互  第四部分   任务提交  参考文献及资料   背景Apache Kafka项目是大数据处理中重要的消息引擎。Spark Streaming作为重要的流处理计算框架通常和Kafka结合使用。Spark Streaming（新旧版本）支持Kafka的编程模型有两种：R">
@@ -201,7 +201,7 @@
 
 </head>
 
-<body itemscope="" itemtype="http://schema.org/WebPage" lang="en">
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
 
   
   
@@ -213,7 +213,7 @@
     <!-- <a href="https://github.com/zjrongxiang"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png" alt="Fork me on GitHub"></a> -->
     <a href="https://github.com/zjrongxiang"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_green_007200.png" alt="Fork me on GitHub"></a>
 
-    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-wrapper">
   <div class="site-meta">
     
@@ -234,7 +234,7 @@
   </div>
 
   <div class="site-nav-toggle">
-    <button aria-label="Toggle navigation bar">
+    <button aria-label="切换导航栏">
       <span class="btn-bar"></span>
       <span class="btn-bar"></span>
       <span class="btn-bar"></span>
@@ -262,7 +262,7 @@
 
     
 
-    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
 
   </li>
         
@@ -279,7 +279,7 @@
 
     
 
-    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>About</a>
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
 
   </li>
         
@@ -296,7 +296,7 @@
 
     
 
-    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>Tags</a>
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
 
   </li>
         
@@ -313,7 +313,7 @@
 
     
 
-    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>Categories</a>
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
 
   </li>
         
@@ -330,7 +330,7 @@
 
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives</a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
 
   </li>
         
@@ -347,7 +347,7 @@
 
     
 
-    <a href="/schedule/" rel="section"><i class="menu-item-icon fa fa-fw fa-calendar"></i> <br>Schedule</a>
+    <a href="/schedule/" rel="section"><i class="menu-item-icon fa fa-fw fa-calendar"></i> <br>日程表</a>
 
   </li>
 
@@ -358,7 +358,7 @@
             <a href="javascript:;" class="popup-trigger">
           
             
-              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>Search</a>
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
         </li>
       
     </ul>
@@ -381,7 +381,7 @@
       <i class="fa fa-times-circle"></i>
     </span>
     <div class="local-search-input-wrapper">
-      <input autocomplete="off" placeholder="Searching..." spellcheck="false" type="text" id="local-search-input">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
     </div>
   </div>
   <div id="local-search-result"></div>
@@ -423,20 +423,20 @@
 
   
 
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
   
   
   
   <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://zjrongxiang.github.io/2020/03/02/2020-03-02-Pyspark系列文章-Pyspark和Kafka交互介绍/">
 
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="rong xiang">
       <meta itemprop="description" content="Keep a Pure Curiosity">
       <meta itemprop="image" content="/images/avatar/person.png">
     </span>
 
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
       <meta itemprop="name" content="RongXiang">
     </span>
 
@@ -464,14 +464,14 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">发表于</span>
               
 
               
                 
               
 
-              <time title="Created: 2020-03-02 22:42:00" itemprop="dateCreated datePublished" datetime="2020-03-02T22:42:00+08:00">2020-03-02</time>
+              <time title="创建时间：2020-03-02 22:42:00" itemprop="dateCreated datePublished" datetime="2020-03-02T22:42:00+08:00">2020-03-02</time>
             
 
             
@@ -486,9 +486,9 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 
-                  <span class="post-meta-item-text">Edited on</span>
+                  <span class="post-meta-item-text">更新于</span>
                 
-                <time title="Modified: 2020-09-23 19:27:07" itemprop="dateModified" datetime="2020-09-23T19:27:07+08:00">2020-09-23</time>
+                <time title="修改时间：2020-12-03 21:28:29" itemprop="dateModified" datetime="2020-12-03T21:28:29+08:00">2020-12-03</time>
               
             
           </span>
@@ -502,10 +502,10 @@
                 <i class="fa fa-folder-o"></i>
               </span>
               
-                <span class="post-meta-item-text">In</span>
+                <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/pyspark/" itemprop="url" rel="index"><span itemprop="name">pyspark</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/pyspark/" itemprop="url" rel="index"><span itemprop="name">pyspark</span></a></span>
 
                 
                 
@@ -532,7 +532,42 @@
           
 
           
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
 
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">本文字数：</span>
+                
+                <span title="本文字数">47k</span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">42 分钟</span>
+              
+            </div>
           
 
           
@@ -617,7 +652,7 @@
 </li>
 </ul>
 <h4 id="3-1-2-案例介绍"><a href="#3-1-2-案例介绍" class="headerlink" title="3.1.2 案例介绍"></a>3.1.2 案例介绍</h4><p>下面是计算单词数的流处理任务代码案例：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> pyspark <span class="keyword">import</span> SparkContext, SparkConf</span><br><span class="line"><span class="keyword">from</span> pyspark.streaming <span class="keyword">import</span> StreamingContext</span><br><span class="line"><span class="keyword">from</span> pyspark.streaming.kafka <span class="keyword">import</span> KafkaUtils</span><br><span class="line"></span><br><span class="line">zkQuorum = <span class="string">"localhost:2181"</span></span><br><span class="line">topics = <span class="string">"test"</span></span><br><span class="line">groupid = <span class="string">"test"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">    SparkConf = SparkConf()</span><br><span class="line">    SparkConf.set(<span class="string">"spark.streaming.kafka.maxRatePerPartition"</span>, <span class="number">5000</span>)</span><br><span class="line">    <span class="comment"># 开启WAL机制</span></span><br><span class="line">    <span class="comment">#sparkConf.set("spark.streaming.receiver.writeAheadLog.enable", "true")</span></span><br><span class="line">    sc = SparkContext(appName=<span class="string">"PythonStreamingKafkaWordCount"</span>, conf=SparkConf)</span><br><span class="line">    ssc = StreamingContext(sc, <span class="number">20</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 偏移量模式：largest、smallest、none，默认largest</span></span><br><span class="line">    kafkaParams = &#123;<span class="string">"auto.offset.reset"</span>: <span class="string">"smallest"</span>&#125;</span><br><span class="line">    <span class="comment"># 提高并行度</span></span><br><span class="line">    numStreams = <span class="number">3</span></span><br><span class="line">    kafkaStreams = [KafkaUtils.createStream(ssc, zkQuorum, groupid, &#123;topics：<span class="number">1</span>&#125;, kafkaParams) <span class="keyword">for</span> _ <span class="keyword">in</span> range (numStreams)]</span><br><span class="line">    unifiedStream = ssc.union(*kafkaStreams)</span><br><span class="line">    <span class="comment"># 统计单词数</span></span><br><span class="line">    lines = unifiedStream.map(<span class="keyword">lambda</span> x: x[<span class="number">1</span>])</span><br><span class="line">    counts = lines.flatMap(<span class="keyword">lambda</span> line: line.split(<span class="string">" "</span>)) \</span><br><span class="line">        .map(<span class="keyword">lambda</span> word: (word, <span class="number">1</span>)) \</span><br><span class="line">        .reduceByKey(<span class="keyword">lambda</span> a, b: a+b)</span><br><span class="line">    <span class="comment"># 打印</span></span><br><span class="line">    counts.pprint()</span><br><span class="line">    ssc.start()</span><br><span class="line">    ssc.awaitTermination()</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> pyspark <span class="keyword">import</span> SparkContext, SparkConf</span><br><span class="line"><span class="keyword">from</span> pyspark.streaming <span class="keyword">import</span> StreamingContext</span><br><span class="line"><span class="keyword">from</span> pyspark.streaming.kafka <span class="keyword">import</span> KafkaUtils</span><br><span class="line"></span><br><span class="line">zkQuorum = <span class="string">"localhost:2181"</span></span><br><span class="line">topics = <span class="string">"test"</span></span><br><span class="line">groupid = <span class="string">"test"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">    SparkConf = SparkConf()</span><br><span class="line">    SparkConf.set(<span class="string">"spark.streaming.kafka.maxRatePerPartition"</span>,<span class="number">5000</span>)</span><br><span class="line">    <span class="comment"># 开启WAL机制</span></span><br><span class="line">    <span class="comment">#sparkConf.set("spark.streaming.receiver.writeAheadLog.enable", "true")</span></span><br><span class="line">    sc = SparkContext(appName=<span class="string">"PythonStreamingKafkaWordCount"</span>, conf=SparkConf)</span><br><span class="line">    ssc = StreamingContext(sc, <span class="number">20</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 偏移量模式：largest、smallest、none，默认largest</span></span><br><span class="line">    kafkaParams = &#123;<span class="string">"auto.offset.reset"</span>: <span class="string">"smallest"</span>&#125;</span><br><span class="line">    <span class="comment"># 提高并行度</span></span><br><span class="line">    numStreams = <span class="number">3</span></span><br><span class="line">    kafkaStreams = [KafkaUtils.createStream(ssc, zkQuorum, groupid, &#123;topics：<span class="number">1</span>&#125;, kafkaParams) <span class="keyword">for</span> _ <span class="keyword">in</span> range (numStreams)]</span><br><span class="line">    unifiedStream = ssc.union(*kafkaStreams)</span><br><span class="line">    <span class="comment"># 统计单词数</span></span><br><span class="line">    lines = unifiedStream.map(<span class="keyword">lambda</span> x: x[<span class="number">1</span>])</span><br><span class="line">    counts = lines.flatMap(<span class="keyword">lambda</span> line: line.split(<span class="string">" "</span>)) \</span><br><span class="line">        .map(<span class="keyword">lambda</span> word: (word, <span class="number">1</span>)) \</span><br><span class="line">        .reduceByKey(<span class="keyword">lambda</span> a, b: a+b)</span><br><span class="line">    <span class="comment"># 打印</span></span><br><span class="line">    counts.pprint()</span><br><span class="line">    ssc.start()</span><br><span class="line">    ssc.awaitTermination()</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>关于<code>auto.offset.reset</code>参数补充说明一下。原生的API中这个参数有三个值：</p>
 <ol>
@@ -668,9 +703,9 @@
 <p><code>StreamingContext.getOrCreate(checkpointDirectory, lambda: functionToCreateContext())</code></p>
 <p>函数参数的具体含义就是：首先检查是否有checkpoint（即checkpointDirectory）。如果非空，StreamingContext从checkpointDirectory加载启动。如果没有执行函数<code>functionToCreateContext()</code>创建（函数中已经声明了创建逻辑）。具体数据流参考下图：</p>
 <p><img src="C:\Users\rongxiang\Desktop\python的模块学习\picture\spark-streaming-checkpoint-in-apache-spark-1.jpg" alt="spark-streaming-checkpoint-in-apache-spark-1"></p>
-<h3 id="3-4-其他持久化实现方式"><a href="#3-4-其他持久化实现方式" class="headerlink" title="3.4 其他持久化实现方式"></a>3.4 其他持久化实现方式</h3><p>除了checkpoint机制，例如下面代码将offset信息持久化到本地文件系统。主要注意的是该持久方式需要任务为Client模式提交集群，否则保存在Drive中本地文件系统会被集群回收。</p>
+<h3 id="3-4-其他持久化实现方式"><a href="#3-4-其他持久化实现方式" class="headerlink" title="3.4 其他持久化实现方式"></a>3.4 其他持久化实现方式</h3><p>除了checkpoint机制，例如下面代码将offset信息持久化到本地文件系统。需要注意的是该持久方式需要任务为Client模式提交集群，否则保存在Drive中本地文件系统会被集群回收。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python</span></span><br><span class="line"><span class="comment"># coding=utf-8</span></span><br><span class="line"><span class="keyword">from</span> pyspark <span class="keyword">import</span> SparkContext</span><br><span class="line"><span class="keyword">from</span> pyspark.streaming <span class="keyword">import</span> StreamingContext</span><br><span class="line"><span class="keyword">from</span> pyspark.streaming.kafka <span class="keyword">import</span> KafkaUtils, TopicAndPartition</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line">broker_list = <span class="string">"xxxx"</span></span><br><span class="line">topic_name = <span class="string">"xxxx"</span></span><br><span class="line">timer = <span class="number">60</span></span><br><span class="line">offsetRanges = []</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">store_offset_ranges</span><span class="params">(rdd)</span>:</span></span><br><span class="line">    <span class="keyword">global</span> offsetRanges</span><br><span class="line">    offsetRanges = rdd.offsetRanges()</span><br><span class="line">    <span class="keyword">return</span> rdd</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">save_offset_ranges</span><span class="params">(rdd)</span>:</span></span><br><span class="line">    root_path = os.path.dirname(os.path.realpath(__file__))</span><br><span class="line">    record_path = os.path.join(root_path, <span class="string">"offset.txt"</span>)</span><br><span class="line">    data = dict()</span><br><span class="line">    f = open(record_path, <span class="string">"w"</span>)</span><br><span class="line">    <span class="keyword">for</span> o <span class="keyword">in</span> offsetRanges:</span><br><span class="line">        data = &#123;<span class="string">"topic"</span>: o.topic, <span class="string">"partition"</span>: o.partition, <span class="string">"fromOffset"</span>: o.fromOffset, <span class="string">"untilOffset"</span>: o.untilOffset&#125;</span><br><span class="line">    f.write(json.dumps(data))</span><br><span class="line">    f.close()</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">deal_data</span><span class="params">(rdd)</span>:</span></span><br><span class="line">    data = rdd.collect()</span><br><span class="line">    <span class="keyword">for</span> d <span class="keyword">in</span> data:</span><br><span class="line">        <span class="comment"># do something</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">save_by_spark_streaming</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="comment"># 定义本地文件系统</span></span><br><span class="line">    root_path = os.path.dirname(os.path.realpath(__file__))</span><br><span class="line">    record_path = os.path.join(root_path, <span class="string">"offset.txt"</span>)</span><br><span class="line">    <span class="comment"># from_offsets = &#123;&#125;</span></span><br><span class="line">    <span class="comment"># 获取已有的offset，没有记录文件时则用默认值即最大值</span></span><br><span class="line">    <span class="keyword">if</span> os.path.exists(record_path):</span><br><span class="line">        f = open(record_path, <span class="string">"r"</span>)</span><br><span class="line">        offset_data = json.loads(f.read())</span><br><span class="line">        f.close()</span><br><span class="line">        <span class="keyword">if</span> offset_data[<span class="string">"topic"</span>] != topic_name:</span><br><span class="line">            <span class="keyword">raise</span> Exception(<span class="string">"the topic name in offset.txt is incorrect"</span>)</span><br><span class="line"></span><br><span class="line">        topic_partion = TopicAndPartition(offset_data[<span class="string">"topic"</span>], offset_data[<span class="string">"partition"</span>])</span><br><span class="line">        from_offsets = &#123;topic_partion: long(offset_data[<span class="string">"untilOffset"</span>])&#125;  </span><br><span class="line">        <span class="comment"># 注意设置起始offset时的方法</span></span><br><span class="line">        print(<span class="string">"start from offsets: %s"</span> % from_offsets)</span><br><span class="line"></span><br><span class="line">    sc = SparkContext(appName=<span class="string">"Realtime-Analytics-Engine"</span>)</span><br><span class="line">    ssc = StreamingContext(sc, int(timer))</span><br><span class="line"></span><br><span class="line">    kafkaStreams = KafkaUtils.createDirectStream(ssc=ssc, topics=[topic_name], fromOffsets=from_offsets,kafkaParams=&#123;<span class="string">"metadata.broker.list"</span>: broker_list&#125;)</span><br><span class="line">    kafkaStreams.foreachRDD(<span class="keyword">lambda</span> rec: deal_data(rec))</span><br><span class="line">    kafkaStreams.transform(store_offset_ranges).foreachRDD(save_offset_ranges)</span><br><span class="line"></span><br><span class="line">    ssc.start()</span><br><span class="line">    ssc.awaitTermination()</span><br><span class="line">    <span class="comment">#ssc.stop()</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    save_by_spark_streaming()</span><br></pre></td></tr></table></figure>
-<p>程序将offset信息以json格式持久化到文件系统中。</p>
+<p>上面的例子中，将offset信息以json格式持久化到文件系统中。实际生产中建议以二维表形式存储在Mysql等数据库中进行持久化（不再详细举例）。</p>
 <p>java 保存在mysql的例子</p>
 <p><a href="https://www.jianshu.com/p/2369a020e604" target="_blank" rel="noopener">https://www.jianshu.com/p/2369a020e604</a></p>
 <p><a href="https://blog.csdn.net/lxb1022/article/details/78041168" target="_blank" rel="noopener">https://blog.csdn.net/lxb1022/article/details/78041168</a></p>
@@ -728,13 +763,18 @@
 </tr>
 </tbody>
 </table>
-<p>目前只有<code>spark-streaming-kafka-0-8</code>方案是支持python语言的，所以我们提交任务是否需要指定相应的依赖<code>jar</code>包。高版本（<code>spark-streaming-kafka-0-10</code>）的方案已经抛弃了对<code>Receiver</code>方式的支持。</p>
+<p>目前只有<code>spark-streaming-kafka-0-8</code>方案是支持python语言的，所以我们提交任务是需要指定相应的依赖<code>jar</code>包。高版本（<code>spark-streaming-kafka-0-10</code>）的方案已经抛弃了对<code>Receiver</code>方式的支持。</p>
 <blockquote>
 <p><code>spark-streaming-kafka-0-8</code>接口的jar下载路径：</p>
 <p><a href="https://repo1.maven.org/maven2/org/apache/spark/spark-streaming-kafka_2.10/1.5.1/spark-streaming-kafka_2.10-1.5.1.jar" target="_blank" rel="noopener">spark-streaming-kafka_2.10-1.5.1.jar</a> 和 <a href="https://repo1.maven.org/maven2/org/apache/spark/spark-streaming-kafka-assembly_2.10/1.5.1/spark-streaming-kafka-assembly_2.10-1.5.1.jar" target="_blank" rel="noopener">spark-streaming-kafka-assembly_2.10-1.5.1.jar</a></p>
 <p>如果出现包冲突，提交任务时添加参数<code>--conf spark.yarn.user.classpath.first=true</code>,这样设置后yarn中优先使用用户传上去的jar包,避免包冲突。</p>
 </blockquote>
-<h3 id="4-2-任务提交案例"><a href="#4-2-任务提交案例" class="headerlink" title="4.2 任务提交案例"></a>4.2 任务提交案例</h3><h3 id="4-3-参数调优建议"><a href="#4-3-参数调优建议" class="headerlink" title="4.3 参数调优建议"></a>4.3 参数调优建议</h3><p>Spark streaming+Kafka的使用中，当数据量较小，很多时候默认配置和使用便能够满足情况，但是当数据量大的时候，就需要进行一定的调整和优化，而这种调整和优化本身也是不同的场景需要不同的配置。</p>
+<h3 id="4-2-任务提交案例"><a href="#4-2-任务提交案例" class="headerlink" title="4.2 任务提交案例"></a>4.2 任务提交案例</h3><p>与任何Spark应用程序一样，<code>spark-submit</code>用于启动应用程序。但是，Scala / Java应用程序和Python应用程序的细节略有不同。</p>
+<p>对于Scala和Java应用程序，如果您使用SBT或Maven进行项目管理，则将<code>spark-streaming-kafka_2.11</code>其及其依赖项打包到应用程序JAR中。确保<code>spark-core_2.10</code>并<code>spark-streaming_2.10</code>标记为<code>provided</code>Spark安装中已存在的依赖项。然后使用<code>spark-submit</code>启动应用程序。</p>
+<p>对于缺少SBT / Maven项目管理的Python应用程序，<code>spark-streaming-kafka_2.11</code>可以直接将其依赖项添加到<code>spark-submit</code>使用中<code>--packages</code>。那是，</p>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./bin/spark-submit --packages org.apache.spark:spark-streaming-kafka_2<span class="number">.11</span>:<span class="number">1.6</span><span class="number">.3</span> ...</span><br></pre></td></tr></table></figure>
+<p>另外，您也可以下载Maven构件的JAR <code>spark-streaming-kafka-assembly</code>从 <a href="http://search.maven.org/#search|ga|1|a%3A&quot;spark-streaming-kafka-assembly_2.10&quot; AND v%3A&quot;1.6.3&quot;" target="_blank" rel="noopener">Maven仓库</a>，并将其添加到<code>spark-submit</code>用<code>--jars</code>。</p>
+<h3 id="4-3-参数调优建议"><a href="#4-3-参数调优建议" class="headerlink" title="4.3 参数调优建议"></a>4.3 参数调优建议</h3><p>Spark streaming+Kafka的使用中，当数据量较小，很多时候默认配置和使用便能够满足情况，但是当数据量大的时候，就需要进行一定的调整和优化，而这种调整和优化本身也是不同的场景需要不同的配置。</p>
 <ul>
 <li>合理的批处理时间（batchDuration）：几乎所有的Spark Streaming调优文档都会提及批处理时间的调整，在StreamingContext初始化的时候，有一个参数便是批处理时间的设定。如果这个值设置的过短，即个batchDuration所产生的Job并不能在这期间完成处理，那么就会造成数据不断堆积，最终导致Spark Streaming发生阻塞。而且，一般对于batchDuration的设置不会小于500ms，因为过小会导致SparkStreaming频繁的提交作业，对整个streaming造成额外的负担。在平时的应用中，根据不同的应用场景和硬件配置，我设在1~10s之间，我们可以根据SparkStreaming的可视化监控界面，观察Total Delay来进行batchDuration的调整。</li>
 <li>合理的Kafka拉取量（maxRatePerPartition重要）：对于Spark Streaming消费kafka中数据的应用场景，这个配置是非常关键的，配置参数为：spark.streaming.kafka.maxRatePerPartition。这个参数默认是没有上线的，即kafka当中有多少数据它就会直接全部拉出。而根据生产者写入Kafka的速率以及消费者本身处理数据的速度，同时这个参数需要结合上面的batchDuration，使得每个partition拉取在每个batchDuration期间拉取的数据能够顺利的处理完毕，做到尽可能高的吞吐量，而这个参数的调整可以参考可视化监控界面中的Input Rate和Processing Time</li>
@@ -753,6 +793,8 @@
 <p>4、Spark Streaming基于kafka的Direct详解，链接：<a href="https://blog.csdn.net/matrix_google/article/details/80033524" target="_blank" rel="noopener">https://blog.csdn.net/matrix_google/article/details/80033524</a></p>
 <p>5、Enabling fault-tolerant processing in Spark Streaming，链接:<a href="https://docs.cloudera.com/runtime/7.0.2/developing-spark-applications/topics/spark-streaming-fault-tolerance.html" target="_blank" rel="noopener">https://docs.cloudera.com/runtime/7.0.2/developing-spark-applications/topics/spark-streaming-fault-tolerance.html</a></p>
 <p>6、Introducing the Kafka Consumer: Getting Started with the New Apache Kafka 0.9 Consumer Client，链接：<a href="https://www.confluent.io/blog/tutorial-getting-started-with-the-new-apache-kafka-0-9-consumer-client/" target="_blank" rel="noopener">https://www.confluent.io/blog/tutorial-getting-started-with-the-new-apache-kafka-0-9-consumer-client/</a></p>
+<p>7、官网文档，链接：<a href="https://spark.apache.org/docs/1.6.3/streaming-kafka-integration.html" target="_blank" rel="noopener">https://spark.apache.org/docs/1.6.3/streaming-kafka-integration.html</a></p>
+<p>8、官网文档，链接：<a href="https://spark.apache.org/docs/2.3.1/streaming-kafka-0-10-integration.html" target="_blank" rel="noopener">https://spark.apache.org/docs/2.3.1/streaming-kafka-0-10-integration.html</a></p>
 
       
     </div>
@@ -855,17 +897,17 @@
       
         <ul class="sidebar-nav motion-element">
           <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            Table of Contents
+            文章目录
           </li>
           <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            Overview
+            站点概览
           </li>
         </ul>
       
 
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
-          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
               <img class="site-author-image" itemprop="image" src="/images/avatar/person.png" alt="rong xiang">
             
@@ -880,8 +922,8 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">85</span>
-                    <span class="site-state-item-name">posts</span>
+                    <span class="site-state-item-count">107</span>
+                    <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
               
@@ -979,8 +1021,22 @@
                     
                       
                     
-                    <span class="site-state-item-count">43</span>
-                    <span class="site-state-item-name">categories</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">50</span>
+                    <span class="site-state-item-name">分类</span>
                   
                 </div>
               
@@ -996,8 +1052,10 @@
                     
                       
                     
-                    <span class="site-state-item-count">2</span>
-                    <span class="site-state-item-name">tags</span>
+                      
+                    
+                    <span class="site-state-item-count">3</span>
+                    <span class="site-state-item-name">标签</span>
                   
                 </div>
               
@@ -1110,28 +1168,35 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-<div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; 2014 – <span itemprop="copyrightYear">2021</span>
   <span class="with-love" id="animate">
     <i class="fa fa-user"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">rong xiang</span>
 
   
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+    <span title="站点总字数">360k</span>
+  
 
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    
+    <span title="站点阅读时长">5:27</span>
   
 </div>
 
 
-  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.8.0</div>
 
 
-
-  <span class="post-meta-divider">|</span>
-
-
-
-  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v6.7.0</div>
 
 
         
@@ -1142,7 +1207,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-user"></i>
     </span>
-    <span class="site-uv" title="Total Visitors">
+    <span class="site-uv" title="总访客量">
       <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
     </span>
   
@@ -1155,7 +1220,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-eye"></i>
     </span>
-    <span class="site-pv" title="Total Views">
+    <span class="site-pv" title="总访问量">
       <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
     </span>
   
@@ -1689,7 +1754,7 @@
     $('.highlight').each(function (i, e) {
       var $wrap = $('<div>').addClass('highlight-wrap');
       $(e).after($wrap);
-      $wrap.append($('<button>').addClass('copy-btn').append('Copy').on('click', function (e) {
+      $wrap.append($('<button>').addClass('copy-btn').append('复制').on('click', function (e) {
         var code = $(this).parent().find('.code').find('.line').map(function (i, e) {
           return $(e).text();
         }).toArray().join('\n');
@@ -1711,15 +1776,15 @@
         ta.setSelectionRange(0, code.length);
         var result = document.execCommand('copy');
         
-          if (result) $(this).text('Copied');
-          else $(this).text('Copy failed');
+          if (result) $(this).text('复制成功');
+          else $(this).text('复制失败');
         
         ta.blur(); //For iOS
         $(this).blur();
       })).on('mouseleave', function (e) {
         var $b = $(this).find('.copy-btn');
         setTimeout(function () {
-          $b.text('Copy');
+          $b.text('复制');
         }, 300);
       }).append(e);
     })

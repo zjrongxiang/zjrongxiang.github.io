@@ -14,8 +14,8 @@
   
 
 
-<html class="theme-next mist use-motion" lang="en">
-<head><meta name="generator" content="Hexo 3.8.0">
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
   <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
@@ -117,17 +117,17 @@
 
 
 
-  <meta name="description" content="目录 背景  第一部分   模块介绍  参考文献及资料   背景Python调试代码时，经常需要测算一些代码模块或函数的执行效率（即耗时）。常用手段会在代码前后分别用time.time()记下开始和结束的时间，然后相减获得执行耗时。  本篇博客是一篇学习笔记，介绍Python一个内置模块实现代码执行计时。 第一部分 模块介绍 timeit属于Python的标准库。文件路径在~Lib/timeit.">
+  <meta name="description" content="目录 背景 第一部分  回车和换行 第二部分 兼容性问题解决 参考文献及资料  背景或许你遇到过这样的坑。当你信心满满将自己编写的程序文件或配置文件上传到生产环境（linux），却发现无法运行或者生效。但是明明在本地（Windows）测试运行没有问题。那么很大几率遇到文本行末结束符的坑。 Unix和Windows中文本行末结束符是不同的。本文将详细讲解这个坑的背景、产生原因和解决办法。 第一部分">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Python标准库timeit的使用简介">
-<meta property="og:url" content="https://zjrongxiang.github.io/2018/01/25/2018-01-25-Python标准库timeit的使用简介/index.html">
+<meta property="og:title" content="Unix和Windows中文本行末结束符">
+<meta property="og:url" content="https://zjrongxiang.github.io/2020/11/12/2020-11-12-Unix和Windows中文本行末结束符/index.html">
 <meta property="og:site_name" content="RongXiang">
-<meta property="og:description" content="目录 背景  第一部分   模块介绍  参考文献及资料   背景Python调试代码时，经常需要测算一些代码模块或函数的执行效率（即耗时）。常用手段会在代码前后分别用time.time()记下开始和结束的时间，然后相减获得执行耗时。  本篇博客是一篇学习笔记，介绍Python一个内置模块实现代码执行计时。 第一部分 模块介绍 timeit属于Python的标准库。文件路径在~Lib/timeit.">
-<meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2020-03-22T01:47:36.599Z">
+<meta property="og:description" content="目录 背景 第一部分  回车和换行 第二部分 兼容性问题解决 参考文献及资料  背景或许你遇到过这样的坑。当你信心满满将自己编写的程序文件或配置文件上传到生产环境（linux），却发现无法运行或者生效。但是明明在本地（Windows）测试运行没有问题。那么很大几率遇到文本行末结束符的坑。 Unix和Windows中文本行末结束符是不同的。本文将详细讲解这个坑的背景、产生原因和解决办法。 第一部分">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2020-12-12T13:16:46.766Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Python标准库timeit的使用简介">
-<meta name="twitter:description" content="目录 背景  第一部分   模块介绍  参考文献及资料   背景Python调试代码时，经常需要测算一些代码模块或函数的执行效率（即耗时）。常用手段会在代码前后分别用time.time()记下开始和结束的时间，然后相减获得执行耗时。  本篇博客是一篇学习笔记，介绍Python一个内置模块实现代码执行计时。 第一部分 模块介绍 timeit属于Python的标准库。文件路径在~Lib/timeit.">
+<meta name="twitter:title" content="Unix和Windows中文本行末结束符">
+<meta name="twitter:description" content="目录 背景 第一部分  回车和换行 第二部分 兼容性问题解决 参考文献及资料  背景或许你遇到过这样的坑。当你信心满满将自己编写的程序文件或配置文件上传到生产环境（linux），却发现无法运行或者生效。但是明明在本地（Windows）测试运行没有问题。那么很大几率遇到文本行末结束符的坑。 Unix和Windows中文本行末结束符是不同的。本文将详细讲解这个坑的背景、产生原因和解决办法。 第一部分">
 
 
 
@@ -136,7 +136,7 @@
 
 
 
-  <link rel="canonical" href="https://zjrongxiang.github.io/2018/01/25/2018-01-25-Python标准库timeit的使用简介/">
+  <link rel="canonical" href="https://zjrongxiang.github.io/2020/11/12/2020-11-12-Unix和Windows中文本行末结束符/">
 
 
 
@@ -146,7 +146,7 @@
   };
 </script>
 
-  <title>Python标准库timeit的使用简介 | RongXiang</title>
+  <title>Unix和Windows中文本行末结束符 | RongXiang</title>
   
 
 
@@ -195,7 +195,7 @@
 
 </head>
 
-<body itemscope="" itemtype="http://schema.org/WebPage" lang="en">
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
 
   
   
@@ -207,7 +207,7 @@
     <!-- <a href="https://github.com/zjrongxiang"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png" alt="Fork me on GitHub"></a> -->
     <a href="https://github.com/zjrongxiang"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_green_007200.png" alt="Fork me on GitHub"></a>
 
-    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-wrapper">
   <div class="site-meta">
     
@@ -228,7 +228,7 @@
   </div>
 
   <div class="site-nav-toggle">
-    <button aria-label="Toggle navigation bar">
+    <button aria-label="切换导航栏">
       <span class="btn-bar"></span>
       <span class="btn-bar"></span>
       <span class="btn-bar"></span>
@@ -256,7 +256,7 @@
 
     
 
-    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
 
   </li>
         
@@ -273,7 +273,7 @@
 
     
 
-    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>About</a>
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
 
   </li>
         
@@ -290,7 +290,7 @@
 
     
 
-    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>Tags</a>
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
 
   </li>
         
@@ -307,7 +307,7 @@
 
     
 
-    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>Categories</a>
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
 
   </li>
         
@@ -324,7 +324,7 @@
 
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives</a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
 
   </li>
         
@@ -341,7 +341,7 @@
 
     
 
-    <a href="/schedule/" rel="section"><i class="menu-item-icon fa fa-fw fa-calendar"></i> <br>Schedule</a>
+    <a href="/schedule/" rel="section"><i class="menu-item-icon fa fa-fw fa-calendar"></i> <br>日程表</a>
 
   </li>
 
@@ -352,7 +352,7 @@
             <a href="javascript:;" class="popup-trigger">
           
             
-              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>Search</a>
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
         </li>
       
     </ul>
@@ -375,7 +375,7 @@
       <i class="fa fa-times-circle"></i>
     </span>
     <div class="local-search-input-wrapper">
-      <input autocomplete="off" placeholder="Searching..." spellcheck="false" type="text" id="local-search-input">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
     </div>
   </div>
   <div id="local-search-result"></div>
@@ -417,20 +417,20 @@
 
   
 
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
   
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zjrongxiang.github.io/2018/01/25/2018-01-25-Python标准库timeit的使用简介/">
+    <link itemprop="mainEntityOfPage" href="https://zjrongxiang.github.io/2020/11/12/2020-11-12-Unix和Windows中文本行末结束符/">
 
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="rong xiang">
       <meta itemprop="description" content="Keep a Pure Curiosity">
       <meta itemprop="image" content="/images/avatar/person.png">
     </span>
 
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
       <meta itemprop="name" content="RongXiang">
     </span>
 
@@ -439,7 +439,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Python标准库timeit的使用简介
+          <h1 class="post-title" itemprop="name headline">Unix和Windows中文本行末结束符
 
               
             
@@ -458,14 +458,14 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">发表于</span>
               
 
               
                 
               
 
-              <time title="Created: 2018-01-25 19:30:00" itemprop="dateCreated datePublished" datetime="2018-01-25T19:30:00+08:00">2018-01-25</time>
+              <time title="创建时间：2020-11-12 21:30:00" itemprop="dateCreated datePublished" datetime="2020-11-12T21:30:00+08:00">2020-11-12</time>
             
 
             
@@ -480,9 +480,9 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 
-                  <span class="post-meta-item-text">Edited on</span>
+                  <span class="post-meta-item-text">更新于</span>
                 
-                <time title="Modified: 2020-03-22 09:47:36" itemprop="dateModified" datetime="2020-03-22T09:47:36+08:00">2020-03-22</time>
+                <time title="修改时间：2020-12-12 21:16:46" itemprop="dateModified" datetime="2020-12-12T21:16:46+08:00">2020-12-12</time>
               
             
           </span>
@@ -496,10 +496,10 @@
                 <i class="fa fa-folder-o"></i>
               </span>
               
-                <span class="post-meta-item-text">In</span>
+                <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/Python/" itemprop="url" rel="index"><span itemprop="name">Python</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a></span>
 
                 
                 
@@ -514,9 +514,9 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/01/25/2018-01-25-Python标准库timeit的使用简介/#comments" itemprop="discussionUrl">
+                <a href="/2020/11/12/2020-11-12-Unix和Windows中文本行末结束符/#comments" itemprop="discussionUrl">
                 
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/01/25/2018-01-25-Python标准库timeit的使用简介/" itemprop="commentCount"></span>
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/11/12/2020-11-12-Unix和Windows中文本行末结束符/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -526,7 +526,42 @@
           
 
           
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
 
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">本文字数：</span>
+                
+                <span title="本文字数">4.5k</span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">4 分钟</span>
+              
+            </div>
           
 
           
@@ -545,41 +580,79 @@
 
       
         <h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ul>
-<li><p>背景</p>
-</li>
-<li><p>第一部分   模块介绍</p>
-</li>
-<li><p>参考文献及资料</p>
-</li>
+<li>背景</li>
+<li>第一部分  回车和换行</li>
+<li>第二部分 兼容性问题解决</li>
+<li>参考文献及资料</li>
 </ul>
-<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>Python调试代码时，经常需要测算一些代码模块或函数的执行效率（即耗时）。常用手段会在代码前后分别用time.time()记下开始和结束的时间，然后相减获得执行耗时。</p>
-<p> 本篇博客是一篇学习笔记，介绍Python一个内置模块实现代码执行计时。</p>
-<h2 id="第一部分-模块介绍"><a href="#第一部分-模块介绍" class="headerlink" title="第一部分 模块介绍"></a>第一部分 模块介绍</h2><ul>
-<li>timeit属于Python的标准库。文件路径在~Lib/timeit.py。</li>
-<li>timeit同时具有<strong>命令行接口</strong>和<strong>可调用的函数接口</strong>。</li>
-</ul>
-<h3 id="一、命令行接口"><a href="#一、命令行接口" class="headerlink" title="一、命令行接口"></a>一、命令行接口</h3><h4 id="1、案例"><a href="#1、案例" class="headerlink" title="1、案例"></a><strong>1、案例</strong></h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt;python -m timeit <span class="string">'"-".join(str(n) for n in range(100))</span></span><br><span class="line"><span class="string">&gt;&gt;&gt;100000 loops, best of 3: 14.1 usec per loop</span></span><br></pre></td></tr></table></figure>
-<p>回显内容：语句<code>&quot;-&quot;.join(str(n) for n in range(100)</code>执行了10w次，平均耗时14.1 usec。</p>
-<h4 id="2、接口参数说明"><a href="#2、接口参数说明" class="headerlink" title="2、接口参数说明"></a><strong>2、接口参数说明</strong></h4> <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">python -m timeit [-n N] [-r N] [-s S] [-t] [-c] [-h] [statement ...]</span><br><span class="line"></span><br><span class="line"><span class="comment">#[-n N] 表示测试语句（statement）执行的次数。如果不指定，会连续执行10，100，1000，...即10的倍数次，直到总时间至少0.2秒，结束。</span></span><br><span class="line"><span class="comment">#[-r N] 计数器重复次数。默认是3。返回一个list，记录每次耗时。</span></span><br><span class="line"><span class="comment">#[-s S] statement之前前的初始化语句。默认为pass。</span></span><br><span class="line"><span class="comment">#[-t] 使用time.time()。</span></span><br><span class="line"><span class="comment">#[-c] 使用time.clock()。</span></span><br><span class="line"><span class="comment">#[-v] 会输出更多的执行过程信息。10次的耗时，1000次耗时，等等</span></span><br><span class="line"><span class="comment">#[-h] 单独使用，反馈接口的使用信息。</span></span><br></pre></td></tr></table></figure>
-<p>注意：statement和[-s S]的参数按照字符串的形式传入。</p>
-<h3 id="二、函数接口"><a href="#二、函数接口" class="headerlink" title="二、函数接口"></a>二、函数接口</h3><h4 id="1、类timeit-Timer"><a href="#1、类timeit-Timer" class="headerlink" title="1、类timeit.Timer"></a>1、类timeit.Timer</h4><ul>
-<li>案例</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> timeit</span><br><span class="line"><span class="comment">#定义一个类</span></span><br><span class="line">t=timeit.Timer(<span class="string">'char in text'</span>,setup=<span class="string">'text="sample string";char="g"'</span>)</span><br><span class="line"><span class="comment">#timeit()函数</span></span><br><span class="line">t.timeit()</span><br><span class="line"><span class="comment">#回显：0.019882534000089436</span></span><br><span class="line"><span class="comment">#repeat()函数</span></span><br><span class="line">t.repeat()</span><br><span class="line"><span class="comment">#回显：[0.01990252700011297, 0.01574616299990339, 0.015739961000008407]</span></span><br></pre></td></tr></table></figure>
+<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>或许你遇到过这样的坑。当你信心满满将自己编写的程序文件或配置文件上传到生产环境（<code>linux</code>），却发现无法运行或者生效。但是明明在本地（<code>Windows</code>）测试运行没有问题。那么很大几率遇到文本行末结束符的坑。</p>
+<p>Unix和Windows中文本行末结束符是不同的。本文将详细讲解这个坑的背景、产生原因和解决办法。</p>
+<h2 id="第一部分-回车和换行"><a href="#第一部分-回车和换行" class="headerlink" title="第一部分 回车和换行"></a>第一部分 回车和换行</h2><h3 id="1-1-历史背景"><a href="#1-1-历史背景" class="headerlink" title="1.1 历史背景"></a>1.1 历史背景</h3><p>关于回车（Carriage Return）和换行（Line Feed）的来历，需要从英文打字机讲起。在机械英文打字机中有个叫“字车”的部件，每打印一个英文字符，“字车”前进一位。但是纸张每行是有限制的，打满一行后，“字车”需要重置回到起始位置。从机械角度看，打印机有两个响应动作：（1）“字车”归位；（2）纸张的滚筒上卷一行，开始新的一行。这里“字车”归位就是“回车”，而滚筒上卷一行就是“换行”。</p>
+<p>到了电传打印机时候，需要使用控制字符来通知打印机执行非打印操作的指令（回车（CR）和换行（NL））。而在ASCII码中分别使用<code>\r</code>（值13）和<code>\n</code>（值10）表示。</p>
+<p>再后来计算机发明后，两个概念也就被搬到计算机中（计算机通常需要和打印机交互，保持兼容性）。考虑到当时存储资源的昂贵，就有人提出来文本中使用两个操作符表示行末结束较为浪费，于是分歧就产生了。</p>
+<h3 id="1-2-分歧"><a href="#1-2-分歧" class="headerlink" title="1.2 分歧"></a>1.2 分歧</h3><p>目前主流操作系统（Unix、Windows、Mac）中分歧如下：</p>
+<table>
+<thead>
+<tr>
+<th>操作系统</th>
+<th>系统行末结束符</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>UNIX</td>
+<td>\n</td>
+<td></td>
+</tr>
+<tr>
+<td>window</td>
+<td>\n\r</td>
+<td></td>
+</tr>
+<tr>
+<td>MAC OS</td>
+<td>\n</td>
+<td><code>v9</code> 之前 Mac OS 用 ‘\r’</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>注：从2001年3月发布的Mac OS 10.0开始，系统行末结束符采用”\n”。</p>
+</blockquote>
+<p>这种分歧就导致不同操作系统之间兼容问题。</p>
+<h2 id="第二部分-兼容性问题解决"><a href="#第二部分-兼容性问题解决" class="headerlink" title="第二部分 兼容性问题解决"></a>第二部分 兼容性问题解决</h2><p>这种兼容问题通常发生在：不同操作系统之间传输纯文本文件。</p>
 <ul>
-<li>参数说明</li>
+<li>Unix/Mac系统创建的文件在Windows里打开，文字会变成一行。因为没有<code>\r</code>。</li>
+<li>Windows里的文件在Unix/Mac下打开的话，在每行会多出一个<code>^M</code>符号。多了<code>\r</code>。</li>
 </ul>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#1、初始化一个Timer类的参数：</span></span><br><span class="line">timeit.Timer(stmt=<span class="string">'pass'</span>, setup=<span class="string">'pass'</span>, timer=&lt;timer function&gt;)</span><br><span class="line"><span class="comment">#2、timeit(number=1000000)</span></span><br><span class="line"><span class="comment"># 默认number执行100w次。</span></span><br><span class="line"><span class="comment">#3、repeat(repeat=3，number=1000000)</span></span><br><span class="line"><span class="comment"># 默认执行100w次，重复3次（返回list）</span></span><br></pre></td></tr></table></figure>
-<h4 id="2、两个函数"><a href="#2、两个函数" class="headerlink" title="2、两个函数"></a>2、两个函数</h4><ul>
-<li>类似Timer的类，timeit也有两个函数。</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#1、timeit函数</span></span><br><span class="line">timeit.timeit(stmt=<span class="string">"pass"</span>, setup=<span class="string">"pass"</span>, timer=default_timer,number=default_number)</span><br><span class="line"><span class="comment">#参数说明：stmt即statement，重复执行的语句。setup即执行前的初始化语句（执行一次）。</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#2、repeat函数</span></span><br><span class="line">timeit.repeat(stmt=<span class="string">'pass'</span>, setup=<span class="string">'pass'</span>, timer=&lt;default timer&gt;, repeat=<span class="number">3</span>, number=<span class="number">1000000</span>)</span><br><span class="line"><span class="comment">#类似Timer类中函数。</span></span><br></pre></td></tr></table></figure>
+<h3 id="2-1-Windows文件上传Linux问题"><a href="#2-1-Windows文件上传Linux问题" class="headerlink" title="2.1 Windows文件上传Linux问题"></a>2.1 Windows文件上传Linux问题</h3><p>我们经常遇到的问题是：Windows下编写的Shell脚本或者Python脚本，放到Linux下执行会出错。通常上传文件前，使用<code>UE</code>（<code>Ultraedit</code>）或者<code>Nodepad++</code>来转换。</p>
 <ul>
-<li>案例</li>
+<li><p><code>UE</code>中，执行“File-&gt;conversions-&gt;Dos to Unix”，将文件中<code>\n\r</code>转换成<code>\n</code>。</p>
+</li>
+<li><p><code>Nodepad++</code>中，执行“编辑-&gt;档案格式转换-&gt;转换为UNIX格式”。</p>
+</li>
 </ul>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> timeit</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test_example</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">100</span>):</span><br><span class="line">        <span class="string">"-"</span>.join(str(i))</span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    print(timeit.timeit(<span class="string">"test_example()"</span>, setup=<span class="string">"from __main__ import test_example"</span>))</span><br><span class="line"><span class="comment">#25.844697911000367</span></span><br></pre></td></tr></table></figure>
-<p>例子中statement是个函数，重复执行前需要在setup中提前import。</p>
-<h2 id="参考文献及资料"><a href="#参考文献及资料" class="headerlink" title="参考文献及资料"></a>参考文献及资料</h2>
+<p>上传到Linux后还可以使用下面的命令查看是否准确：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat -v test.txt</span><br></pre></td></tr></table></figure>
+<p>如果每行换行处都有<code>^M</code>，这说明仍然是Windows下的文本文件。</p>
+<blockquote>
+<p>注：cat -A<code>命令：显示不可见字符。如换行符显示为“$”，TAB 显示为</code>^I<code>等。在这种模式下，回车（</code>\r<code>）字符将显示为</code>^M</p>
+</blockquote>
+<p>可以使用下面的命令进行统一替换：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sed -i 's/^M$//g' test.txt</span><br></pre></td></tr></table></figure>
+<h3 id="2-2-Linux文件上传Windows问题"><a href="#2-2-Linux文件上传Windows问题" class="headerlink" title="2.2 Linux文件上传Windows问题"></a>2.2 Linux文件上传Windows问题</h3><p>在Windows中使用<code>Ultraedit</code>或者<code>Nodepad++</code>文本编辑器查看Linux文件，而不是系统自带的记事本。</p>
+<h3 id="2-3-FTP中传输问题"><a href="#2-3-FTP中传输问题" class="headerlink" title="2.3 FTP中传输问题"></a>2.3 FTP中传输问题</h3><p>FTP软件在传输文件的时候，通常有两种模式：文本模式（ASCII模式）和二进制模式（BINARY模式）。两种模式的区别就是行末结束符的处理，BINARY模式不会对数据进行任何处理。而ASCII模式将行末结束符转换为本机操作系统的行末结束符。例如Windows系统将文本文件上传至Linux，就会将<code>\r\n</code>替换成<code>\n</code>。</p>
+<p>在使用过程中需要注意两种模式的差别。特别的上实际生产环境上线投产过程中建议统一使用二进制模式，避免FTP对文件进行转换。</p>
+<h3 id="2-4-编程语言中"><a href="#2-4-编程语言中" class="headerlink" title="2.4 编程语言中"></a>2.4 编程语言中</h3><ul>
+<li>Python 使用 “<a href="http://www.python.org/dev/peps/pep-0278/" target="_blank" rel="noopener">Universal Newline</a>“ 处理这个问题。文本使用 open() 方法打开时，会对行末结束符进行识别并一致处理成 ‘\n’，在文件写入的时候，使用 write(‘\n’) 即可，Python 会根据当前程序执行的操作系统自动处理。</li>
+</ul>
+<ul>
+<li>Java中行末结束符使用下面的函数方法统一处理：</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">System.getProperty(<span class="string">"line.separator"</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="参考文献及资料"><a href="#参考文献及资料" class="headerlink" title="参考文献及资料"></a>参考文献及资料</h2><p>1、Line_feed，链接：<a href="https://nl.wikipedia.org/wiki/Line_feed" target="_blank" rel="noopener">https://nl.wikipedia.org/wiki/Line_feed</a></p>
+
       
     </div>
 
@@ -588,36 +661,6 @@
     <div>
       
         
-<div class="my_post_copyright">
-  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
-  <!-- JS库 sweetalert 可修改路径 -->
-  <script type="text/javascript" src="http://jslibs.wuxubj.cn/sweetalert_mini/jquery-1.7.1.min.js"></script>
-  <script src="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.min.js"></script>
-  <link rel="stylesheet" type="text/css" href="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.mini.css">
-  <p><span>本文标题:</span><a href="/2018/01/25/2018-01-25-Python标准库timeit的使用简介/">Python标准库timeit的使用简介</a></p>
-  <p><span>文章作者:</span><a href="/" title="访问 rong xiang 的个人博客">rong xiang</a></p>
-  <p><span>发布时间:</span>2018年01月25日 - 19:01</p>
-  <p><span>最后更新:</span>2020年03月22日 - 09:03</p>
-  <p><span>原始链接:</span><a href="/2018/01/25/2018-01-25-Python标准库timeit的使用简介/" title="Python标准库timeit的使用简介">https://zjrongxiang.github.io/2018/01/25/2018-01-25-Python标准库timeit的使用简介/</a>
-    <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://zjrongxiang.github.io/2018/01/25/2018-01-25-Python标准库timeit的使用简介/" aria-label="复制成功！"></i></span>
-  </p>
-  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
-</div>
-<script> 
-    var clipboard = new Clipboard('.fa-clipboard');
-    clipboard.on('success', $(function(){
-      $(".fa-clipboard").click(function(){
-        swal({   
-          title: "",   
-          text: '复制成功',   
-          html: false,
-          timer: 500,   
-          showConfirmButton: false
-        });
-      });
-    }));  
-</script>
-
       
     </div>
     
@@ -645,8 +688,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2012/03/31/2012-03-31-重读本科毕业设计--那年我们一起做毕业论文/" rel="next" title="重读本科毕业设计--那年我们一起做毕业论文">
-                <i class="fa fa-chevron-left"></i> 重读本科毕业设计--那年我们一起做毕业论文
+              <a href="/2020/11/12/2020-11-28-HDFS Federation架构介绍/" rel="next" title="HDFS Federation架构介绍">
+                <i class="fa fa-chevron-left"></i> HDFS Federation架构介绍
               </a>
             
           </div>
@@ -655,8 +698,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/01/25/2018-01-27-机器学习系列文章-性能评估度量总结/" rel="prev" title="机器学习系列文章-性能评估度量总结">
-                机器学习系列文章-性能评估度量总结 <i class="fa fa-chevron-right"></i>
+              <a href="/2020/11/12/2020-12-11-如何从hive表中删除数据/" rel="prev" title="Yarn上长任务报Token失效问题总结(Invalid AMRMToken)">
+                Yarn上长任务报Token失效问题总结(Invalid AMRMToken) <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -711,17 +754,17 @@
       
         <ul class="sidebar-nav motion-element">
           <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            Table of Contents
+            文章目录
           </li>
           <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            Overview
+            站点概览
           </li>
         </ul>
       
 
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
-          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
               <img class="site-author-image" itemprop="image" src="/images/avatar/person.png" alt="rong xiang">
             
@@ -736,8 +779,8 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">85</span>
-                    <span class="site-state-item-name">posts</span>
+                    <span class="site-state-item-count">107</span>
+                    <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
               
@@ -835,8 +878,22 @@
                     
                       
                     
-                    <span class="site-state-item-count">43</span>
-                    <span class="site-state-item-name">categories</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">50</span>
+                    <span class="site-state-item-name">分类</span>
                   
                 </div>
               
@@ -852,8 +909,10 @@
                     
                       
                     
-                    <span class="site-state-item-count">2</span>
-                    <span class="site-state-item-name">tags</span>
+                      
+                    
+                    <span class="site-state-item-count">3</span>
+                    <span class="site-state-item-name">标签</span>
                   
                 </div>
               
@@ -946,7 +1005,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#目录"><span class="nav-number">1.</span> <span class="nav-text">目录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#背景"><span class="nav-number">2.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第一部分-模块介绍"><span class="nav-number">3.</span> <span class="nav-text">第一部分 模块介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、命令行接口"><span class="nav-number">3.1.</span> <span class="nav-text">一、命令行接口</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1、案例"><span class="nav-number">3.1.1.</span> <span class="nav-text">1、案例</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2、接口参数说明"><span class="nav-number">3.1.2.</span> <span class="nav-text">2、接口参数说明</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、函数接口"><span class="nav-number">3.2.</span> <span class="nav-text">二、函数接口</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1、类timeit-Timer"><span class="nav-number">3.2.1.</span> <span class="nav-text">1、类timeit.Timer</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2、两个函数"><span class="nav-number">3.2.2.</span> <span class="nav-text">2、两个函数</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文献及资料"><span class="nav-number">4.</span> <span class="nav-text">参考文献及资料</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#目录"><span class="nav-number">1.</span> <span class="nav-text">目录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#背景"><span class="nav-number">2.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第一部分-回车和换行"><span class="nav-number">3.</span> <span class="nav-text">第一部分 回车和换行</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-历史背景"><span class="nav-number">3.1.</span> <span class="nav-text">1.1 历史背景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-分歧"><span class="nav-number">3.2.</span> <span class="nav-text">1.2 分歧</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第二部分-兼容性问题解决"><span class="nav-number">4.</span> <span class="nav-text">第二部分 兼容性问题解决</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-Windows文件上传Linux问题"><span class="nav-number">4.1.</span> <span class="nav-text">2.1 Windows文件上传Linux问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-Linux文件上传Windows问题"><span class="nav-number">4.2.</span> <span class="nav-text">2.2 Linux文件上传Windows问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-FTP中传输问题"><span class="nav-number">4.3.</span> <span class="nav-text">2.3 FTP中传输问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-编程语言中"><span class="nav-number">4.4.</span> <span class="nav-text">2.4 编程语言中</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文献及资料"><span class="nav-number">5.</span> <span class="nav-text">参考文献及资料</span></a></li></ol></div>
             
 
           </div>
@@ -966,28 +1025,35 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-<div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; 2014 – <span itemprop="copyrightYear">2021</span>
   <span class="with-love" id="animate">
     <i class="fa fa-user"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">rong xiang</span>
 
   
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+    <span title="站点总字数">360k</span>
+  
 
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    
+    <span title="站点阅读时长">5:27</span>
   
 </div>
 
 
-  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.8.0</div>
 
 
-
-  <span class="post-meta-divider">|</span>
-
-
-
-  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v6.7.0</div>
 
 
         
@@ -998,7 +1064,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-user"></i>
     </span>
-    <span class="site-uv" title="Total Visitors">
+    <span class="site-uv" title="总访客量">
       <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
     </span>
   
@@ -1011,7 +1077,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-eye"></i>
     </span>
-    <span class="site-pv" title="Total Views">
+    <span class="site-pv" title="总访问量">
       <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
     </span>
   
@@ -1127,9 +1193,9 @@
 
 <script>
   var disqus_config = function () {
-    this.page.url = "https://zjrongxiang.github.io/2018/01/25/2018-01-25-Python标准库timeit的使用简介/";
-    this.page.identifier = "2018/01/25/2018-01-25-Python标准库timeit的使用简介/";
-    this.page.title = 'Python标准库timeit的使用简介';
+    this.page.url = "https://zjrongxiang.github.io/2020/11/12/2020-11-12-Unix和Windows中文本行末结束符/";
+    this.page.identifier = "2020/11/12/2020-11-12-Unix和Windows中文本行末结束符/";
+    this.page.title = 'Unix和Windows中文本行末结束符';
     };
   function loadComments () {
     var d = document, s = d.createElement('script');
@@ -1545,7 +1611,7 @@
     $('.highlight').each(function (i, e) {
       var $wrap = $('<div>').addClass('highlight-wrap');
       $(e).after($wrap);
-      $wrap.append($('<button>').addClass('copy-btn').append('Copy').on('click', function (e) {
+      $wrap.append($('<button>').addClass('copy-btn').append('复制').on('click', function (e) {
         var code = $(this).parent().find('.code').find('.line').map(function (i, e) {
           return $(e).text();
         }).toArray().join('\n');
@@ -1567,15 +1633,15 @@
         ta.setSelectionRange(0, code.length);
         var result = document.execCommand('copy');
         
-          if (result) $(this).text('Copied');
-          else $(this).text('Copy failed');
+          if (result) $(this).text('复制成功');
+          else $(this).text('复制失败');
         
         ta.blur(); //For iOS
         $(this).blur();
       })).on('mouseleave', function (e) {
         var $b = $(this).find('.copy-btn');
         setTimeout(function () {
-          $b.text('Copy');
+          $b.text('复制');
         }, 300);
       }).append(e);
     })

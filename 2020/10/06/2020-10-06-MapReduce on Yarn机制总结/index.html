@@ -14,8 +14,8 @@
   
 
 
-<html class="theme-next mist use-motion" lang="en">
-<head><meta name="generator" content="Hexo 3.8.0">
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
   <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
@@ -123,11 +123,11 @@
 <meta property="og:url" content="https://zjrongxiang.github.io/2020/10/06/2020-10-06-MapReduce on Yarn机制总结/index.html">
 <meta property="og:site_name" content="RongXiang">
 <meta property="og:description" content="目录 背景 第一部分  常用快捷键 参考文献及资料  背景Yarn作为资源统一管理平台是从第一代MapReduce（MRv1）演进而来。在最初的MRv1架构中，主要构成有三部分：  编程模型，MapReduce API； 资源管理和作业控制模块，JobTracker（作业跟踪器）、TaskTracker（任务跟踪器）； 数据处理引擎，MapTask、ReduceTask；   其中JobTrack">
-<meta property="og:locale" content="en">
+<meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://www.ibm.com/developerworks/cn/opensource/os-cn-hadoop-yarn/images/image001.jpg">
 <meta property="og:image" content="https://www.ibm.com/developerworks/cn/opensource/os-cn-hadoop-yarn/images/image002.jpg">
 <meta property="og:image" content="http://sungsoo.github.com/images/mr-yarn.png">
-<meta property="og:updated_time" content="2020-10-07T04:43:37.073Z">
+<meta property="og:updated_time" content="2020-11-28T09:20:55.330Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MapReduce on Yarn机制总结">
 <meta name="twitter:description" content="目录 背景 第一部分  常用快捷键 参考文献及资料  背景Yarn作为资源统一管理平台是从第一代MapReduce（MRv1）演进而来。在最初的MRv1架构中，主要构成有三部分：  编程模型，MapReduce API； 资源管理和作业控制模块，JobTracker（作业跟踪器）、TaskTracker（任务跟踪器）； 数据处理引擎，MapTask、ReduceTask；   其中JobTrack">
@@ -199,7 +199,7 @@
 
 </head>
 
-<body itemscope="" itemtype="http://schema.org/WebPage" lang="en">
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
 
   
   
@@ -211,7 +211,7 @@
     <!-- <a href="https://github.com/zjrongxiang"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png" alt="Fork me on GitHub"></a> -->
     <a href="https://github.com/zjrongxiang"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_green_007200.png" alt="Fork me on GitHub"></a>
 
-    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-wrapper">
   <div class="site-meta">
     
@@ -232,7 +232,7 @@
   </div>
 
   <div class="site-nav-toggle">
-    <button aria-label="Toggle navigation bar">
+    <button aria-label="切换导航栏">
       <span class="btn-bar"></span>
       <span class="btn-bar"></span>
       <span class="btn-bar"></span>
@@ -260,7 +260,7 @@
 
     
 
-    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
 
   </li>
         
@@ -277,7 +277,7 @@
 
     
 
-    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>About</a>
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
 
   </li>
         
@@ -294,7 +294,7 @@
 
     
 
-    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>Tags</a>
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
 
   </li>
         
@@ -311,7 +311,7 @@
 
     
 
-    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>Categories</a>
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
 
   </li>
         
@@ -328,7 +328,7 @@
 
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives</a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
 
   </li>
         
@@ -345,7 +345,7 @@
 
     
 
-    <a href="/schedule/" rel="section"><i class="menu-item-icon fa fa-fw fa-calendar"></i> <br>Schedule</a>
+    <a href="/schedule/" rel="section"><i class="menu-item-icon fa fa-fw fa-calendar"></i> <br>日程表</a>
 
   </li>
 
@@ -356,7 +356,7 @@
             <a href="javascript:;" class="popup-trigger">
           
             
-              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>Search</a>
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
         </li>
       
     </ul>
@@ -379,7 +379,7 @@
       <i class="fa fa-times-circle"></i>
     </span>
     <div class="local-search-input-wrapper">
-      <input autocomplete="off" placeholder="Searching..." spellcheck="false" type="text" id="local-search-input">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
     </div>
   </div>
   <div id="local-search-result"></div>
@@ -421,20 +421,20 @@
 
   
 
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
   
   
   
   <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://zjrongxiang.github.io/2020/10/06/2020-10-06-MapReduce on Yarn机制总结/">
 
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="rong xiang">
       <meta itemprop="description" content="Keep a Pure Curiosity">
       <meta itemprop="image" content="/images/avatar/person.png">
     </span>
 
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
       <meta itemprop="name" content="RongXiang">
     </span>
 
@@ -462,14 +462,14 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">发表于</span>
               
 
               
                 
               
 
-              <time title="Created: 2020-10-06 13:30:00" itemprop="dateCreated datePublished" datetime="2020-10-06T13:30:00+08:00">2020-10-06</time>
+              <time title="创建时间：2020-10-06 13:30:00" itemprop="dateCreated datePublished" datetime="2020-10-06T13:30:00+08:00">2020-10-06</time>
             
 
             
@@ -484,9 +484,9 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 
-                  <span class="post-meta-item-text">Edited on</span>
+                  <span class="post-meta-item-text">更新于</span>
                 
-                <time title="Modified: 2020-10-07 12:43:37" itemprop="dateModified" datetime="2020-10-07T12:43:37+08:00">2020-10-07</time>
+                <time title="修改时间：2020-11-28 17:20:55" itemprop="dateModified" datetime="2020-11-28T17:20:55+08:00">2020-11-28</time>
               
             
           </span>
@@ -500,10 +500,10 @@
                 <i class="fa fa-folder-o"></i>
               </span>
               
-                <span class="post-meta-item-text">In</span>
+                <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/spark/" itemprop="url" rel="index"><span itemprop="name">spark</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/spark/" itemprop="url" rel="index"><span itemprop="name">spark</span></a></span>
 
                 
                 
@@ -530,7 +530,42 @@
           
 
           
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
 
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">本文字数：</span>
+                
+                <span title="本文字数">5.1k</span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">5 分钟</span>
+              
+            </div>
           
 
           
@@ -559,27 +594,30 @@
 <li>资源管理和作业控制模块，<code>JobTracker</code>（作业跟踪器）、<code>TaskTracker</code>（任务跟踪器）；</li>
 <li>数据处理引擎，<code>MapTask</code>、<code>ReduceTask</code>；</li>
 </ul>
-<p><img src="https://www.ibm.com/developerworks/cn/opensource/os-cn-hadoop-yarn/images/image001.jpg" alt=""></p>
+<p><img src="https://www.ibm.com/developerworks/cn/opensource/os-cn-hadoop-yarn/images/image001.jpg" alt></p>
 <p>其中<code>JobTracker</code>单一服务运行在主节点，负责调度集群所有的任务，并监控任务的状态。每个工作节点均运行一个<code>TaskTracker</code>负责执行<code>JobTracker</code>分发的任务。架构上不足有：</p>
 <ul>
-<li><code>JobTracker</code>服务单点故障</li>
-<li><code>JobTracker</code>服务太重，承担了集群的资源管理和任务调度。</li>
+<li><code>JobTracker</code>服务单点故障风险；</li>
+<li><code>JobTracker</code>服务太重，承担了集群的资源管理和任务调度；</li>
 </ul>
-<p>架构上<code>JobTracker</code>承担了集中式调度器角色，将集群中资源分配、任务分配和监控一个人扛，在高并发场景下容易出现负载过重，而产生单点风险。</p>
-<p><code>Yahoo</code>和<code>Hortonworks</code>于2012年在<code>Hadoop 2.0</code>版中引入了<code>YARN</code>，架构上将<code>JobTracker</code>功能进行了拆分。将调度工作拆解为两层：中央调度器和框架调度器。中央调度器管理集群中所有资源的状态，它拥有集群所有的资源信息，它按照一定的策略（如FIFO、Fair、Capacity、Delay、Dominant Resource Fair）将资源粗粒度地分配给框架调度器，各个框架收到资源后再根据作业特性细粒度地将资源分配给容器执行具体的计算任务。双层调度架构大大减轻了中央调度器的负载，这对并发来说有很大提升，资源利用率也得到了提升。</p>
-<p>新的架构就是Yahoo发布的Yarn架构（<strong>Y</strong>et <strong>A</strong>nother <strong>R</strong>esource <strong>N</strong>egotiator）。原来<code>JobTarcker</code>被拆解为：</p>
+<p><code>JobTracker</code>承担了集中式调度器角色，将集群中资源分配、任务分配和监控一个人扛，在高并发场景下容易出现负载过重，产生单点风险。</p>
+<p>另外<code>TaskTracker</code>将资源强制划分为<code>Map task slot</code>和<code>Reduce task slot</code>，并且<code>map task</code>和<code>reduce task</code>只能使用对应的<code>solts</code>资源。当任务的<code>map</code>和<code>reduce</code>任务数量发生倾斜的时候，就会出现计算资源使用低效。</p>
+<blockquote>
+<p>集群中<code>solts</code>资源由两个参数决定：（<code>mapred.tasktracker.map.tasks.maximum</code>、<code>mapred.tasktracker.reduce.tasks.maximum</code>）。</p>
+</blockquote>
+<p><code>Yahoo</code>和<code>Hortonworks</code>于2012年在<code>Hadoop 2.0</code>版中引入了<code>YARN</code>，架构上将<code>JobTracker</code>功能进行了拆分。将调度工作拆解为两层：中央调度器和计算框架调度器。中央调度器管理集群中所有资源的状态，它掌握整个集群的资源信息，按照一定的调度策略（如：FIFO、Fair、Capacity、Delay、Dominant Resource Fair等）将资源粗粒度地分配给计算框架调度器，各个框架收到资源后再根据作业特性细粒度地将资源分配给执行器执行具体的计算任务。双层调度架构大大减轻了中央调度器的负载，提升了集群并发性能和资源利用率。</p>
+<p>新的架构就是Yahoo发布的Yarn架构（<strong>Y</strong>et <strong>A</strong>nother <strong>R</strong>esource <strong>N</strong>egotiator）。原架构中的<code>JobTarcker</code>被拆解为：</p>
 <ul>
-<li><p><code>ResourceManger</code>，集群管理器。负责资源管理和调度，承担中央调度器角色。<code>ResourceManager</code>有两个组件构成：</p>
-<p><code>ApplicationManager</code>,主要负责：1.管理监控各个系统的应用，包括启动<code>ApplicaitonMaster</code>，监控<code>ApplicaitonMaster</code>运行状态; 2.跟踪分配给<code>ApplicationMaster</code>的进度和状态。</p>
-<p><code>Scheduler</code>，主要负责分配<code>Container</code>给<code>ApplicaitonMaster</code>，分配算法有多种（公平调度等等）可以根据需求不同选择适合的调度策略。</p>
+<li><p><code>ResourceManger</code>，集群管理器。负责整个集群的资源管理和调度，承担中央调度器角色。<code>ResourceManager</code>有两个组件构成：</p>
+<p>应用程序管理器（<code>Application Manager</code>简称<code>ASM</code>）。主要负责：1.管理监控各个系统的应用，包括启动<code>ApplicaitonMaster</code>，监控<code>ApplicaitonMaster</code>运行状态; 2.跟踪分配给<code>ApplicationMaster</code>的进度和状态。</p>
+<p>调度器(<code>Scheduler</code>)。调度器根据资源容量、队列等限制条件（如队列资源和队列任务数量限制），将集群资源分配给正在运行的应用程序。即分配资源容器（<code>Resource Container</code>）给<code>ApplicaitonMaster</code>，分配单位<code>Resource Container</code>将CPU和内存资源封装。调度器是一个可配置可插拔的组件，用户可以自己设计新的调度器，Yarn提供多个可选项（<code>Fair Scheduler</code>和<code>Capacity Scheduler</code>等）。</p>
 </li>
 <li><p><code>ApplicationMaster</code>，负责应用任务内部的调度和监控，承担框架调度器角色。</p>
 <p>用户提交的每个应用都会对应一个<code>ApplicationMaster</code>，主要负责监控应用，任务容错（重启失败的task）等。它同时会和<code>ResourceManager</code>和<code>NodeManager</code>有交互，向<code>ResourceManager</code>申请资源，请求<code>NodeManager</code>启动或停止task。</p>
 </li>
 </ul>
-<p><img src="https://www.ibm.com/developerworks/cn/opensource/os-cn-hadoop-yarn/images/image002.jpg" alt=""></p>
-<p><code>Yarn</code>（<code>MRv2</code>）架构上已经不单单支持运行<code>MapReduce</code>任务，架构解耦后可以支持<code>Spark</code>、<code>Flink</code>等多种计算框架的运行。</p>
-<p>本文将详细阐述<code>MapReduce</code>任务在新架构<code>Yarn</code>上运行细节。</p>
+<p><img src="https://www.ibm.com/developerworks/cn/opensource/os-cn-hadoop-yarn/images/image002.jpg" alt></p>
+<p><code>Yarn</code>（<code>MRv2</code>）架构上已经不单单支持运行<code>MapReduce</code>任务，架构解耦后可以支持<code>Tez</code>、<code>Spark</code>、<code>Storm</code>、<code>Flink</code>等多种计算框架的运行。本文将详细阐述<code>MapReduce</code>任务在新架构<code>Yarn</code>上运行细节。</p>
 <h2 id="第一部分-角色说明"><a href="#第一部分-角色说明" class="headerlink" title="第一部分 角色说明"></a>第一部分 角色说明</h2><p><code>MapReduce on Yarn</code>运行模式下，主要涉及下面的角色：</p>
 <ul>
 <li><code>ResourceMange</code>，中央调度器角色；</li>
@@ -587,7 +625,7 @@
 <li><code>MapReduce ApplicationManager</code>，框架调度器角色。负责协调运行<code>MapReduce</code>任务。</li>
 </ul>
 <p>整个调度过程如下：</p>
-<p><img src="http://sungsoo.github.com/images/mr-yarn.png" alt=""></p>
+<p><img src="http://sungsoo.github.com/images/mr-yarn.png" alt></p>
 <h2 id="第二部分-任务提交"><a href="#第二部分-任务提交" class="headerlink" title="第二部分 任务提交"></a>第二部分 任务提交</h2><h2 id="第三部分-任务初始化"><a href="#第三部分-任务初始化" class="headerlink" title="第三部分 任务初始化"></a>第三部分 任务初始化</h2><h2 id="第四部分-任务分配"><a href="#第四部分-任务分配" class="headerlink" title="第四部分 任务分配"></a>第四部分 任务分配</h2><h2 id="第五部分-任务执行"><a href="#第五部分-任务执行" class="headerlink" title="第五部分 任务执行"></a>第五部分 任务执行</h2><h2 id="第六部分-任务监控"><a href="#第六部分-任务监控" class="headerlink" title="第六部分 任务监控"></a>第六部分 任务监控</h2><h2 id="第七部分-任务完成"><a href="#第七部分-任务完成" class="headerlink" title="第七部分 任务完成"></a>第七部分 任务完成</h2><h2 id="第八部分-总结"><a href="#第八部分-总结" class="headerlink" title="第八部分 总结"></a>第八部分 总结</h2><h2 id="参考文献及资料"><a href="#参考文献及资料" class="headerlink" title="参考文献及资料"></a>参考文献及资料</h2><p>1、Hadoop 新 MapReduce 框架 Yarn 详解，链接：<a href="https://www.ibm.com/developerworks/cn/opensource/os-cn-hadoop-yarn/" target="_blank" rel="noopener">https://www.ibm.com/developerworks/cn/opensource/os-cn-hadoop-yarn/</a></p>
 <p>2、Hadoop: Writing YARN Applications，链接：<a href="https://hadoop.apache.org/docs/current/hadoop-yarn/hadoop-yarn-site/WritingYarnApplications.html" target="_blank" rel="noopener">https://hadoop.apache.org/docs/current/hadoop-yarn/hadoop-yarn-site/WritingYarnApplications.html</a></p>
 <p>3、MapReduce Tutorial，链接：<a href="https://hadoop.apache.org/docs/current/hadoop-mapreduce-client/hadoop-mapreduce-client-core/MapReduceTutorial.html" target="_blank" rel="noopener">https://hadoop.apache.org/docs/current/hadoop-mapreduce-client/hadoop-mapreduce-client-core/MapReduceTutorial.html</a></p>
@@ -627,8 +665,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/10/06/2020-10-06-大数据资源调度平台粒度的说明/" rel="next" title="大数据资源调度平台粒度的说明">
-                <i class="fa fa-chevron-left"></i> 大数据资源调度平台粒度的说明
+              <a href="/2020/10/06/2020-10-06-Spark on Yarn任务动态伸缩机制介绍/" rel="next" title="Spark on Yarn任务动态伸缩机制介绍">
+                <i class="fa fa-chevron-left"></i> Spark on Yarn任务动态伸缩机制介绍
               </a>
             
           </div>
@@ -637,8 +675,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2020/10/10/2020-10-10-Python中的递归和限制/" rel="prev" title="Python中的递归和限制">
-                Python中的递归和限制 <i class="fa fa-chevron-right"></i>
+              <a href="/2020/10/06/2020-10-06-Pyspark实现原理总结/" rel="prev" title="Pyspark实现原理总结">
+                Pyspark实现原理总结 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -693,17 +731,17 @@
       
         <ul class="sidebar-nav motion-element">
           <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            Table of Contents
+            文章目录
           </li>
           <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            Overview
+            站点概览
           </li>
         </ul>
       
 
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
-          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
               <img class="site-author-image" itemprop="image" src="/images/avatar/person.png" alt="rong xiang">
             
@@ -718,8 +756,8 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">85</span>
-                    <span class="site-state-item-name">posts</span>
+                    <span class="site-state-item-count">107</span>
+                    <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
               
@@ -817,8 +855,22 @@
                     
                       
                     
-                    <span class="site-state-item-count">43</span>
-                    <span class="site-state-item-name">categories</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">50</span>
+                    <span class="site-state-item-name">分类</span>
                   
                 </div>
               
@@ -834,8 +886,10 @@
                     
                       
                     
-                    <span class="site-state-item-count">2</span>
-                    <span class="site-state-item-name">tags</span>
+                      
+                    
+                    <span class="site-state-item-count">3</span>
+                    <span class="site-state-item-name">标签</span>
                   
                 </div>
               
@@ -948,28 +1002,35 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-<div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; 2014 – <span itemprop="copyrightYear">2021</span>
   <span class="with-love" id="animate">
     <i class="fa fa-user"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">rong xiang</span>
 
   
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+    <span title="站点总字数">360k</span>
+  
 
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    
+    <span title="站点阅读时长">5:27</span>
   
 </div>
 
 
-  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.8.0</div>
 
 
-
-  <span class="post-meta-divider">|</span>
-
-
-
-  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v6.7.0</div>
 
 
         
@@ -980,7 +1041,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-user"></i>
     </span>
-    <span class="site-uv" title="Total Visitors">
+    <span class="site-uv" title="总访客量">
       <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
     </span>
   
@@ -993,7 +1054,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-eye"></i>
     </span>
-    <span class="site-pv" title="Total Views">
+    <span class="site-pv" title="总访问量">
       <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
     </span>
   
@@ -1527,7 +1588,7 @@
     $('.highlight').each(function (i, e) {
       var $wrap = $('<div>').addClass('highlight-wrap');
       $(e).after($wrap);
-      $wrap.append($('<button>').addClass('copy-btn').append('Copy').on('click', function (e) {
+      $wrap.append($('<button>').addClass('copy-btn').append('复制').on('click', function (e) {
         var code = $(this).parent().find('.code').find('.line').map(function (i, e) {
           return $(e).text();
         }).toArray().join('\n');
@@ -1549,15 +1610,15 @@
         ta.setSelectionRange(0, code.length);
         var result = document.execCommand('copy');
         
-          if (result) $(this).text('Copied');
-          else $(this).text('Copy failed');
+          if (result) $(this).text('复制成功');
+          else $(this).text('复制失败');
         
         ta.blur(); //For iOS
         $(this).blur();
       })).on('mouseleave', function (e) {
         var $b = $(this).find('.copy-btn');
         setTimeout(function () {
-          $b.text('Copy');
+          $b.text('复制');
         }, 300);
       }).append(e);
     })

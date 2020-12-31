@@ -14,8 +14,8 @@
   
 
 
-<html class="theme-next mist use-motion" lang="en">
-<head><meta name="generator" content="Hexo 3.8.0">
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
   <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
@@ -123,7 +123,7 @@
 <meta property="og:url" content="https://zjrongxiang.github.io/2018/03/14/2018-03-14-动手实现Ubuntu系统WOL远程唤醒/index.html">
 <meta property="og:site_name" content="RongXiang">
 <meta property="og:description" content="目录 背景  第一部分   检查主机板块和网卡是否支持Wol  第二部分   部署步骤  参考文献及资料   背景本篇博客主要介绍通过局域网唤醒服务器（远程启动计算机）。具体在Ubuntu操作系统上实现。具体数据流为：通过互联网远程登录长期开机的树莓派，然后通过树莓派唤醒同一个局域网的高性能服务器。  目前中国家庭宽带网络都是没有外网IP的，如果外网访问家庭网络，需要做端口映射，实现远程访问。">
-<meta property="og:locale" content="en">
+<meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2020-03-22T02:46:05.025Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="动手实现Ubuntu系统WOL远程唤醒">
@@ -195,7 +195,7 @@
 
 </head>
 
-<body itemscope="" itemtype="http://schema.org/WebPage" lang="en">
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
 
   
   
@@ -207,7 +207,7 @@
     <!-- <a href="https://github.com/zjrongxiang"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png" alt="Fork me on GitHub"></a> -->
     <a href="https://github.com/zjrongxiang"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_green_007200.png" alt="Fork me on GitHub"></a>
 
-    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-wrapper">
   <div class="site-meta">
     
@@ -228,7 +228,7 @@
   </div>
 
   <div class="site-nav-toggle">
-    <button aria-label="Toggle navigation bar">
+    <button aria-label="切换导航栏">
       <span class="btn-bar"></span>
       <span class="btn-bar"></span>
       <span class="btn-bar"></span>
@@ -256,7 +256,7 @@
 
     
 
-    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
 
   </li>
         
@@ -273,7 +273,7 @@
 
     
 
-    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>About</a>
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
 
   </li>
         
@@ -290,7 +290,7 @@
 
     
 
-    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>Tags</a>
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
 
   </li>
         
@@ -307,7 +307,7 @@
 
     
 
-    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>Categories</a>
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
 
   </li>
         
@@ -324,7 +324,7 @@
 
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives</a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
 
   </li>
         
@@ -341,7 +341,7 @@
 
     
 
-    <a href="/schedule/" rel="section"><i class="menu-item-icon fa fa-fw fa-calendar"></i> <br>Schedule</a>
+    <a href="/schedule/" rel="section"><i class="menu-item-icon fa fa-fw fa-calendar"></i> <br>日程表</a>
 
   </li>
 
@@ -352,7 +352,7 @@
             <a href="javascript:;" class="popup-trigger">
           
             
-              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>Search</a>
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
         </li>
       
     </ul>
@@ -375,7 +375,7 @@
       <i class="fa fa-times-circle"></i>
     </span>
     <div class="local-search-input-wrapper">
-      <input autocomplete="off" placeholder="Searching..." spellcheck="false" type="text" id="local-search-input">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
     </div>
   </div>
   <div id="local-search-result"></div>
@@ -417,20 +417,20 @@
 
   
 
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
   
   
   
   <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://zjrongxiang.github.io/2018/03/14/2018-03-14-动手实现Ubuntu系统WOL远程唤醒/">
 
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="rong xiang">
       <meta itemprop="description" content="Keep a Pure Curiosity">
       <meta itemprop="image" content="/images/avatar/person.png">
     </span>
 
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
       <meta itemprop="name" content="RongXiang">
     </span>
 
@@ -458,14 +458,14 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">发表于</span>
               
 
               
                 
               
 
-              <time title="Created: 2018-03-14 19:30:00" itemprop="dateCreated datePublished" datetime="2018-03-14T19:30:00+08:00">2018-03-14</time>
+              <time title="创建时间：2018-03-14 19:30:00" itemprop="dateCreated datePublished" datetime="2018-03-14T19:30:00+08:00">2018-03-14</time>
             
 
             
@@ -480,9 +480,9 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 
-                  <span class="post-meta-item-text">Edited on</span>
+                  <span class="post-meta-item-text">更新于</span>
                 
-                <time title="Modified: 2020-03-22 10:46:05" itemprop="dateModified" datetime="2020-03-22T10:46:05+08:00">2020-03-22</time>
+                <time title="修改时间：2020-03-22 10:46:05" itemprop="dateModified" datetime="2020-03-22T10:46:05+08:00">2020-03-22</time>
               
             
           </span>
@@ -496,10 +496,10 @@
                 <i class="fa fa-folder-o"></i>
               </span>
               
-                <span class="post-meta-item-text">In</span>
+                <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/Ubuntu/" itemprop="url" rel="index"><span itemprop="name">Ubuntu</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Ubuntu/" itemprop="url" rel="index"><span itemprop="name">Ubuntu</span></a></span>
 
                 
                 
@@ -526,7 +526,42 @@
           
 
           
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
 
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">本文字数：</span>
+                
+                <span title="本文字数">4k</span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">4 分钟</span>
+              
+            </div>
           
 
           
@@ -565,7 +600,7 @@
 <li><p>网卡是否支持：</p>
 </li>
 </ul>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> ethtool enp0s31f6</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> ethtool enp0s31f6</span></span><br></pre></td></tr></table></figure>
 <p>其中有下面的字段信息：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Supports Wake-on: pumbg</span><br><span class="line">Wake-on: g</span><br></pre></td></tr></table></figure>
 <h2 id="第二部分-部署步骤"><a href="#第二部分-部署步骤" class="headerlink" title="第二部分 部署步骤"></a>第二部分 部署步骤</h2><h3 id="2-1-方法1"><a href="#2-1-方法1" class="headerlink" title="2.1 方法1"></a>2.1 方法1</h3><p>需要安装wakeonlan包：</p>
@@ -573,7 +608,7 @@
 <p>下面的命令通过树莓派发送魔术包：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">root@raspberrypi:~# wakeonlan -i 192.168.1.3 b0:6f:bf:b0:9f:2f</span><br><span class="line">Sending magic packet to 192.168.1.3:9 with b0:6f:b0:bf:9f:2f</span><br></pre></td></tr></table></figure>
 <h3 id="2-2-方法2"><a href="#2-2-方法2" class="headerlink" title="2.2 方法2"></a>2.2 方法2</h3><p>在网关配置ARP信息（IP与物理地址进行绑定），发送网段的广播：</p>
-<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">root</span>@<span class="selector-tag">raspberrypi</span>:~# <span class="selector-tag">wakeonlan</span> <span class="selector-tag">-i</span> <span class="selector-tag">192</span><span class="selector-class">.168</span><span class="selector-class">.1</span><span class="selector-class">.0</span> <span class="selector-tag">b0</span><span class="selector-pseudo">:6f</span><span class="selector-pseudo">:bf</span><span class="selector-pseudo">:b0</span><span class="selector-pseudo">:9f</span><span class="selector-pseudo">:2f</span></span><br><span class="line"><span class="selector-tag">Sending</span> <span class="selector-tag">magic</span> <span class="selector-tag">packet</span> <span class="selector-tag">to</span> <span class="selector-tag">192</span><span class="selector-class">.168</span><span class="selector-class">.1</span><span class="selector-class">.0</span><span class="selector-pseudo">:9</span> <span class="selector-tag">with</span> <span class="selector-tag">b0</span><span class="selector-pseudo">:6f</span><span class="selector-pseudo">:b0</span><span class="selector-pseudo">:bf</span><span class="selector-pseudo">:9f</span><span class="selector-pseudo">:2f</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">root@</span>raspberrypi:~# wakeonlan -i <span class="number">192.168</span><span class="number">.1</span><span class="number">.0</span> b0:<span class="number">6f</span>:bf:b0:<span class="number">9f</span>:<span class="number">2f</span></span><br><span class="line">Sending magic packet to <span class="number">192.168</span><span class="number">.1</span><span class="number">.0</span>:<span class="number">9</span> with b0:<span class="number">6f</span>:b0:bf:<span class="number">9f</span>:<span class="number">2f</span></span><br></pre></td></tr></table></figure>
 <h2 id="参考文献及链接"><a href="#参考文献及链接" class="headerlink" title="参考文献及链接"></a>参考文献及链接</h2><p>1、WakeOnLan 链接：<a href="https://help.ubuntu.com/community/WakeOnLan" target="_blank" rel="noopener">https://help.ubuntu.com/community/WakeOnLan</a></p>
 <p>2、wiki 链接：<a href="https://en.wikipedia.org/wiki/Wake-on-LAN" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Wake-on-LAN</a></p>
 <p>3、Ubuntu 與 Wake on LAN 链接：<a href="http://softsmith.blogspot.com/2014/05/ubuntu-wake-on-lan.html" target="_blank" rel="noopener">http://softsmith.blogspot.com/2014/05/ubuntu-wake-on-lan.html</a></p>
@@ -643,8 +678,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/03/01/2018-02-28-机器学习系列文章-不平衡数据集的采样技术/" rel="next" title="机器学习系列文章-不平衡数据集的采样技术">
-                <i class="fa fa-chevron-left"></i> 机器学习系列文章-不平衡数据集的采样技术
+              <a href="/2018/03/01/2018-03-12-树莓派更改APT为国内阿里云源/" rel="next" title="树莓派更改APT为国内阿里云源">
+                <i class="fa fa-chevron-left"></i> 树莓派更改APT为国内阿里云源
               </a>
             
           </div>
@@ -709,17 +744,17 @@
       
         <ul class="sidebar-nav motion-element">
           <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            Table of Contents
+            文章目录
           </li>
           <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            Overview
+            站点概览
           </li>
         </ul>
       
 
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
-          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
               <img class="site-author-image" itemprop="image" src="/images/avatar/person.png" alt="rong xiang">
             
@@ -734,8 +769,8 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">85</span>
-                    <span class="site-state-item-name">posts</span>
+                    <span class="site-state-item-count">107</span>
+                    <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
               
@@ -833,8 +868,22 @@
                     
                       
                     
-                    <span class="site-state-item-count">43</span>
-                    <span class="site-state-item-name">categories</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">50</span>
+                    <span class="site-state-item-name">分类</span>
                   
                 </div>
               
@@ -850,8 +899,10 @@
                     
                       
                     
-                    <span class="site-state-item-count">2</span>
-                    <span class="site-state-item-name">tags</span>
+                      
+                    
+                    <span class="site-state-item-count">3</span>
+                    <span class="site-state-item-name">标签</span>
                   
                 </div>
               
@@ -964,28 +1015,35 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-<div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; 2014 – <span itemprop="copyrightYear">2021</span>
   <span class="with-love" id="animate">
     <i class="fa fa-user"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">rong xiang</span>
 
   
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+    <span title="站点总字数">360k</span>
+  
 
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    
+    <span title="站点阅读时长">5:27</span>
   
 </div>
 
 
-  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.8.0</div>
 
 
-
-  <span class="post-meta-divider">|</span>
-
-
-
-  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v6.7.0</div>
 
 
         
@@ -996,7 +1054,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-user"></i>
     </span>
-    <span class="site-uv" title="Total Visitors">
+    <span class="site-uv" title="总访客量">
       <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
     </span>
   
@@ -1009,7 +1067,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-eye"></i>
     </span>
-    <span class="site-pv" title="Total Views">
+    <span class="site-pv" title="总访问量">
       <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
     </span>
   
@@ -1543,7 +1601,7 @@
     $('.highlight').each(function (i, e) {
       var $wrap = $('<div>').addClass('highlight-wrap');
       $(e).after($wrap);
-      $wrap.append($('<button>').addClass('copy-btn').append('Copy').on('click', function (e) {
+      $wrap.append($('<button>').addClass('copy-btn').append('复制').on('click', function (e) {
         var code = $(this).parent().find('.code').find('.line').map(function (i, e) {
           return $(e).text();
         }).toArray().join('\n');
@@ -1565,15 +1623,15 @@
         ta.setSelectionRange(0, code.length);
         var result = document.execCommand('copy');
         
-          if (result) $(this).text('Copied');
-          else $(this).text('Copy failed');
+          if (result) $(this).text('复制成功');
+          else $(this).text('复制失败');
         
         ta.blur(); //For iOS
         $(this).blur();
       })).on('mouseleave', function (e) {
         var $b = $(this).find('.copy-btn');
         setTimeout(function () {
-          $b.text('Copy');
+          $b.text('复制');
         }, 300);
       }).append(e);
     })

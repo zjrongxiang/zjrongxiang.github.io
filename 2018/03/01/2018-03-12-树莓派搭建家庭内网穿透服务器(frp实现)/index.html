@@ -14,8 +14,8 @@
   
 
 
-<html class="theme-next mist use-motion" lang="en">
-<head><meta name="generator" content="Hexo 3.8.0">
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
   <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
@@ -123,7 +123,7 @@
 <meta property="og:url" content="https://zjrongxiang.github.io/2018/03/01/2018-03-12-树莓派搭建家庭内网穿透服务器(frp实现)/index.html">
 <meta property="og:site_name" content="RongXiang">
 <meta property="og:description" content="目录 背景  第一部分  环境准备  第二部分  FRP介绍  第三部分  实现步骤  参考文献及资料   背景对于目前家庭网络，有下面两个迫切需求：  需要远程（比如在单位、路途等）SSH访问家里PC服务器、后续实现远程唤醒服务器。   后续部署自制家庭监控，需要远程访问监控web界面。  鉴于上面的需求，技术上需要实现外网访问内网（即内网穿透）。下面详细介绍具体实现步骤。 第一部分 环境准备">
-<meta property="og:locale" content="en">
+<meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://zjrongxiang.github.io/images/picture/frp1.png">
 <meta property="og:image" content="https://zjrongxiang.github.io/images/picture/frp2.png">
 <meta property="og:updated_time" content="2020-03-22T02:41:31.393Z">
@@ -198,7 +198,7 @@
 
 </head>
 
-<body itemscope="" itemtype="http://schema.org/WebPage" lang="en">
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
 
   
   
@@ -210,7 +210,7 @@
     <!-- <a href="https://github.com/zjrongxiang"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png" alt="Fork me on GitHub"></a> -->
     <a href="https://github.com/zjrongxiang"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_green_007200.png" alt="Fork me on GitHub"></a>
 
-    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-wrapper">
   <div class="site-meta">
     
@@ -231,7 +231,7 @@
   </div>
 
   <div class="site-nav-toggle">
-    <button aria-label="Toggle navigation bar">
+    <button aria-label="切换导航栏">
       <span class="btn-bar"></span>
       <span class="btn-bar"></span>
       <span class="btn-bar"></span>
@@ -259,7 +259,7 @@
 
     
 
-    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
 
   </li>
         
@@ -276,7 +276,7 @@
 
     
 
-    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>About</a>
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
 
   </li>
         
@@ -293,7 +293,7 @@
 
     
 
-    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>Tags</a>
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
 
   </li>
         
@@ -310,7 +310,7 @@
 
     
 
-    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>Categories</a>
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
 
   </li>
         
@@ -327,7 +327,7 @@
 
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives</a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
 
   </li>
         
@@ -344,7 +344,7 @@
 
     
 
-    <a href="/schedule/" rel="section"><i class="menu-item-icon fa fa-fw fa-calendar"></i> <br>Schedule</a>
+    <a href="/schedule/" rel="section"><i class="menu-item-icon fa fa-fw fa-calendar"></i> <br>日程表</a>
 
   </li>
 
@@ -355,7 +355,7 @@
             <a href="javascript:;" class="popup-trigger">
           
             
-              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>Search</a>
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
         </li>
       
     </ul>
@@ -378,7 +378,7 @@
       <i class="fa fa-times-circle"></i>
     </span>
     <div class="local-search-input-wrapper">
-      <input autocomplete="off" placeholder="Searching..." spellcheck="false" type="text" id="local-search-input">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
     </div>
   </div>
   <div id="local-search-result"></div>
@@ -420,20 +420,20 @@
 
   
 
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
   
   
   
   <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://zjrongxiang.github.io/2018/03/01/2018-03-12-树莓派搭建家庭内网穿透服务器(frp实现)/">
 
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="rong xiang">
       <meta itemprop="description" content="Keep a Pure Curiosity">
       <meta itemprop="image" content="/images/avatar/person.png">
     </span>
 
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
       <meta itemprop="name" content="RongXiang">
     </span>
 
@@ -461,14 +461,14 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">发表于</span>
               
 
               
                 
               
 
-              <time title="Created: 2018-03-01 19:30:00" itemprop="dateCreated datePublished" datetime="2018-03-01T19:30:00+08:00">2018-03-01</time>
+              <time title="创建时间：2018-03-01 19:30:00" itemprop="dateCreated datePublished" datetime="2018-03-01T19:30:00+08:00">2018-03-01</time>
             
 
             
@@ -483,9 +483,9 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 
-                  <span class="post-meta-item-text">Edited on</span>
+                  <span class="post-meta-item-text">更新于</span>
                 
-                <time title="Modified: 2020-03-22 10:41:31" itemprop="dateModified" datetime="2020-03-22T10:41:31+08:00">2020-03-22</time>
+                <time title="修改时间：2020-03-22 10:41:31" itemprop="dateModified" datetime="2020-03-22T10:41:31+08:00">2020-03-22</time>
               
             
           </span>
@@ -499,10 +499,10 @@
                 <i class="fa fa-folder-o"></i>
               </span>
               
-                <span class="post-meta-item-text">In</span>
+                <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/raspberry/" itemprop="url" rel="index"><span itemprop="name">raspberry</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/raspberry/" itemprop="url" rel="index"><span itemprop="name">raspberry</span></a></span>
 
                 
                 
@@ -529,7 +529,42 @@
           
 
           
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
 
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">本文字数：</span>
+                
+                <span title="本文字数">16k</span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">15 分钟</span>
+              
+            </div>
           
 
           
@@ -602,14 +637,14 @@
 <p>修改配置文件：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">root@raspberrypi:/bin# vi frpc.ini</span><br><span class="line"><span class="meta">#</span><span class="bash">修改客户端配置文件</span></span><br><span class="line">[common]</span><br><span class="line">server_addr = 10.66.2.137</span><br><span class="line"><span class="meta">#</span><span class="bash">VPS公网IP地址（为了保护隐私，上面地址是虚构的）</span></span><br><span class="line">server_port = 7000</span><br><span class="line">privilege_token = Password123！</span><br><span class="line"></span><br><span class="line">log_file = /bin/frpc.log</span><br><span class="line"><span class="meta">#</span><span class="bash">日志目录</span></span><br><span class="line">log_level = info</span><br><span class="line">log_max_days = 7</span><br><span class="line">pool_count = 5</span><br><span class="line">tcp_mux = true</span><br><span class="line"><span class="meta">#</span><span class="bash">配置SSH端口映射</span></span><br><span class="line">[ssh]</span><br><span class="line">type = tcp</span><br><span class="line">local_ip = 127.0.0.1</span><br><span class="line"><span class="meta">#</span><span class="bash">本地端口</span></span><br><span class="line">local_port = 22</span><br><span class="line"><span class="meta">#</span><span class="bash">映射端口</span></span><br><span class="line">remote_port = 6000</span><br><span class="line"></span><br><span class="line">[web]</span><br><span class="line">type = http</span><br><span class="line">local_ip = 127.0.0.1</span><br><span class="line">local_port = 80</span><br><span class="line">use_encryption = false</span><br><span class="line">use_compression = true</span><br><span class="line">subdomain = web</span><br><span class="line"><span class="meta">#</span><span class="bash">所绑定的公网服务器域名，一级、二级域名都可以。这里没有就不用配置了</span></span><br><span class="line">custom_domains = web.frp.com</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">远程监控端口映射</span></span><br><span class="line">[motion]</span><br><span class="line">type = tcp</span><br><span class="line">local_ip = 127.0.0.1</span><br><span class="line">local_port = 8082</span><br><span class="line">remote_port = 8000</span><br></pre></td></tr></table></figure>
 <p>保存修改，后台启客户端进程：</p>
-<figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">root<span class="variable">@raspberrypi</span><span class="symbol">:/bin</span><span class="comment"># nohup ./frpc -c ./frpc.ini &amp;</span></span><br><span class="line">root<span class="variable">@raspberrypi</span><span class="symbol">:/bin</span><span class="comment"># ps -ef|grep frp</span></span><br><span class="line">root      <span class="number">4627</span>     <span class="number">1</span>  <span class="number">0</span> <span class="number">4</span>月<span class="number">02</span> ?       <span class="number">00</span><span class="symbol">:</span><span class="number">05</span><span class="symbol">:</span><span class="number">19</span> ./frpc -c ./frpc.ini</span><br><span class="line">root     <span class="number">13731</span> <span class="number">13669</span>  <span class="number">0</span> <span class="number">19</span><span class="symbol">:</span><span class="number">56</span> pts/<span class="number">0</span>    <span class="number">00</span><span class="symbol">:</span><span class="number">00</span><span class="symbol">:</span><span class="number">00</span> grep frp</span><br></pre></td></tr></table></figure>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">root@</span>raspberrypi:/bin# nohup ./frpc -c ./frpc.ini &amp;</span><br><span class="line"><span class="symbol">root@</span>raspberrypi:/bin# ps -ef|grep frp</span><br><span class="line">root      <span class="number">4627</span>     <span class="number">1</span>  <span class="number">0</span> <span class="number">4</span>月<span class="number">02</span> ?       <span class="number">00</span>:<span class="number">05</span>:<span class="number">19</span> ./frpc -c ./frpc.ini</span><br><span class="line">root     <span class="number">13731</span> <span class="number">13669</span>  <span class="number">0</span> <span class="number">19</span>:<span class="number">56</span> pts/<span class="number">0</span>    <span class="number">00</span>:<span class="number">00</span>:<span class="number">00</span> grep frp</span><br></pre></td></tr></table></figure>
 <h4 id="第三步：验证"><a href="#第三步：验证" class="headerlink" title="第三步：验证"></a>第三步：验证</h4><ul>
 <li><h5 id="FRP管理界面（http-公网IP-7500）"><a href="#FRP管理界面（http-公网IP-7500）" class="headerlink" title="FRP管理界面（http://公网IP:7500）"></a>FRP管理界面（http://公网IP:7500）</h5></li>
 </ul>
 <p>显示两个端口映射都是online可用的：</p>
-<p><img src="\images\picture\frp1.png" alt=""></p>
+<p><img src="\images\picture\frp1.png" alt></p>
 <p>下面是整体视图：</p>
-<p><img src="\images\picture\frp2.png" alt=""></p>
+<p><img src="\images\picture\frp2.png" alt></p>
 <ul>
 <li><h5 id="SSH服务"><a href="#SSH服务" class="headerlink" title="SSH服务"></a>SSH服务</h5></li>
 </ul>
@@ -683,8 +718,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/02/06/2018-02-09-机器学习系列文章-Autoencoder学习总结/" rel="next" title="机器学习系列文章-Autoencoder学习总结">
-                <i class="fa fa-chevron-left"></i> 机器学习系列文章-Autoencoder学习总结
+              <a href="/2018/02/06/2018-02-09-SAS 9.4 部署及SID文件调整/" rel="next" title="SAS 9.4 部署及SID文件调整">
+                <i class="fa fa-chevron-left"></i> SAS 9.4 部署及SID文件调整
               </a>
             
           </div>
@@ -693,8 +728,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/03/01/2018-03-12-树莓派更改APT为国内阿里云源/" rel="prev" title="树莓派更改APT为国内阿里云源">
-                树莓派更改APT为国内阿里云源 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/03/01/2018-02-28-机器学习系列文章-不平衡数据集的采样技术/" rel="prev" title="机器学习系列文章-不平衡数据集的采样技术">
+                机器学习系列文章-不平衡数据集的采样技术 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -749,17 +784,17 @@
       
         <ul class="sidebar-nav motion-element">
           <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            Table of Contents
+            文章目录
           </li>
           <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            Overview
+            站点概览
           </li>
         </ul>
       
 
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
-          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
               <img class="site-author-image" itemprop="image" src="/images/avatar/person.png" alt="rong xiang">
             
@@ -774,8 +809,8 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">85</span>
-                    <span class="site-state-item-name">posts</span>
+                    <span class="site-state-item-count">107</span>
+                    <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
               
@@ -873,8 +908,22 @@
                     
                       
                     
-                    <span class="site-state-item-count">43</span>
-                    <span class="site-state-item-name">categories</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">50</span>
+                    <span class="site-state-item-name">分类</span>
                   
                 </div>
               
@@ -890,8 +939,10 @@
                     
                       
                     
-                    <span class="site-state-item-count">2</span>
-                    <span class="site-state-item-name">tags</span>
+                      
+                    
+                    <span class="site-state-item-count">3</span>
+                    <span class="site-state-item-name">标签</span>
                   
                 </div>
               
@@ -1004,28 +1055,35 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-<div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; 2014 – <span itemprop="copyrightYear">2021</span>
   <span class="with-love" id="animate">
     <i class="fa fa-user"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">rong xiang</span>
 
   
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+    <span title="站点总字数">360k</span>
+  
 
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    
+    <span title="站点阅读时长">5:27</span>
   
 </div>
 
 
-  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.8.0</div>
 
 
-
-  <span class="post-meta-divider">|</span>
-
-
-
-  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v6.7.0</div>
 
 
         
@@ -1036,7 +1094,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-user"></i>
     </span>
-    <span class="site-uv" title="Total Visitors">
+    <span class="site-uv" title="总访客量">
       <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
     </span>
   
@@ -1049,7 +1107,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-eye"></i>
     </span>
-    <span class="site-pv" title="Total Views">
+    <span class="site-pv" title="总访问量">
       <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
     </span>
   
@@ -1583,7 +1641,7 @@
     $('.highlight').each(function (i, e) {
       var $wrap = $('<div>').addClass('highlight-wrap');
       $(e).after($wrap);
-      $wrap.append($('<button>').addClass('copy-btn').append('Copy').on('click', function (e) {
+      $wrap.append($('<button>').addClass('copy-btn').append('复制').on('click', function (e) {
         var code = $(this).parent().find('.code').find('.line').map(function (i, e) {
           return $(e).text();
         }).toArray().join('\n');
@@ -1605,15 +1663,15 @@
         ta.setSelectionRange(0, code.length);
         var result = document.execCommand('copy');
         
-          if (result) $(this).text('Copied');
-          else $(this).text('Copy failed');
+          if (result) $(this).text('复制成功');
+          else $(this).text('复制失败');
         
         ta.blur(); //For iOS
         $(this).blur();
       })).on('mouseleave', function (e) {
         var $b = $(this).find('.copy-btn');
         setTimeout(function () {
-          $b.text('Copy');
+          $b.text('复制');
         }, 300);
       }).append(e);
     })
