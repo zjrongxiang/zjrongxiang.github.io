@@ -120,7 +120,7 @@
   <meta name="description" content="Keep a Pure Curiosity">
 <meta property="og:type" content="website">
 <meta property="og:title" content="RongXiang">
-<meta property="og:url" content="https://zjrongxiang.github.io/categories/Hive/index.html">
+<meta property="og:url" content="https://zjrongxiang.github.io/categories/hive/index.html">
 <meta property="og:site_name" content="RongXiang">
 <meta property="og:description" content="Keep a Pure Curiosity">
 <meta property="og:locale" content="zh-CN">
@@ -135,7 +135,7 @@
 
 
 
-  <link rel="canonical" href="https://zjrongxiang.github.io/categories/Hive/">
+  <link rel="canonical" href="https://zjrongxiang.github.io/categories/hive/">
 
 
 
@@ -145,7 +145,7 @@
   };
 </script>
 
-  <title>分类: Hive | RongXiang</title>
+  <title>分类: hive | RongXiang</title>
   
 
 
@@ -437,7 +437,7 @@
 
     <div id="posts" class="posts-collapse">
       <div class="collection-title">
-        <h1>Hive<small>分类</small>
+        <h1>hive<small>分类</small>
         </h1>
       </div>
 
@@ -449,121 +449,17 @@
 
       <h2 class="post-title">
         
-          <a class="post-title-link" href="/2020/11/05/2020-11-05-Hive的分区和分桶总结/" itemprop="url">
+          <a class="post-title-link" href="/2020/11/23/2020-12-23-如何将文件数据导入hive表中/" itemprop="url">
             
-              <span itemprop="name">Hive的分区和分桶总结</span>
-            
-          </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2020-11-05T21:30:00+08:00" content="2020-11-05">
-          11-05
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-      
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-          <a class="post-title-link" href="/2020/10/27/2020-10-27-Hive的Metastore介绍/" itemprop="url">
-            
-              <span itemprop="name">Hive的Metastore介绍</span>
+              <span itemprop="name">如何将文件数据导入hive表中</span>
             
           </a>
         
       </h2>
 
       <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2020-10-27T21:30:00+08:00" content="2020-10-27">
-          10-27
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-      
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-          <a class="post-title-link" href="/2020/10/02/2021-04-27-Hive中外部表总结和实践/" itemprop="url">
-            
-              <span itemprop="name">Hive中外部表总结和实践</span>
-            
-          </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2020-10-02T21:30:00+08:00" content="2020-10-02">
-          10-02
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-      
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-          <a class="post-title-link" href="/2020/10/02/2021-04-29-Elasticsearch集群pending_task任务等待集群故障处理/" itemprop="url">
-            
-              <span itemprop="name">Elasticsearch集群pending_task任务等待集群故障处理</span>
-            
-          </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2020-10-02T21:30:00+08:00" content="2020-10-02">
-          10-02
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-      
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-          <a class="post-title-link" href="/2020/10/02/2020-10-02-Hive中静态分区和动态分区总结/" itemprop="url">
-            
-              <span itemprop="name">Hive中静态分区和动态分区总结</span>
-            
-          </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2020-10-02T21:30:00+08:00" content="2020-10-02">
-          10-02
+        <time class="post-time" itemprop="dateCreated" datetime="2020-11-23T21:30:00+08:00" content="2020-11-23">
+          11-23
         </time>
       </div>
 
@@ -1445,6 +1341,97 @@
       border: 1px solid #d5d5d5;
       border-radius: 3px;
       user-select: none;
+      outline: 0;
+    }
+
+    .highlight-wrap .copy-btn {
+      transition: opacity .3s ease-in-out;
+      opacity: 0;
+      padding: 2px 6px;
+      position: absolute;
+      right: 4px;
+      top: 8px;
+    }
+
+    .highlight-wrap:hover .copy-btn,
+    .highlight-wrap .copy-btn:focus {
+      opacity: 1
+    }
+
+    .highlight-wrap {
+      position: relative;
+    }
+  </style>
+  <script>
+    $('.highlight').each(function (i, e) {
+      var $wrap = $('<div>').addClass('highlight-wrap');
+      $(e).after($wrap);
+      $wrap.append($('<button>').addClass('copy-btn').append('复制').on('click', function (e) {
+        var code = $(this).parent().find('.code').find('.line').map(function (i, e) {
+          return $(e).text();
+        }).toArray().join('\n');
+        var ta = document.createElement('textarea');
+        var range = document.createRange(); //For Chrome
+        var sel = window.getSelection(); //For Chrome
+        var yPosition = window.pageYOffset || document.documentElement.scrollTop;
+        ta.style.top = yPosition + 'px'; //Prevent page scroll
+        ta.style.position = 'absolute';
+        ta.style.opacity = '0';
+        ta.value = code;
+        ta.textContent = code; //For FireFox
+        ta.contentEditable = true;
+        ta.readOnly = false;
+        document.body.appendChild(ta);
+        range.selectNode(ta);
+        sel.removeAllRanges();
+        sel.addRange(range);
+        ta.setSelectionRange(0, code.length);
+        var result = document.execCommand('copy');
+        
+          if (result) $(this).text('复制成功');
+          else $(this).text('复制失败');
+        
+        ta.blur(); //For iOS
+        $(this).blur();
+      })).on('mouseleave', function (e) {
+        var $b = $(this).find('.copy-btn');
+        setTimeout(function () {
+          $b.text('复制');
+        }, 300);
+      }).append(e);
+    })
+  </script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+
+  
+  
+
+  
+  
+
+  
+
+
+</body>
+</html>
+user-select: none;
       outline: 0;
     }
 
