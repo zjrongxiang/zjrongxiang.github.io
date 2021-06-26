@@ -1,0 +1,1865 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<script>
+    (function(){
+        if(''){
+            if (prompt('请输入文章密码') !== ''){
+                alert('密码错误！');
+                history.back();
+            }
+        }
+    })();
+</script>
+
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2">
+
+
+
+  
+  
+  <link rel="stylesheet" href="/lib/Han/dist/han.min.css?v=3.3">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=6.7.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.7.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.7.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '6.7.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="目录 背景 第一部分   回本溯源 第二部分  HDFS大量小文件的危害 第三部分  小文件治理方案总结 第四部分 总结 参考文献及资料  背景企业级Hadoop大数据平台在实际使用过程中，可能大部分会遭遇小文件问题，并体验它的破坏性。HDFS文件系统的 inode 信息和 block 信息以及 block 的位置信息，这些原数据信息均由 NameNode 的内存中维护，这使得 NameNode">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HDFS小文件治理总结">
+<meta property="og:url" content="https://zjrongxiang.github.io/2020/09/12/2020-09-13-HDFS小文件治理/index.html">
+<meta property="og:site_name" content="RongXiang">
+<meta property="og:description" content="目录 背景 第一部分   回本溯源 第二部分  HDFS大量小文件的危害 第三部分  小文件治理方案总结 第四部分 总结 参考文献及资料  背景企业级Hadoop大数据平台在实际使用过程中，可能大部分会遭遇小文件问题，并体验它的破坏性。HDFS文件系统的 inode 信息和 block 信息以及 block 的位置信息，这些原数据信息均由 NameNode 的内存中维护，这使得 NameNode">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://www.xsky.com/wp-content/uploads/image/20200420/1587346935706655.jpg">
+<meta property="og:image" content="d:/myblog/source/_posts/images/picture/hdfsSmallFile/har.png">
+<meta property="og:image" content="https://www.xsky.com/wp-content/uploads/image/20200420/1587346994661935.jpg">
+<meta property="og:image" content="d:/myblog/source/_posts/images/picture/hdfsSmallFile/8998.PNG">
+<meta property="og:image" content="d:/myblog/source/_posts/images/picture/hdfsSmallFile/ozoneBlockDiagram.png">
+<meta property="og:updated_time" content="2021-05-12T16:48:59.079Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="HDFS小文件治理总结">
+<meta name="twitter:description" content="目录 背景 第一部分   回本溯源 第二部分  HDFS大量小文件的危害 第三部分  小文件治理方案总结 第四部分 总结 参考文献及资料  背景企业级Hadoop大数据平台在实际使用过程中，可能大部分会遭遇小文件问题，并体验它的破坏性。HDFS文件系统的 inode 信息和 block 信息以及 block 的位置信息，这些原数据信息均由 NameNode 的内存中维护，这使得 NameNode">
+<meta name="twitter:image" content="https://www.xsky.com/wp-content/uploads/image/20200420/1587346935706655.jpg">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="RongXiang" type="application/atom+xml">
+
+
+
+
+  <link rel="canonical" href="https://zjrongxiang.github.io/2020/09/12/2020-09-13-HDFS小文件治理/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>HDFS小文件治理总结 | RongXiang</title>
+  
+
+
+
+
+  <script async src="//www.googletagmanager.com/gtag/js?id=UA-113063423-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-113063423-1');
+  </script>
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+    <!-- <a href="https://github.com/zjrongxiang"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png" alt="Fork me on GitHub"></a> -->
+    <a href="https://github.com/zjrongxiang"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_green_007200.png" alt="Fork me on GitHub"></a>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">RongXiang</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">我的烂笔头</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-schedule">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/schedule/" rel="section"><i class="menu-item-icon fa fa-fw fa-calendar"></i> <br>日程表</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zjrongxiang.github.io/2020/09/12/2020-09-13-HDFS小文件治理/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="rong xiang">
+      <meta itemprop="description" content="Keep a Pure Curiosity">
+      <meta itemprop="image" content="/images/avatar/person.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="RongXiang">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">HDFS小文件治理总结
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2020-09-12 13:30:00" itemprop="dateCreated datePublished" datetime="2020-09-12T13:30:00+08:00">2020-09-12</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2021-05-13 00:48:59" itemprop="dateModified" datetime="2021-05-13T00:48:59+08:00">2021-05-13</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/HDFS/" itemprop="url" rel="index"><span itemprop="name">HDFS</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/09/12/2020-09-13-HDFS小文件治理/#comments" itemprop="discussionUrl">
+                
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/09/12/2020-09-13-HDFS小文件治理/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">本文字数：</span>
+                
+                <span title="本文字数">30k</span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">27 分钟</span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ul>
+<li>背景</li>
+<li>第一部分   回本溯源</li>
+<li>第二部分  <code>HDFS</code>大量小文件的危害</li>
+<li>第三部分  小文件治理方案总结</li>
+<li>第四部分 总结</li>
+<li>参考文献及资料</li>
+</ul>
+<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>企业级<code>Hadoop</code>大数据平台在实际使用过程中，可能大部分会遭遇小文件问题，并体验它的破坏性。<code>HDFS</code>文件系统的 <code>inode</code> 信息和 <code>block</code> 信息以及 <code>block</code> 的位置信息，这些原数据信息均由 <code>NameNode</code> 的内存中维护，这使得 <code>NameNode</code> 对内存的要求非常高，特别是遭遇海量小文件。</p>
+<p>例如：京东的 <code>NameNode</code> 内存是 <code>512GB</code>，甚至还有大厂的 <code>NameNode</code> 的机器是 <code>1TB</code>的内存。能力强的大厂，钱就不花在买机器上了，例如字节跳动使用<code>C++</code>重写 <code>NameNode</code> ，这样分配内存和释放内存都由程序控制。但是<code>NameNode</code>天生的架构缺陷，所以元数据的扩展性终是受限于单机物理内存大小。</p>
+<p>本篇文章回本溯源，总结小文件的产生原理、对业务平台的危害，最后分析总结了治理方法。</p>
+<h2 id="第一部分-回本溯源"><a href="#第一部分-回本溯源" class="headerlink" title="第一部分 回本溯源"></a>第一部分 回本溯源</h2><p><code>HDFS</code>基于<code>Google</code>的论文《分布式文件系统》思想实现的，设计目的是解决大文件的读写。</p>
+<h3 id="1-1-HDFS存储原理"><a href="#1-1-HDFS存储原理" class="headerlink" title="1.1 HDFS存储原理"></a>1.1 <code>HDFS</code>存储原理</h3><p><code>HDFS</code>集群（<code>hadoop 2.0 +</code>）中，有两类服务角色：<code>NameNode</code>、<code>DataNode</code>。文件数据按照固定大小（<code>block size</code>，默认<code>128M</code>）切分后，分布式存储在<code>DataNode</code>节点上。而数据的元数据信息加载在<code>NameNode</code>服务内存中。为防止服务单机会持久化一份在文件中（即<code>fsimage</code>文件，最新的元数据存储在<code>edits log</code>日志中，一般为 <code>64MB</code>，当 <code>edits log</code> 文件大小达到 <code>64MB</code>时，就会将这些元数据追加到 <code>fsimage</code> 文件中）。</p>
+<p>每个文件/目录和block元数据信息存储在内存中，内存中分别对应：<code>INodeFile、INodeDirectory、BlockInfo</code>，每个对象大约<code>150-200 bytes</code>。</p>
+<h3 id="1-2-检查文件系统"><a href="#1-2-检查文件系统" class="headerlink" title="1.2 检查文件系统"></a>1.2 检查文件系统</h3><h4 id="1-2-1-命令-fsck"><a href="#1-2-1-命令-fsck" class="headerlink" title="1.2.1 命令 fsck"></a>1.2.1 命令 <code>fsck</code></h4><p><code>HDFS</code>提供了<code>fsck</code>命令用来检查<code>HDFS</code>文件系统的健康状态和Block信息。需要有<code>HDFS</code>的<code>supergroup</code>特权用户组的用户才有执行权限。参考下面的命令：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">[root@quickstart cloudera]# hdfs fsck / -blocks -locations</span><br><span class="line">Connecting to namenode via http://quickstart.cloudera:50070</span><br><span class="line">FSCK started by admin (auth:KERBEROS_SSL) from /172.17.0.2 for path / at Sun May 09 05:35:33 UTC 2021</span><br><span class="line">Status: HEALTHY</span><br><span class="line"> Total size:	837797031 B</span><br><span class="line"> Total dirs:	285</span><br><span class="line"> Total files:	921</span><br><span class="line"> Total symlinks:		0</span><br><span class="line"> Total blocks (validated):	916 (avg. block size 914625 B)</span><br><span class="line"> Minimally replicated blocks:	916 (100.0 %)</span><br><span class="line"> Over-replicated blocks:	0 (0.0 %)</span><br><span class="line"> Under-replicated blocks:	0 (0.0 %)</span><br><span class="line"> Mis-replicated blocks:		0 (0.0 %)</span><br><span class="line"> Default replication factor:	1</span><br><span class="line"> Average block replication:	1.0</span><br><span class="line"> Corrupt blocks:		0</span><br><span class="line"> Missing replicas:		0 (0.0 %)</span><br><span class="line"> Number of data-nodes:		1</span><br><span class="line"> Number of racks:		1</span><br><span class="line">FSCK ended at Sun May 09 05:35:34 UTC 2021 in 90 milliseconds</span><br><span class="line"></span><br><span class="line">The filesystem under path '/' is HEALTHY</span><br></pre></td></tr></table></figure>
+<p>其中<code>Total blocks (validated):    916 (avg. block size 914625 B)</code>，表示集群一共有916个Block，平均一个Block存储大小为<code>0.87M</code>。</p>
+<h4 id="1-2-2-命令-count"><a href="#1-2-2-命令-count" class="headerlink" title="1.2.2 命令 count"></a>1.2.2 命令 <code>count</code></h4><p><code>HDFS</code> 提供查询目录中文件数量的命令，例如：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@quickstart cloudera]# hdfs dfs -count /</span><br><span class="line">         285          923          837797031 /</span><br></pre></td></tr></table></figure>
+<p>回显说明，依次为：<code>DIR_COUNT(文件目录数量), FILE_COUNT（文件数量）, CONTENT_SIZE（存储量） FILE_NAME（查询文件目录名）</code></p>
+<h4 id="1-2-3-NameNode-WebUI界面"><a href="#1-2-3-NameNode-WebUI界面" class="headerlink" title="1.2.3 NameNode WebUI界面"></a>1.2.3 <code>NameNode WebUI</code>界面</h4><p><code>NameNode WebUI</code>提供展示界面，显示<code>HDFS</code>文件系统的关键指标信息。例如：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Security is on.</span><br><span class="line">Safemode is off.</span><br><span class="line">1,206 files and directories, 916 blocks = 2,122 total filesystem object(s).</span><br><span class="line">Heap Memory used 23.5 MB of 48.38 MB Heap Memory. Max Heap Memory is 48.38 MB.</span><br><span class="line">Non Heap Memory used 49.16 MB of 77.85 MB Commited Non Heap Memory. Max Non Heap Memory is 130 MB.</span><br></pre></td></tr></table></figure>
+<p>目前<code>HDFS</code>文件系统中有<code>1206</code>个文件和文件目录，<code>916</code>个<code>block</code>，一共<code>2122</code>个文件系统对象。</p>
+<p>可以<code>jmap</code>命令参看<code>jvm</code>堆栈实际使用：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> jmap -histo:live 8204（namenode进程pid ）</span></span><br><span class="line">num     #instances         #bytes  class name</span><br><span class="line"><span class="meta">#</span><span class="bash">（省略）</span></span><br><span class="line">Total        435970       61136008</span><br></pre></td></tr></table></figure>
+<p>实际使用<code>61136008/1024/1024=58.3 M</code>。</p>
+<h4 id="1-2-4-元数据内存资源估算"><a href="#1-2-4-元数据内存资源估算" class="headerlink" title="1.2.4 元数据内存资源估算"></a>1.2.4 元数据内存资源估算</h4><p><code>NameNode</code>的内存主要由<code>NameSpace</code>和<code>BlocksMap</code>占用，其中<code>NameSpace</code>存储的主要是<code>INodeFile和INodeDirectory</code>对象。<code>BlocksMap</code>存储的主要是<code>BlockInfo</code>对象，所以估算<code>NameNode</code>占用的内存大小也就是估算集群中<code>INodeFile</code>、<code>INodeDirectory</code>和<code>BlockInfo</code>这些对象占用的<code>heap</code>空间。下面是估算<code>NameNode</code>内存数据空间占用资源大小的预估公式。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Total = 198 ∗ num(directories + Files) + 176 ∗ num(blocks) + 2% ∗ size(JVM Memory Size)</span><br></pre></td></tr></table></figure>
+<p>例如测试集群：<code>（1206*198+176*916）/1024/1024+2%*1000=20.38M</code>，和实际值<code>23.5 M</code>误差较小。</p>
+<h4 id="1-2-5-堆栈配置建议"><a href="#1-2-5-堆栈配置建议" class="headerlink" title="1.2.5 堆栈配置建议"></a>1.2.5 堆栈配置建议</h4><p>在<code>NameNode WebUI</code>界面的<code>Summary</code>可以看到文件系统对象（<code>filesystem objects</code>）的统计。下面是<code>NameNode</code>根据文件数量的堆栈大小配置建议。</p>
+<table>
+<thead>
+<tr>
+<th>文件数量(1文件对应1<code>block</code>)</th>
+<th>文件系统对象数量（<code>filesystem objects=files+blocks</code>）</th>
+<th>参考值（<code>GC_OPTS</code>）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>5,000,000</td>
+<td>10,000,000</td>
+<td><code>-Xms6G -Xmx6G -XX:NewSize=512M -XX:MaxNewSize=512M</code></td>
+</tr>
+<tr>
+<td>10,000,000</td>
+<td>20,000,000</td>
+<td><code>-Xms12G -Xmx12G -XX:NewSize=1G -XX:MaxNewSize=1G</code></td>
+</tr>
+<tr>
+<td>25,000,000</td>
+<td>50,000,000</td>
+<td><code>-Xms32G -Xmx32G -XX:NewSize=3G -XX:MaxNewSize=3G</code></td>
+</tr>
+<tr>
+<td>50,000,000</td>
+<td>100,000,000</td>
+<td><code>-Xms64G -Xmx64G -XX:NewSize=6G -XX:MaxNewSize=6G</code></td>
+</tr>
+<tr>
+<td>100,000,000</td>
+<td>200,000,000</td>
+<td><code>-Xms96G -Xmx96G -XX:NewSize=9G -XX:MaxNewSize=9G</code></td>
+</tr>
+<tr>
+<td>150,000,000</td>
+<td>300,000,000</td>
+<td><code>-Xms164G -Xmx164G -XX:NewSize=12G -XX:MaxNewSize=12G</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="1-3-产生的场景分析"><a href="#1-3-产生的场景分析" class="headerlink" title="1.3 产生的场景分析"></a>1.3 产生的场景分析</h3><p>在实际生产环境中，很多场景会产生小文件。</p>
+<h4 id="1-3-1-MapReduce产生"><a href="#1-3-1-MapReduce产生" class="headerlink" title="1.3.1 MapReduce产生"></a>1.3.1 <code>MapReduce</code>产生</h4><p><code>Mapreduce</code>任务中<code>reduce</code>数量设置过多，reduce的个数和输出文件个数一致，从而导致输出大量小文件。</p>
+<h4 id="1-3-2-hive产生"><a href="#1-3-2-hive产生" class="headerlink" title="1.3.2 hive产生"></a>1.3.2 hive产生</h4><p>hive表设置过量分区，每次写入数据会分别落盘到各自分区中，每个分区的数据量越小，对应的分区表文件也就会越小。从而导致产生大量小文件。</p>
+<h4 id="1-3-3-实时流任务处理"><a href="#1-3-3-实时流任务处理" class="headerlink" title="1.3.3 实时流任务处理"></a>1.3.3 实时流任务处理</h4><p>流任务处理数据通常要求短时间数据落盘，例如<code>Spark Streaming</code> 从外部数据源接收数据，每个微批（默认60s）需要落盘一次结果数据到<code>HDFS</code>，如果数据量小，会产生大量小文件落盘文件。</p>
+<h4 id="1-3-4-数据自身特性产生"><a href="#1-3-4-数据自身特性产生" class="headerlink" title="1.3.4 数据自身特性产生"></a>1.3.4 数据自身特性产生</h4><p>除了数据处理产生，还有是由于数据自身特性决定的。例如使用<code>HDFS</code>存储图片、短视频等数据。这些数据本身单体就不大，就会以小文件形式存储。</p>
+<h2 id="第二部分-HDFS大量小文件的危害"><a href="#第二部分-HDFS大量小文件的危害" class="headerlink" title="第二部分 HDFS大量小文件的危害"></a>第二部分 <code>HDFS</code>大量小文件的危害</h2><h3 id="2-1-MapReduce任务消耗大量计算资源"><a href="#2-1-MapReduce任务消耗大量计算资源" class="headerlink" title="2.1 MapReduce任务消耗大量计算资源"></a>2.1 <code>MapReduce</code>任务消耗大量计算资源</h3><p><code>MapReduce</code>任务处理<code>HDFS</code>文件的时候回根据数据的<code>Block</code>数量启动对应数量<code>Map task</code>，如果是小文件系统，这会导致任务启动大量的<code>Map task</code>，一个<code>task</code>在<code>Yarn</code>上对应一个<code>CPU</code>，实际线上环境会短时间申请成千个<code>CPU</code>资源，造成集群运行颠簸。可以通过设置map端文件合并及reduce端文件合并来优化。</p>
+<h3 id="2-2-NameNode服务过载"><a href="#2-2-NameNode服务过载" class="headerlink" title="2.2 NameNode服务过载"></a>2.2 <code>NameNode</code>服务过载</h3><p><code>HDFS</code>作为分布式文件系统的一个优点就是可以横向伸缩扩展，但是由于元数据存储在<code>NameNode</code>中，事实上，当数据量达到一定程度，<code>NameNode</code>服务单机内存资源（普通PC物理机内存通常是<code>256G</code>）反而成为横向扩展的瓶颈。特别是面对小文件系统，可能集群实际存储并不大，但是元数据信息已经使得<code>NameNode</code>服务过载，这时候横向扩容<code>DataNode</code>是无济于事的。</p>
+<p><code>HDFS</code>中元数据的操作均在<code>NameNode</code>服务完成，小文件系统造成服务过载后，元数据更新性能会下降。严重的时候，服务会经常<code>Full GC</code>，如果<code>GC</code>停顿过长甚至会导致服务故障。</p>
+<p>如果导致<code>NameNode</code>出现故障，在没有<code>HA</code>保障时，服务启动是一个漫长的过程。服务需要重新将<code>fsImage</code>文件数据加载至服务内存，最新的日志数据<code>editlogs</code>需要回放，最后<code>Checkpoint</code>和<code>DataNode</code>的<code>BlockReport</code>。这个过程当元数据过大时候是个漫长过程。</p>
+<p>例如美团的提供案例：当元数据规模达到5亿（<code>Namespace</code>中<code>INode</code>数超过2亿，<code>Block</code>数接近3亿），<code>fsImage</code>文件大小将接近到<code>20GB</code>，加载<code>FsImage</code>数据就需要约<code>14min</code>，<code>Checkpoint</code>需要约<code>6min</code>，再加上其它阶段整个重启过程将持续约<code>50min</code>，极端情况甚至超过<code>60min</code>。</p>
+<p>笔者公司<code>HA</code>集群，曾经由于小文件系统导致<code>NameNode</code>服务故障，甚至出现主备元数据未同步，整个恢复过程需要完成先完成主备同步，整整需要8个小时，这个期间<code>HDFS</code>无法对外服务，影响较大。</p>
+<h2 id="第三部分-小文件治理方案总结"><a href="#第三部分-小文件治理方案总结" class="headerlink" title="第三部分 小文件治理方案总结"></a>第三部分 小文件治理方案总结</h2><p>面对<code>HDFS</code>的<code>NameNode</code>内存过载带来的线上问题，<code>Hadoop</code>社区给出治理方案和架构上优化。主要有：</p>
+<ul>
+<li>横向扩展<code>NameNode</code>能力，分散单点负载；例如联邦（Federation）。</li>
+<li><code>NameNode</code>元数据调整为外置存储；例如<code>LevelDB</code>最为存储对象。</li>
+</ul>
+<p>另外还有美团技术文章《<a href="https://tech.meituan.com/2016/08/26/namenode.html" target="_blank" rel="noopener"><code>HDFS NameNode</code>内存全景</a>》提到互联网大厂的最佳实践和尝试：</p>
+<blockquote>
+<p>除社区外，业界也在尝试自己的解决方案。<code>Baidu HDFS2</code>[5]将元数据管理通过主从架构的集群形式提供服务，本质上是将原生<code>NameNode</code>管理的<code>Namespace</code>和<code>BlockManagement</code>进行物理拆分。其中<code>Namespace</code>负责管理整个文件系统的目录树及文件到<code>BlockID</code>集合的映射关系，<code>BlockID</code>到<code>DataNode</code>的映射关系是按照一定的规则分到多个服务节点分布式管理，这种方案与<code>Lustre</code>有相似之处（Hash-based Partition）。<code>Taobao HDFS2[6]</code>尝试过采用另外的思路，借助高速存储设备，将元数据通过外存设备进行持久化存储，保持<code>NameNode</code>完全无状态，实现<code>NameNode</code>无限扩展的可能。其它类似的诸多方案不一而足。</p>
+</blockquote>
+<p>尽管社区和业界均对<code>NameNode</code>内存瓶颈有成熟的解决方案，但是不一定适用所有的场景，尤其是中小规模集群。</p>
+<h3 id="3-1-联邦HDFS"><a href="#3-1-联邦HDFS" class="headerlink" title="3.1 联邦HDFS"></a>3.1 联邦<code>HDFS</code></h3><p>在<code>Hadoop 2.x</code>发行版中引入了联邦（Federation）<code>HDFS</code>功能。联邦<code>HDFS</code>允许集群通过添加多个<code>NameNode</code>来实现扩展，每个<code>NameNode</code>管理一份元数据。架构上解决了横向扩展，但是这不是一个真正的分布式<code>NameNode</code>，仍然存在单点故障风险。具体可以参考美团技术的最佳实践[3]。</p>
+<p><img src="https://www.xsky.com/wp-content/uploads/image/20200420/1587346935706655.jpg" alt="微信图片_20200420093617.jpg"></p>
+<h3 id="3-2-归档文件"><a href="#3-2-归档文件" class="headerlink" title="3.2 归档文件"></a>3.2 归档文件</h3><p>对于小文件问题，<code>Hadoop</code>自身提供了三种解决方案：<code>Hadoop Archive</code>、 <code>Sequence File</code> 和 <code>CombineFileInputFormat</code>。</p>
+<h4 id="3-2-1-Hadoop-Archive"><a href="#3-2-1-Hadoop-Archive" class="headerlink" title="3.2.1 Hadoop Archive"></a>3.2.1 <code>Hadoop Archive</code></h4><p><code>Hadoop Archives （HAR files）</code>在 <code>0.18.0</code>版本中引入，目的是为了缓解大量小文件消耗 <code>NameNode</code> 内存的问题。<code>HAR</code>不会减少文件存储大小，而是减少<code>NameNode</code> 的内存资源。例如下图展示了将<code>HDFS</code>文件目录<code>foo</code>中大量小文件<code>file-*</code>归档为<code>bar.har</code>文件。</p>
+<p><img src="D:\myblog\source\_posts\images\picture\hdfsSmallFile\har.png" alt="har"></p>
+<p>可以使用下面的命令对<code>HDFS</code>文件进行归档：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> hadoop archive -archiveName name -p &lt;parent&gt; [-r &lt;replication factor&gt;] &lt;src&gt;* &lt;dest&gt;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>-archiveName</code>指定创建归档文件的名称，如：<code>foo.har</code>，也就是说需要在归档名称后面添加一个<code>*.har</code>的扩展。</li>
+<li><code>-p</code> 指定需归档的文件的相对路径，如：<code>-p /foo/bar a/b/c e/f/g</code>，<code>/foo/bar</code>是根目录，<code>a/b/c</code>，<code>e/f/g</code>是相对根目录的相对路径。</li>
+<li><code>-r</code> 指定所需的复制因子，如果未被指定，默认为3。</li>
+</ul>
+<p>例如下面的命令执行后，将提交一个<code>Mapreduce</code>任务。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@quickstart /]# hadoop archive -archiveName test.har -p /user/test /tmp</span><br></pre></td></tr></table></figure>
+<p>使用下面的命令查看归档后的文件：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@quickstart /]# hadoop fs -lsr har:///tmp/test.har</span><br><span class="line">lsr: DEPRECATED: Please use 'ls -R' instead.</span><br><span class="line">-rw-r--r--   3 admin supergroup          0 2021-05-10 23:02 har:///tmp/test.har/file-1</span><br><span class="line">(略)</span><br></pre></td></tr></table></figure>
+<p>需要注意的是：</p>
+<ul>
+<li>归档文件一旦创建就不能改变，要增加或者删除文件，就需要重新创建。</li>
+<li>归档不支持压缩数据，类似于<code>Unix</code>中的<code>tar</code>命令。</li>
+<li>归档命令不会删除原<code>HDFS</code>文件，需要自行删除。</li>
+<li><code>*.har</code>在<code>HDFS</code>上是一个目录，不是一个文件。</li>
+</ul>
+<p>Hive内置了将现有分区中的文件转换为<code>Hadoop Archive (HAR)</code>的支持，具体参数为：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 启用归档</span></span><br><span class="line"><span class="meta">hive&gt;</span><span class="bash"> <span class="built_in">set</span> hive.archive.enabled=<span class="literal">true</span>;</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 创建存档时是否可以设置父目录</span></span><br><span class="line"><span class="meta">hive&gt;</span><span class="bash"> <span class="built_in">set</span> hive.archive.har.parentdir.settable=<span class="literal">true</span>;</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 控制组成存档的文件的大小</span></span><br><span class="line"><span class="meta">hive&gt;</span><span class="bash"> <span class="built_in">set</span> har.partfile.size=1099511627776;</span></span><br></pre></td></tr></table></figure>
+<p>实际线上环境，可以对长期保存的<code>hive</code>表以分区颗粒度进行归档，在需要查询的时候进行归档恢复。具体实践案例如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> hive分区归档</span></span><br><span class="line">ALTER TABLE tablename ARCHIVE PARTITION(ds='2008-04-08', hr='12')</span><br><span class="line"><span class="meta">#</span><span class="bash"> hive归档分区恢复</span></span><br><span class="line">ALTER TABLE tablename UNARCHIVE PARTITION(ds='2008-04-08', hr='12')</span><br></pre></td></tr></table></figure>
+<p>数据归档为<code>har</code>后，数据仍然是可以被查询的（但是是不可写的），只是查询会比非归档慢，如果要提高效率需要归档恢复。</p>
+<h4 id="3-2-2-Sequence-File"><a href="#3-2-2-Sequence-File" class="headerlink" title="3.2.2 Sequence File"></a>3.2.2 <code>Sequence File</code></h4><p><code>SequenceFile</code>是<code>Hadoop API</code>提供的一种二进制文件，它将数据以<code>&lt;key,value&gt;</code>的形式序列化到文件中，使用<code>Hadoop</code>的标准<code>Writable</code>接口实现序列化和反序列化。<code>Mapreduce</code>计算的中间结果的落盘就是<code>SequenceFile</code>格式的文件。</p>
+<p>线上生产环境中，将<code>SequenceFile</code>格式的文件作为<code>HDFS</code>小文件的容器。即读取小文件然后以<code>Append</code>追加的形式写入”文件容器”。</p>
+<h4 id="3-2-3-CombineFileInputFormat"><a href="#3-2-3-CombineFileInputFormat" class="headerlink" title="3.2.3 CombineFileInputFormat"></a>3.2.3 <code>CombineFileInputFormat</code></h4><p><code>Hadoop</code>内置提供了一个 <code>CombineFileInputFormat</code> 类来专门处理合并小文件，其核心功能是将<code>HDFS</code>上多个小文件合并到一个 <code>InputSplit</code>中，然后会启用一个<code>map</code>来处理这里面的文件，以此减少<code>Mapreduce</code>整体作业的运行时间，同时也减少了<code>map</code>任务的数量。</p>
+<p>这个接口天然具备处理小文件的能力，只要将合并后的小文件落盘即可。</p>
+<p>另外对于Hive输入也是支持合并方式读取的，参数配置参考：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 执行Map前进行小文件合并</span></span><br><span class="line">set hive.input.format=org.apache.hadoop.hive.ql.io.CombineHiveInputFormat</span><br><span class="line">set mapreduce.input.fileinputformat.split.maxsize=1073741824</span><br><span class="line">set mapreduce.input.fileinputformat.split.minsize=1073741824</span><br></pre></td></tr></table></figure>
+<p>注意以上<code>Mapreduce</code>和<code>Hive Sql</code>使用<code>CombineFileInputFormat</code>方式并不会缓解<code>NameNode</code>内存管理问题，因为合并的文件并不会持久化保存到磁盘。只是提高<code>Mapreduce</code>和<code>Hive</code>作业的性能。</p>
+<h3 id="3-3-更换存储介质"><a href="#3-3-更换存储介质" class="headerlink" title="3.3 更换存储介质"></a>3.3 更换存储介质</h3><p>技术架构中没有最牛逼的技术，只有最合适的技术。<code>HDFS</code>并不适合小文件，那么可以改变存储介质。用<code>HBase</code>来存储小文件，也是比较常见的选型方案。<code>HBase</code>在设计上主要为了应对快速插入、存储海量数据、单个记录的快速查找以及流式数据处理。适用于存储海量小文件（小于<code>10k</code>）,并支持对文件的低延迟读写。</p>
+<p><img src="https://www.xsky.com/wp-content/uploads/image/20200420/1587346994661935.jpg" alt="微信图片_20200420093635.jpg"></p>
+<p><code>HBase</code>同一类的文件存储在同一个列族下面，若文件数量太多，同样会导致<code>regionserver</code>内存占用过大，<code>JVM</code>内存过大时<code>gc</code>失败影响业务。根据实际测试，无法有效支持<code>10</code>亿以上的小文件存储。</p>
+<h3 id="3-4-客户端写入规范"><a href="#3-4-客户端写入规范" class="headerlink" title="3.4 客户端写入规范"></a>3.4 客户端写入规范</h3><p>解决小文件问题的最简单方法就是在生成阶段就避免小文件的产生。</p>
+<h4 id="3-4-1-Hive-写入优化"><a href="#3-4-1-Hive-写入优化" class="headerlink" title="3.4.1 Hive 写入优化"></a>3.4.1 Hive 写入优化</h4><p><code>Hive SQL</code>执行的背后实际是<code>Mapreduce</code>任务，所有优化涉及大量小文件读优化、总结过程小文件优化、输出小文件邮件。本次只介绍最后一种优化场景。主要优化目标就是减少Reduce数量和增加Reduce处理能力，涉及参数有：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 设置reduce的数量</span></span><br><span class="line">set mapred.reduce.tasks = 1;</span><br><span class="line"><span class="meta">#</span><span class="bash"> 每个reduce任务处理的数据量，默认为1G</span></span><br><span class="line">set hive.exec.reducers.bytes.per.reducer = 1000000000</span><br><span class="line"><span class="meta">#</span><span class="bash"> 每个任务最大的reduce数</span></span><br><span class="line">set hive.exec.reducers.max = 50</span><br></pre></td></tr></table></figure>
+<p>还可以对输出数据进行压缩，涉及参数有：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 开启hive最终输出数据压缩功能</span></span><br><span class="line">set hive.exec.compress.output=true;</span><br><span class="line"><span class="meta">#</span><span class="bash"> 开启mapreduce最终输出数据压缩</span></span><br><span class="line">set mapreduce.output.fileoutputformat.compress=true;</span><br><span class="line"><span class="meta">#</span><span class="bash"> 设置数据输出压缩方式</span></span><br><span class="line">set mapreduce.output.fileoutputformat.compress.codec =org.apache.hadoop.io.compress.SnappyCodec; </span><br><span class="line"><span class="meta">#</span><span class="bash"> 设置mapreduce最终数据输出压缩为块压缩</span></span><br><span class="line">set mapreduce.output.fileoutputformat.compress.type=BLOCK;</span><br></pre></td></tr></table></figure>
+<p>另外就是输出结果进行归档，这在前文已介绍。</p>
+<h3 id="3-5-合并小文件系统"><a href="#3-5-合并小文件系统" class="headerlink" title="3.5 合并小文件系统"></a>3.5 合并小文件系统</h3><h4 id="3-5-1-离线合并"><a href="#3-5-1-离线合并" class="headerlink" title="3.5.1 离线合并"></a>3.5.1 离线合并</h4><p><code>HDFS</code>提供命令将<code>hdfs</code>多个文件合并后下载到本地文件系统，然后可以将文件重新上传<code>HDFS</code>文件系统。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hdfs dfs -getmerge hdfs文件1 hdfs文件2 hdfs文件3 输出本地文件名</span><br></pre></td></tr></table></figure>
+<p>这显然是低效的。</p>
+<h4 id="3-5-2-脚本实现"><a href="#3-5-2-脚本实现" class="headerlink" title="3.5.2 脚本实现"></a>3.5.2 脚本实现</h4><p>当<code>HDFS</code>文件系统由于疏忽已经受到小文件系统侵扰时，就需要我们被动治理了。通常的做法是检查所有文件系统，并确认哪些文件夹中的小文件过年需要合并。可以通过自定义的脚本或程序。例如通过调用<code>HDFS</code>的<code>sync()</code>方法和<code>append()</code>方法，将小文件和目录每隔一定时间生成一个大文件，或者可以通过写程序来合并这些小文件。</p>
+<p>这里推荐一个开源工具<a href="https://github.com/hbwzhsh/crush-file/blob/master/src/main/scala/com/caishi/spark/crushfile/CrushFile.scala" target="_blank" rel="noopener">File Crush</a>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://github.com/edwardcapriolo/filecrush/</span><br></pre></td></tr></table></figure>
+<p>另外还有文章《<a href="https://www.jianshu.com/p/c1c32c4def6f" target="_blank" rel="noopener">分析hdfs文件变化及监控小文件</a>》可以参考。</p>
+<h3 id="3-6-HDFS项目解决方案"><a href="#3-6-HDFS项目解决方案" class="headerlink" title="3.6 HDFS项目解决方案"></a>3.6 <code>HDFS</code>项目解决方案</h3><p>前文小文件治理方案虽然能够解决小文件的问题，但是这些方法都有不足或成本较高。那就需要在架构设计进行根本优化解决，目前 <code>Hadoop</code> 社区已经有很多相应的讨论和架构规划。例如下面的提案：</p>
+<ul>
+<li><code>HDFS-7836</code>(将<code>BlocksMap</code>放在堆外) ，未实现；</li>
+<li><code>HDFS-8286</code> (将元数据保存在<code>LevelDB</code>)，已实现；</li>
+<li><code>HDFS-8998</code>(一个<code>Block</code>对应多个文件)，未实现；</li>
+</ul>
+<p>但是提案进度堪忧呀，大部分还处于讨论或推进一部分就没后续了…….，所以提出问题简单，解决问题难呀。扯远了，本文只挑两个简单看一下。</p>
+<h4 id="3-6-1-HDFS-8998"><a href="#3-6-1-HDFS-8998" class="headerlink" title="3.6.1 HDFS-8998"></a>3.6.1 <code>HDFS-8998</code></h4><p>目前<code>HDFS</code>版本中一个<code>Block</code>只能对应一个文件。社区和项目组考虑：能否一个<code>Block</code>能对应多个小文件。这就是解决提案：《<a href="https://issues.apache.org/jira/browse/HDFS-8998" target="_blank" rel="noopener">Small files storage supported inside <code>HDFS</code></a>》，提案编号：<code>HDFS-8998</code>，提案参考<a href="https://issues.apache.org/jira/secure/attachment/12754049/HDFS-8998.design.001.pdf" target="_blank" rel="noopener">说明文档</a>。</p>
+<p>主要的设计目标为：</p>
+<ul>
+<li>为小文件设置单独的区域，称为<code>Small file zone</code>，用于小文件创建和写操作;</li>
+<li><code>NameNode</code> 保存一个固定大小的 <code>Block List</code>，列表的大小是可以配置的；</li>
+<li>当<code>client1</code>第一次向 <code>NameNode</code> 发出写请求时，<code>NameNode</code> 将为<code>client1</code>创建第一个 <code>blockid</code>，并锁定这个<code>Block</code>；</li>
+<li>当其他客户端<code>client2</code>向 <code>NameNode</code> 发出写请求时，<code>NameNode</code> 将尝试为其分配未锁定的块（<code>unlocked block</code>），如果没有，并且现有的块数小于<code>Block List</code>，那么 <code>NameNode</code> 则为<code>client2</code>分配创建新的 <code>blockid</code> ，并且同时锁定。</li>
+<li>其他客户端<code>Client3...client N</code>类似；</li>
+<li>客户端如果获取不到未锁定的块资源，并且也不能新建（<code>Block List</code>资源上限）。这时候需要客户端等待其他客户端释放<code>Block</code>资源。</li>
+<li>客户端写数据是将数据追加(<code>appenging</code>)到块上；</li>
+<li>当客户端的读写（<code>OutputStream</code>）关闭，被客户端占用的<code>Block</code>将被释放；</li>
+<li>当某个块被写满，也会分配新的一个块给客户端。这个写满的<code>Block</code>将从<code>Block List</code>中移除，同时会添加新的<code>Block</code>资源进行资源<code>List</code>。</li>
+</ul>
+<p><img src="D:\myblog\source\_posts\images\picture\hdfsSmallFile\8998.PNG" alt="8998"></p>
+<p>新的设计中一个 <code>Block</code> 将包含多个文件。需要新的文件操作设计：</p>
+<ul>
+<li>读取，读写小文件和平常读取<code>hdfs</code>文件类似。</li>
+<li>删除，新的设计小文件是 <code>Block</code> 的一部分（<code>segment</code>），所以删除操作不能直接删除一个 <code>Block</code>。删除操作调整为：从 <code>NameNode</code> 中的 <code>BlocksMap</code> 删除 <code>INode</code>；然后当这个块中被删除的数据达到一定的阈值（可配置） ，对应的块将会被重写。</li>
+<li>append 和 truncate，对小文件的 truncate 和 append 是不支持的，因为这些操作代价非常高，而且是不常用的。会增加后台进程对<code>Block</code>的小文件<code>segment</code>进行合并（segment合并触发数量可配置）</li>
+<li>高可用：继承原架构的副本机制；</li>
+</ul>
+<h4 id="3-6-2-HDFS-8286"><a href="#3-6-2-HDFS-8286" class="headerlink" title="3.6.2 HDFS-8286"></a>3.6.2 <code>HDFS-8286</code></h4><p>提案：《<a href="https://issues.apache.org/jira/browse/HDFS-8286" target="_blank" rel="noopener">Scaling out the namespace using KV store</a>》，提案编号：<code>HDFS-8286</code>。该提案目标调整元数据的存储形式，从内存调整外置存储( <code>KV</code>存储系统)。现<code>HDFS</code>中以层次结构的形式来管理文件和目录，文件和目录表示为<code>inode</code> 对象。调整为<code>KV</code>存储，核心解决的问题是设计合适数据结构将元数据以<code>KV</code>格式存储。</p>
+<p>详细设计就不展开了，可以参考提示设计<a href="https://issues.apache.org/jira/secure/attachment/12729255/hdfs-kv-design.pdf" target="_blank" rel="noopener">说明文档</a>。</p>
+<h4 id="3-6-3-Hadoop-Ozone项目"><a href="#3-6-3-Hadoop-Ozone项目" class="headerlink" title="3.6.3 Hadoop Ozone项目"></a>3.6.3 <code>Hadoop Ozone</code>项目</h4><p>如果线上的业务数据是非结构化的小数据对象，例如海量图片（如银行业务保存的文件影像数据）、音频、小视频等。这种类型数据可以有适合的存储方式，对象存储。而<code>Hadoop</code>生态圈也正好有个项目。</p>
+<p><code>Ozone</code> 是 <code>Hortonworks</code> 基于 <code>HDFS</code> 实现的对象存储，<code>OZone</code>与<code>HDFS</code>有着很深的关系，在设计上也对<code>HDFS</code>存在的不足做了很多改进，使用<code>HDFS</code>的生态系统可以无缝切换到<code>OZone</code>，参考提案: <a href="https://issues.apache.org/jira/browse/HDFS-7240" target="_blank" rel="noopener">HDFS-7240</a>。</p>
+<p>目前项目已经成为 <a href="https://ozone.apache.org/" target="_blank" rel="noopener">Apache Hadoop</a>的子项目。已经告别<code>alpha</code>版本阶段，最新的<a href="https://ozone.apache.org/release/1.1.0/" target="_blank" rel="noopener">Release 1.1.0</a> 版本已发布。</p>
+<p><code>Ozone</code> 和<code>HDFS</code>相同，也是采用 Master/Slave 架构，但是对管理服务<code>namespace</code>和<code>BlockManager</code>进行拆分，将元数据管理分成两个，一个是 <code>Ozone Manager</code> 作为对象存储元数据服务，另一个是 <code>StorageContainerManager</code>，作为存储容器管理服务。</p>
+<p>另外<code>Ozone Manager</code>和<code>StorageContainerManager</code>的元数据都是使用<code>RocksDB</code> 进行单独存储，而不是放在<code>NameNode</code>内存中，架构上不再被堆内存限制，可以横向扩展。</p>
+<p><img src="D:\myblog\source\_posts\images\picture\hdfsSmallFile\ozoneBlockDiagram.png" alt="ozoneBlockDiagram"></p>
+<h2 id="第四部分-总结"><a href="#第四部分-总结" class="headerlink" title="第四部分 总结"></a>第四部分 总结</h2><ul>
+<li><p>技术没有银弹，只有合适的技术</p>
+<p>实际生产环境面对<code>HDFS</code>小文件问题，需要提前管控业务写入，优化写入的客户端程序。为业务数据选择合适的数据存储方式，因地适宜。</p>
+</li>
+<li><p>追根溯源</p>
+<p>当我们面多小文件的问题时，需要检查业务数据处理流，定位小文件产生的根因。</p>
+</li>
+<li><p>量力而行</p>
+<p>需要评估企业大数据团队的技术能力。如果没有能力对原架构进行二次开发优化，就需要编写一些自定义程序来处理小文件。尽量摸透开源架构的特性，做好参数优化。</p>
+</li>
+</ul>
+<h2 id="参考文献及资料"><a href="#参考文献及资料" class="headerlink" title="参考文献及资料"></a>参考文献及资料</h2><p>[1] <code>HDFS NameNode</code>内存全景，链接：<a href="https://tech.meituan.com/2016/08/26/namenode.html" target="_blank" rel="noopener">https://tech.meituan.com/2016/08/26/namenode.html</a></p>
+<p>[2] <code>The Small Files Problem</code>，链接：<a href="https://blog.cloudera.com/the-small-files-problem/" target="_blank" rel="noopener">https://blog.cloudera.com/the-small-files-problem/</a></p>
+<p>[3] <code>HDFS Federation</code>在美团点评的应用与改进，链接：<a href="https://tech.meituan.com/2017/04/14/hdfs-federation.html" target="_blank" rel="noopener">https://tech.meituan.com/2017/04/14/hdfs-federation.html</a></p>
+<p>[4]<code>Introducing Apache Hadoop Ozone: An Object Store for Apache Hadoop</code>,链接：<a href="https://blog.cloudera.com/introducing-apache-hadoop-ozone-object-store-apache-hadoop/" target="_blank" rel="noopener">https://blog.cloudera.com/introducing-apache-hadoop-ozone-object-store-apache-hadoop/</a></p>
+
+      
+    </div>
+
+    
+
+    <div>
+      
+        
+      
+    </div>
+    
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/09/12/2020-09-12-布隆过滤算法总结/" rel="next" title="布隆过滤算法总结">
+                <i class="fa fa-chevron-left"></i> 布隆过滤算法总结
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/09/12/2020-09-13-HDFS命令使用总结/" rel="prev" title="HDFS小文件治理总结">
+                HDFS小文件治理总结 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar/person.png" alt="rong xiang">
+            
+              <p class="site-author-name" itemprop="name">rong xiang</p>
+              <p class="site-description motion-element" itemprop="description">Keep a Pure Curiosity</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">162</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">64</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">19</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/zjrongxiang" title="GitHub &rarr; https://github.com/zjrongxiang" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="mailto:rongxiang1986@163.com" title="E-Mail &rarr; mailto:rongxiang1986@163.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="http://weibo.com/u/1971060643" title="Weibo &rarr; http://weibo.com/u/1971060643" rel="noopener" target="_blank"><i class="fa fa-fw fa-weibo"></i>Weibo</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Link
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://weibo.com/fly51fly?refer_flag=1005055010_" title="https://weibo.com/fly51fly?refer_flag=1005055010_" rel="noopener" target="_blank">爱生活爱可可</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#目录"><span class="nav-number">1.</span> <span class="nav-text">目录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#背景"><span class="nav-number">2.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第一部分-回本溯源"><span class="nav-number">3.</span> <span class="nav-text">第一部分 回本溯源</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-HDFS存储原理"><span class="nav-number">3.1.</span> <span class="nav-text">1.1 HDFS存储原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-检查文件系统"><span class="nav-number">3.2.</span> <span class="nav-text">1.2 检查文件系统</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-1-命令-fsck"><span class="nav-number">3.2.1.</span> <span class="nav-text">1.2.1 命令 fsck</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-2-命令-count"><span class="nav-number">3.2.2.</span> <span class="nav-text">1.2.2 命令 count</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-3-NameNode-WebUI界面"><span class="nav-number">3.2.3.</span> <span class="nav-text">1.2.3 NameNode WebUI界面</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-4-元数据内存资源估算"><span class="nav-number">3.2.4.</span> <span class="nav-text">1.2.4 元数据内存资源估算</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-5-堆栈配置建议"><span class="nav-number">3.2.5.</span> <span class="nav-text">1.2.5 堆栈配置建议</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-产生的场景分析"><span class="nav-number">3.3.</span> <span class="nav-text">1.3 产生的场景分析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-3-1-MapReduce产生"><span class="nav-number">3.3.1.</span> <span class="nav-text">1.3.1 MapReduce产生</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-3-2-hive产生"><span class="nav-number">3.3.2.</span> <span class="nav-text">1.3.2 hive产生</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-3-3-实时流任务处理"><span class="nav-number">3.3.3.</span> <span class="nav-text">1.3.3 实时流任务处理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-3-4-数据自身特性产生"><span class="nav-number">3.3.4.</span> <span class="nav-text">1.3.4 数据自身特性产生</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第二部分-HDFS大量小文件的危害"><span class="nav-number">4.</span> <span class="nav-text">第二部分 HDFS大量小文件的危害</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-MapReduce任务消耗大量计算资源"><span class="nav-number">4.1.</span> <span class="nav-text">2.1 MapReduce任务消耗大量计算资源</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-NameNode服务过载"><span class="nav-number">4.2.</span> <span class="nav-text">2.2 NameNode服务过载</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第三部分-小文件治理方案总结"><span class="nav-number">5.</span> <span class="nav-text">第三部分 小文件治理方案总结</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-联邦HDFS"><span class="nav-number">5.1.</span> <span class="nav-text">3.1 联邦HDFS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-归档文件"><span class="nav-number">5.2.</span> <span class="nav-text">3.2 归档文件</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-1-Hadoop-Archive"><span class="nav-number">5.2.1.</span> <span class="nav-text">3.2.1 Hadoop Archive</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-2-Sequence-File"><span class="nav-number">5.2.2.</span> <span class="nav-text">3.2.2 Sequence File</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-3-CombineFileInputFormat"><span class="nav-number">5.2.3.</span> <span class="nav-text">3.2.3 CombineFileInputFormat</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-更换存储介质"><span class="nav-number">5.3.</span> <span class="nav-text">3.3 更换存储介质</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-客户端写入规范"><span class="nav-number">5.4.</span> <span class="nav-text">3.4 客户端写入规范</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-4-1-Hive-写入优化"><span class="nav-number">5.4.1.</span> <span class="nav-text">3.4.1 Hive 写入优化</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-5-合并小文件系统"><span class="nav-number">5.5.</span> <span class="nav-text">3.5 合并小文件系统</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-5-1-离线合并"><span class="nav-number">5.5.1.</span> <span class="nav-text">3.5.1 离线合并</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-5-2-脚本实现"><span class="nav-number">5.5.2.</span> <span class="nav-text">3.5.2 脚本实现</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-6-HDFS项目解决方案"><span class="nav-number">5.6.</span> <span class="nav-text">3.6 HDFS项目解决方案</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-6-1-HDFS-8998"><span class="nav-number">5.6.1.</span> <span class="nav-text">3.6.1 HDFS-8998</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-6-2-HDFS-8286"><span class="nav-number">5.6.2.</span> <span class="nav-text">3.6.2 HDFS-8286</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-6-3-Hadoop-Ozone项目"><span class="nav-number">5.6.3.</span> <span class="nav-text">3.6.3 Hadoop Ozone项目</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第四部分-总结"><span class="nav-number">6.</span> <span class="nav-text">第四部分 总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文献及资料"><span class="nav-number">7.</span> <span class="nav-text">参考文献及资料</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; 2014 – <span itemprop="copyrightYear">2021</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">rong xiang</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+    <span title="站点总字数">525k</span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    
+    <span title="站点阅读时长">7:57</span>
+  
+</div>
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="总访客量">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="总访问量">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=6.7.0"></script>
+
+  <script src="/js/src/motion.js?v=6.7.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/schemes/muse.js?v=6.7.0"></script>
+
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=6.7.0"></script>
+<script src="/js/src/post-details.js?v=6.7.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=6.7.0"></script>
+
+
+
+  
+  
+    
+  <script id="dsq-count-scr" src="https://https-zjrongxiang-github-io.disqus.com/count.js" async></script>
+
+
+<script>
+  var disqus_config = function () {
+    this.page.url = "https://zjrongxiang.github.io/2020/09/12/2020-09-13-HDFS小文件治理/";
+    this.page.identifier = "2020/09/12/2020-09-13-HDFS小文件治理/";
+    this.page.title = 'HDFS小文件治理总结';
+    };
+  function loadComments () {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://https-zjrongxiang-github-io.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', '' + +new Date());
+    (d.head || d.body).appendChild(s);
+  }
+  
+    loadComments();
+  
+</script>
+
+  
+
+
+
+
+
+  
+
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <style>
+    .copy-btn {
+      display: inline-block;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 20px;
+      color: #333;
+      white-space: nowrap;
+      vertical-align: middle;
+      cursor: pointer;
+      background-color: #eee;
+      background-image: linear-gradient(#fcfcfc, #eee);
+      border: 1px solid #d5d5d5;
+      border-radius: 3px;
+      user-select: none;
+      outline: 0;
+    }
+
+    .highlight-wrap .copy-btn {
+      transition: opacity .3s ease-in-out;
+      opacity: 0;
+      padding: 2px 6px;
+      position: absolute;
+      right: 4px;
+      top: 8px;
+    }
+
+    .highlight-wrap:hover .copy-btn,
+    .highlight-wrap .copy-btn:focus {
+      opacity: 1
+    }
+
+    .highlight-wrap {
+      position: relative;
+    }
+  </style>
+  <script>
+    $('.highlight').each(function (i, e) {
+      var $wrap = $('<div>').addClass('highlight-wrap');
+      $(e).after($wrap);
+      $wrap.append($('<button>').addClass('copy-btn').append('复制').on('click', function (e) {
+        var code = $(this).parent().find('.code').find('.line').map(function (i, e) {
+          return $(e).text();
+        }).toArray().join('\n');
+        var ta = document.createElement('textarea');
+        var range = document.createRange(); //For Chrome
+        var sel = window.getSelection(); //For Chrome
+        var yPosition = window.pageYOffset || document.documentElement.scrollTop;
+        ta.style.top = yPosition + 'px'; //Prevent page scroll
+        ta.style.position = 'absolute';
+        ta.style.opacity = '0';
+        ta.value = code;
+        ta.textContent = code; //For FireFox
+        ta.contentEditable = true;
+        ta.readOnly = false;
+        document.body.appendChild(ta);
+        range.selectNode(ta);
+        sel.removeAllRanges();
+        sel.addRange(range);
+        ta.setSelectionRange(0, code.length);
+        var result = document.execCommand('copy');
+        
+          if (result) $(this).text('复制成功');
+          else $(this).text('复制失败');
+        
+        ta.blur(); //For iOS
+        $(this).blur();
+      })).on('mouseleave', function (e) {
+        var $b = $(this).find('.copy-btn');
+        setTimeout(function () {
+          $b.text('复制');
+        }, 300);
+      }).append(e);
+    })
+  </script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+
+  
+  
+
+  
+  
+
+  
+
+
+</body>
+</html>

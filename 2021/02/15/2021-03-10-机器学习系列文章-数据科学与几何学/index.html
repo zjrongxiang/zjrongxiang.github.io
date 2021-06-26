@@ -1,0 +1,1824 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<script>
+    (function(){
+        if(''){
+            if (prompt('请输入文章密码') !== ''){
+                alert('密码错误！');
+                history.back();
+            }
+        }
+    })();
+</script>
+
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2">
+
+
+
+  
+  
+  <link rel="stylesheet" href="/lib/Han/dist/han.min.css?v=3.3">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=6.7.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.7.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.7.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '6.7.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="背景 数据科学赋予了几何才有了灵魂。  在正文前，我们先介绍一个机器学习案例。  案例提供二维数据集，数据有：(116.331398,39.897445)、(121.545451,31.178669）、(120.184051,30.320602)、(117.038113,30.496019)等，然后要求对数据进行聚类。  对于这个案例通常做法就是计算数据之间的距离（欧式距离），使用各类聚类算法寻找">
+<meta name="keywords" content="Data Science">
+<meta property="og:type" content="article">
+<meta property="og:title" content="机器学习系列文章-数据科学中的几何">
+<meta property="og:url" content="https://zjrongxiang.github.io/2021/02/15/2021-03-10-机器学习系列文章-数据科学与几何学/index.html">
+<meta property="og:site_name" content="RongXiang">
+<meta property="og:description" content="背景 数据科学赋予了几何才有了灵魂。  在正文前，我们先介绍一个机器学习案例。  案例提供二维数据集，数据有：(116.331398,39.897445)、(121.545451,31.178669）、(120.184051,30.320602)、(117.038113,30.496019)等，然后要求对数据进行聚类。  对于这个案例通常做法就是计算数据之间的距离（欧式距离），使用各类聚类算法寻找">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="c:/Users/rongxiang/Desktop/2017-03-09-01.png">
+<meta property="og:image" content="c:/Users/rongxiang/Desktop/LLE.png">
+<meta property="og:image" content="c:/Users/rongxiang/Desktop/isomap.png">
+<meta property="og:image" content="c:/Users/rongxiang/Desktop/tsne-mnist%20(1">
+<meta property="og:updated_time" content="2021-03-14T07:21:02.057Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="机器学习系列文章-数据科学中的几何">
+<meta name="twitter:description" content="背景 数据科学赋予了几何才有了灵魂。  在正文前，我们先介绍一个机器学习案例。  案例提供二维数据集，数据有：(116.331398,39.897445)、(121.545451,31.178669）、(120.184051,30.320602)、(117.038113,30.496019)等，然后要求对数据进行聚类。  对于这个案例通常做法就是计算数据之间的距离（欧式距离），使用各类聚类算法寻找">
+<meta name="twitter:image" content="c:/Users/rongxiang/Desktop/2017-03-09-01.png">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="RongXiang" type="application/atom+xml">
+
+
+
+
+  <link rel="canonical" href="https://zjrongxiang.github.io/2021/02/15/2021-03-10-机器学习系列文章-数据科学与几何学/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>机器学习系列文章-数据科学中的几何 | RongXiang</title>
+  
+
+
+
+
+  <script async src="//www.googletagmanager.com/gtag/js?id=UA-113063423-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-113063423-1');
+  </script>
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+    <!-- <a href="https://github.com/zjrongxiang"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png" alt="Fork me on GitHub"></a> -->
+    <a href="https://github.com/zjrongxiang"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_green_007200.png" alt="Fork me on GitHub"></a>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">RongXiang</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">我的烂笔头</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-schedule">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/schedule/" rel="section"><i class="menu-item-icon fa fa-fw fa-calendar"></i> <br>日程表</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zjrongxiang.github.io/2021/02/15/2021-03-10-机器学习系列文章-数据科学与几何学/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="rong xiang">
+      <meta itemprop="description" content="Keep a Pure Curiosity">
+      <meta itemprop="image" content="/images/avatar/person.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="RongXiang">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">机器学习系列文章-数据科学中的几何
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2021-02-15 21:30:00" itemprop="dateCreated datePublished" datetime="2021-02-15T21:30:00+08:00">2021-02-15</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2021-03-14 15:21:02" itemprop="dateModified" datetime="2021-03-14T15:21:02+08:00">2021-03-14</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Distance-Measures/" itemprop="url" rel="index"><span itemprop="name">Distance Measures</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2021/02/15/2021-03-10-机器学习系列文章-数据科学与几何学/#comments" itemprop="discussionUrl">
+                
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/02/15/2021-03-10-机器学习系列文章-数据科学与几何学/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">本文字数：</span>
+                
+                <span title="本文字数">13k</span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">11 分钟</span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><blockquote>
+<p>数据科学赋予了几何才有了灵魂。</p>
+</blockquote>
+<p>在正文前，我们先介绍一个机器学习案例。</p>
+<blockquote>
+<p>案例提供二维数据集，数据有：(116.331398,39.897445)、(121.545451,31.178669）、(120.184051,30.320602)、(117.038113,30.496019)等，然后要求对数据进行聚类。</p>
+</blockquote>
+<p>对于这个案例通常做法就是计算数据之间的距离（欧式距离），使用各类聚类算法寻找质心。这样就默认给数据集赋予了二维欧式距离，即这些点是取自二维欧式空间的。这很有可能已经破坏了数据集中所蕴含的信息。事实上，这些数据是地球上经纬度坐标数据，它有天然的几何结构：球面几何。在几何学中，它属于非欧几何范畴。案例数据属于球面空间的子空间，自然应该使用球面距离(<code>Haversine</code>公式)。</p>
+<p><img src="C:\Users\rongxiang\Desktop\2017-03-09-01.png" alt="2017-03-09-01"></p>
+<p>我们在处理数据集的时候不能先入为主的认为是欧式空间的子集。如果直接使用欧式度量，这是一个很强的假设前提（先验）。</p>
+<blockquote>
+<p>很多数据处理算法均是默认欧式距离。例如神经网络模型中，假定数据为欧式空间，学习的函数空间就是欧式空间之间的非线性函数。数据特征工程中将各种无关属性的数据拼接成高维特征均是欧式空间。在数学角度看都是很强的假设前提，甚至已经破坏了数据的内在关系，从信息论角度已经丢失信息或者引进的噪声信息。</p>
+</blockquote>
+<p>但是面对高维数据，低维生命无法肉眼看清复杂的结构关系（或目前还没有有效的刻画技术）。但是可以尝试减少先验，给数据集合赋予一个比欧式空间较弱的几何结构：拓扑流形。特别是对于非线性数据，赋予流形结构提供的视角和高度是欧式距离无法给予的。</p>
+<h2 id="第一部分-数据微分流形"><a href="#第一部分-数据微分流形" class="headerlink" title="第一部分 数据微分流形"></a>第一部分 数据微分流形</h2><p>对于给定的多维数据集，数学上首先它是一个集合$S$，这时候数据和数据是没有关系的（结构）。接下来我们给数据集定义几何结构：</p>
+<ul>
+<li><p>赋予拓扑结构（数据集是一个拓扑空间）：数据集合$S$ 的子集构成的新的集合 $\tau$, 称为数据集$S$上的拓扑 (<code>topology</code>)，需要满足以下条件：</p>
+<p>(1)  $\emptyset \in \tau$,$S \in \tau$;</p>
+<p>(2)   $\tau$ 中有限个集合的交集和任意（有限、可数、不可数）个集合的并集还属于$\tau$。简单来说就是$\tau$ 中的集合对于有限交和任意并运算封闭。</p>
+</li>
+<li><p>赋予流形结构：数据集$S$上可以赋予很多拓扑结构，并不是唯一的。我们进一步增加约束条件：令$S$是一个<code>Hausdorff</code>空间。若对任一点 $p\in S $ , 都存在 $x$ 在$S$中的一个邻域 $U\subset S$ ,使得 $U$ 同胚于$n$ 维欧氏空间$R^n$ , 则$S$就称为是一个$n$维流形。</p>
+</li>
+<li><p>赋予微分流形结构：为了能在数据流形上有微分运算（类似欧式空间），我们需要数据流形是可微的：一个$n$维微分流形$S$就是一个赋予了微分结构的$n$维流形，即存在一组坐标卡 $\mathcal{A}=\left{\left(U_{i}, \varphi_{i}\right)\right}$（即流形定义中的局部同胚映射），使得：（i）$\mathcal{A}$ 为$S$ 的一个开覆盖；（ii）任意两个不相交的坐标卡；（iii）$(U, \varphi)$ 和 $(V, \psi)$ 满足$ \psi \circ \varphi^{-1}$$与$ $\varphi \circ \psi^{-1}$皆为 $ C^{\infty}$函数为$\mathcal{A}$ 极大的（该条件可由前两条唯一生成）。</p>
+</li>
+</ul>
+<p>最后数据集集合具有微分流形几何结构，而经典数据科学中常用的欧式空间是微分流形的特例，我们弱化了假设前提。但是微分流形仍具有较好的性质：</p>
+<ul>
+<li>微分流形局部同胚与欧式空间（每个点都存在一个邻域同胚于欧氏空间中的开集）；</li>
+<li>微分流形可以嵌入至欧式空间；</li>
+</ul>
+<p>其中第二个性质是微分拓扑中重要定理：<a href="https://zjrongxiang.github.io/2010/06/15/2010-06-15-%E5%85%B3%E4%BA%8EWhitney%E5%B5%8C%E5%85%A5%E5%AE%9A%E7%90%86%20/">Whitney嵌入定理</a>。</p>
+<blockquote>
+<p>Whitney嵌入定理：设$M$是$m$维微分（光滑）流形，存在$M$到欧氏空间$R^n$的光滑嵌入映射$f$，其中$n&gt;=2m+1$。并且$f$的像是$R^n$中的闭集。</p>
+<p>Whitney嵌入定理是微分拓扑中重要的定理，也许可以认为正是Whitney发现了这个定理，开创了微分拓扑。在这个定理之前，人们对于流形还是把握不定的。但是在这个定理后，由于流形可以嵌入到维数较大的欧氏空间中，所以有了一系列的关于流形的重要结果，形成了微分拓扑这个分支。</p>
+</blockquote>
+<h2 id="第二部分-流行学习"><a href="#第二部分-流行学习" class="headerlink" title="第二部分 流行学习"></a>第二部分 流行学习</h2><p>有了<code>Whitney</code>嵌入定理的理论保证，高维数据集可以假设是嵌入在高维欧式空间中低维流形。基于这个假设就有了一个研究分支：流形学习（<code>manifold learning</code>）。</p>
+<p>对于地球位置的数据集，在3维欧式空间可以用3维数据坐标$(x,y,z)$ 来表示，实际上又可以用2维经纬度坐标（内蕴坐标）表示，地球位置数据实际是一个二维球面子流形嵌入在3维欧式空间中。当数据集是3维欧式空间表示时，我们可以降维到二维流形。</p>
+<p>上面的分析前提是我们开启了上帝视角。实际应用中，对于任意给定的数据集，很难判断或假设合理的内蕴流形结构。</p>
+<h3 id="2-1-数据降维"><a href="#2-1-数据降维" class="headerlink" title="2.1 数据降维"></a>2.1 数据降维</h3><p>数据科学中对于线性空间中数据，有较多成熟的降维技术：例如主成分分析（<code>PCA</code>）、独立分量分析（<code>ICA</code>）、<code>Fish</code>判别法（<code>FDA</code>）、多尺度分析（<code>MDS</code>）等。那么在降维的时候，寻找恰当的降维映射是算法的目的。降维映射空间同样是庞大的，需要定义相关的性能度量来度量映射的优劣。</p>
+<p>然而对于非线性数据流形，空间上是没有距离（欧氏距离）概念的。这时候我们需要利用微分流形另一个重要特性：微分流形局部同胚与欧式空间。</p>
+<blockquote>
+<p>宇宙是一个微分流形，我们人类所处的局部是一个三维欧式空间。</p>
+</blockquote>
+<h4 id="2-1-1-保持局部线性关系"><a href="#2-1-1-保持局部线性关系" class="headerlink" title="2.1.1 保持局部线性关系"></a>2.1.1 保持局部线性关系</h4><p>映射需要保持流形上每个很小的局部欧式线性。代表算法有：局部改线嵌入（<code>local Linear Embedding</code>，<code>LLE</code>）。算法大体分成三个部分：寻找近邻、线性重构、低维嵌入。</p>
+<ul>
+<li><p>寻找近邻</p>
+<p>对于每个数据点，需要定义邻域。邻域有两种方式：(1)最近的<code>K</code>个点;(2)邻域距离阀值限定局部大小。<code>LLE</code>算法使用前者，其中<code>K</code>是一个预先给定值（超参数），使用欧式距离度量。</p>
+</li>
+<li><p>线性重构</p>
+<p>每个数据点由K个近邻线性表达；</p>
+</li>
+<li><p>低维嵌入</p>
+<p>每个点在低维空间中的降维映射值在项空间同样有近似的线性表达。</p>
+</li>
+</ul>
+<p><img src="C:\Users\rongxiang\Desktop\LLE.png" alt="LLE"></p>
+<p>具体算法过程，参考论文：《Nonlinear Dimensionality Reduction by Locally Linear Embedding》。LEE算法对于闭合流形、稀疏数据集效果有限，另外结果对于K值选取较为敏感。</p>
+<h4 id="2-1-2-保持点之间测地线距离"><a href="#2-1-2-保持点之间测地线距离" class="headerlink" title="2.1.2 保持点之间测地线距离"></a>2.1.2 保持点之间测地线距离</h4><p>微分流形中整体是没有距离概念的，但是有推广的测地线距离（geodesic）。代表算法有<code>Isomap</code>(Isometric Feature Mapping)算法。算法步骤大体分成三个部分：构造近邻图、计算最短路径、低维嵌入。</p>
+<ul>
+<li><p>构造近邻图</p>
+<p>和<code>LLE</code>算法相同，基于欧式距离找出邻近点，建立整体集合的近邻连接图（图论理论中图概念）。</p>
+</li>
+<li><p>计算最短路径</p>
+<p>近邻连接图中近邻点之间存在连接关系，而非近邻点之间不存在连接关系。这样计算两点之间测地线距离的问题就转变为计算近邻连接图上两点之间的最短路径问题。最短路径上逐点距离和近似代替几何意义上的测地线。最短路径计算，采用图论中<code>Dikstra</code>算法或<code>Floyd</code>算法。</p>
+</li>
+<li><p>低维嵌入</p>
+<p>在得到任意两点的距离之后，结果就可以直接应用 <code>MDS(Multidimensional Scaling)</code> 算法了。</p>
+</li>
+</ul>
+<p><img src="C:\Users\rongxiang\Desktop\isomap.png" alt="isomap"></p>
+<p>上图瑞士卷数据集是常用的验证数据集。A图中蓝色线表示流形上两点之间的实际测地线距离，B图中红色是<code>Dijkstra</code>算法在近邻图上找到的最短距离，C图显示了降维后三维数据集在二维平面中的嵌入效果，结果较为近似。但是当流形的曲率较大、数据稀疏时或者流形上有孔洞的话，算法效果较差。而对于空间中的数据点稠密时，近似效果较好。</p>
+<h4 id="2-1-3-保持图的局部邻接关系"><a href="#2-1-3-保持图的局部邻接关系" class="headerlink" title="2.1.3 保持图的局部邻接关系"></a>2.1.3 保持图的局部邻接关系</h4><p><code>Isomap</code> 算法使用点与点之间欧式距离构建了整体数据集合的近邻图。在这个图中，点与点之间关系为欧式距离。而这个关系可以使用高斯核(<code>Gaussian Kernel</code>)来定义。</p>
+<p>对于连通的两个点 $i,i′$,令图关系值为:$w_{ii′}=k(i,i’)=exp(−∥i−i′∥2/σ2)$ 。而其它点关系值为: 0。这样所有点之间的关系值可以得到图的邻接矩阵<code>W</code>，第<code>i</code>行的第<code>i&#39;</code>个值对应权重：$w_{ii’}$。</p>
+<p>如果记在降维映射后的值为$j,j’$ ,那么就是在假设空间中寻找函数使得下面的性能度量最小：<br>$$<br>\sum_{jj’}(j-j’)^2 w_{jj’}=\sum_{jj’}\left(j^{2}+j’^{2}-2j j’\right) W_{j j’}=2 \mathbf{y}^{T} L \mathbf{y}<br>$$<br>其中$$D_{jj’}=\sum_{j’} W_{j j’}, L=D-W$$ ，<code>L</code>为<code>Laplacian</code>矩阵。</p>
+<p>这个目标函数形式是不是和<code>PCA</code>十分的相似。目标函数的求解是一个广义特征值分解问题：<br>$$<br>L \mathbf{y}=\lambda D \mathbf{y}<br>$$<br>计算<code>L</code>的特征值，将特征值从小到大排序，取前<code>k</code>个特征值，并计算前<code>k</code>个特征值$\lambda_{0}, \lambda_{2}, \ldots, \lambda_{k-1}$。这样就得到了键数据映射到特征空间中。</p>
+<blockquote>
+<p>这个算法过程和谱聚类(Spectral Clustering)算法技术是相同的。</p>
+</blockquote>
+<p>这就是<code>Laplacian Eigenmaps</code>算法，具体算法过程，参考论文：《<code>Laplacian Eigenmaps for Dimensionality Reduction and Data Representation</code>》。LEE算法对于闭合流形、稀疏数据集效果有限，另外结果对于K值选取较为敏感。</p>
+<blockquote>
+<p>LE算法是非线性的，另外还有推广的线性版本：保持保持投影<code>LPP</code>（Locality Preserving Projections）算法，参考论文：《<a href="https://papers.nips.cc/paper/2003/file/d69116f8b0140cdeb1f99a4d5096ffe4-Paper.pdf" target="_blank" rel="noopener">Locality Preserving Projections</a>》。</p>
+</blockquote>
+<h4 id="2-1-4-保持概率分布"><a href="#2-1-4-保持概率分布" class="headerlink" title="2.1.4 保持概率分布"></a>2.1.4 保持概率分布</h4><p>对于数据流形中，<code>Isomap</code> 算法使用近似测地线来度量近邻点之间的距离（相似性）。2002年Hinton提出一个奇妙的思路，使用概率密度来度量这个相似性。这就是<code>SNE</code>（Stochastic Neighbor Embedding）算法。</p>
+<p>对于数据流形$X$中两个数据点$x_i$和$x_j$，考虑$x_i$为中心的高斯分布（$\sigma_i$为分布的方差），定义一个条件概率$p_{ij}$（数据点$x_i$选择$x_j$为近邻点的概率）：<br>$$<br>p_{i j}=\frac{\exp \left(-d_{i j}^{2}\right)}{\sum_{k \neq i} \exp \left(-d_{i k}^{2}\right)},其中d_{i j}^{2}=\frac{\left|\mathbf{x}<em>{i}-\mathbf{x}</em>{j}\right|^{2}}{2 \sigma_{i}^{2}},(局部欧式使用欧式度量)<br>$$<br>当映射将流形数据映射到低维空间$Y$后，需要保持数据点的相似性。记在低维空间中数据点$x_i$和$x_j$的值分别为$y_i$和$y_j$，同样赋予条件概率度量，特别的将高斯分布的方差固定为$1/\sqrt{2}$。<br>$$<br>q_{i j}=\frac{\exp \left(-\left|\mathbf{y}<em>{i}-\mathbf{y}</em>{j}\right|^{2}\right)}{\sum_{k \neq i} \exp \left(-\left|\mathbf{y}<em>{i}-\mathbf{y}</em>{k}\right|^{2}\right)}<br>$$<br>我们定义了数据流形中点$x_i$和值空间中点$y_i$条件概率。如果遍历所有点，就定义了一个关于$x_i$和$y_i$的概率分布：<br>$$<br>P_i={p_{ij}(x_j)}_{j\in X},Q_i={q_{ij}(y_j)}<em>{j\in Y}<br>$$<br>映射保持概率分布，这时候概率分布的度量<code>KL</code>（<code>Kullback-Leibler Divergence</code>）散度就用上了,最后得到假设空间的性能度量指标：<br>$$<br>C=\sum</em>{i} K L\left(P_{i} | Q_{i}\right)=\sum_{i} \sum_{i} p_{j \mid i} \log \frac{p_{j \mid i}}{q_{j \mid i}}<br>$$<br>最后算法根据这个目标函数寻找最优解。</p>
+<blockquote>
+<p>我们知道<code>KL</code>散度是非对称的，<code>SNE</code>算法更关注于局部，容易忽视全局结构。后续<code>Hinton</code>将低维空间的分布由高斯分布换成<code>t</code>分布（利用<code>t</code>分布的长尾性特征），就是降维可视化中最常用的算法<code>t-SNE</code>算法。</p>
+</blockquote>
+<p>下图为<code>mnist</code>在<code>t-SNE</code>算法下降维至2维空间的可视化效果。</p>
+<p><img src="C:\Users\rongxiang\Desktop\tsne-mnist (1" alt="tsne-mnist (1)">.png)</p>
+<p>对于<code>t-SNE</code>算法，实际工程实现时需要计算大量的概率值，计算量较大。实际上，对于相距较远的点成为邻域点的概率会很小，所以只需要考虑一定范围邻域的点集即可，提前构建近邻图。</p>
+<h3 id="2-2-可视化"><a href="#2-2-可视化" class="headerlink" title="2.2 可视化"></a>2.2 可视化</h3><p>数据降维的一个衍生功能就是可视化化。将数据映射到二维或者三维欧式空间中（映射保持指定的信息结构），便于三维生物体更容易感知到数据之间的结构关系。</p>
+<p>但是原始数据蕴含的流形并不一定是恰好的三维或二维，强行降维会破坏数据的真实结构信息。</p>
+<h3 id="2-3-半监督学习"><a href="#2-3-半监督学习" class="headerlink" title="2.3 半监督学习"></a>2.3 半监督学习</h3><p>在实际数据处理中，标签数据是珍贵而稀缺的。更多的应用场景是：有少量已经标记的标签数据和大量的无标签数据。在流形学习假设前提下，相似数据应该在流形的同一个局部邻域中（或者说局部领域中数据标签相似）。基于这个假设，大量的非标签数据就可以通过少量标签获取到标签。</p>
+<h3 id="2-4-工程实现"><a href="#2-4-工程实现" class="headerlink" title="2.4 工程实现"></a>2.4 工程实现</h3><p>对于工程实现，<code>Python</code>中<code>scikit-learn</code>包提供相关流形学习的算法实现包。主要有：</p>
+<table>
+<thead>
+<tr>
+<th>封装类名</th>
+<th>对应算法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://scikit-learn.org/stable/modules/generated/sklearn.manifold.Isomap.html#sklearn.manifold.Isomap" target="_blank" rel="noopener"><code>manifold.Isomap</code></a>()</td>
+<td><code>Isomap</code> Embedding</td>
+</tr>
+<tr>
+<td><a href="https://scikit-learn.org/stable/modules/generated/sklearn.manifold.LocallyLinearEmbedding.html#sklearn.manifold.LocallyLinearEmbedding" target="_blank" rel="noopener"><code>manifold.LocallyLinearEmbedding</code></a>()</td>
+<td>Locally Linear Embedding</td>
+</tr>
+<tr>
+<td><a href="https://scikit-learn.org/stable/modules/generated/sklearn.manifold.SpectralEmbedding.html#sklearn.manifold.SpectralEmbedding" target="_blank" rel="noopener"><code>manifold.SpectralEmbedding</code></a>()</td>
+<td>Spectral embedding for non-linear dimensionality reduction.</td>
+</tr>
+<tr>
+<td><a href="https://scikit-learn.org/stable/modules/generated/sklearn.manifold.TSNE.html#sklearn.manifold.TSNE" target="_blank" rel="noopener"><code>manifold.TSNE</code></a>)</td>
+<td>t-distributed Stochastic Neighbor Embedding.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="第三部分-总结"><a href="#第三部分-总结" class="headerlink" title="第三部分 总结"></a>第三部分 总结</h2><h3 id="3-1-谱图理论"><a href="#3-1-谱图理论" class="headerlink" title="3.1 谱图理论"></a>3.1 谱图理论</h3><p><code>Isomap</code>算法和<code>LE</code>算法在构建数据近邻图的过程使用的思想其实是谱图理论(spectral graph theory)。其本质是利用数据相似度的关系矩阵，然后计算矩阵的特征值和特征向量，最后选择合适的特征向量投影得到的数据的低维嵌入。图谱理论的技术要求数据流形的数据采样是稠密的、流形曲率不能太大，否则对噪声是敏感的。</p>
+<p>图谱理论的技术使得数据流形学习由理论落地为实践。近几年在图神经网络方向仍然是重要技术。</p>
+<h3 id="3-2-流形学习中问题"><a href="#3-2-流形学习中问题" class="headerlink" title="3.2 流形学习中问题"></a>3.2 流形学习中问题</h3><h4 id="3-2-1-基本问题1"><a href="#3-2-1-基本问题1" class="headerlink" title="3.2.1 基本问题1"></a>3.2.1 基本问题1</h4><p>对于给定的多维数据集，研究和刻画数据微分流形的几何和拓扑性质。寻找一些基本判别定理确定数据内蕴微分流形结构。</p>
+<h4 id="3-2-2-基本问题2"><a href="#3-2-2-基本问题2" class="headerlink" title="3.2.2 基本问题2"></a>3.2.2 基本问题2</h4><p>在对数据流形处理过程中，如何刻画数据微分流形中信息量，如何建立数据中信息量和几何结构的关系。数据微分流形在哪一类函数变换下能保持信息量的不变。</p>
+<h3 id="3-3-解释性"><a href="#3-3-解释性" class="headerlink" title="3.3 解释性"></a>3.3 解释性</h3><p>对于一些常用的数据集，很多研究结果表明具有流形结构，例如：</p>
+<blockquote>
+<p>1、<code>MNIST</code>数据是一个6维流形；</p>
+<p>2、从不同角度拍摄得到的一系列图片数据集实际上是分布在一个低维流形中；</p>
+</blockquote>
+<p>通常机器学习中，在数据上构建模型的时候，人们更多的是关注于模型的泛化性能，强调模型是端到端的，就是我们经常在英文文献中看到的概念：<code>end-to-end learning</code> 。将大量时间花费在缺乏理论指导的实验性调参上（自嘲为”炼丹师”）。例如深度学习应用中，更多是优化网络层结构和参数，忽略背后数据特征的变化原理。当然也引起了人们的怀疑态度，即模型的可解释性危机。</p>
+<p>数据科学中很多问题本质是几何问题，解释性危机极大可能由几何理论来最终解答。例如国内顾险峰团队使用最优传输理论（Optimal Mass Transportation ），凸几何（Convex Geometry），蒙日-安培方程（Monge-Ampere Equation）的交汇给出了生成模型<code>GAN</code>（Generative Adversarial  Networks）的几何观点。</p>
+<h3 id="3-4-交叉学科"><a href="#3-4-交叉学科" class="headerlink" title="3.4 交叉学科"></a>3.4 交叉学科</h3><p>除了流形学习，近些年数据科学和几何学出现很多交叉方向，例如信息几何学、计算共性几何。</p>
+<ul>
+<li><p>信息几何学</p>
+<p>概率是信息学和数据科学中重要概念。信息几何学将概率密度函数集合看成微分流形，把Fisher信息作为黎曼度量，使用测度距离作为概率密度函数之间的距离，获得丰富结果。</p>
+</li>
+<li><p>计算共形几何</p>
+<p>计算共形几何将现代几何拓扑理论与计算机科学相融合，将经典微分几何、Riemann面理论、代数拓扑、几何偏微分方程的概念、定理和方法推广至离散情形，转换成计算机算法，广泛应用于计算机图形学、计算机视觉、计算机辅助几何设计、数字几何处理、计算机网络、计算力学、机械设计以及医学影像等领域中。</p>
+</li>
+</ul>
+<p>由于笔者水平有限，不能保证全部内容均正确无误，若读者有不同意见，非常欢迎留言指教一起探讨。</p>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><p>1、《微分拓扑新讲》，张筑生，北京大学出版社；</p>
+<p>2、《黎曼几何引论》，陈维恒 李兴校，北京大学出版社；</p>
+<p>3、Nonlinear Dimensionality Reduction by Locally Linear Embedding，Sam T. Roweis和Lawrence K. Saul，《Science》2000</p>
+<p>4、Laplacian Eigenmaps for Dimensionality Reduction and Data Representation，M.Belkin，NIPS2002论文</p>
+<p>5、Locality Preserving Projections，何晓飞，<em>NIPS</em> (2003)</p>
+<p>6、深度学习的几何学解释，链接：<a href="http://www.engineering.org.cn/ch/10.1016/j.eng.2019.09.010" target="_blank" rel="noopener">http://www.engineering.org.cn/ch/10.1016/j.eng.2019.09.010</a></p>
+
+      
+    </div>
+
+    
+
+    <div>
+      
+        
+      
+    </div>
+    
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Data-Science/" rel="tag"><i class="fa fa-tag"></i> Data Science</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2021/02/15/2021-02-15-机器学习系列文章-数据科学中度量距离总结/" rel="next" title="机器学习系列文章-数据科学中度量距离总结">
+                <i class="fa fa-chevron-left"></i> 机器学习系列文章-数据科学中度量距离总结
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2021/02/28/2021-02-17-经济系列文章-比特币的数学原理/" rel="prev" title="比特币的数学原理">
+                比特币的数学原理 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar/person.png" alt="rong xiang">
+            
+              <p class="site-author-name" itemprop="name">rong xiang</p>
+              <p class="site-description motion-element" itemprop="description">Keep a Pure Curiosity</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">162</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">64</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">19</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/zjrongxiang" title="GitHub &rarr; https://github.com/zjrongxiang" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="mailto:rongxiang1986@163.com" title="E-Mail &rarr; mailto:rongxiang1986@163.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="http://weibo.com/u/1971060643" title="Weibo &rarr; http://weibo.com/u/1971060643" rel="noopener" target="_blank"><i class="fa fa-fw fa-weibo"></i>Weibo</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Link
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://weibo.com/fly51fly?refer_flag=1005055010_" title="https://weibo.com/fly51fly?refer_flag=1005055010_" rel="noopener" target="_blank">爱生活爱可可</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#背景"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第一部分-数据微分流形"><span class="nav-number">2.</span> <span class="nav-text">第一部分 数据微分流形</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第二部分-流行学习"><span class="nav-number">3.</span> <span class="nav-text">第二部分 流行学习</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-数据降维"><span class="nav-number">3.1.</span> <span class="nav-text">2.1 数据降维</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-1-保持局部线性关系"><span class="nav-number">3.1.1.</span> <span class="nav-text">2.1.1 保持局部线性关系</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-2-保持点之间测地线距离"><span class="nav-number">3.1.2.</span> <span class="nav-text">2.1.2 保持点之间测地线距离</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-3-保持图的局部邻接关系"><span class="nav-number">3.1.3.</span> <span class="nav-text">2.1.3 保持图的局部邻接关系</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-4-保持概率分布"><span class="nav-number">3.1.4.</span> <span class="nav-text">2.1.4 保持概率分布</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-可视化"><span class="nav-number">3.2.</span> <span class="nav-text">2.2 可视化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-半监督学习"><span class="nav-number">3.3.</span> <span class="nav-text">2.3 半监督学习</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-工程实现"><span class="nav-number">3.4.</span> <span class="nav-text">2.4 工程实现</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第三部分-总结"><span class="nav-number">4.</span> <span class="nav-text">第三部分 总结</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-谱图理论"><span class="nav-number">4.1.</span> <span class="nav-text">3.1 谱图理论</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-流形学习中问题"><span class="nav-number">4.2.</span> <span class="nav-text">3.2 流形学习中问题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-1-基本问题1"><span class="nav-number">4.2.1.</span> <span class="nav-text">3.2.1 基本问题1</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-2-基本问题2"><span class="nav-number">4.2.2.</span> <span class="nav-text">3.2.2 基本问题2</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-解释性"><span class="nav-number">4.3.</span> <span class="nav-text">3.3 解释性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-交叉学科"><span class="nav-number">4.4.</span> <span class="nav-text">3.4 交叉学科</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文献"><span class="nav-number">5.</span> <span class="nav-text">参考文献</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; 2014 – <span itemprop="copyrightYear">2021</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">rong xiang</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+    <span title="站点总字数">525k</span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    
+    <span title="站点阅读时长">7:57</span>
+  
+</div>
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="总访客量">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="总访问量">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=6.7.0"></script>
+
+  <script src="/js/src/motion.js?v=6.7.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/schemes/muse.js?v=6.7.0"></script>
+
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=6.7.0"></script>
+<script src="/js/src/post-details.js?v=6.7.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=6.7.0"></script>
+
+
+
+  
+  
+    
+  <script id="dsq-count-scr" src="https://https-zjrongxiang-github-io.disqus.com/count.js" async></script>
+
+
+<script>
+  var disqus_config = function () {
+    this.page.url = "https://zjrongxiang.github.io/2021/02/15/2021-03-10-机器学习系列文章-数据科学与几何学/";
+    this.page.identifier = "2021/02/15/2021-03-10-机器学习系列文章-数据科学与几何学/";
+    this.page.title = '机器学习系列文章-数据科学中的几何';
+    };
+  function loadComments () {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://https-zjrongxiang-github-io.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', '' + +new Date());
+    (d.head || d.body).appendChild(s);
+  }
+  
+    loadComments();
+  
+</script>
+
+  
+
+
+
+
+
+  
+
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <style>
+    .copy-btn {
+      display: inline-block;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 20px;
+      color: #333;
+      white-space: nowrap;
+      vertical-align: middle;
+      cursor: pointer;
+      background-color: #eee;
+      background-image: linear-gradient(#fcfcfc, #eee);
+      border: 1px solid #d5d5d5;
+      border-radius: 3px;
+      user-select: none;
+      outline: 0;
+    }
+
+    .highlight-wrap .copy-btn {
+      transition: opacity .3s ease-in-out;
+      opacity: 0;
+      padding: 2px 6px;
+      position: absolute;
+      right: 4px;
+      top: 8px;
+    }
+
+    .highlight-wrap:hover .copy-btn,
+    .highlight-wrap .copy-btn:focus {
+      opacity: 1
+    }
+
+    .highlight-wrap {
+      position: relative;
+    }
+  </style>
+  <script>
+    $('.highlight').each(function (i, e) {
+      var $wrap = $('<div>').addClass('highlight-wrap');
+      $(e).after($wrap);
+      $wrap.append($('<button>').addClass('copy-btn').append('复制').on('click', function (e) {
+        var code = $(this).parent().find('.code').find('.line').map(function (i, e) {
+          return $(e).text();
+        }).toArray().join('\n');
+        var ta = document.createElement('textarea');
+        var range = document.createRange(); //For Chrome
+        var sel = window.getSelection(); //For Chrome
+        var yPosition = window.pageYOffset || document.documentElement.scrollTop;
+        ta.style.top = yPosition + 'px'; //Prevent page scroll
+        ta.style.position = 'absolute';
+        ta.style.opacity = '0';
+        ta.value = code;
+        ta.textContent = code; //For FireFox
+        ta.contentEditable = true;
+        ta.readOnly = false;
+        document.body.appendChild(ta);
+        range.selectNode(ta);
+        sel.removeAllRanges();
+        sel.addRange(range);
+        ta.setSelectionRange(0, code.length);
+        var result = document.execCommand('copy');
+        
+          if (result) $(this).text('复制成功');
+          else $(this).text('复制失败');
+        
+        ta.blur(); //For iOS
+        $(this).blur();
+      })).on('mouseleave', function (e) {
+        var $b = $(this).find('.copy-btn');
+        setTimeout(function () {
+          $b.text('复制');
+        }, 300);
+      }).append(e);
+    })
+  </script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+
+  
+  
+
+  
+  
+
+  
+
+
+</body>
+</html>

@@ -1,0 +1,2191 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<script>
+    (function(){
+        if(''){
+            if (prompt('请输入文章密码') !== ''){
+                alert('密码错误！');
+                history.back();
+            }
+        }
+    })();
+</script>
+
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2">
+
+
+
+  
+  
+  <link rel="stylesheet" href="/lib/Han/dist/han.min.css?v=3.3">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=6.7.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.7.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.7.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '6.7.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="背景目录 背景 第一部分  环境依赖 第二部分 交互接口 第三部分 任务提交 参考文献及资料  #  本次分享我们从百亿流量交易系统API网关（API Gateway）的现状和面临问题出发，阐述微服务架构与 API 网关的关系，理顺流量网关与业务网关的脉络，带来最全面的 API 网关知识与经验。内容涉及： 第一部分：API网关概述  分布式服务架构、微服务架构与 API 网关 API 网关的定义与">
+<meta name="keywords" content="Api网关">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Kong API 网关使用">
+<meta property="og:url" content="https://zjrongxiang.github.io/2021/01/02/2021-01-31-Kong API 网关使用/index.html">
+<meta property="og:site_name" content="RongXiang">
+<meta property="og:description" content="背景目录 背景 第一部分  环境依赖 第二部分 交互接口 第三部分 任务提交 参考文献及资料  #  本次分享我们从百亿流量交易系统API网关（API Gateway）的现状和面临问题出发，阐述微服务架构与 API 网关的关系，理顺流量网关与业务网关的脉络，带来最全面的 API 网关知识与经验。内容涉及： 第一部分：API网关概述  分布式服务架构、微服务架构与 API 网关 API 网关的定义与">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2020/4/15/1717dd0e356e7ad4?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2020/4/15/1717dd13397784d6?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2020/4/15/1717dd7d1a1e0467?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2020/4/15/1717dd9cab212aa0?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2020/4/15/1717ddabca303706?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2020/4/15/1717ddc154443cfe?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2020/4/15/1717ddd2772a1e83?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2020/4/15/1717dde1896a1bb2?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2020/4/15/1717ddeeebcbc990?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2020/4/15/1717ddf53fcb4287?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2020/4/15/1717de6e4c9714e7?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2020/4/15/1717de2b79449cd3?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2020/4/15/1717de91aa29c1db?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2020/4/15/1717deb2404e7254?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2020/4/15/1717deb6ed1bac11?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2020/4/15/1717debb27753537?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2020/4/15/1717debd48e3620f?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2020/4/15/1717ded7895a06f1?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2020/4/15/1717dedbc888271f?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2020/4/15/1717dedf07a1be46?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2020/4/15/1717dee2446a2ea5?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2020/4/15/1717dee7a4aabfea?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2020/4/15/1717deecc6252c8e?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2020/4/15/1717deee75dd290a?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2020/4/15/1717def10ee34ccd?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2020/4/15/1717df0427bebb66?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2020/4/15/1717df067c24733e?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2020/4/15/1717df0ee9887d48?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
+<meta property="og:updated_time" content="2021-01-31T13:22:00.199Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Kong API 网关使用">
+<meta name="twitter:description" content="背景目录 背景 第一部分  环境依赖 第二部分 交互接口 第三部分 任务提交 参考文献及资料  #  本次分享我们从百亿流量交易系统API网关（API Gateway）的现状和面临问题出发，阐述微服务架构与 API 网关的关系，理顺流量网关与业务网关的脉络，带来最全面的 API 网关知识与经验。内容涉及： 第一部分：API网关概述  分布式服务架构、微服务架构与 API 网关 API 网关的定义与">
+<meta name="twitter:image" content="https://user-gold-cdn.xitu.io/2020/4/15/1717dd0e356e7ad4?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="RongXiang" type="application/atom+xml">
+
+
+
+
+  <link rel="canonical" href="https://zjrongxiang.github.io/2021/01/02/2021-01-31-Kong API 网关使用/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Kong API 网关使用 | RongXiang</title>
+  
+
+
+
+
+  <script async src="//www.googletagmanager.com/gtag/js?id=UA-113063423-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-113063423-1');
+  </script>
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+    <!-- <a href="https://github.com/zjrongxiang"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png" alt="Fork me on GitHub"></a> -->
+    <a href="https://github.com/zjrongxiang"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_green_007200.png" alt="Fork me on GitHub"></a>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">RongXiang</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">我的烂笔头</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-schedule">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/schedule/" rel="section"><i class="menu-item-icon fa fa-fw fa-calendar"></i> <br>日程表</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zjrongxiang.github.io/2021/01/02/2021-01-31-Kong API 网关使用/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="rong xiang">
+      <meta itemprop="description" content="Keep a Pure Curiosity">
+      <meta itemprop="image" content="/images/avatar/person.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="RongXiang">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Kong API 网关使用
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2021-01-02 21:30:00" itemprop="dateCreated datePublished" datetime="2021-01-02T21:30:00+08:00">2021-01-02</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2021-01-31 21:22:00" itemprop="dateModified" datetime="2021-01-31T21:22:00+08:00">2021-01-31</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Api网关/" itemprop="url" rel="index"><span itemprop="name">Api网关</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2021/01/02/2021-01-31-Kong API 网关使用/#comments" itemprop="discussionUrl">
+                
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/01/02/2021-01-31-Kong API 网关使用/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">本文字数：</span>
+                
+                <span title="本文字数">32k</span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">29 分钟</span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ul>
+<li>背景</li>
+<li>第一部分  环境依赖</li>
+<li>第二部分 交互接口</li>
+<li>第三部分 任务提交</li>
+<li>参考文献及资料</li>
+</ul>
+<p># </p>
+<p>本次分享我们从百亿流量交易系统API网关（API Gateway）的现状和面临问题出发，阐述微服务架构与 API 网关的关系，理顺流量网关与业务网关的脉络，带来最全面的 API 网关知识与经验。内容涉及：</p>
+<p>第一部分：API网关概述</p>
+<ul>
+<li>分布式服务架构、微服务架构与 API 网关</li>
+<li>API 网关的定义与职能、关注点</li>
+<li>API 网关的分类与技术分析</li>
+</ul>
+<p>第二部分：开源网关的分析与调研</p>
+<ul>
+<li>常见的开源网关介绍</li>
+<li>四大开源网关的对比分析（OpenResty/Kong/Zuul2/SpringCloudGateway 等）</li>
+<li>开源网关的技术总结</li>
+</ul>
+<p>第三部分：百亿流量交易系统 API 网关设计</p>
+<ul>
+<li>百亿流量 API 网关的现状和面临问题</li>
+<li>业务网关的设计与最佳实践</li>
+<li>对API网关的发展展望</li>
+</ul>
+<h1 id="第一部分：API网关概述"><a href="#第一部分：API网关概述" class="headerlink" title="第一部分：API网关概述"></a>第一部分：API网关概述</h1><blockquote>
+<p>计算机科学领域的任何问题都可以通过增加一个间接的中间层来解决。 – David Wheeler</p>
+</blockquote>
+<h2 id="分布式服务架构、微服务架构与-API-网关"><a href="#分布式服务架构、微服务架构与-API-网关" class="headerlink" title="分布式服务架构、微服务架构与 API 网关"></a>分布式服务架构、微服务架构与 API 网关</h2><h3 id="什么是API网关（API-Gateway）"><a href="#什么是API网关（API-Gateway）" class="headerlink" title="什么是API网关（API Gateway）"></a>什么是API网关（API Gateway）</h3><p>其实网关跟面向服务架构（Service Oriented Architecture，SOA）和微服务架构（MicroServices Architecture，MSA）有很深的渊源。</p>
+<p>十多年以前，银行等金融机构完成全国业务系统大集中以后，分散的系统都变得集中，同时也带来各种问题：业务发展过快如何应对，对接系统过多如何集成和管理。为了解决这些问题，业界实现了作用于渠道与业务系统之间的中间层网关，即综合前置系统，由其适配各类渠道和业务，处理各种协议接入、路由与报文转换、同步异步调用等。</p>
+<p><img src="https://user-gold-cdn.xitu.io/2020/4/15/1717dd0e356e7ad4?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="img"></p>
+<p>图1</p>
+<p>人们基于SOA的理念，在综合前置的基础上，进一步增加了服务的元数据管理、注册、中介、编排、治理等功能，逐渐形成了企业服务总线（ESB，Enterprise Service Bus）。</p>
+<p><img src="https://user-gold-cdn.xitu.io/2020/4/15/1717dd13397784d6?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="img"></p>
+<p>图2（作者参与设计开发的Primeton ESB系统）</p>
+<p>面向服务架构（SOA）是一种建设企业IT生态系统的架构指导思想。SOA的关注点是服务，服务最基本的业务功能单元，由平台中立性的接口契约来定义。通过将业务系统服务化，可以将不同模块解耦，各种异构系统间可以轻松实现服务调用、消息交换和资源共享。</p>
+<p>不同于以往的孤立业务系统，SOA强调整个企业IT生态环境是一个大的整体。整个IT生态中的所有业务服务构成了企业的核心IT资源。各系统的业务拆解为不同粒度和层次的模块和服务，服务可以组装到更大的粒度，不同来源的服务可以编排到同一个处理流程，实现非常复杂的集成场景和更加丰富的业务功能。</p>
+<p>SOA从更高的层次对整个企业IT生态进行统一的设计与管理，应用软件被划分为具有不同功能的服务单元，并通过标准的软件接口把这些服务联系起来，以SOA架构实现的企业应用可以更灵活快速地响应企业业务变化，实现新旧软件资产的整合和复用，降低软件整体拥有成本。 当然基于ESB这种集中式管理的SOA方案也存在着种种问题，特别是面向互联网技术领域的爆发式发展的情况下。</p>
+<h3 id="分布式服务架构、微服务架构与API网关"><a href="#分布式服务架构、微服务架构与API网关" class="headerlink" title="分布式服务架构、微服务架构与API网关"></a>分布式服务架构、微服务架构与API网关</h3><p>近年来，随着互联网技术的飞速发展，为了解决以ESB为代表的集中式管理的SOA方案的种种问题，以Apache Dubbo（2011年开源后）与Spring Cloud为代表的分布式服务化技术的出现，给了SOA实现的另外一个选择：去中心化的分布式服务架构（DSA）。分布式服务架构技术不再依赖于具体的服务中心容器技术（比如ESB），而是将服务寻址和调用完全分开，这样就不需要通过容器作为服务代理。</p>
+<p>之后又在此基础上随着REST、Docker容器化、领域建模、自动化测试运维等领域的发展，逐渐形成了微服务架构（MSA）。在微服务架构里，服务的粒度被进一步细分，各个业务服务可以被独立地设计、开发、测试、部署和管理。这时，各个独立部署单元可以选择不同的开发测试团队维护，可以使用不同的编程语言和技术平台进行设计，但是要求必须使用一种语言和平台无关的服务协议作为各个单元之间的通信方式，如图7-3所示。</p>
+<p><img src="https://user-gold-cdn.xitu.io/2020/4/15/1717dd7d1a1e0467?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="img"></p>
+<p>图3</p>
+<p>在微服务架构中，由于系统和服务的细分，导致系统结构变得非常复杂，RESTAPI由于其简单、高效、跨平台、易开发、易测试、易集成，成为不二选择。此时一个类似综合前置的系统就产生了，这就是API网关（API Gateway）。API网关作为分散在各个业务系统微服务的API聚合点和统一接入点，外部请求通过访问这个接入点，即可访问内部所有的REST API服务。</p>
+<p>跟SOA/ESB类似，企业内部向外暴露的所有业务服务能力，都可以通过API网关上管理的API服务得以体现，所以API网关上也就聚合了企业所有直接对外提供的IT业务能力。</p>
+<h3 id="API网关的技术趋势"><a href="#API网关的技术趋势" class="headerlink" title="API网关的技术趋势"></a>API网关的技术趋势</h3><p>我们从百度指数趋势看到，SpringCloud和SOA非常火，MSA、gRPC、Gateway也都有着非常高的关注度，而且这些技术的搜索趋势都正相关。 另一方面，我们可以通过Github的搜索来看，Gateway类型的项目也非常多。</p>
+<p><img src="https://user-gold-cdn.xitu.io/2020/4/15/1717dd9cab212aa0?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="img"></p>
+<p>图4</p>
+<p><a href="https://github.com/search?o=desc&amp;p=1&amp;q=gateway&amp;s=stars&amp;type=Repositories" target="_blank" rel="noopener">github.com/search?o=de…</a></p>
+<p>可以看到，前10页的100个项目，使用Go语言实现的Gateway差不多占一半，语言分类上来看： Go&gt;NodeJS/JavaScript&gt;Java&gt;Lua&gt;C/C++&gt;PHP&gt;Python/Ruby/Perl</p>
+<h2 id="API-网关的定义、职能与关注点"><a href="#API-网关的定义、职能与关注点" class="headerlink" title="API 网关的定义、职能与关注点"></a>API 网关的定义、职能与关注点</h2><h3 id="API网关的定义"><a href="#API网关的定义" class="headerlink" title="API网关的定义"></a>API网关的定义</h3><blockquote>
+<p>网关的角色是作为一个API架构，用来保护、增强和控制对于API服务的访问。（The role of a Gateway in an API architecture is to protect, enrich and control access to API services.）– <a href="https://github.com/strongloop/microgateway" target="_blank" rel="noopener">github.com/strongloop/…</a></p>
+</blockquote>
+<p>API网关是一个处于应用程序或服务（提供REST API接口服务）之前的系统，用来管理授权、访问控制和流量限制等，这样REST API接口服务就被API网关保护起来，对所有的调用者透明。因此，隐藏在API网关后面的业务系统就可以专注于创建和管理服务，而不用去处理这些策略性的基础设施。</p>
+<p>这样，网关系统就可以代理业务系统的业务服务API。此时网关接受外部其他系统的服务调用请求，也需要访问后端的实际业务服务。在接受请求的同时，可以实现安全相关的系统保护措施。在访问后端业务服务的时候，可以根据相关的请求信息做出判断，路由到特定的业务服务上，或者调用多个服务后聚合成新的数据返回给调用方。网关系统也可以把请求的数据做一些过程和预处理，同理也可以把返回给调用者的数据做一些过滤和预处理，即根据需要对请求头/响应头、请求报文/响应报文做一些修改处理。如果不做这些额外的处理，最简单直接的代理服务API功能，我们一般叫做透传。</p>
+<p>同时，由于REST API的语言无关性，我们可以看出基于API网关，我们的后端服务可以是任何异构系统，不论是Java、Dotnet、Python，还是PHP、ROR、NodeJS等，只要是支持REST API，就可以被API网关管理起来。</p>
+<h3 id="API网关的职能"><a href="#API网关的职能" class="headerlink" title="API网关的职能"></a>API网关的职能</h3><p><img src="https://user-gold-cdn.xitu.io/2020/4/15/1717ddabca303706?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="img"></p>
+<p>图5</p>
+<p>一般来说，API网关有四大职能：</p>
+<ul>
+<li>请求接入：作为所有API接口服务请求的接入点，管理所有的接入请求；</li>
+<li>业务聚合：作为所有后端业务服务的聚合点，所有的业务服务都可以在这里被调用；</li>
+<li>中介策略：实现安全、验证、路由、过滤、流控，缓存等策略，进行一些必要的中介处理；</li>
+<li>统一管理：提供配置管理工具，对所有API服务的调用生命周期和相应的中介策略进行统一管理。</li>
+</ul>
+<h3 id="API网关的关注点"><a href="#API网关的关注点" class="headerlink" title="API网关的关注点"></a>API网关的关注点</h3><p>通过以上的分析可以看出，API网关不是一个典型的业务系统， 而是一个为了让业务系统更专注与业务服务本身，给API服务提供更多附加能力的一个中间层。</p>
+<p>这样在设计和实现API网关时，两个目标需要考虑：</p>
+<ol>
+<li>开发维护简单，节约人力成本和维护成本。这要求我们使用非常成熟的简单可维护的技术体系。</li>
+<li>高性能，节约设备成本，提高系统吞吐能力。这要求我们需要针对API网关的特点，进行一些特定的设计和权衡。</li>
+</ol>
+<p>当并发量小的时候，这些都不是问题。然后一旦系统的API访问量非常大的时候，这些都会成为关键的问题。</p>
+<p>海量并发的Gateway最重要的三个关注点：</p>
+<ol>
+<li>保持大规模的inbound请求接入能力（长短连接），比如基于netty实现。</li>
+<li>最大程度的复用outbound的HTTP连接能力，比如基于HttpClient4的asynchronizedHttpclient实现。</li>
+<li>方便灵活地实现安全、验证、过滤、聚合、限流、监控等各种策略。</li>
+</ol>
+<h2 id="API网关的分类与技术分析"><a href="#API网关的分类与技术分析" class="headerlink" title="API网关的分类与技术分析"></a>API网关的分类与技术分析</h2><h3 id="API网关的分类"><a href="#API网关的分类" class="headerlink" title="API网关的分类"></a>API网关的分类</h3><p>如果我们对于上述的目标和关注点进行更深入的思考，就会发现一个很重要的问题：所有需要考虑的问题和功能可以分为两类。</p>
+<ul>
+<li>一类是全局性的，跟具体的后端业务系统和服务完全无关的部分，比如安全策略、全局性流控策略、流量分发策略等。</li>
+<li>一类是针对具体的后端业务系统，或者是服务和业务有一定关联性的部分，并且一般被直接部署在业务服务的前面。</li>
+</ul>
+<p><img src="https://user-gold-cdn.xitu.io/2020/4/15/1717ddc154443cfe?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="img"></p>
+<p>图6</p>
+<p>这样，随着互联网的复杂业务系统的发展，这两类功能集合逐渐形成了现在常见的两种网关系统：流量网关和业务网关。</p>
+<h3 id="流量网关与WAF"><a href="#流量网关与WAF" class="headerlink" title="流量网关与WAF"></a>流量网关与WAF</h3><p>我们定义全局性的、跟具体的后端业务系统和服务完全无关的策略网关，即为流量网关。这样流量网关关注于全局流量的稳定与安全，具体比如防止各类SQL注入，黑白名单控制，接入请求到业务系统的Loadbalance等，通常有如下的一些通用性功能：</p>
+<ul>
+<li>全局性流控</li>
+<li>日志统计</li>
+<li>防止SQL注入</li>
+<li>防止Web攻击</li>
+<li>屏蔽工具扫描</li>
+<li>黑白名单控制</li>
+<li>等等。</li>
+</ul>
+<p>通过这个功能清单，我们可以发现，流量网关的功能跟Web应用防火墙（WAF）非常类似。WAF一般是基于Nginx/OpenResty的ngx_lua模块开发的Web应用防火墙。 WAF一般代码很简单，关注于使用简单，高性能和轻量级。简单的说就是在Nginx本身的代理能力以外，添加了安全相关功能。一句话来描述其原理，就是解析HTTP请求（协议解析模块），规则检测（规则模块），做不同的防御动作（动作模块），并将防御过程（日志模块）记录下来。 一般的WAF具有如下功能：</p>
+<ul>
+<li>防止SQL注入，本地包含，部分溢出，fuzzing测试，XSS/SSRF等Web攻击</li>
+<li>防止Apache Bench之类压力测试工具的攻击</li>
+<li>屏蔽常见的扫描黑客工具，扫描器</li>
+<li>屏蔽图片附件类目录执行权限、防止webshell上传</li>
+<li>支持IP白名单和黑名单功能，直接将黑名单的IP访问拒绝</li>
+<li>支持URL白名单，将不需要过滤的URL进行定义</li>
+<li>支持User-Agent的过滤、支持CC攻击防护、限制单个URL指定时间的访问次数</li>
+<li>支持支持Cookie过滤，URL与URL参数过滤</li>
+<li>支持日志记录，将所有拒绝的操作，记录到日志中去</li>
+</ul>
+<h4 id="几个WAF开源实现"><a href="#几个WAF开源实现" class="headerlink" title="几个WAF开源实现"></a>几个WAF开源实现</h4><p>以上WAF的内容主要参考如下两个项目：</p>
+<ul>
+<li><a href="https://github.com/unixhot/waf" target="_blank" rel="noopener">github.com/unixhot/waf</a></li>
+<li><a href="https://github.com/loveshell/ngx_lua_waf" target="_blank" rel="noopener">github.com/loveshell/n…</a></li>
+</ul>
+<p>流量网关的开源实例，还可以参考著名的开源项目Kong（基于OpenResty）。</p>
+<h3 id="业务网关"><a href="#业务网关" class="headerlink" title="业务网关"></a>业务网关</h3><p>我们定义针对具体的后端业务系统，或者是服务和业务有一定关联性的策略网关，即为业务网关。比如针对某个系统、某个服务或者某个用户分类的流控策略，针对某一类服务的缓存策略，针对某个具体系统的权限验证方式，针对某些用户条件判断的请求过滤，针对具体几个相关API的数据聚合封装等等。</p>
+<p>业务网关一般部署在流量网关之后，业务系统之前，比流量网关更靠近系统。我们大部分情况下说的API网关，狭义上指的是业务网关。并且如果系统的规模不大，我们也会将两者合二为一，使用一个网关来处理所有的工作。具体的业务网关设计实现，将在下面的篇章详细介绍。</p>
+<h1 id="第二部分：开源网关的分析与调研"><a href="#第二部分：开源网关的分析与调研" class="headerlink" title="第二部分：开源网关的分析与调研"></a>第二部分：开源网关的分析与调研</h1><h2 id="常见的开源网关介绍"><a href="#常见的开源网关介绍" class="headerlink" title="常见的开源网关介绍"></a>常见的开源网关介绍</h2><p><img src="https://user-gold-cdn.xitu.io/2020/4/15/1717ddd2772a1e83?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="img"></p>
+<p>图7（开源网关技术图谱）</p>
+<p>目前常见的开源网关大致上按照语言分类有如下几类：</p>
+<ul>
+<li>Nginx+lua：Open Resty、Kong、Orange、Abtesting gateway等</li>
+<li>Java：Zuul/Zuul2、Spring Cloud Gateway、Kaazing KWG、gravitee、Dromara soul等</li>
+<li>Go：Janus、fagongzi、Grpc-gateway</li>
+<li>Dotnet：Ocelot</li>
+<li>NodeJS：Express Gateway、Micro Gateway</li>
+</ul>
+<p>按照使用数量、成熟度等来划分，主流的有4个：</p>
+<ul>
+<li>OpenResty</li>
+<li>Kong</li>
+<li>Zuul/Zuul2</li>
+<li>Spring Cloud Gateway</li>
+</ul>
+<h3 id="Nginx-Lua"><a href="#Nginx-Lua" class="headerlink" title="Nginx+Lua"></a>Nginx+Lua</h3><h4 id="OpenResty"><a href="#OpenResty" class="headerlink" title="OpenResty*"></a>OpenResty*</h4><p>项目地址：<a href="http://openresty.org/" target="_blank" rel="noopener">openresty.org/</a></p>
+<p>OpenResty® 是一个基于 Nginx 与 Lua 的高性能 Web 平台，其内部集成了大量精良的 Lua 库、第三方模块以及大多数的依赖项。用于方便地搭建能够处理超高并发、扩展性极高的动态 Web 应用、Web 服务和动态网关。</p>
+<p>OpenResty® 通过汇聚各种设计精良的 Nginx 模块（主要由 OpenResty 团队自主开发），从而将 Nginx 有效地变成一个强大的通用 Web 应用平台。这样，Web 开发人员和系统工程师可以使用 Lua 脚本语言调动 Nginx 支持的各种 C 以及 Lua 模块，快速构造出足以胜任 10K 乃至 1000K 以上单机并发连接的高性能 Web 应用系统。</p>
+<p>OpenResty® 的目标是让你的Web服务直接跑在 Nginx 服务内部，充分利用 Nginx 的非阻塞 I/O 模型，不仅仅对 HTTP 客户端请求,甚至于对远程后端诸如 MySQL、PostgreSQL、Memcached 以及 Redis 等都进行一致的高性能响应。</p>
+<p>以上介绍来自于OpenResty网站中文版：<a href="http://openresty.org/cn" target="_blank" rel="noopener">openresty.org/cn</a></p>
+<p>简单的说，OpenResty基于Nginx，集成了Lua语言和Lua的各种工具库，可用的第三方模块，这样我们就在Nginx既有的高效HTTP处理的基础上，同时获得了Lua提供的动态扩展能力。因此，我们可以做出各种符合我们需要的网关策略的Lua脚本，以其为基础实现我们的网关系统。</p>
+<h4 id="Kong"><a href="#Kong" class="headerlink" title="Kong*"></a>Kong*</h4><p>项目地址：<a href="https://konghq.com/" target="_blank" rel="noopener">konghq.com/</a> 与 <a href="https://github.com/kong/kong" target="_blank" rel="noopener">github.com/kong/kong</a></p>
+<p>Kong基于OpenResty，是一个云原生、快速、可扩展、分布式的微服务抽象层（Microservice Abstraction Layer），也叫API网关（API Gateway），在Service Mesh里也叫API中间件（API Middleware）。</p>
+<p>Kong开源于2015年，核心价值在于高性能和扩展性。从全球5000强的组织统计数据来看，Kong是现在依然在维护的，在生产环境使用最广泛的API网关。</p>
+<p>Kong宣称自己是世界上最流行的开源微服务API网关（The World’s Most Popular Open Source Microservice API Gateway）。</p>
+<p>核心优势：</p>
+<ul>
+<li>可扩展：可以方便的通过添加节点水平扩展，这意味着可以在很低的延迟下支持很大的系统负载。</li>
+<li>模块化：可以通过添加新的插件来扩展Kong的能力，这些插件可以通过RESTful Admin API来安装和配置。</li>
+<li>在任何基础架构上运行：Kong可以在任何地方都能运行，比如在云或混合环境中部署Kong，单个或全球的数据中心。</li>
+</ul>
+<p><img src="https://user-gold-cdn.xitu.io/2020/4/15/1717dde1896a1bb2?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="img"></p>
+<p>图8</p>
+<h4 id="ABTestingGateway"><a href="#ABTestingGateway" class="headerlink" title="ABTestingGateway"></a>ABTestingGateway</h4><p>项目地址：<a href="https://github.com/CNSRE/ABTestingGateway" target="_blank" rel="noopener">github.com/CNSRE/ABTes…</a></p>
+<p>ABTestingGateway是一个可以动态设置分流策略的网关，关注与灰度发布相关领域，基于nginx和ngx-lua开发，使用 redis 作为分流策略数据库，可以实现动态调度功能。</p>
+<p>ABTestingGateway 是新浪微博内部的动态路由系统 dygateway 的一部分，目前已经开源。在以往的基于 nginx 实现的灰度系统中，分流逻辑往往通过 rewrite 阶段的 if 和 rewrite 指令等实现，优点是性能较高，缺点是功能受限、容易出错，以及转发规则固定，只能静态分流。ABTestingGateway则采用 ngx-lua，通过启用lua-shared-dict和lua-resty-lock作为系统缓存和缓存锁，系统获得了较为接近原生nginx转发的性能。</p>
+<p>功能特性：</p>
+<ul>
+<li>支持多种分流方式，目前包括iprange、uidrange、uid尾数和指定uid分流</li>
+<li>支持多级分流，动态设置分流策略，即时生效，无需重启</li>
+<li>可扩展性，提供了开发框架，开发者可以灵活添加新的分流方式，实现二次开发</li>
+<li>高性能，压测数据接近原生nginx转发</li>
+<li>灰度系统配置写在nginx配置文件中，方便管理员配置</li>
+<li>适用于多种场景：灰度发布、AB测试和负载均衡等</li>
+</ul>
+<blockquote>
+<p>据了解，美团内部的Oceanus也是基于Nginx和ngx_lua扩展实现，主要提供服务注册与发现、动态负载均衡、可视化管理、定制化路由、安全反扒、session ID复用、熔断降级、一键截流和性能统计等功能。</p>
+</blockquote>
+<h3 id="JAVA"><a href="#JAVA" class="headerlink" title="JAVA"></a>JAVA</h3><h4 id="Zuul-Zuul2"><a href="#Zuul-Zuul2" class="headerlink" title="Zuul/Zuul2*"></a>Zuul/Zuul2*</h4><p>项目地址：<a href="https://github.com/Netflix/zuul" target="_blank" rel="noopener">github.com/Netflix/zuu…</a></p>
+<p>Zuul是Netflix开源的API网关系统，它的主要设计目标是动态路由、监控、弹性和安全。</p>
+<p>Zuul的内部原理可以简单看做是很多不同功能filter的集合（PS：作为对比，ESB也可以简单被看做是管道（channel）和过滤器（filter）的集合。），这些filter可以使用groovy或其他基于JVM的脚本编写（当然Java也可以编写），放置在指定的位置，然后可以被Zuul Server轮询发现变动后动态加载并实时生效。</p>
+<p>Zuul目前有两个大的版本，1.x和2.x，这两个版本差别很大。</p>
+<p>Zuul1.x基于同步IO，也是Spring Cloud全家桶的一部分，可以方便的配合Spring Boot/Spring Cloud配置和使用。</p>
+<p>在Zuul1.x里，filter的种类和处理流程可以参见下图，最主要的就是pre、routing、post这三种过滤器，分别作用于调用业务服务API之前的请求处理、直接响应、调用业务服务API之后的响应处理。</p>
+<p><img src="https://user-gold-cdn.xitu.io/2020/4/15/1717ddeeebcbc990?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="img"></p>
+<p>图9（Zuul 1.x示意图）</p>
+<p>Zuul2.x最大的改进就是基于Netty Server实现了异步IO来接入请求，同时基于Netty Client实现了到后端业务服务API的请求。这样就可以实现更高的性能、更低的延迟。此外也调整了filter类型，将原来的三个核心filter显式命名为：Inbound Filter、Endpoint Filter和Outbound Filter。</p>
+<p><img src="https://user-gold-cdn.xitu.io/2020/4/15/1717ddf53fcb4287?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="img"></p>
+<p>图10（Zuul 2.x）</p>
+<p>Zuul2.x核心功能：</p>
+<ul>
+<li>Service Discovery</li>
+<li>Load Balancing</li>
+<li>Connection Pooling</li>
+<li>Status Categories</li>
+<li>Retries</li>
+<li>Request Passport</li>
+<li>Request Attempts</li>
+<li>Origin Concurrency Protection</li>
+<li>HTTP/2</li>
+<li>Mutual TLS</li>
+<li>Proxy Protocol</li>
+<li>GZip</li>
+<li>WebSockets</li>
+</ul>
+<h4 id="Spring-Cloud-Gateway"><a href="#Spring-Cloud-Gateway" class="headerlink" title="Spring Cloud Gateway*"></a>Spring Cloud Gateway*</h4><p>项目地址：<a href="https://github.com/spring-cloud/spring-cloud-gateway/" target="_blank" rel="noopener">github.com/spring-clou…</a></p>
+<p>Spring Cloud Gateway基于Java8、Spring 5.0、Spring Boot 2.0、Project Reactor，发展的比Zuul2要早，目前也是Spring Cloud全家桶的一部分。</p>
+<p>Spring Cloud Gateway可以看做是一个Zuul1.x的升级版和代替品，比Zuul2更早的使用Netty实现异步IO，从而实现了一个简单、比Zuul1.x更高效的、与Spring Cloud紧密配合的API网关。</p>
+<p>Spring Cloud Gateway里明确的区分了Router和Filter，并且一个很大的特点是内置了非常多的开箱即用功能，并且都可以通过SpringBoot配置或者手工编码链式调用来使用。</p>
+<p>比如内置了10种Router，使得我们可以直接配置一下就可以随心所欲的根据Header，或者Path，或者Host，或者Query来做路由。</p>
+<p>比如区分了一般的Filter和全局Filter，内置了20种Filter和9种全局Filter，也都可以直接用。当然自定义Filter也非常方便。</p>
+<p>核心特性：</p>
+<ul>
+<li>Able to match routes on any request attribute.</li>
+<li>Predicates and filters are specific to routes.</li>
+<li>Hystrix Circuit Breaker integration.</li>
+<li>Spring Cloud DiscoveryClient integration</li>
+<li>Easy to write Predicates and Filters</li>
+<li>Request Rate Limiting</li>
+<li>Path Rewriting</li>
+</ul>
+<h4 id="gravitee-gateway"><a href="#gravitee-gateway" class="headerlink" title="gravitee gateway"></a>gravitee gateway</h4><p>项目地址：<a href="https://gravitee.io/" target="_blank" rel="noopener">gravitee.io/</a> 与 <a href="https://github.com/gravitee-io/gravitee-gateway" target="_blank" rel="noopener">github.com/gravitee-io…</a></p>
+<h4 id="Kaazing-WebSocket-Gateway"><a href="#Kaazing-WebSocket-Gateway" class="headerlink" title="Kaazing WebSocket Gateway"></a>Kaazing WebSocket Gateway</h4><p>项目地址：<a href="https://github.com/kaazing/gateway" target="_blank" rel="noopener">github.com/kaazing/gat…</a> 与 <a href="https://kaazing.com/products/websocket-gateway/" target="_blank" rel="noopener">kaazing.com/products/we…</a></p>
+<p>Kaazing WebSocket Gateway是一个专门针对和处理Websocket的网关，其宣称提供世界一流的企业级WebSocket服务能力。</p>
+<p>具体如下特性：</p>
+<ul>
+<li>标准WebSocket支持，支持全双工的双向数据投递</li>
+<li>线性扩展，无状态架构意味着可以部署更多机器来扩展服务能力</li>
+<li>验证，鉴权，单点登录支持，跨域访问控制</li>
+<li>SSL/TLS加密支持</li>
+<li>Websocket keepalive和TCP半开半关探测</li>
+<li>通过负载均衡和集群实现高可用</li>
+<li>Docker支持</li>
+<li>JMS/AMQP等支持</li>
+<li>IP白名单</li>
+<li>自动重连和消息可靠接受保证</li>
+<li>Fanout处理策略</li>
+<li>实时缓存等</li>
+</ul>
+<h4 id="Dromara-soul"><a href="#Dromara-soul" class="headerlink" title="Dromara soul"></a>Dromara soul</h4><p>项目地址： <a href="https://github.com/Dromara/soul" target="_blank" rel="noopener">github.com/Dromara/sou…</a></p>
+<p>Soul是一个异步的、高性能的、跨语言的、响应式的API网关，提供了统一的HTTP访问。</p>
+<ul>
+<li>支持各种语言，无缝集成Dubbo和SpringCloud；</li>
+<li>丰富的插件支持鉴权、限流、熔断、防火墙等；</li>
+<li>网关多种规则动态配置，支持各种策略配置；</li>
+<li>插件热插拔，易扩展；</li>
+<li>支持集群部署，支持A/B Test。</li>
+</ul>
+<p><img src="https://user-gold-cdn.xitu.io/2020/4/15/1717de6e4c9714e7?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="img"></p>
+<p>图11</p>
+<h3 id="Go"><a href="#Go" class="headerlink" title="Go"></a>Go</h3><h4 id="fagongzi"><a href="#fagongzi" class="headerlink" title="fagongzi"></a>fagongzi</h4><p>项目地址：<a href="https://github.com/fagongzi/gateway" target="_blank" rel="noopener">github.com/fagongzi/ga…</a></p>
+<p>fagongzi gateway是一个Go实现的功能全面的API Gateway，自带了一个rails实现的web UI管理界面。</p>
+<p>功能特性：</p>
+<ul>
+<li>流量控制</li>
+<li>熔断</li>
+<li>负载均衡</li>
+<li>服务发现</li>
+<li>插件机制</li>
+<li>路由(分流，复制流量)</li>
+<li>API 聚合</li>
+<li>API 参数校验</li>
+<li>API 访问控制（黑白名单）</li>
+<li>API 默认返回值</li>
+<li>API 定制返回值</li>
+<li>API 结果Cache</li>
+<li>JWT Authorization</li>
+<li>API Metric导入Prometheus</li>
+<li>API 失败重试</li>
+<li>后端server的健康检查</li>
+<li>开放管理API(GRPC、Restful)</li>
+<li>支持Websocket协议</li>
+</ul>
+<h4 id="Janus"><a href="#Janus" class="headerlink" title="Janus"></a>Janus</h4><p>项目地址：<a href="https://github.com/hellofresh/janus" target="_blank" rel="noopener">github.com/hellofresh/…</a></p>
+<p>Janus是一个轻量级的API Gateway和管理平台，它能帮你实现控制谁，什么时候，如何访问这些REST API，同时它也记录了所有的访问交互细节和错误。使用Go实现API网关的一个好处在于，一般只需要一个单独的二进制文件即可运行，没有复杂的依赖关系（No dependency hell）。</p>
+<p>功能特性：</p>
+<ul>
+<li>热加载配置，不需要重启网关进程</li>
+<li>HTTP连接的优雅关闭</li>
+<li>支持OpenTracing，从而可以进行分布式跟踪</li>
+<li>支持HTTP/2</li>
+<li>可以针对每一个API实现断路器</li>
+<li>重试机制</li>
+<li>流控，可以针对每一个用户或者key</li>
+<li>CORS过滤，可以针对具体的API</li>
+<li>多种开箱即用的验证协议支持，比如JWT、OAuth2.0和Basic Auth</li>
+<li>docker image支持</li>
+</ul>
+<h3 id="Dotnet"><a href="#Dotnet" class="headerlink" title="Dotnet"></a>Dotnet</h3><h4 id="Ocelot"><a href="#Ocelot" class="headerlink" title="Ocelot"></a>Ocelot</h4><p>项目地址：<a href="https://github.com/ThreeMammals/Ocelot" target="_blank" rel="noopener">github.com/ThreeMammal…</a></p>
+<ul>
+<li>路由</li>
+<li>请求聚合</li>
+<li>服务发现（基于Consul或Eureka）</li>
+<li>服务Fabric</li>
+<li>WebSockets</li>
+<li>验证与鉴权</li>
+<li>流控</li>
+<li>缓存</li>
+<li>重试策略与QoS</li>
+<li>负载均衡</li>
+<li>日志与跟踪</li>
+<li>请求头、Query字符串转换</li>
+<li>自定义的中间处理</li>
+<li>配置和管理REST API</li>
+</ul>
+<h3 id="NodeJS"><a href="#NodeJS" class="headerlink" title="NodeJS"></a>NodeJS</h3><h4 id="Express-Gateway"><a href="#Express-Gateway" class="headerlink" title="Express Gateway"></a>Express Gateway</h4><p>项目地址：<a href="https://github.com/ExpressGateway/express-gateway" target="_blank" rel="noopener">github.com/ExpressGate…</a> 与 <a href="https://www.express-gateway.io/" target="_blank" rel="noopener">www.express-gateway.io/</a></p>
+<p>Express Gateway是一个基于NodeJS开发，Express和Express中间件实现的REST API网关。</p>
+<p>功能特性：</p>
+<ul>
+<li>动态中心化配置</li>
+<li>API消费者和凭证管理</li>
+<li>插件机制</li>
+<li>分布式数据存储</li>
+<li>命令行工具CLI</li>
+</ul>
+<h4 id="microgateway"><a href="#microgateway" class="headerlink" title="microgateway"></a>microgateway</h4><p>项目地址：<a href="https://github.com/strongloop/microgateway" target="_blank" rel="noopener">github.com/strongloop/…</a> 与 <a href="https://developer.ibm.com/apiconnect" target="_blank" rel="noopener">developer.ibm.com/apiconnect</a></p>
+<p>StrongLoop是IBM的一个子公司，Microgateway网关基于Node.js/Express和Nginx构建，作为IBM API Connect，同时也是IBM云生态的一部分。</p>
+<p>Microgateway是一个聚焦于开发者，可扩展的网关框架，它可以增强我们对微服务和API的访问能力。</p>
+<p>核心特性：</p>
+<ul>
+<li>安全和控制，基于Swagger(OpenAPI)规范</li>
+<li>内置了多种网关策略，API Key验证，流控，OAuth2.0，JavaScript脚本支持</li>
+<li>使用Swagger扩展（API Assembly）实现网关策略（安全、路由、集成等）</li>
+<li>方便地自定义网关策略</li>
+</ul>
+<p>此外，Microgateway还有几个特性：</p>
+<ul>
+<li>通过集成Swagger，实现基于Swagger API定义的验证能力，</li>
+<li>使用datastore来保持需要处理的API数据模型，</li>
+<li>使用一个流式引擎来处理多种策略，使得API设计者可以更好的控制API的生命周期</li>
+</ul>
+<p>核心架构如下图所示：</p>
+<p><img src="https://user-gold-cdn.xitu.io/2020/4/15/1717de2b79449cd3?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="img"></p>
+<p>图12</p>
+<h2 id="四大开源网关的对比分析（OpenResty-Kong-Zuul2-SpringCloudGateway等）"><a href="#四大开源网关的对比分析（OpenResty-Kong-Zuul2-SpringCloudGateway等）" class="headerlink" title="四大开源网关的对比分析（OpenResty/Kong/Zuul2/SpringCloudGateway等）"></a>四大开源网关的对比分析（OpenResty/Kong/Zuul2/SpringCloudGateway等）</h2><h3 id="OpenResty-Kong-Zuul2-SpringCloudGateway重要特性对比"><a href="#OpenResty-Kong-Zuul2-SpringCloudGateway重要特性对比" class="headerlink" title="OpenResty/Kong/Zuul2/SpringCloudGateway重要特性对比"></a>OpenResty/Kong/Zuul2/SpringCloudGateway重要特性对比</h3><table>
+<thead>
+<tr>
+<th>网关</th>
+<th>限流</th>
+<th>鉴权</th>
+<th>监控</th>
+<th>易用性</th>
+<th>可维护性</th>
+<th>成熟度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Spring Cloud Gateway</td>
+<td>可以通过IP，用户，集群限流，提供了相应的接口进行扩展</td>
+<td>普通鉴权、auth2.0</td>
+<td>Gateway Metrics Filter</td>
+<td>简单易用</td>
+<td>spring系列可扩展强，易配置 可维护性好</td>
+<td>spring社区成熟，但gateway资源较少</td>
+</tr>
+<tr>
+<td>Zuul2</td>
+<td>可以通过配置文件配置集群限流和单服务器限流亦可通过filter实现限流扩展</td>
+<td>filter中实现</td>
+<td>filter中实现</td>
+<td>参考资料较少</td>
+<td>可维护性较差</td>
+<td>开源不久，资料少</td>
+</tr>
+<tr>
+<td>OpenResty</td>
+<td>需要lua开发</td>
+<td>需要lua开发</td>
+<td>需要开发</td>
+<td>简单易用，但是需要进行的lua开发很多</td>
+<td>可维护性较差，将来需要维护大量lua脚本</td>
+<td>很成熟资料很多</td>
+</tr>
+<tr>
+<td>Kong</td>
+<td>根据秒，分，时，天，月，年，根据用户进行限流。可在原码的基础上进行开发</td>
+<td>普通鉴权，Key Auth鉴权，HMAC，auth2.0</td>
+<td>可上报datadog，记录请求数量，请求数据量，应答数据量，接收于发送的时间间隔，状态码数量，kong内运行时间</td>
+<td>简单易用，api转发通过管理员接口配置，开发需要lua脚本</td>
+<td>可维护性较差，将来需要维护大量lua库</td>
+<td>相对成熟，用户问题汇总，社区，插件开源</td>
+</tr>
+</tbody>
+</table>
+<p>以限流功能为例：</p>
+<ul>
+<li>Spring Cloud Gateway目前提供了基于Redis的Ratelimiter实现，使用的算法是令牌桶算法，通过yml文件进行配置；</li>
+<li>Zuul2可以通过配置文件配置集群限流和单服务器限流亦可通过filter实现限流扩展；</li>
+<li>OpenResty可以使用resty.limit.count、resty.limit.conn、resty.limit.req来实现限流功能可实现漏桶或令牌通算法；</li>
+<li>Kong拥有基础限流组件，可在基础组件源代码基础上进行lua开发。</li>
+</ul>
+<p>对Zuul/Zuul2/Spring Cloud Gateway的一些功能点分析可以参考Spring Cloud Gateway作者Spencer Gibb的文章： <a href="https://spencergibb.netlify.com/preso/detroit-cf-api-gateway-2017-03/" target="_blank" rel="noopener">spencergibb.netlify.com/preso/detro…</a></p>
+<h3 id="OpenResty-Kong-Zuul2-SpringCloudGateway性能测试对比"><a href="#OpenResty-Kong-Zuul2-SpringCloudGateway性能测试对比" class="headerlink" title="OpenResty/Kong/Zuul2/SpringCloudGateway性能测试对比"></a>OpenResty/Kong/Zuul2/SpringCloudGateway性能测试对比</h3><p>分别使用3台4Core16G内存的机器，作为API服务提供者、Gateway、压力机，使用wrk作为性能测试工具，对OpenResty/Kong/Zuul2/SpringCloudGateway进行简单小报文的情况进行性能测试。</p>
+<p><img src="https://user-gold-cdn.xitu.io/2020/4/15/1717de91aa29c1db?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="img"></p>
+<p>图13（Spring Cloud Gateway、Zuul2、OpenResty、Kong的性能对比）</p>
+<p>上图中y轴坐标是QPS，x轴是一个gateway的数据，每根线是一个场景下的不同网关数据，测试结论如下：</p>
+<ul>
+<li>实测情况是性能 SCG~Zuul2 &lt;&lt; OpenResty ~&lt; Kong &lt;&lt; Direct（直连）；</li>
+<li>Spring Cloud Gateway、Zuul2的性能差不多，大概是直连的40%；</li>
+<li>OpenResty、Kong差不多，大概是直连的60-70%；</li>
+<li>大并发下，例如模拟200并发用户、1000并发用户时，Zuul2会有很大概率返回出错。</li>
+</ul>
+<h2 id="开源网关的技术总结"><a href="#开源网关的技术总结" class="headerlink" title="开源网关的技术总结"></a>开源网关的技术总结</h2><h3 id="开源网关的测试分析"><a href="#开源网关的测试分析" class="headerlink" title="开源网关的测试分析"></a>开源网关的测试分析</h3><p>脱离场景谈性能，都是耍流氓。性能就像温度，不同的场合下标准是不一样的。同样是18摄氏度，老人觉得冷，小孩觉得很合适，企鹅觉得热，冰箱里的蔬菜可能要坏了。</p>
+<p>同样基准条件下，不同的参数和软件，相对而言的横向比较，才有价值。比如同样的机器（比如16G内存/4Core），同样的server（用spring boot，配置路径api/hello返回一个helloworld），同样的压测方式和工具（比如用wrk，10线程，20并发连接），我们测试直接访问server得到的极限QPS（QPS-Direct，29K），和配置了一个spring cloud gateway做网关访问的极限QPS（QPS-SCG，11K）、同样方式配置一个Zuul2做网关压测得到的极限QPS（QPS-Zuul2，13K），Kong得到的极限QPS（QPS-Kong，21K），OpenResty得到的极限QPS（QPS-OR，19K），这个对比就有意义了。</p>
+<p>Kong的性能非常不错，非常适合做流量网关，并且对于 service，route，upstream，consumer，plugins的抽象，也是自研网关值得借鉴的。</p>
+<p>对于复杂系统，不建议业务网关用Kong，或者更明确的说是不建议在Java技术栈的系统深度定制Kong或OpenResty，主要是工程性方面的考虑。举个例子：假如我们有很多个不同业务线，鉴权方式五花八门，都是与业务多少有点相关的。这时如果把鉴权在网关实现，就需要维护大量的Lua脚本，引入一个新的复杂技术栈是一个成本不低的事情。</p>
+<p>Spring Cloud Gateway/Zuul2对于Java技术栈来说比较方便，可以依赖业务系统的一些common jar。Lua不方便，不光是语言的问题，更是复用基础设施的问题。另外，对于网关系统来说，性能不是差一个数量级，问题不大，多加2台机器就可以搞定。</p>
+<p>目前测试的总结来看，如果服务都是2ms级别，直连的性能假如是100，Kong可以到60，OpenResty是50，Zuul2和Spring Cloud Gateway是35，如果服务本身的latency大一点，这些个差距会逐步缩小。</p>
+<p>目前来看Zuul2的坑还是比较多的：</p>
+<ol>
+<li>不成熟，没文档，刚出不久，还没有太多的实际应用案例</li>
+<li>高并发时出错率较高，1000并发时我们的测试场景近50%的出错</li>
+</ol>
+<p>所以简单使用或者轻度定制业务网关系统，目前比较建议使用Spring Cloud Gateway作为基础骨架。</p>
+<h3 id="各类网关的demo与测试"><a href="#各类网关的demo与测试" class="headerlink" title="各类网关的demo与测试"></a>各类网关的demo与测试</h3><p>以上测试用到的模拟服务和网关demo代码，大部分可以在这里找到：<a href="https://github.com/kimmking/spring-cloud-gateway-demo" target="_blank" rel="noopener">github.com/kimmking/sp…</a></p>
+<p>也简单模拟了一个NodeJS做的Gateway，加了keep-alive和pool，demo的性能测试结果大概是直连的1/9，也就是Spring Cloud Gateway或Zuul2的1/4左右。</p>
+<h1 id="第三部分：百亿流量交易系统-API-网关设计"><a href="#第三部分：百亿流量交易系统-API-网关设计" class="headerlink" title="第三部分：百亿流量交易系统 API 网关设计"></a>第三部分：百亿流量交易系统 API 网关设计</h1><h2 id="百亿流量交易系统-API网关的现状和面临问题"><a href="#百亿流量交易系统-API网关的现状和面临问题" class="headerlink" title="百亿流量交易系统 API网关的现状和面临问题"></a>百亿流量交易系统 API网关的现状和面临问题</h2><h3 id="百亿流量系统面对的业务现状"><a href="#百亿流量系统面对的业务现状" class="headerlink" title="百亿流量系统面对的业务现状"></a>百亿流量系统面对的业务现状</h3><p><img src="https://user-gold-cdn.xitu.io/2020/4/15/1717deb2404e7254?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="img"></p>
+<p>图14</p>
+<p>我们目前面临的现状是日常十几万的并发在线长连接数（不算短连接），每天长连接总数3000万+，每天API的调用次数超过100亿，每天交易订单数1.5亿。</p>
+<p>在这个情况下，API网关设计的一个重要目标就是：如何借助API网关为各类客户提供精准、专业、个性化的服务，保障客户实时的获得业务系统的数据和业务能力。</p>
+<h3 id="网关系统与其他系统的关系"><a href="#网关系统与其他系统的关系" class="headerlink" title="网关系统与其他系统的关系"></a>网关系统与其他系统的关系</h3><p>我们的业务里，API网关系统与其他系统的关系大致如下图所示：</p>
+<p><img src="https://user-gold-cdn.xitu.io/2020/4/15/1717deb6ed1bac11?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="img"></p>
+<p>图15</p>
+<h3 id="网关系统典型的应用场景"><a href="#网关系统典型的应用场景" class="headerlink" title="网关系统典型的应用场景"></a>网关系统典型的应用场景</h3><p>我们的API网关系统为Web端、移动APP端客户提供服务，同时也为大量API客户提供API调用服务，同时支持REST API和WebSocket协议。</p>
+<p>作为实时交易系统的前置系统，必须精准及时为客户提供最新的行情和交易信息。一旦出现数据的延迟或者错误，都会给客户造成无法挽回的损失。</p>
+<p>另外针对不同的客户和渠道，网关系统需要提供不同的安全、验证、流控、缓存策略，同时可以随时聚合不同视角的数据进行预处理，保障系统的稳定可靠和数据的实时精确。</p>
+<p><img src="https://user-gold-cdn.xitu.io/2020/4/15/1717debb27753537?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="img"></p>
+<p><img src="https://user-gold-cdn.xitu.io/2020/4/15/1717debd48e3620f?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="img"></p>
+<p>图16、图17</p>
+<h3 id="交易系统API的特点"><a href="#交易系统API的特点" class="headerlink" title="交易系统API的特点"></a>交易系统API的特点</h3><p>作为一个全球性的交易系统，API的特点总结如下：</p>
+<ul>
+<li>访问非常集中：最核心的一组API，占据了访问量的一半以上</li>
+<li>访问非常频繁：QPS非常高，日均访问量非常大</li>
+<li>数据格式固定：交易系统处理的数据格式非常固定</li>
+<li>报文数据量小：每次请求传输的数据一般不超过10K</li>
+<li>用户全世界分布：客户分布在全世界的各个国家</li>
+<li>分内部调用和外部调用：除了API客户直接调用的API，其他的API都是由内部其他系统调用的</li>
+<li>7x24小时不间断服务：系统需要提供高可用、不间断的服务能力，以满足不同时区客户的交易和自动化策略交易</li>
+<li>外部用户有一定技术能力：外部API客户，一般是自己集成我们的API，实现自己的交易系统</li>
+</ul>
+<h3 id="交易系统API网关面临的问题"><a href="#交易系统API网关面临的问题" class="headerlink" title="交易系统API网关面临的问题"></a>交易系统API网关面临的问题</h3><p><strong>问题1：流量的不断增加</strong></p>
+<p>如何合理控制流量，如何应对突发流量，怎么样最大程度的保障系统稳定，都是重要的问题。特别网关作为一个直接面对客户的系统，任何问题都会放大百倍。很多千奇百怪的重来没人遇到的问题都随时可能出现。</p>
+<p><strong>问题2：网关系统越来越复杂</strong></p>
+<p>现有的业务网关经过多年发展，里面有大量的业务嵌入，并且存在很多个不同的业务网关，相互之间没有任何关系，也没有沉淀出基础设施。</p>
+<p>同时技术债务太多，系统里硬编码实现了全局性网关策略以及很多业务规则，导致维护成本较大。</p>
+<p><strong>问题3：API网关管理比较困难</strong></p>
+<p>海量并发下API的监控指标设计和数据的收集也是一个不小的问题。7x24小时运行的技术支持也导致维护成本较高。</p>
+<p><strong>问题4：推送还是拉取的选择</strong></p>
+<p>使用短连接还是长连接，REST API还是WebSocket？</p>
+<p>业务渠道较多（多个不同产品线的Web、App、API等形成十几个不同的渠道），导致用户的使用行为难以控制。</p>
+<h2 id="业务网关的设计与最佳实践"><a href="#业务网关的设计与最佳实践" class="headerlink" title="业务网关的设计与最佳实践"></a>业务网关的设计与最佳实践</h2><h3 id="API网关1-0"><a href="#API网关1-0" class="headerlink" title="API网关1.0"></a>API网关1.0</h3><p>我们的API网关1.0版本是多年前开发的，是直接使用OpenResty定制的，全局的安全测试、流量的路由转发策略、针对不同级别的限流等都是直接用Lua脚本实现。</p>
+<p>这样就导致在经历了业务飞速发展以后，系统里存在了非常多的相同功能或不同功能的Lua脚本，每次上线或维护都需要找到影响的其中几个或几十个Lua脚本，进行策略调整，非常不方便，策略控制的粒度也不够细。</p>
+<h3 id="API网关2-0"><a href="#API网关2-0" class="headerlink" title="API网关2.0"></a>API网关2.0</h3><p>在区分了流量网关和业务网关以后，2017年开始实现了流量网关和业务网关的分离，流量网关继续使用OpenResty定制，只保留少量全局性，不经常改动的配置功能和对应的Lua脚本。 业务网关使用Vert.x实现的Java系统，部署在流量网关和后端业务服务系统之间，利用Vert.x的反应式编程能力和异步非阻塞IO能力、分布式部署的扩展能力，这样就初步解决了问题1和问题2。</p>
+<p><img src="https://user-gold-cdn.xitu.io/2020/4/15/1717ded7895a06f1?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="img"></p>
+<p>图18</p>
+<p>Vert.x是一个基于事件驱动和异步非阻塞IO、运行于JVM上的框架，如下图所示。在Vert.x里，Verticle是最基础的开发和部署单元，不同的Vert.x可以通过Event Bus传递数据，进而方便的实现高并发性能的网络程序。关于Vert.x原理的分析可以参考阿里宿何的blog：<a href="https://www.sczyh30.com/tags/Vert-x/" target="_blank" rel="noopener">www.sczyh30.com/tags/Vert-x…</a></p>
+<p><img src="https://user-gold-cdn.xitu.io/2020/4/15/1717dedbc888271f?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="img"></p>
+<p>图19</p>
+<p>Vert.x同时也很好的支持Websocket协议，所以可以方便的实现支持REST API和Websocket、完全异步的网关系统。</p>
+<p><img src="https://user-gold-cdn.xitu.io/2020/4/15/1717dedf07a1be46?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="img"></p>
+<p>图20</p>
+<p>一个高性能的API网关系统，缓存是必不可少的部分。无论是分发冷热数据，降低对业务系统的压力，还是作为中间数据源，为服务聚合提供高效可复用的业务数据，都发挥了巨大作用。</p>
+<p>而一个优秀、高效的缓存系统，也必须是需要针对所承载的业务数据特点，进行特定设计和实现的。</p>
+<p><img src="https://user-gold-cdn.xitu.io/2020/4/15/1717dee2446a2ea5?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="img"></p>
+<p>图21</p>
+<h3 id="API网关的日常监控"><a href="#API网关的日常监控" class="headerlink" title="API网关的日常监控"></a>API网关的日常监控</h3><p>我们使用多种工具对API进行监控和管理，全链路访问跟踪、连接数统计分析、全世界重要国家和城市的波测访问统计。网关技术团队每时每刻都关注着数据的变化趋势。各个业务系统研发团队，每天安排专人关注自己系统的API性能，推进性能问题解决和持续优化。这就初步解决了问题3。</p>
+<p><img src="https://user-gold-cdn.xitu.io/2020/4/15/1717dee7a4aabfea?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="img"></p>
+<p><img src="https://user-gold-cdn.xitu.io/2020/4/15/1717deecc6252c8e?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="img"></p>
+<p><img src="https://user-gold-cdn.xitu.io/2020/4/15/1717deee75dd290a?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="img"></p>
+<p><img src="https://user-gold-cdn.xitu.io/2020/4/15/1717def10ee34ccd?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="img"></p>
+<p>图22、23、24、25</p>
+<h3 id="推荐外部客户使用Websocket"><a href="#推荐外部客户使用Websocket" class="headerlink" title="推荐外部客户使用Websocket"></a>推荐外部客户使用Websocket</h3><p>由于外部客户需要自己通过API网关调用API服务来集成业务服务能力到自己的系统。各个客户的技术能力和系统处理能力有较大差异，使用行为也各有不同。对于不断发展变动的交易业务数据，客户调用API频率太低则会影响数据实时性，调用频率太高则可能会浪费双方的系统资源。同时利用Websocket的消息推送特点，我们可以在网关系统控制客户接受消息的频率、单个用户的连接数量等，随时根据业务系统的情况动态进行策略调整。</p>
+<p>综合考虑，Websocket是一个比REST API更加实时可靠，更加易于管理的方式。通过逐步协助和鼓励客户使用Websocket协议上，基本解决了问题4。</p>
+<h3 id="API网关的性能优化"><a href="#API网关的性能优化" class="headerlink" title="API网关的性能优化"></a>API网关的性能优化</h3><p>API网关系统作为API的统一接入点，为了给用户提供最优质的用户体验，必须长期做性能优化工作。</p>
+<p>不仅API网关自己做优化，同时可以根据监控情况，时刻发现各业务系统的API服务能力，以此为出发点，推动各个业务系统不断优化API性能。</p>
+<p>在此举一个具体的例子，某个网关系统发现连接经常剧烈抖动（如下图所示），严重影响系统的稳定性、浪费系统资源，经过排除发现：</p>
+<ol>
+<li>有爬虫IP不断爬取我们的交易数据，且这些IP所在网段都没有在平台产生任何实际交易，最高单爬虫IP的每日新建连接近100万次，平均每秒10几次；</li>
+<li>有部分API客户的程序存在bug，且处理速度有限，不断的断开并重新连接，尝试重新对API数据进行处理，严重影响了客户的用户体验。 针对如上分析，我们采取了几个处理方式：</li>
+<li>对于每天认定的爬虫IP，加入黑名单，直接在流量网关限制其访问我们的API网关；</li>
+<li>对于存在bug的API客户，协助对方进行问题定位和bug修复，增强客户使用信心；</li>
+<li>对于处理速度和技术能力有限的客户，基于定制的Websocket服务，使用滑动时间窗口算法，在业务数据变化非常大时，对分发的消息进行批量优化；</li>
+<li>对于未登录和识别身份的API调用，流量网关实现全局的流控策略，增加缓存时间和限制调用次数，保障系统稳定；</li>
+<li>业务网关则根据API服务的重要等级和客户的分类，进一步细化和实时控制网关策略，最大程度保障核心业务和客户的使用。</li>
+</ol>
+<p>优化前：</p>
+<p><img src="https://user-gold-cdn.xitu.io/2020/4/15/1717df0427bebb66?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="img"></p>
+<p>图26</p>
+<p>优化后：</p>
+<p><img src="https://user-gold-cdn.xitu.io/2020/4/15/1717df067c24733e?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="img"></p>
+<p>图27</p>
+<h2 id="对API网关的发展展望"><a href="#对API网关的发展展望" class="headerlink" title="对API网关的发展展望"></a>对API网关的发展展望</h2><p><img src="https://user-gold-cdn.xitu.io/2020/4/15/1717df0ee9887d48?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="img"></p>
+<p>图28</p>
+<ol>
+<li>现有的API Gateway是以Vert.x为基础、结合业务自研的网关系统Gateway 2.0。</li>
+<li>目前计划年底前基于Spring Cloud和Spring Cloud Gateway实现新一代微服务架构的网关系统Gateway 3.0。</li>
+<li>计划整合了流量网关和业务网关、并增加了很多开箱即用功能组件的微服务架构网关，作为Apollo Gateway 1.0开源。</li>
+</ol>
+<p>期待大家的共同参与。</p>
+<h2 id="参考文献及资料"><a href="#参考文献及资料" class="headerlink" title="参考文献及资料"></a>参考文献及资料</h2><p>1、 案例，链接</p>
+
+      
+    </div>
+
+    
+
+    <div>
+      
+        
+      
+    </div>
+    
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Api网关/" rel="tag"><i class="fa fa-tag"></i> Api网关</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2021/01/02/2021-01-18-Orange API 网关部署安装/" rel="next" title="Orange API 网关部署安装总结">
+                <i class="fa fa-chevron-left"></i> Orange API 网关部署安装总结
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2021/01/02/2021-01-03-elasticsearch夸集群数据同步/" rel="prev" title="开源大数据调度平台调研报告">
+                开源大数据调度平台调研报告 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar/person.png" alt="rong xiang">
+            
+              <p class="site-author-name" itemprop="name">rong xiang</p>
+              <p class="site-description motion-element" itemprop="description">Keep a Pure Curiosity</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">162</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">64</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">19</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/zjrongxiang" title="GitHub &rarr; https://github.com/zjrongxiang" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="mailto:rongxiang1986@163.com" title="E-Mail &rarr; mailto:rongxiang1986@163.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="http://weibo.com/u/1971060643" title="Weibo &rarr; http://weibo.com/u/1971060643" rel="noopener" target="_blank"><i class="fa fa-fw fa-weibo"></i>Weibo</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Link
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://weibo.com/fly51fly?refer_flag=1005055010_" title="https://weibo.com/fly51fly?refer_flag=1005055010_" rel="noopener" target="_blank">爱生活爱可可</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#背景"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#目录"><span class="nav-number">2.</span> <span class="nav-text">目录</span></a></li></ol><li class="nav-item nav-level-1"><a class="nav-link" href="#第一部分：API网关概述"><span class="nav-number"></span> <span class="nav-text">第一部分：API网关概述</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#分布式服务架构、微服务架构与-API-网关"><span class="nav-number">1.</span> <span class="nav-text">分布式服务架构、微服务架构与 API 网关</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是API网关（API-Gateway）"><span class="nav-number">1.1.</span> <span class="nav-text">什么是API网关（API Gateway）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分布式服务架构、微服务架构与API网关"><span class="nav-number">1.2.</span> <span class="nav-text">分布式服务架构、微服务架构与API网关</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#API网关的技术趋势"><span class="nav-number">1.3.</span> <span class="nav-text">API网关的技术趋势</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#API-网关的定义、职能与关注点"><span class="nav-number">2.</span> <span class="nav-text">API 网关的定义、职能与关注点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#API网关的定义"><span class="nav-number">2.1.</span> <span class="nav-text">API网关的定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#API网关的职能"><span class="nav-number">2.2.</span> <span class="nav-text">API网关的职能</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#API网关的关注点"><span class="nav-number">2.3.</span> <span class="nav-text">API网关的关注点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#API网关的分类与技术分析"><span class="nav-number">3.</span> <span class="nav-text">API网关的分类与技术分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#API网关的分类"><span class="nav-number">3.1.</span> <span class="nav-text">API网关的分类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#流量网关与WAF"><span class="nav-number">3.2.</span> <span class="nav-text">流量网关与WAF</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#几个WAF开源实现"><span class="nav-number">3.2.1.</span> <span class="nav-text">几个WAF开源实现</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#业务网关"><span class="nav-number">3.3.</span> <span class="nav-text">业务网关</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#第二部分：开源网关的分析与调研"><span class="nav-number"></span> <span class="nav-text">第二部分：开源网关的分析与调研</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#常见的开源网关介绍"><span class="nav-number">1.</span> <span class="nav-text">常见的开源网关介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Nginx-Lua"><span class="nav-number">1.1.</span> <span class="nav-text">Nginx+Lua</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#OpenResty"><span class="nav-number">1.1.1.</span> <span class="nav-text">OpenResty*</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Kong"><span class="nav-number">1.1.2.</span> <span class="nav-text">Kong*</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ABTestingGateway"><span class="nav-number">1.1.3.</span> <span class="nav-text">ABTestingGateway</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JAVA"><span class="nav-number">1.2.</span> <span class="nav-text">JAVA</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Zuul-Zuul2"><span class="nav-number">1.2.1.</span> <span class="nav-text">Zuul/Zuul2*</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Spring-Cloud-Gateway"><span class="nav-number">1.2.2.</span> <span class="nav-text">Spring Cloud Gateway*</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#gravitee-gateway"><span class="nav-number">1.2.3.</span> <span class="nav-text">gravitee gateway</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Kaazing-WebSocket-Gateway"><span class="nav-number">1.2.4.</span> <span class="nav-text">Kaazing WebSocket Gateway</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Dromara-soul"><span class="nav-number">1.2.5.</span> <span class="nav-text">Dromara soul</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Go"><span class="nav-number">1.3.</span> <span class="nav-text">Go</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#fagongzi"><span class="nav-number">1.3.1.</span> <span class="nav-text">fagongzi</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Janus"><span class="nav-number">1.3.2.</span> <span class="nav-text">Janus</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Dotnet"><span class="nav-number">1.4.</span> <span class="nav-text">Dotnet</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Ocelot"><span class="nav-number">1.4.1.</span> <span class="nav-text">Ocelot</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#NodeJS"><span class="nav-number">1.5.</span> <span class="nav-text">NodeJS</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Express-Gateway"><span class="nav-number">1.5.1.</span> <span class="nav-text">Express Gateway</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#microgateway"><span class="nav-number">1.5.2.</span> <span class="nav-text">microgateway</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#四大开源网关的对比分析（OpenResty-Kong-Zuul2-SpringCloudGateway等）"><span class="nav-number">2.</span> <span class="nav-text">四大开源网关的对比分析（OpenResty/Kong/Zuul2/SpringCloudGateway等）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#OpenResty-Kong-Zuul2-SpringCloudGateway重要特性对比"><span class="nav-number">2.1.</span> <span class="nav-text">OpenResty/Kong/Zuul2/SpringCloudGateway重要特性对比</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#OpenResty-Kong-Zuul2-SpringCloudGateway性能测试对比"><span class="nav-number">2.2.</span> <span class="nav-text">OpenResty/Kong/Zuul2/SpringCloudGateway性能测试对比</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#开源网关的技术总结"><span class="nav-number">3.</span> <span class="nav-text">开源网关的技术总结</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#开源网关的测试分析"><span class="nav-number">3.1.</span> <span class="nav-text">开源网关的测试分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#各类网关的demo与测试"><span class="nav-number">3.2.</span> <span class="nav-text">各类网关的demo与测试</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#第三部分：百亿流量交易系统-API-网关设计"><span class="nav-number"></span> <span class="nav-text">第三部分：百亿流量交易系统 API 网关设计</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#百亿流量交易系统-API网关的现状和面临问题"><span class="nav-number">1.</span> <span class="nav-text">百亿流量交易系统 API网关的现状和面临问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#百亿流量系统面对的业务现状"><span class="nav-number">1.1.</span> <span class="nav-text">百亿流量系统面对的业务现状</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#网关系统与其他系统的关系"><span class="nav-number">1.2.</span> <span class="nav-text">网关系统与其他系统的关系</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#网关系统典型的应用场景"><span class="nav-number">1.3.</span> <span class="nav-text">网关系统典型的应用场景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#交易系统API的特点"><span class="nav-number">1.4.</span> <span class="nav-text">交易系统API的特点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#交易系统API网关面临的问题"><span class="nav-number">1.5.</span> <span class="nav-text">交易系统API网关面临的问题</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#业务网关的设计与最佳实践"><span class="nav-number">2.</span> <span class="nav-text">业务网关的设计与最佳实践</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#API网关1-0"><span class="nav-number">2.1.</span> <span class="nav-text">API网关1.0</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#API网关2-0"><span class="nav-number">2.2.</span> <span class="nav-text">API网关2.0</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#API网关的日常监控"><span class="nav-number">2.3.</span> <span class="nav-text">API网关的日常监控</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#推荐外部客户使用Websocket"><span class="nav-number">2.4.</span> <span class="nav-text">推荐外部客户使用Websocket</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#API网关的性能优化"><span class="nav-number">2.5.</span> <span class="nav-text">API网关的性能优化</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#对API网关的发展展望"><span class="nav-number">3.</span> <span class="nav-text">对API网关的发展展望</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文献及资料"><span class="nav-number">4.</span> <span class="nav-text">参考文献及资料</span></a></li></ol></li></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; 2014 – <span itemprop="copyrightYear">2021</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">rong xiang</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+    <span title="站点总字数">525k</span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    
+    <span title="站点阅读时长">7:57</span>
+  
+</div>
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="总访客量">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="总访问量">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=6.7.0"></script>
+
+  <script src="/js/src/motion.js?v=6.7.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/schemes/muse.js?v=6.7.0"></script>
+
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=6.7.0"></script>
+<script src="/js/src/post-details.js?v=6.7.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=6.7.0"></script>
+
+
+
+  
+  
+    
+  <script id="dsq-count-scr" src="https://https-zjrongxiang-github-io.disqus.com/count.js" async></script>
+
+
+<script>
+  var disqus_config = function () {
+    this.page.url = "https://zjrongxiang.github.io/2021/01/02/2021-01-31-Kong API 网关使用/";
+    this.page.identifier = "2021/01/02/2021-01-31-Kong API 网关使用/";
+    this.page.title = 'Kong API 网关使用';
+    };
+  function loadComments () {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://https-zjrongxiang-github-io.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', '' + +new Date());
+    (d.head || d.body).appendChild(s);
+  }
+  
+    loadComments();
+  
+</script>
+
+  
+
+
+
+
+
+  
+
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <style>
+    .copy-btn {
+      display: inline-block;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 20px;
+      color: #333;
+      white-space: nowrap;
+      vertical-align: middle;
+      cursor: pointer;
+      background-color: #eee;
+      background-image: linear-gradient(#fcfcfc, #eee);
+      border: 1px solid #d5d5d5;
+      border-radius: 3px;
+      user-select: none;
+      outline: 0;
+    }
+
+    .highlight-wrap .copy-btn {
+      transition: opacity .3s ease-in-out;
+      opacity: 0;
+      padding: 2px 6px;
+      position: absolute;
+      right: 4px;
+      top: 8px;
+    }
+
+    .highlight-wrap:hover .copy-btn,
+    .highlight-wrap .copy-btn:focus {
+      opacity: 1
+    }
+
+    .highlight-wrap {
+      position: relative;
+    }
+  </style>
+  <script>
+    $('.highlight').each(function (i, e) {
+      var $wrap = $('<div>').addClass('highlight-wrap');
+      $(e).after($wrap);
+      $wrap.append($('<button>').addClass('copy-btn').append('复制').on('click', function (e) {
+        var code = $(this).parent().find('.code').find('.line').map(function (i, e) {
+          return $(e).text();
+        }).toArray().join('\n');
+        var ta = document.createElement('textarea');
+        var range = document.createRange(); //For Chrome
+        var sel = window.getSelection(); //For Chrome
+        var yPosition = window.pageYOffset || document.documentElement.scrollTop;
+        ta.style.top = yPosition + 'px'; //Prevent page scroll
+        ta.style.position = 'absolute';
+        ta.style.opacity = '0';
+        ta.value = code;
+        ta.textContent = code; //For FireFox
+        ta.contentEditable = true;
+        ta.readOnly = false;
+        document.body.appendChild(ta);
+        range.selectNode(ta);
+        sel.removeAllRanges();
+        sel.addRange(range);
+        ta.setSelectionRange(0, code.length);
+        var result = document.execCommand('copy');
+        
+          if (result) $(this).text('复制成功');
+          else $(this).text('复制失败');
+        
+        ta.blur(); //For iOS
+        $(this).blur();
+      })).on('mouseleave', function (e) {
+        var $b = $(this).find('.copy-btn');
+        setTimeout(function () {
+          $b.text('复制');
+        }, 300);
+      }).append(e);
+    })
+  </script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+
+  
+  
+
+  
+  
+
+  
+
+
+</body>
+</html>

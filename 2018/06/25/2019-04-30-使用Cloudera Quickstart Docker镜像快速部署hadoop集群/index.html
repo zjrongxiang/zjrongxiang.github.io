@@ -126,7 +126,7 @@
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://zjrongxiang.github.io/images/picture/cloudera-manager1.jpg">
 <meta property="og:image" content="https://zjrongxiang.github.io/images/picture/cloudera-manager2.jpg">
-<meta property="og:updated_time" content="2020-03-22T03:40:56.191Z">
+<meta property="og:updated_time" content="2021-05-15T16:28:16.711Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="使用Cloudera Quickstart Docker镜像快速部署hadoop集群">
 <meta name="twitter:description" content="目录 背景 第一部分   Docker镜像准备 第二部分   运行容器 第三部分   cloudera-manager管理 第四部分   组件使用测试 第五部分   总结 参考文献及资料  背景通常在个人笔记本上部署Hadoop测试集群（含生态圈各组件）是个很耗时的工作。Cloudera公司提供一个快速部署的Docker镜像，可以快速启动一个测试集群。  测试环境为Ubuntu服务器  第一部分">
@@ -485,7 +485,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2020-03-22 11:40:56" itemprop="dateModified" datetime="2020-03-22T11:40:56+08:00">2020-03-22</time>
+                <time title="修改时间：2021-05-16 00:28:16" itemprop="dateModified" datetime="2021-05-16T00:28:16+08:00">2021-05-16</time>
               
             
           </span>
@@ -548,7 +548,7 @@
                 
                   <span class="post-meta-item-text">本文字数：</span>
                 
-                <span title="本文字数">16k</span>
+                <span title="本文字数">22k</span>
               
 
               
@@ -562,7 +562,7 @@
                 
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
-                <span title="阅读时长">15 分钟</span>
+                <span title="阅读时长">20 分钟</span>
               
             </div>
           
@@ -584,19 +584,19 @@
       
         <h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ul>
 <li>背景</li>
-<li>第一部分   Docker镜像准备</li>
+<li>第一部分   <code>Docker</code>镜像准备</li>
 <li>第二部分   运行容器</li>
-<li>第三部分   cloudera-manager管理</li>
+<li>第三部分   <code>cloudera-manager</code>管理</li>
 <li>第四部分   组件使用测试</li>
 <li>第五部分   总结</li>
 <li>参考文献及资料</li>
 </ul>
-<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>通常在个人笔记本上部署Hadoop测试集群（含生态圈各组件）是个很耗时的工作。Cloudera公司提供一个快速部署的Docker镜像，可以快速启动一个测试集群。</p>
+<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>通常在个人笔记本上部署<code>Hadoop</code>测试集群（含生态圈各组件）是个很耗时的工作。<code>Cloudera</code>公司提供一个快速部署的<code>Docker</code>镜像，可以快速启动一个测试集群。</p>
 <blockquote>
-<p>测试环境为Ubuntu服务器</p>
+<p>测试环境为<code>Ubuntu</code>服务器</p>
 </blockquote>
-<h2 id="第一部分-Docker镜像准备"><a href="#第一部分-Docker镜像准备" class="headerlink" title="第一部分 Docker镜像准备"></a>第一部分 Docker镜像准备</h2><p>首先本机需要部署有docker环境，如果没有需要提前部署。</p>
-<h3 id="1-1-拉取Docker镜像"><a href="#1-1-拉取Docker镜像" class="headerlink" title="1.1 拉取Docker镜像"></a>1.1 拉取Docker镜像</h3><p>可以从DockerHub上拉取cloudera/quickstart镜像。</p>
+<h2 id="第一部分-Docker镜像准备"><a href="#第一部分-Docker镜像准备" class="headerlink" title="第一部分 Docker镜像准备"></a>第一部分 Docker镜像准备</h2><p>首先本机需要部署有<code>docker</code>环境，如果没有需要提前部署。</p>
+<h3 id="1-1-拉取Docker镜像"><a href="#1-1-拉取Docker镜像" class="headerlink" title="1.1 拉取Docker镜像"></a>1.1 拉取Docker镜像</h3><p>可以从<code>DockerHub</code>上拉取<code>cloudera/quickstart</code>镜像。</p>
 <blockquote>
 <p>镜像项目地址为：<a href="https://hub.docker.com/r/cloudera/quickstart" target="_blank" rel="noopener">https://hub.docker.com/r/cloudera/quickstart</a></p>
 </blockquote>
@@ -608,7 +608,7 @@
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> wget https://downloads.cloudera.com/demo_vm/docker/cloudera-quickstart-vm-5.13.0-0-beta-docker.tar.gz</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> tar xzf cloudera-quickstart-vm-5.13.0-0-beta-docker.tar.gz</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> docker import - cloudera/quickstart:latest &lt; cloudera-quickstart-vm-5.13.0-0-beta-docker/*.tar</span></span><br></pre></td></tr></table></figure>
 <h3 id="1-2-检查镜像库"><a href="#1-2-检查镜像库" class="headerlink" title="1.2 检查镜像库"></a>1.2 检查镜像库</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> docker images|grep cloudera</span></span><br><span class="line">cloudera/quickstart   latest   4239cd2958c6   3 years ago         6.34GB</span><br></pre></td></tr></table></figure>
 <p>说明镜像准备好了，下面基于镜像启动容器。</p>
-<h2 id="第二部分-运行容器"><a href="#第二部分-运行容器" class="headerlink" title="第二部分 运行容器"></a>第二部分 运行容器</h2><h3 id="2-1-使用镜像启动容器"><a href="#2-1-使用镜像启动容器" class="headerlink" title="2.1 使用镜像启动容器"></a>2.1 使用镜像启动容器</h3><p>启动CDH集群的命令格式为：</p>
+<h2 id="第二部分-运行容器"><a href="#第二部分-运行容器" class="headerlink" title="第二部分 运行容器"></a>第二部分 运行容器</h2><h3 id="2-1-使用镜像启动容器"><a href="#2-1-使用镜像启动容器" class="headerlink" title="2.1 使用镜像启动容器"></a>2.1 使用镜像启动容器</h3><p>启动<code>CDH</code>集群的命令格式为：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> docker run --hostname=quickstart.cloudera --privileged=<span class="literal">true</span> -t -i [OPTIONS] [IMAGE] /usr/bin/docker-quickstart</span></span><br></pre></td></tr></table></figure>
 <p>官方提示的参数介绍如下：</p>
 <table>
@@ -658,13 +658,15 @@
 </tbody>
 </table>
 <p>当然还可以自定义其他docker启动参数。最后启动命令整理为：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">docker run -t -i -d \</span><br><span class="line">--name cdh \</span><br><span class="line">--hostname=quickstart.cloudera \</span><br><span class="line">--privileged=true \</span><br><span class="line">-v /data/CDH:/src \</span><br><span class="line">-p 8020:8020 -p 8022:8022 -p 7180:7180 -p 21050:21050 -p 50070:50070 -p 50075:50075 -p 50010:50010 -p 50020:50020 -p 8890:8890 -p 60010:60010 -p 10002:10002 -p 25010:25010 -p 25020:25020 -p 18088:18088 -p 8088:8088 -p 19888:19888 -p 7187:7187 -p 11000:11000 -p 8888:8888 cloudera/quickstart \</span><br><span class="line">/bin/bash -c '/usr/bin/docker-quickstart'</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">docker run -t -i -d \</span><br><span class="line">--name cdh \</span><br><span class="line">--hostname=quickstart.cloudera \</span><br><span class="line">--privileged=true \</span><br><span class="line">-v /data/CDH:/src \</span><br><span class="line">-p 8020:8020 -p 8042:8042 -p 8022:8022 -p 7180:7180 -p 21050:21050 -p 50070:50070 -p 50075:50075 -p 50010:50010 -p 50020:50020 -p 8890:8890 -p 60010:60010 -p 10002:10002 -p 25010:25010 -p 25020:25020 -p 18088:18088 -p 8088:8088 -p 19888:19888 -p 7187:7187 -p 11000:11000 -p 10000:10000 -p 88:88 -p 8888:8888 cloudera/quickstart \</span><br><span class="line">/bin/bash -c '/usr/bin/docker-quickstart'</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>Cloudera 本身的 manager 是 7180 端口，提前配置端口映射。</p>
 </blockquote>
 <p>启动容器我们使用了-d后台启动参数，如果没有指定后台启动，终端将自动连接到容器，退出shell后容器会中止运行（可以通过使用Ctrl + P + Q命令退出，这样容器会继续保持运行）。</p>
 <p>对于已经后台运行的容器，我们使用下面的命令进入容器shell：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> docker attach [CONTAINER HASH]</span></span><br></pre></td></tr></table></figure>
+<p>建议使用下面的命令：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> docker <span class="built_in">exec</span> -it 容器名 /bin/bash</span></span><br></pre></td></tr></table></figure>
 <h3 id="2-2-时钟同步问题"><a href="#2-2-时钟同步问题" class="headerlink" title="2.2 时钟同步问题"></a>2.2 时钟同步问题</h3><p>容器内部使用的时间时区为UTC，和主机（宿主机通常为CST（东八区））不同时区，会提示时钟同步问题。解决的办法是：</p>
 <p>在环境变量中添加时区变量,并source生效:</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> vi /etc/profile</span></span><br><span class="line">文件末尾添加一行：TZ='Asia/Shanghai'; export TZ</span><br><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">source</span> /etc/profile</span></span><br></pre></td></tr></table></figure>
@@ -676,7 +678,7 @@
 <blockquote>
 <p>需要注意的是，启动后CDH会停止其他组件服务。</p>
 </blockquote>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#./home/cloudera/cloudera-manager --express</span></span><br><span class="line">[QuickStart] Shutting down CDH services via init scripts...</span><br><span class="line">kafka-server: unrecognized service</span><br><span class="line">JMX enabled by default</span><br><span class="line">Using config: /etc/zookeeper/conf/zoo.cfg</span><br><span class="line">[QuickStart] Disabling CDH services on boot...</span><br><span class="line">error reading information on service kafka-server: No such file or directory</span><br><span class="line">[QuickStart] Starting Cloudera Manager server...</span><br><span class="line">[QuickStart] Waiting <span class="keyword">for</span> Cloudera Manager API...</span><br><span class="line">[QuickStart] Starting Cloudera Manager agent...</span><br><span class="line">[QuickStart] Configuring deployment...</span><br><span class="line">Submitted <span class="built_in">jobs</span>: 14</span><br><span class="line">[QuickStart] Deploying client configuration...</span><br><span class="line">Submitted <span class="built_in">jobs</span>: 16</span><br><span class="line">[QuickStart] Starting Cloudera Management Service...</span><br><span class="line">Submitted <span class="built_in">jobs</span>: 24</span><br><span class="line">[QuickStart] Enabling Cloudera Manager daemons on boot...</span><br><span class="line">________________________________________________________________________________</span><br><span class="line"></span><br><span class="line">Success! You can now <span class="built_in">log</span> into Cloudera Manager from the QuickStart VM<span class="string">'s browser:</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    http://quickstart.cloudera:7180</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    Username: cloudera</span></span><br><span class="line"><span class="string">    Password: cloudera</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#./home/cloudera/cloudera-manager --express [--force]</span></span><br><span class="line">[QuickStart] Shutting down CDH services via init scripts...</span><br><span class="line">kafka-server: unrecognized service</span><br><span class="line">JMX enabled by default</span><br><span class="line">Using config: /etc/zookeeper/conf/zoo.cfg</span><br><span class="line">[QuickStart] Disabling CDH services on boot...</span><br><span class="line">error reading information on service kafka-server: No such file or directory</span><br><span class="line">[QuickStart] Starting Cloudera Manager server...</span><br><span class="line">[QuickStart] Waiting <span class="keyword">for</span> Cloudera Manager API...</span><br><span class="line">[QuickStart] Starting Cloudera Manager agent...</span><br><span class="line">[QuickStart] Configuring deployment...</span><br><span class="line">Submitted <span class="built_in">jobs</span>: 14</span><br><span class="line">[QuickStart] Deploying client configuration...</span><br><span class="line">Submitted <span class="built_in">jobs</span>: 16</span><br><span class="line">[QuickStart] Starting Cloudera Management Service...</span><br><span class="line">Submitted <span class="built_in">jobs</span>: 24</span><br><span class="line">[QuickStart] Enabling Cloudera Manager daemons on boot...</span><br><span class="line">________________________________________________________________________________</span><br><span class="line"></span><br><span class="line">Success! You can now <span class="built_in">log</span> into Cloudera Manager from the QuickStart VM<span class="string">'s browser:</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    http://quickstart.cloudera:7180</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    Username: cloudera</span></span><br><span class="line"><span class="string">    Password: cloudera</span></span><br></pre></td></tr></table></figure>
 <p>集群控制台的地址为：<a href="http://quickstart.cloudera:7180，需要注意的是这里quickstart.cloudera是主机名，需要客户端hosts中配置，否则使用实IP或者容器端口映射后使用宿主机IP（例如：192.168.31.3）。" target="_blank" rel="noopener">http://quickstart.cloudera:7180，需要注意的是这里quickstart.cloudera是主机名，需要客户端hosts中配置，否则使用实IP或者容器端口映射后使用宿主机IP（例如：192.168.31.3）。</a></p>
 <p>用户名和密码为：cloudera/cloudera,登录界面如下：</p>
 <p><img src="\images\picture\cloudera-manager1.jpg" alt></p>
@@ -694,7 +696,36 @@
 <p>然后执行：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">client.upload(<span class="string">"/tmp"</span>, <span class="string">"/root/jupyter/nohup.out"</span>)</span><br><span class="line"><span class="comment"># '/tmp/nohup.out'</span></span><br><span class="line"><span class="comment"># 返回路径信息</span></span><br></pre></td></tr></table></figure>
 <h4 id="4-1-3-下载hdfs文件"><a href="#4-1-3-下载hdfs文件" class="headerlink" title="4.1.3 下载hdfs文件"></a>4.1.3 下载hdfs文件</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">client.download(<span class="string">"/tmp/nohup.out"</span>, <span class="string">"/tmp"</span>)</span><br><span class="line"><span class="comment"># 返回路径'/tmp/nohup.out'</span></span><br></pre></td></tr></table></figure>
-<h2 id="第五部分-总结"><a href="#第五部分-总结" class="headerlink" title="第五部分 总结"></a>第五部分 总结</h2><p>1、Cloudera 的 docker 版本分成两部分启动。(1)启动各组件启动,使用命令为： /usr/bin/docker-quickstart，(2) 启动Cloudera manager 管理服务，启动命令为：/home/cloudera/cloudera-manager。docker启动时选择启动一项。</p>
+<h2 id="第五部分-启用安全模式（Kerberos）"><a href="#第五部分-启用安全模式（Kerberos）" class="headerlink" title="第五部分 启用安全模式（Kerberos）"></a><strong>第五部分 启用安全模式（Kerberos）</strong></h2><p>默认情况下集群是非安全模式，如果测试需要安全集群模式，可以在菜单：管理-安全中开始Kerberos。需要注意的是需要在容器中安装Kerberos。安装步骤如下：</p>
+<ul>
+<li><p>注释到无关源（docker容器执行）；</p>
+<figure class="highlight vala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta"># cd /etc/yum.repos.d</span></span><br><span class="line"><span class="meta"># mv cloudera-manager.repo cloudera-manager.repo.bak</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>部署yum源（宿主机执行）</p>
+<figure class="highlight vala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta"># wget https://www.xmpan.com/Centos-6-Vault-Aliyun.repo</span></span><br><span class="line"><span class="meta"># docker cp Centos-6-Vault-Aliyun.repo 容器名:/etc/yum.repos.d</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>然后安装Kerberos（docker容器执行）</p>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./<span class="built_in">home</span>/cloudera/kerberos</span><br></pre></td></tr></table></figure>
+<p>等待安装完成即可。</p>
+</li>
+</ul>
+<p>接下来就是配置<code>kerberos</code>，主要涉及的配置文件有：</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="regexp">/etc/</span>krb5.conf</span><br><span class="line"><span class="regexp">/var/</span>kerberos<span class="regexp">/krb5kdc/</span>kdc.conf</span><br><span class="line"><span class="regexp">/var/</span>kerberos<span class="regexp">/krb5kdc/</span>kdc.conf</span><br></pre></td></tr></table></figure>
+<p>主要调整是将<code>EXAMPLE.COM</code>调整为<code>HADOOP.COM</code>。另外配置文件<code>krb5.conf</code>需要个性化指定<code>KDC</code>服务器：</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">HADOOP.COM = &#123;</span><br><span class="line">kdc = 服务器hostname或者IP</span><br><span class="line">admin_server = 服务器hostname或者IP</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后创建<code>Kerberos</code>数据库：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> kdb5_util create –r HADOOP.COM -s</span></span><br></pre></td></tr></table></figure>
+<p>创建<code>Kerberos</code>管理账户：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> kadmin.local</span></span><br><span class="line">kadmin.local: addprinc admin/admin@HADOOP.COM</span><br></pre></td></tr></table></figure>
+<p>最后启动服务：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@quickstart cloudera]# service krb5kdc start</span><br><span class="line">Starting Kerberos 5 KDC:                                   [  OK  ]</span><br><span class="line">[root@quickstart cloudera]# service kadmin start</span><br><span class="line">Starting Kerberos 5 Admin Server:                          [  OK  ]</span><br></pre></td></tr></table></figure>
+<p>查看票据：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[root@quickstart cloudera]# kinit admin/admin@HADOOP.COM</span><br><span class="line">Password for admin/admin@HADOOP.COM: </span><br><span class="line">[root@quickstart cloudera]# klist</span><br><span class="line">Ticket cache: FILE:/tmp/krb5cc_0</span><br><span class="line">Default principal: admin/admin@HADOOP.COM</span><br><span class="line"></span><br><span class="line">Valid starting     Expires            Service principal</span><br><span class="line">03/16/21 16:30:57  03/17/21 16:30:57  krbtgt/HADOOP.COM@HADOOP.COM</span><br><span class="line">	renew until 03/16/21 16:30:57</span><br></pre></td></tr></table></figure>
+<p>生成keytab文件：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@quickstart keytab]# kadmin.local</span><br><span class="line">Authenticating as principal admin/admin@HADOOP.COM with password.</span><br><span class="line">kadmin.local:  xst -norandkey -k admin.keytab admin/admin@HADOOP.COM</span><br></pre></td></tr></table></figure>
+<p>这样就生成了admin.keytab文件。然后使用下面的命令测试一下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kinit -kt admin.keytab admin/admin@HADOOP.COM</span><br></pre></td></tr></table></figure>
+<h2 id="第六部分-总结"><a href="#第六部分-总结" class="headerlink" title="第六部分 总结"></a>第六部分 总结</h2><p>1、Cloudera 的 docker 版本分成两部分启动。(1)启动各组件启动,使用命令为： /usr/bin/docker-quickstart，(2) 启动Cloudera manager 管理服务，启动命令为：/home/cloudera/cloudera-manager。docker启动时选择启动一项。</p>
 <h2 id="参考文献及材料"><a href="#参考文献及材料" class="headerlink" title="参考文献及材料"></a>参考文献及材料</h2><p>1、cloudera/quickstart镜像地址：<a href="https://hub.docker.com/r/cloudera/quickstart" target="_blank" rel="noopener">https://hub.docker.com/r/cloudera/quickstart</a></p>
 <p>2、cloudera/quickstart镜像部署指引：<a href="https://www.cloudera.com/documentation/enterprise/5-6-x/topics/quickstart_docker_container.html" target="_blank" rel="noopener">https://www.cloudera.com/documentation/enterprise/5-6-x/topics/quickstart_docker_container.html</a></p>
 <p>3、<a href="https://www.cnblogs.com/piperck/p/9917118.html" target="_blank" rel="noopener">利用 Docker 搭建单机的 Cloudera CDH 以及使用实践</a></p>
@@ -716,7 +747,7 @@
   <p><span>本文标题:</span><a href="/2018/06/25/2019-04-30-使用Cloudera Quickstart Docker镜像快速部署hadoop集群/">使用Cloudera Quickstart Docker镜像快速部署hadoop集群</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 rong xiang 的个人博客">rong xiang</a></p>
   <p><span>发布时间:</span>2018年06月25日 - 19:06</p>
-  <p><span>最后更新:</span>2020年03月22日 - 11:03</p>
+  <p><span>最后更新:</span>2021年05月16日 - 00:05</p>
   <p><span>原始链接:</span><a href="/2018/06/25/2019-04-30-使用Cloudera Quickstart Docker镜像快速部署hadoop集群/" title="使用Cloudera Quickstart Docker镜像快速部署hadoop集群">https://zjrongxiang.github.io/2018/06/25/2019-04-30-使用Cloudera Quickstart Docker镜像快速部署hadoop集群/</a>
     <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://zjrongxiang.github.io/2018/06/25/2019-04-30-使用Cloudera Quickstart Docker镜像快速部署hadoop集群/" aria-label="复制成功！"></i></span>
   </p>
@@ -764,8 +795,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/06/25/2019-04-23-在Minikube上运行Flink集群（一）/" rel="next" title="在Minikube上运行Flink集群">
-                <i class="fa fa-chevron-left"></i> 在Minikube上运行Flink集群
+              <a href="/2018/06/25/2018-06-25-在Ubuntu上部署Minikube/" rel="next" title="在Ubuntu上部署Minikube">
+                <i class="fa fa-chevron-left"></i> 在Ubuntu上部署Minikube
               </a>
             
           </div>
@@ -855,7 +886,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">107</span>
+                    <span class="site-state-item-count">162</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -865,7 +896,7 @@
                 
                 
                 <div class="site-state-item site-state-categories">
-                  
+                  <a href="/categories/index.html">
                     
                     
                       
@@ -968,9 +999,37 @@
                     
                       
                     
-                    <span class="site-state-item-count">50</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">64</span>
                     <span class="site-state-item-name">分类</span>
-                  
+                  </a>
                 </div>
               
 
@@ -978,7 +1037,7 @@
                 
                 
                 <div class="site-state-item site-state-tags">
-                  
+                  <a href="/tags/index.html">
                     
                     
                       
@@ -987,9 +1046,41 @@
                     
                       
                     
-                    <span class="site-state-item-count">3</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">19</span>
                     <span class="site-state-item-name">标签</span>
-                  
+                  </a>
                 </div>
               
             </nav>
@@ -1081,7 +1172,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#目录"><span class="nav-number">1.</span> <span class="nav-text">目录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#背景"><span class="nav-number">2.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第一部分-Docker镜像准备"><span class="nav-number">3.</span> <span class="nav-text">第一部分 Docker镜像准备</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-拉取Docker镜像"><span class="nav-number">3.1.</span> <span class="nav-text">1.1 拉取Docker镜像</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-检查镜像库"><span class="nav-number">3.2.</span> <span class="nav-text">1.2 检查镜像库</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第二部分-运行容器"><span class="nav-number">4.</span> <span class="nav-text">第二部分 运行容器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-使用镜像启动容器"><span class="nav-number">4.1.</span> <span class="nav-text">2.1 使用镜像启动容器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-时钟同步问题"><span class="nav-number">4.2.</span> <span class="nav-text">2.2 时钟同步问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-使用集群服务"><span class="nav-number">4.3.</span> <span class="nav-text">2.3 使用集群服务</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第三部分-cloudera-manager管理"><span class="nav-number">5.</span> <span class="nav-text">第三部分 cloudera-manager管理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-启动管理服务"><span class="nav-number">5.1.</span> <span class="nav-text">3.1 启动管理服务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-启动集群组件服务"><span class="nav-number">5.2.</span> <span class="nav-text">3.2 启动集群组件服务</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第四部分-组件使用测试"><span class="nav-number">6.</span> <span class="nav-text">第四部分 组件使用测试</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-HDFS组件使用"><span class="nav-number">6.1.</span> <span class="nav-text">4.1 HDFS组件使用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#4-1-1-查看文件系统"><span class="nav-number">6.1.1.</span> <span class="nav-text">4.1.1 查看文件系统</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-1-2-上传新增文件"><span class="nav-number">6.1.2.</span> <span class="nav-text">4.1.2 上传新增文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-1-3-下载hdfs文件"><span class="nav-number">6.1.3.</span> <span class="nav-text">4.1.3 下载hdfs文件</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第五部分-总结"><span class="nav-number">7.</span> <span class="nav-text">第五部分 总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文献及材料"><span class="nav-number">8.</span> <span class="nav-text">参考文献及材料</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#目录"><span class="nav-number">1.</span> <span class="nav-text">目录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#背景"><span class="nav-number">2.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第一部分-Docker镜像准备"><span class="nav-number">3.</span> <span class="nav-text">第一部分 Docker镜像准备</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-拉取Docker镜像"><span class="nav-number">3.1.</span> <span class="nav-text">1.1 拉取Docker镜像</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-检查镜像库"><span class="nav-number">3.2.</span> <span class="nav-text">1.2 检查镜像库</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第二部分-运行容器"><span class="nav-number">4.</span> <span class="nav-text">第二部分 运行容器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-使用镜像启动容器"><span class="nav-number">4.1.</span> <span class="nav-text">2.1 使用镜像启动容器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-时钟同步问题"><span class="nav-number">4.2.</span> <span class="nav-text">2.2 时钟同步问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-使用集群服务"><span class="nav-number">4.3.</span> <span class="nav-text">2.3 使用集群服务</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第三部分-cloudera-manager管理"><span class="nav-number">5.</span> <span class="nav-text">第三部分 cloudera-manager管理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-启动管理服务"><span class="nav-number">5.1.</span> <span class="nav-text">3.1 启动管理服务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-启动集群组件服务"><span class="nav-number">5.2.</span> <span class="nav-text">3.2 启动集群组件服务</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第四部分-组件使用测试"><span class="nav-number">6.</span> <span class="nav-text">第四部分 组件使用测试</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-HDFS组件使用"><span class="nav-number">6.1.</span> <span class="nav-text">4.1 HDFS组件使用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#4-1-1-查看文件系统"><span class="nav-number">6.1.1.</span> <span class="nav-text">4.1.1 查看文件系统</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-1-2-上传新增文件"><span class="nav-number">6.1.2.</span> <span class="nav-text">4.1.2 上传新增文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-1-3-下载hdfs文件"><span class="nav-number">6.1.3.</span> <span class="nav-text">4.1.3 下载hdfs文件</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第五部分-启用安全模式（Kerberos）"><span class="nav-number">7.</span> <span class="nav-text">第五部分 启用安全模式（Kerberos）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第六部分-总结"><span class="nav-number">8.</span> <span class="nav-text">第六部分 总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文献及材料"><span class="nav-number">9.</span> <span class="nav-text">参考文献及材料</span></a></li></ol></div>
             
 
           </div>
@@ -1114,7 +1205,7 @@
       <i class="fa fa-area-chart"></i>
     </span>
     
-    <span title="站点总字数">360k</span>
+    <span title="站点总字数">525k</span>
   
 
   
@@ -1123,7 +1214,7 @@
       <i class="fa fa-coffee"></i>
     </span>
     
-    <span title="站点阅读时长">5:27</span>
+    <span title="站点阅读时长">7:57</span>
   
 </div>
 

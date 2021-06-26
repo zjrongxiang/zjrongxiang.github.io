@@ -124,13 +124,10 @@
 <meta property="og:site_name" content="RongXiang">
 <meta property="og:description" content="背景​      机器学习方法（监督学习、无监督学习、强化学习）通常认为由模型、策略和算法三个部分构成。例如在监督学习，模型需要从数据中学习条件概率分布（概率模型）或者决策函数（非概率模型）。而模型的假设空间（hypothesis space）就是所有可能的条件概率分布或者决策函数的总体（集合）。 ​       假设空间通常是庞大的，例如深度神经网络结构能够表示一大类输入层到输出层的函数集合。这">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://7xjbdi.com1.z0.glb.clouddn.com/ROC.png">
-<meta property="og:image" content="http://7xjbdi.com1.z0.glb.clouddn.com/f03add592a75ef5b5e7346a5209b0cb8.png">
-<meta property="og:updated_time" content="2020-10-05T13:30:18.438Z">
+<meta property="og:updated_time" content="2021-02-16T15:28:39.685Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="机器学习系列文章-性能评估度量总结">
 <meta name="twitter:description" content="背景​      机器学习方法（监督学习、无监督学习、强化学习）通常认为由模型、策略和算法三个部分构成。例如在监督学习，模型需要从数据中学习条件概率分布（概率模型）或者决策函数（非概率模型）。而模型的假设空间（hypothesis space）就是所有可能的条件概率分布或者决策函数的总体（集合）。 ​       假设空间通常是庞大的，例如深度神经网络结构能够表示一大类输入层到输出层的函数集合。这">
-<meta name="twitter:image" content="http://7xjbdi.com1.z0.glb.clouddn.com/ROC.png">
 
 
 
@@ -485,7 +482,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2020-10-05 21:30:18" itemprop="dateModified" datetime="2020-10-05T21:30:18+08:00">2020-10-05</time>
+                <time title="修改时间：2021-02-16 23:28:39" itemprop="dateModified" datetime="2021-02-16T23:28:39+08:00">2021-02-16</time>
               
             
           </span>
@@ -582,26 +579,26 @@
       
 
       
-        <h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>​      机器学习方法（监督学习、无监督学习、强化学习）通常认为由模型、策略和算法三个部分构成。例如在监督学习，模型需要从数据中学习条件概率分布（概率模型）或者决策函数（非概率模型）。而模型的假设空间（hypothesis space）就是所有可能的条件概率分布或者决策函数的总体（集合）。</p>
-<p>​       假设空间通常是庞大的，例如深度神经网络结构能够表示一大类输入层到输出层的函数集合。这样就需要我们设定一个可以量化评测假设空间中函数优劣的度量标准，选出最优解。</p>
+        <h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>​      机器学习方法（监督学习、无监督学习、强化学习）通常认为由模型、策略和算法三个部分构成。例如在监督学习，模型需要从数据中学习条件概率分布（概率模型）或者决策函数（非概率模型）。而模型的假设空间（<code>hypothesis space</code>）就是所有可能的条件概率分布或者决策函数的总体（集合）。</p>
+<p>​       假设空间通常是庞大的，例如深度神经网络结构能够表示一大类输入层到输出层的函数集合。这样就需要我们设定一个可以量化评测假设空间中函数优劣的度量标准，即选出最优解。</p>
 <blockquote>
-<p>另外我们从数学上理解：这里定义在假设空间上的度量，其实是一个泛函（函数的函数）。</p>
+<p>我们从数学角度去理解：这里定义在假设空间上的度量，其实是一个泛函（函数的函数）。</p>
 </blockquote>
-<h3 id="几个概念的理解"><a href="#几个概念的理解" class="headerlink" title="几个概念的理解"></a>几个概念的理解</h3><p>​       另外我们在优化模型中，经常遇到三个概念：损失函数（loss function）、代价函数（cost function）、目标函数（object function）。</p>
-<p>​       很多书对三个概念的定义范畴不太一致。例如《统计学习方法（李航）》将损失函数和代价函数认为等同，而《深度学习（Yoshua）》书中认为三者等同。个人比较赞同下面的理解：</p>
+<h3 id="第一部分-几个概念的理解"><a href="#第一部分-几个概念的理解" class="headerlink" title="第一部分 几个概念的理解"></a>第一部分 几个概念的理解</h3><p>​       另外我们在优化模型中，经常遇到三个概念：损失函数（<code>loss function</code>）、代价函数（<code>cost function</code>）、目标函数（<code>object function</code>）。</p>
+<p>​       很多书对三个概念的定义范畴有差异。例如《统计学习方法（李航）》中认为损失函数和代价函数等同，而《深度学习（<code>Yoshua</code>）》书中认为三者等同。个人比较赞同下面的理解：</p>
 <ul>
-<li><p>loss function 为定义在单个样本（点）上的函数。</p>
+<li><p><code>loss function</code> ，为定义在单个样本（点）上的函数。</p>
 </li>
-<li><p>cost function 为全体样本误差的期望，也就是损失函数（loss function）的平均。</p>
+<li><p><code>cost function</code>  为全体样本误差的期望，也就是损失函数（<code>loss function</code>）的平均。</p>
 </li>
-<li><p>object function（目标函数 ）定义为：cost function + 正则化项。</p>
+<li><p><code>object function</code> ，（目标函数 ）定义为：<code>cost function</code> + 正则化项。</p>
 </li>
 </ul>
 <p>​      这样，代价函数和目标函数就可以理解为：定义在假设空间上的性能度量（泛函）。</p>
 <blockquote>
 <p>注意：大家在阅读其他材料时，在概念没有达成一致情况下，需根据前后文，寻找确切的定义，避免混淆。</p>
 </blockquote>
-<h3 id="性能度量介绍"><a href="#性能度量介绍" class="headerlink" title="性能度量介绍"></a>性能度量介绍</h3><p>常用性能度量按照学习类型分类主要如下：</p>
+<h3 id="第二部分-性能度量介绍"><a href="#第二部分-性能度量介绍" class="headerlink" title="第二部分 性能度量介绍"></a>第二部分 性能度量介绍</h3><p>常用性能度量按照学习类型分类主要如下：</p>
 <table>
 <thead>
 <tr>
@@ -612,30 +609,32 @@
 <tbody>
 <tr>
 <td style="text-align:center">分类</td>
-<td>accuracy、precision、recall、F1 Score、ROC Curve、auc等</td>
+<td><code>accuracy</code>、<code>precision</code>、<code>recall</code>、<code>F1 Score</code>、<code>ROC Curve</code>、<code>auc</code>等</td>
 </tr>
 <tr>
 <td style="text-align:center">回归</td>
-<td>MAE、MSE等</td>
+<td><code>MAE</code>、<code>MSE</code>等</td>
 </tr>
 </tbody>
 </table>
-<h4 id="回归问题"><a href="#回归问题" class="headerlink" title="回归问题"></a>回归问题</h4><p>给定一个训练数据集： $Train={(x_1,y_1),(x_2,y_2),…,(x_N,y_N)}$，这里 $x_i \in R^n$ 和 $y_i \in R$ 分别是输入和输出。学习系统基于训练数据集构建拟合函数 $f  st. Y=f(X)$，对新的输入$x_{new}$，函数$f$ 给出预测输出 $y_{new}$。记测试集：$Test={(x_1,y_1),(x_2,y_2),…,(x_M,y_M)}$ ，其中$Y={y_1,y_2,…,y_M}$ ，$Y={\hat{y_1},\hat{y_2},…,\hat{y_M}}$，则有：</p>
+<h4 id="2-1-回归问题"><a href="#2-1-回归问题" class="headerlink" title="2.1 回归问题"></a>2.1 回归问题</h4><p>给定一个训练数据集：$Train={(x_1,y_1),(x_2,y_2),…,(x_N,y_N)}$，这里 $x_i \in R^n$ 和 $y_i \in R$ 分别是输入和输出。学习系统基于训练数据集构建拟合函数 $f  st. Y=f(X)$，对新的输入$x_{new}$，函数$f$ 给出预测输出 $y_{new}$。</p>
+<p>记测试集：$Test={(x_1,y_1),(x_2,y_2),…,(x_M,y_M)}$ ，记其中观测值：$Y={y_1,y_2,…,y_M}$ ，预测值为:$\hat{Y}={\hat{y_1},\hat{y_2},…,\hat{y_M}}$，则有下面两种泛函：</p>
 <ul>
-<li>MAE（Mean Absolute Error 平均绝对误差）</li>
+<li><code>MAE</code>（Mean Absolute Error 平均绝对误差）</li>
 </ul>
 <p>$$<br>MAE(f)=MAE(Y,\hat{Y})=\dfrac{1}{M}\sum_{i=1}^M{|y_i-\hat{y_i}|}<br>$$</p>
 <blockquote>
 <p>注：数学形式是向量的$L_1$范数。</p>
 </blockquote>
 <ul>
-<li>MSE（Mean Squared Error 均方误差）</li>
+<li><code>MSE</code>（Mean Squared Error 均方误差）</li>
 </ul>
 <p>$$<br>MSE(f)=MSE(Y,\hat{Y})=\dfrac{1}{M}\sum_{i=1}^M{|y_i-\hat{y_i}|^2}<br>$$</p>
 <blockquote>
 <p>注：数学形式是向量的$L_2$范数。</p>
 </blockquote>
-<h5 id="在sklearn包中已经封装相关性能函数供调用："><a href="#在sklearn包中已经封装相关性能函数供调用：" class="headerlink" title="在sklearn包中已经封装相关性能函数供调用："></a>在sklearn包中已经封装相关性能函数供调用：</h5><table>
+<p>在<code>sklearn</code>包中已经封装相关性能函数供调用：</p>
+<table>
 <thead>
 <tr>
 <th style="text-align:left">性能容量函数</th>
@@ -671,17 +670,17 @@
 </table>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> mean_absolute_error <span class="keyword">as</span> mae</span><br><span class="line"><span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> mean_squared_error <span class="keyword">as</span> mse</span><br><span class="line">y_true = [<span class="number">3</span>, <span class="number">-0.5</span>, <span class="number">2</span>, <span class="number">7</span>]</span><br><span class="line">y_pred = [<span class="number">2.5</span>, <span class="number">0.0</span>, <span class="number">2</span>, <span class="number">8</span>]</span><br><span class="line">mae(y_true, y_pred)</span><br><span class="line">mse(y_true, y_pred)</span><br></pre></td></tr></table></figure>
 <blockquote>
-<p>注：其他性能函数可以查看sklearn的介绍。</p>
+<p>注：其他性能函数可以查看<code>sklearn</code>的介绍。</p>
 </blockquote>
-<h4 id="分类问题"><a href="#分类问题" class="headerlink" title="分类问题"></a>分类问题</h4><p>对于分类问题我们先介绍一个重要概念：混淆矩阵。为了方便讨论，我们以二分类问题为例。</p>
+<h4 id="2-2-分类问题"><a href="#2-2-分类问题" class="headerlink" title="2.2 分类问题"></a>2.2 分类问题</h4><p>对于分类问题我们先介绍一个重要概念：混淆矩阵（<code>Confusion matrix</code>）。为了方便讨论，我们以二分类问题为例。</p>
 <blockquote>
 <p>注意：混淆矩阵的定义很多材料也有差异，主要是记号上的区别。这里使用<a href="https://en.wikipedia.org/wiki/Confusion_matrix" target="_blank" rel="noopener">wiki百科</a>的记号标准。</p>
 </blockquote>
-<h5 id="混淆矩阵（Confusion-matrix）"><a href="#混淆矩阵（Confusion-matrix）" class="headerlink" title="混淆矩阵（Confusion matrix）"></a>混淆矩阵（Confusion matrix）</h5><ul>
-<li>True Positive(TP)：将正类预测为正类数（预测正确）</li>
-<li>True Negative(TN)：将负类预测为负类数（预测正确）</li>
-<li>False Positive(FP)：将负类预测为正类数 （预测错误）（Type I error）</li>
-<li>False Negative(FN)：将正类预测为负类数（预测错误）（Type  II error）</li>
+<ul>
+<li><code>True Positive(TP)</code>：将正类预测为正类数（预测正确）</li>
+<li><code>True Negative(TN)</code>：将负类预测为负类数（预测正确）</li>
+<li><code>False Positive(FP)</code>：将负类预测为正类数 （预测错误）（<code>Type I error</code>）</li>
+<li><code>False Negative(FN)</code>：将正类预测为负类数（预测错误）（<code>Type  II error</code>）</li>
 </ul>
 <table>
 <thead>
@@ -694,18 +693,18 @@
 <tbody>
 <tr>
 <td>True</td>
-<td>True Positive（TP）</td>
-<td>False Positive（FP） （Type I error）</td>
+<td><code>True Positive（TP）</code></td>
+<td><code>False Positive（FP） （Type I error）</code></td>
 </tr>
 <tr>
 <td>False</td>
-<td>False Negative（FN）（Type  II error）</td>
-<td>True negative（TN）</td>
+<td><code>False Negative（FN）（Type  II error）</code></td>
+<td><code>True negative（TN）</code></td>
 </tr>
 </tbody>
 </table>
 <ul>
-<li><p><strong>ACC（accuracy）准确率</strong></p>
+<li><p><strong><code>ACC（accuracy）</code>准确率</strong></p>
 <p>分类正确的样本数占样本总数的比例 。</p>
 </li>
 </ul>
@@ -745,19 +744,18 @@
 <p>TPR：实际为正样本中，被正确地判断为正例的比率 。</p>
 <p>FPR：实际为负样本中，被错误地判断为正例的比率。 </p>
 </blockquote>
-<p>根据不同的概率阀值$threshold \in [0,1] $，计算FPR和TPR的值，得到坐标值$(FPR,TPR)$，即ROC曲线上的一点。采样足够多的坐标点就得到了ROC曲线。如下图。</p>
-<p><img src="http://7xjbdi.com1.z0.glb.clouddn.com/ROC.png" alt="此处输入图片的描述"> </p>
+<p>根据不同的概率阀值$threshold \in [0,1] $，计算FPR和TPR的值，得到坐标值$(FPR,TPR)$，即ROC曲线上的一点。采样足够多的坐标点就得到了ROC曲线。</p>
 <ul>
 <li><p><strong>AUC</strong></p>
 <p>有了ROC曲线，可以计算曲线下的面积，这就是AUC（Area under the Curve of ROC ）。 AUC值越大的分类器，正确率越高。对于AUC有下面的讨论：</p>
 </li>
-<li><p>AUC=1，<strong>完美分类器</strong>，采用这个预测模型时，不管设定什么阈值都能得出完美预测。绝大多数预测的场合，不存在完美分类器。下图红线。</p>
-</li>
+</ul>
+<ol>
+<li>AUC=1，<strong>完美分类器</strong>，采用这个预测模型时，不管设定什么阈值都能得出完美预测。绝大多数预测的场合，不存在完美分类器。下图红线。</li>
 <li>0.5&lt;AUC&lt;1，优于<strong>随机猜测</strong>。这个分类器（模型）妥善设定阈值的话，能有预测价值。</li>
 <li>AUC=0.5，跟<strong>随机猜测一样</strong>（例：丢铜板），模型没有预测价值。</li>
 <li>0&lt;0.5AUC&lt;0.5，比<strong>随机猜测</strong>还差；但只要总是反预测而行，就优于随机猜测，因此不存在0&lt;0.5AUC&lt;0.5 的情况。</li>
-</ul>
-<p><img src="http://7xjbdi.com1.z0.glb.clouddn.com/f03add592a75ef5b5e7346a5209b0cb8.png" alt="此处输入图片的描述"> </p>
+</ol>
 <ul>
 <li><strong>log_loss（对数损失 ）</strong></li>
 </ul>
@@ -768,8 +766,8 @@
 <p>事实上，这里有个小的trick需要说明一下：</p>
 <p>信息论中用相对熵用来度量同一个随机变量不同概率分布的“距离”，也称为KL散度。记随机变量$X$有两个分布$p和q$,数学形式为：<br>$$<br>KL(p||q)=\int_Xp(X)log(\dfrac{p(X)}{q(X)})dx=-\int_Xp(X)log(q(X))dx+\int_Xp(X)log(p(X))dx<br>$$<br>右边等式的第一项是交叉熵，第二项是p的信息熵（常量）。所以为了使得KL散度最小化，需要交叉熵越小。即极小化相对熵和交叉熵是一回事（等价）。</p>
 </blockquote>
-<p>同样sklearn包中对上面的性能度量均有封装函数。</p>
-<h4 id="性能度量使用和总结"><a href="#性能度量使用和总结" class="headerlink" title="性能度量使用和总结"></a>性能度量使用和总结</h4><p>选择恰当的性能函数对于提升模型的泛化能力是一个重要因素。学习的目的是得到泛化误差小的模型，实际问题中使得测试集上误差最小。通常会遇到下面两种情况：</p>
+<p>同样<code>sklearn</code>包中对上面的性能度量均有封装函数。</p>
+<h3 id="第三部分-性能度量使用和总结"><a href="#第三部分-性能度量使用和总结" class="headerlink" title="第三部分 性能度量使用和总结"></a>第三部分 性能度量使用和总结</h3><p>选择恰当的性能函数对于提升模型的泛化能力是一个重要因素。学习的目的是得到泛化误差小的模型，实际问题中即使得测试集上误差最小。通常会遇到下面两种情况：</p>
 <p>当模型在训练集上表现良好、在测试集上误差较大，称为过拟合；而模型在训练集上误差就很大时，称为欠拟合。</p>
 <ul>
 <li>欠拟合解决手段有：数据增强、增加训练次数等。</li>
@@ -783,11 +781,11 @@
 </blockquote>
 <p>当然对于其他学习任务同样是有性能度量的。比如无监督的聚类问题，K-Means算法中性能度量为：寻找最佳K个质心，使得所有点到所属质心的距离和最小。无监督的降维技术PCA算法的性能度量为：寻找坐标变化，使得新的坐标系下，使得主要坐标轴上的分量的方差最大化。强化学习中Q Learing的性能容量为：对于每个状态（state）选择最佳动作（action）使得奖赏（reword）最大化。</p>
 <p>广义上理解，性能度量是假设空间上的泛函，用于量化（度量）假设空间，从而指导算法寻找最优解。</p>
-<h3 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h3><p>1、ROC和AUC介绍以及如何计算AUC（<a href="http://alexkong.net/2013/06/introduction-to-auc-and-roc/）" target="_blank" rel="noopener">http://alexkong.net/2013/06/introduction-to-auc-and-roc/）</a></p>
-<p>2、sklearn（<a href="http://scikit-learn.org/stable/modules/classes.html#module-sklearn.metrics）" target="_blank" rel="noopener">http://scikit-learn.org/stable/modules/classes.html#module-sklearn.metrics）</a></p>
-<p>3、wiki百科 （<a href="https://zh.wikipedia.org/wiki/ROC%E6%9B%B2%E7%BA%BF）" target="_blank" rel="noopener">https://zh.wikipedia.org/wiki/ROC%E6%9B%B2%E7%BA%BF）</a></p>
-<p>4、统计学习方法</p>
-<p>5、深度学习</p>
+<h3 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h3><p>1、ROC和AUC介绍以及如何计算AUC，链接：<a href="http://alexkong.net/2013/06/introduction-to-auc-and-roc/" target="_blank" rel="noopener">http://alexkong.net/2013/06/introduction-to-auc-and-roc/</a></p>
+<p>2、sklearn，链接：<a href="http://scikit-learn.org/stable/modules/classes.html#module-sklearn.metrics" target="_blank" rel="noopener">http://scikit-learn.org/stable/modules/classes.html#module-sklearn.metrics</a></p>
+<p>3、wiki百科，链接：<a href="https://zh.wikipedia.org/wiki/ROC%E6%9B%B2%E7%BA%BF" target="_blank" rel="noopener">https://zh.wikipedia.org/wiki/ROC%E6%9B%B2%E7%BA%BF</a></p>
+<p>4、《统计学习方法》</p>
+<p>5、《深度学习》</p>
 
       
     </div>
@@ -824,8 +822,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/01/25/2018-01-25-Python系列文章-Python标准库timeit的使用简介/" rel="next" title="Python标准库timeit的使用简介">
-                <i class="fa fa-chevron-left"></i> Python标准库timeit的使用简介
+              <a href="/2018/01/25/2018-01-25-Redis学习笔记(数据类型及常用命令)/" rel="next" title="Redis学习笔记（数据类型及常用命令）">
+                <i class="fa fa-chevron-left"></i> Redis学习笔记（数据类型及常用命令）
               </a>
             
           </div>
@@ -834,8 +832,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/02/06/2018-02-09-机器学习系列文章-Autoencoder学习总结/" rel="prev" title="机器学习系列文章-Autoencoder学习总结">
-                机器学习系列文章-Autoencoder学习总结 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/02/06/2018-02-09-机器学习系列文章-生成式模型和判别式模型/" rel="prev" title="机器学习系列文章-生成式模型和判别式模型">
+                机器学习系列文章-生成式模型和判别式模型 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -915,7 +913,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">107</span>
+                    <span class="site-state-item-count">162</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -925,7 +923,7 @@
                 
                 
                 <div class="site-state-item site-state-categories">
-                  
+                  <a href="/categories/index.html">
                     
                     
                       
@@ -1028,9 +1026,37 @@
                     
                       
                     
-                    <span class="site-state-item-count">50</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">64</span>
                     <span class="site-state-item-name">分类</span>
-                  
+                  </a>
                 </div>
               
 
@@ -1038,7 +1064,7 @@
                 
                 
                 <div class="site-state-item site-state-tags">
-                  
+                  <a href="/tags/index.html">
                     
                     
                       
@@ -1047,9 +1073,41 @@
                     
                       
                     
-                    <span class="site-state-item-count">3</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">19</span>
                     <span class="site-state-item-name">标签</span>
-                  
+                  </a>
                 </div>
               
             </nav>
@@ -1141,7 +1199,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#背景"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#几个概念的理解"><span class="nav-number">2.</span> <span class="nav-text">几个概念的理解</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#性能度量介绍"><span class="nav-number">3.</span> <span class="nav-text">性能度量介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#回归问题"><span class="nav-number">3.1.</span> <span class="nav-text">回归问题</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#在sklearn包中已经封装相关性能函数供调用："><span class="nav-number">3.1.1.</span> <span class="nav-text">在sklearn包中已经封装相关性能函数供调用：</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#分类问题"><span class="nav-number">3.2.</span> <span class="nav-text">分类问题</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#混淆矩阵（Confusion-matrix）"><span class="nav-number">3.2.1.</span> <span class="nav-text">混淆矩阵（Confusion matrix）</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#性能度量使用和总结"><span class="nav-number">3.3.</span> <span class="nav-text">性能度量使用和总结</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考文献"><span class="nav-number">4.</span> <span class="nav-text">参考文献</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#背景"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第一部分-几个概念的理解"><span class="nav-number">2.</span> <span class="nav-text">第一部分 几个概念的理解</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第二部分-性能度量介绍"><span class="nav-number">3.</span> <span class="nav-text">第二部分 性能度量介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-回归问题"><span class="nav-number">3.1.</span> <span class="nav-text">2.1 回归问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-分类问题"><span class="nav-number">3.2.</span> <span class="nav-text">2.2 分类问题</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第三部分-性能度量使用和总结"><span class="nav-number">4.</span> <span class="nav-text">第三部分 性能度量使用和总结</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考文献"><span class="nav-number">5.</span> <span class="nav-text">参考文献</span></a></li></ol></div>
             
 
           </div>
@@ -1174,7 +1232,7 @@
       <i class="fa fa-area-chart"></i>
     </span>
     
-    <span title="站点总字数">360k</span>
+    <span title="站点总字数">525k</span>
   
 
   
@@ -1183,7 +1241,7 @@
       <i class="fa fa-coffee"></i>
     </span>
     
-    <span title="站点阅读时长">5:27</span>
+    <span title="站点阅读时长">7:57</span>
   
 </div>
 

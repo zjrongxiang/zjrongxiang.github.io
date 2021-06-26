@@ -1,0 +1,1806 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<script>
+    (function(){
+        if(''){
+            if (prompt('请输入文章密码') !== ''){
+                alert('密码错误！');
+                history.back();
+            }
+        }
+    })();
+</script>
+
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2">
+
+
+
+  
+  
+  <link rel="stylesheet" href="/lib/Han/dist/han.min.css?v=3.3">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=6.7.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.7.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.7.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '6.7.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="目录 背景 第一部分  编译安装 第二部分 高版本安装 第三部分 docker安装 第四部分 总结 参考文献及资料  背景orange是基于Nginx+lua研发的API网关项目。该项目为国人自研项目，大部分组件参考Kong网关项目。但是项目活跃性不大，文档不够丰富详细（至今官网文档还是0.6.4版本，大量issue状态open），插件缺少详细的说明。另外项目部署自动化较低，文档不够详细，部署有一">
+<meta name="keywords" content="Api网关">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Orange API 网关部署安装总结">
+<meta property="og:url" content="https://zjrongxiang.github.io/2021/01/02/2021-01-18-Orange API 网关部署安装/index.html">
+<meta property="og:site_name" content="RongXiang">
+<meta property="og:description" content="目录 背景 第一部分  编译安装 第二部分 高版本安装 第三部分 docker安装 第四部分 总结 参考文献及资料  背景orange是基于Nginx+lua研发的API网关项目。该项目为国人自研项目，大部分组件参考Kong网关项目。但是项目活跃性不大，文档不够丰富详细（至今官网文档还是0.6.4版本，大量issue状态open），插件缺少详细的说明。另外项目部署自动化较低，文档不够详细，部署有一">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://zjrongxiang.github.io/2021/01/02/2021-01-18-Orange%20API%20网关部署安装/images/picture/orange_install/orange_install.png">
+<meta property="og:updated_time" content="2021-06-13T08:06:56.066Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Orange API 网关部署安装总结">
+<meta name="twitter:description" content="目录 背景 第一部分  编译安装 第二部分 高版本安装 第三部分 docker安装 第四部分 总结 参考文献及资料  背景orange是基于Nginx+lua研发的API网关项目。该项目为国人自研项目，大部分组件参考Kong网关项目。但是项目活跃性不大，文档不够丰富详细（至今官网文档还是0.6.4版本，大量issue状态open），插件缺少详细的说明。另外项目部署自动化较低，文档不够详细，部署有一">
+<meta name="twitter:image" content="https://zjrongxiang.github.io/2021/01/02/2021-01-18-Orange%20API%20网关部署安装/images/picture/orange_install/orange_install.png">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="RongXiang" type="application/atom+xml">
+
+
+
+
+  <link rel="canonical" href="https://zjrongxiang.github.io/2021/01/02/2021-01-18-Orange API 网关部署安装/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Orange API 网关部署安装总结 | RongXiang</title>
+  
+
+
+
+
+  <script async src="//www.googletagmanager.com/gtag/js?id=UA-113063423-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-113063423-1');
+  </script>
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+    <!-- <a href="https://github.com/zjrongxiang"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png" alt="Fork me on GitHub"></a> -->
+    <a href="https://github.com/zjrongxiang"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_green_007200.png" alt="Fork me on GitHub"></a>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">RongXiang</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">我的烂笔头</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-schedule">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/schedule/" rel="section"><i class="menu-item-icon fa fa-fw fa-calendar"></i> <br>日程表</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zjrongxiang.github.io/2021/01/02/2021-01-18-Orange API 网关部署安装/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="rong xiang">
+      <meta itemprop="description" content="Keep a Pure Curiosity">
+      <meta itemprop="image" content="/images/avatar/person.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="RongXiang">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Orange API 网关部署安装总结
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2021-01-02 21:30:00" itemprop="dateCreated datePublished" datetime="2021-01-02T21:30:00+08:00">2021-01-02</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2021-06-13 16:06:56" itemprop="dateModified" datetime="2021-06-13T16:06:56+08:00">2021-06-13</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Api网关/" itemprop="url" rel="index"><span itemprop="name">Api网关</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2021/01/02/2021-01-18-Orange API 网关部署安装/#comments" itemprop="discussionUrl">
+                
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/01/02/2021-01-18-Orange API 网关部署安装/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">本文字数：</span>
+                
+                <span title="本文字数">36k</span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">33 分钟</span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ul>
+<li>背景</li>
+<li>第一部分  编译安装</li>
+<li>第二部分 高版本安装</li>
+<li>第三部分 docker安装</li>
+<li>第四部分 总结</li>
+<li>参考文献及资料</li>
+</ul>
+<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p><code>orange</code>是基于<code>Nginx+lua</code>研发的<code>API</code>网关项目。该项目为国人自研项目，大部分组件参考<code>Kong</code>网关项目。但是项目活跃性不大，文档不够丰富详细（至今官网文档还是<code>0.6.4</code>版本，大量<code>issue</code>状态<code>open</code>），插件缺少详细的说明。另外项目部署自动化较低，文档不够详细，部署有一定困难。</p>
+<p>本文在<code>suse</code>系统上部署<code>orange</code>高低版本（<code>0.6.1</code>和<code>0.7.1</code>两个版本）。详细说明的编译部署的过程和注意事项，算是为项目文档做点贡献，用爱发电。</p>
+<p>文中讲解了对接<code>Tidb</code>数据的配置注意事项。</p>
+<h2 id="第一部分-编译安装"><a href="#第一部分-编译安装" class="headerlink" title="第一部分 编译安装"></a>第一部分 编译安装</h2><p>编译安装以<code>0.6.4</code>版本为例。</p>
+<h3 id="1-1-编译依赖环境安装"><a href="#1-1-编译依赖环境安装" class="headerlink" title="1.1 编译依赖环境安装"></a>1.1 编译依赖环境安装</h3><p>为了部署安装<code>OpenResty</code>，需要提前准备编译环境，依赖有：</p>
+<ul>
+<li><p><code>GCC</code> 编译器</p>
+<p><code>nginx</code>是<code>C</code>语言编写的，编译安装需要安装 <code>gcc</code>和<code>gcc-c++</code>。不同操作系统安装有差异，在线情况较为简单，例如<code>ubuntu</code>使用下面的命令即可：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> apt-get install gcc g++ libreadline-dev libncurses5-dev libpcre3-dev libssl-dev perl make build-essential</span></span><br></pre></td></tr></table></figure>
+<p>如果是<code>suse</code>或者<code>centos</code>操作系统：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> yum install -y gcc</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> yum install -y gcc-c++</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>注：离线安装较为繁琐，例如<code>suse</code>需要离线下载<code>rpm</code>包安装。</p>
+<h3 id="1-2-OpenResty安装"><a href="#1-2-OpenResty安装" class="headerlink" title="1.2 OpenResty安装"></a>1.2 <code>OpenResty</code>安装</h3><p><code>openResty</code>是一个基于<code>nginx+lua</code>的<code>WEB</code>服务器,所以安装此软件的过程中也会将<code>nginx</code>一并安装好，配置要把<code>http_stub_status_module</code>模块加上。具体安装如下：</p>
+<h4 id="1-2-1-安装介质准备"><a href="#1-2-1-安装介质准备" class="headerlink" title="1.2.1 安装介质准备"></a>1.2.1 安装介质准备</h4><p>将安装介质上传至<code>/approot1/orangesoft</code>(路径自定义),介质清单：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">lor-0.3.4.tar.gz</span><br><span class="line">openresty-1.19.3.1.tar.gz</span><br><span class="line">orange-0.6.4.tar.gz</span><br><span class="line">pcre-8.39.tar.gz</span><br><span class="line">zlib-1.2.11.tar.gz</span><br><span class="line">openssl-1.0.2p.tar.gz</span><br></pre></td></tr></table></figure>
+<p>使用<code>tar</code>命令将包依次解压。</p>
+<h4 id="1-2-2-安装"><a href="#1-2-2-安装" class="headerlink" title="1.2.2 安装"></a>1.2.2 安装</h4><p>安装命令：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">root@deeplearning:/approot1/orangesoft # tar -zxvf pcre-8.39.tar.gz</span><br><span class="line">root@deeplearning:/approot1/orangesoft # tar -zxvf zlib-1.2.11.tar.gz</span><br><span class="line">root@deeplearning:/approot1/orangesoft # tar -zxvf openssl-1.0.2p.tar.gz</span><br><span class="line"><span class="meta">#</span><span class="bash"> </span></span><br><span class="line">root@deeplearning:/approot1/orangesoft # tar -zxvf openresty-1.19.3.1.tar.gz</span><br><span class="line">root@deeplearning:/approot1/orangesoft # cd openresty-1.19.3.1</span><br><span class="line">root@deeplearning:/approot1/orangesoft/openresty-1.19.3.1 # ./configure --with-luajit --with-http_stub_status_module --with-openssl=/approot1/orangesoft/openssl-1.0.2p --with-zlib=/approot1/orangesoft/zlib-1.2.11 --with-pcre=/approot1/orangesoft/pcre-8.39</span><br></pre></td></tr></table></figure>
+<p>注意：</p>
+<ul>
+<li><p>参数：<code>--with-http_stub_status_module</code>，必须依赖，<code>orange</code>启动依赖组件</p>
+</li>
+<li><p>参数：<code>--prefix=/approot1/openresty</code>，参数可以指定安装目录。这里没有配置，会使用默认的路径：<code>/usr/local/openresty</code>。</p>
+</li>
+</ul>
+<p>配置完成后，开始编译和安装：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">root@deeplearning:/approot1/orangesoft/openresty-1.19.3.1 # make</span><br><span class="line">root@deeplearning:/approot1/orangesoft/openresty-1.19.3.1 # make install</span><br></pre></td></tr></table></figure>
+<h4 id="1-2-3-配置环境变量"><a href="#1-2-3-配置环境变量" class="headerlink" title="1.2.3 配置环境变量"></a>1.2.3 配置环境变量</h4><p>配置环境变量，在<code>/etc/profile</code>文件中最佳下面的配置：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">export PATH=$PATH:/usr/local/openresty/nginx/sbin </span><br><span class="line">export PATH=$PATH:/usr/local/openresty/bin</span><br></pre></td></tr></table></figure>
+<p>最后当前shell中生效环境变量（或者重新开一个shell）：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> <span class="built_in">source</span> /etc/profile</span></span><br></pre></td></tr></table></figure>
+<h4 id="1-2-4-验证"><a href="#1-2-4-验证" class="headerlink" title="1.2.4 验证"></a>1.2.4 验证</h4><p>验证<code>nginx</code>：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> nginx -v</span></span><br><span class="line">nginx version: openresty/1.19.3.1</span><br></pre></td></tr></table></figure>
+<p>验证<code>openresty</code>：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> resty -v</span></span><br><span class="line">resty 0.27</span><br><span class="line">nginx version: openresty/1.19.3.1</span><br><span class="line">built by gcc 4.8.5 (SUSE Linux) </span><br><span class="line">built with OpenSSL 1.0.2p  14 Aug 2018</span><br><span class="line">TLS SNI support enabled</span><br><span class="line">configure arguments: --prefix=/usr/local/openresty/nginx --with-cc-opt=-O2 --add-module=../ngx_devel_kit-0.3.1 --add-module=../echo-nginx-module-0.62 --add-module=../xss-nginx-module-0.06 --add-module=../ngx_coolkit-0.2 --add-module=../set-misc-nginx-module-0.32 --add-module=../form-input-nginx-module-0.12 --add-module=../encrypted-session-nginx-module-0.08 --add-module=../srcache-nginx-module-0.32 --add-module=../ngx_lua-0.10.19 --add-module=../ngx_lua_upstream-0.07 --add-module=../headers-more-nginx-module-0.33 --add-module=../array-var-nginx-module-0.05 --add-module=../memc-nginx-module-0.19 --add-module=../redis2-nginx-module-0.15 --add-module=../redis-nginx-module-0.3.7 --add-module=../rds-json-nginx-module-0.15 --add-module=../rds-csv-nginx-module-0.09 --add-module=../ngx_stream_lua-0.0.9 --with-ld-opt=-Wl,-rpath,/usr/local/openresty/luajit/lib --with-http_stub_status_module --with-openssl=/approot1/orange/soft/openssl-1.0.2p --with-zlib=/approot1/orange/soft/zlib-1.2.11 --with-pcre=/approot1/orange/soft/pcre-8.39 --with-openssl-opt=-g --with-pcre-opt=-g --with-zlib-opt=-g --with-stream --with-stream_ssl_module --with-stream_ssl_preread_module --with-http_ssl_module</span><br></pre></td></tr></table></figure>
+<p><code>openresty</code> 组件安装成功。</p>
+<h3 id="1-3-安装lor"><a href="#1-3-安装lor" class="headerlink" title="1.3 安装lor"></a>1.3 安装<code>lor</code></h3><h4 id="1-3-1-介质准备"><a href="#1-3-1-介质准备" class="headerlink" title="1.3.1 介质准备"></a>1.3.1 介质准备</h4><p>加压安装包：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">root@deeplearning:/approot1/orangesoft # tar -zxvf lor-0.3.4.tar.gz</span><br><span class="line">root@deeplearning:/approot1/orangesoft # cd lor-0.3.4</span><br></pre></td></tr></table></figure>
+<p>执行编译安装：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">root@deeplearning:/approot1/orangesoft/lor-0.3.4 # make install </span><br><span class="line">install lor runtime files to /usr/local/lor</span><br><span class="line">lor runtime files installed.</span><br><span class="line">install lord cli to /usr/local/bin/</span><br><span class="line">lord cli installed.</span><br><span class="line">lor framework installed successfully.</span><br></pre></td></tr></table></figure>
+<h3 id="1-4-安装orange"><a href="#1-4-安装orange" class="headerlink" title="1.4 安装orange"></a>1.4 安装orange</h3><h4 id="4-1-介质准备"><a href="#4-1-介质准备" class="headerlink" title="4.1 介质准备"></a>4.1 介质准备</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">root@deeplearning:/approot1/orangesoft # tar -zxvf orange-0.6.4.tar.gz</span><br><span class="line">root@deeplearning:/approot1/orangesoft # cd orange-0.6.4</span><br></pre></td></tr></table></figure>
+<h4 id="4-2-编译安装"><a href="#4-2-编译安装" class="headerlink" title="4.2 编译安装"></a>4.2 编译安装</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@deeplearning:/approot1/orangesoft/orange-0.6.4 # make install</span><br></pre></td></tr></table></figure>
+<p>默认安装目录为<code>/usr/local/orange</code>：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">root@deeplearning:/usr/local # cd orange/</span><br><span class="line">root@deeplearning:/usr/local/orange # ll</span><br><span class="line">total 52</span><br><span class="line">drwxrwxr-x 2 sysop  root 4096 May 16  2017 api</span><br><span class="line">drwxrwxr-x 5 sysop  root 4096 May 16  2017 bin</span><br><span class="line">drwx------ 2 nobody root 4096 Jun  4 01:25 client_body_temp</span><br><span class="line">drwxrwxr-x 2 sysop  root 4096 Jun  4 01:25 conf</span><br><span class="line">drwxrwxr-x 7 sysop  root 4096 May 16  2017 dashboard</span><br><span class="line">drwx------ 2 nobody root 4096 Jun  4 01:25 fastcgi_temp</span><br><span class="line">drwxrwxr-x 2 sysop  root 4096 May 16  2017 install</span><br><span class="line">drwxr-xr-x 2 sysop  root 4096 Jun  4 01:25 logs</span><br><span class="line">drwxrwxr-x 6 sysop  root 4096 May 16  2017 orange</span><br><span class="line">drwx------ 2 nobody root 4096 Jun  4 01:25 proxy_temp</span><br><span class="line">drwx------ 2 nobody root 4096 Jun  4 01:25 scgi_temp</span><br><span class="line">drwxr-xr-x 2 sysop  root 4096 Jun  4 01:25 tmp</span><br><span class="line">drwx------ 2 nobody root 4096 Jun  4 01:25 uwsgi_temp</span><br></pre></td></tr></table></figure>
+<h4 id="4-3-配置连接mysql或Tidb"><a href="#4-3-配置连接mysql或Tidb" class="headerlink" title="4.3 配置连接mysql或Tidb"></a>4.3 配置连接<code>mysql</code>或<code>Tidb</code></h4><h5 id="4-3-1-更新mysql依赖包"><a href="#4-3-1-更新mysql依赖包" class="headerlink" title="4.3.1 更新mysql依赖包"></a>4.3.1 更新<code>mysql</code>依赖包</h5><p>主要使用最新版本的包替换旧版本的包：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> /usr/<span class="built_in">local</span>/openresty/lualib/resty/mysql.lua</span></span><br></pre></td></tr></table></figure>
+<p>注意文件的大小检查：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-rw-r--r-- 1 root bin  34779 Mar  3 07:47 mysql.lua</span><br></pre></td></tr></table></figure>
+<h5 id="4-3-2-配置连接mysql或Tidb的连接信息"><a href="#4-3-2-配置连接mysql或Tidb的连接信息" class="headerlink" title="4.3.2 配置连接mysql或Tidb的连接信息"></a>4.3.2 配置连接<code>mysql</code>或<code>Tidb</code>的连接信息</h5><p>更新<code>conf/orange.conf</code>配置文件中<code>mysql</code>的相关配置：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@deeplearning:/usr/local/orange/conf # vi orange.conf</span><br></pre></td></tr></table></figure>
+<p>主要有配置：</p>
+<figure class="highlight xquery"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"store"</span>: <span class="string">"mysql"</span>,</span><br><span class="line"><span class="string">"store_mysql"</span>: &#123;</span><br><span class="line">    <span class="string">"timeout"</span>: <span class="number">5000</span>,</span><br><span class="line">    <span class="string">"connect_config"</span>: &#123;</span><br><span class="line">        <span class="string">"host"</span>: <span class="string">"192.169.8.8"</span>,</span><br><span class="line">        <span class="string">"port"</span>: <span class="number">4001</span>,</span><br><span class="line">        <span class="string">"database"</span>: <span class="string">"orange"</span>,</span><br><span class="line">        <span class="string">"user"</span>: <span class="string">"orange"</span>,</span><br><span class="line">        <span class="string">"password"</span>: <span class="string">"orange"</span>,</span><br><span class="line">        <span class="string">"max_packet_size"</span>: <span class="number">1048576</span>,</span><br><span class="line">        <span class="string">"charset"</span>: <span class="string">"utf8mb4"</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="string">"pool_config"</span>: &#123;</span><br><span class="line">        <span class="string">"max_idle_timeout"</span>: <span class="number">10000</span>,</span><br><span class="line">        <span class="string">"pool_size"</span>: <span class="number">3</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="string">"desc"</span>: <span class="string">"mysql configuration"</span></span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+<p>特别注意的参数是：</p>
+<ul>
+<li>字符集，<code>&quot;charset&quot;: &quot;utf8mb4&quot;</code>为新增字符集参数，适配<code>tidb</code>使用；</li>
+</ul>
+<h5 id="4-3-3-数据库初始化"><a href="#4-3-3-数据库初始化" class="headerlink" title="4.3.3 数据库初始化"></a>4.3.3 数据库初始化</h5><p>数据库的初始化<code>sql</code>文件如下，提前通过<code>mysql</code>客户端多数据库进行初始化：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">root@deeplearning:/approot1/orangesoft/orange-0.6.4/install # ll orange-v0.6.4.sql</span><br><span class="line">-rw-rw-r-- 1 root root 10406 May 16  2017 orange-v0.6.4.sql</span><br></pre></td></tr></table></figure>
+<p>数据库初始化：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> CREATE DATABASE orange;</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> CREATE USER <span class="string">'orange'</span>@<span class="string">'%'</span> IDENTIFIED BY <span class="string">'orange'</span>;</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> GRANT ALL PRIVILEGES ON orange.* TO <span class="string">'orange'</span>@<span class="string">'%'</span>;</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> FLUSH PRIVILEGES; </span></span><br><span class="line">然后初始化表：</span><br><span class="line"><span class="meta">#</span><span class="bash"> mysql -uorange -porange  orange &lt; orange-v0.6.4.sql</span></span><br></pre></td></tr></table></figure>
+<h5 id="4-3-4-配置用户认证"><a href="#4-3-4-配置用户认证" class="headerlink" title="4.3.4 配置用户认证"></a>4.3.4 配置用户认证</h5><figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"dashboard"</span>: &#123;</span><br><span class="line">        <span class="string">"auth"</span>: <span class="literal">true</span>,</span><br><span class="line">        <span class="string">"session_secret"</span>: <span class="string">"y0ji4pdj61aaf3f11c2e65cd2263d3e7e5"</span>,</span><br><span class="line">        <span class="string">"whitelist"</span>: [</span><br><span class="line">            <span class="string">"^/auth/login$"</span>,</span><br><span class="line">            <span class="string">"^/error/$"</span></span><br><span class="line">        ]</span><br><span class="line">    &#125;,</span><br></pre></td></tr></table></figure>
+<p>其中参数<code>&quot;auth&quot;: true</code>为开启权限认证。默认用户名密钥如下，初次登陆可以修改，并新增用户。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">用户名： admin</span><br><span class="line">密钥： orange_admin</span><br></pre></td></tr></table></figure>
+<h4 id="4-4-启动orange"><a href="#4-4-启动orange" class="headerlink" title="4.4 启动orange"></a>4.4 启动orange</h4><p>安装完成后，orange执行文件在<code>/usr/local/bin/orange</code>，所用使用下面的命令：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">root@deeplearning:/usr/local/orange/conf # orange help</span><br><span class="line">Orange v0.6.4, OpenResty/Nginx API Gateway.</span><br><span class="line"></span><br><span class="line">Usage: orange COMMAND [OPTIONS]</span><br><span class="line"></span><br><span class="line">The commands are:</span><br><span class="line"> </span><br><span class="line">stop	Stop current Orange</span><br><span class="line">help	Show help tips</span><br><span class="line">restart	Restart Orange</span><br><span class="line">version	Show the version of Orange</span><br><span class="line">reload	Reload the config of Orange</span><br><span class="line">start	Start the Orange Gateway</span><br><span class="line">store	Init/Update/Backup Orange store</span><br></pre></td></tr></table></figure>
+<p>使用下面命令启动：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@deeplearning:/usr/local/orange/conf # orange start</span><br></pre></td></tr></table></figure>
+<h4 id="4-5-验证"><a href="#4-5-验证" class="headerlink" title="4.5 验证"></a>4.5 验证</h4><p>启动后orange的前端监听端口在<code>9999</code>，浏览器使用下面的地址验证界面：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://192.168.31.3:9999</span><br></pre></td></tr></table></figure>
+<h2 id="第二部分-高版本安装"><a href="#第二部分-高版本安装" class="headerlink" title="第二部分 高版本安装"></a>第二部分 高版本安装</h2><p>前面的编译安装主要针对低版本的<code>0.6.4</code>，对于高版本的<code>0.7.1</code>版本，由于引入了较多的第三方插件，所以在安装<code>orange</code>前需要补充安装一些依赖包。</p>
+<p><code>openresty</code>自带包管理工具<code>opm</code>，新版本建议使用新的包管理工具<code>luarocks</code>。</p>
+<h3 id="2-1-安装luarocks"><a href="#2-1-安装luarocks" class="headerlink" title="2.1 安装luarocks"></a>2.1 安装<code>luarocks</code></h3><p>首先配置，安装在<code>/usr/local/luarocks</code>。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">root@deeplearning:/approot1/orange/soft/luarocks-3.0.3 # ./configure --with-lua=/usr/local/openresty/luajit --prefix=/usr/local/luarocks</span><br><span class="line"></span><br><span class="line">Configuring LuaRocks version 3.0.3...</span><br><span class="line"></span><br><span class="line">Lua version detected: 5.1</span><br><span class="line">Lua interpreter found: /usr/local/openresty/luajit/bin/luajit</span><br><span class="line">lua.h found: /usr/local/openresty/luajit/include/luajit-2.1/lua.h</span><br><span class="line">unzip found in PATH: /usr/bin</span><br><span class="line"></span><br><span class="line">Done configuring.</span><br><span class="line"></span><br><span class="line">LuaRocks will be installed at......: /usr/local/luarocks</span><br><span class="line">LuaRocks will install rocks at.....: /usr/local/luarocks</span><br><span class="line">LuaRocks configuration directory...: /usr/local/luarocks/etc/luarocks</span><br><span class="line">Using Lua from.....................: /usr/local/openresty/luajit</span><br><span class="line"></span><br><span class="line">* Type make and make install:</span><br><span class="line">  to install to /usr/local/luarocks as usual.</span><br><span class="line">* Type make bootstrap:</span><br><span class="line">  to install LuaRocks into /usr/local/luarocks as a rock.</span><br></pre></td></tr></table></figure>
+<p>然后安装：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@deeplearning:/approot1/orange/soft/luarocks-3.0.3 # make &amp;&amp; make install</span><br></pre></td></tr></table></figure>
+<h3 id="2-2-依赖包安装"><a href="#2-2-依赖包安装" class="headerlink" title="2.2 依赖包安装"></a>2.2 依赖包安装</h3><p><code>orange</code>高版本引入多个第三方包，这些包依赖如下，需要在线环境进行安装。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">root@deeplearning:/usr/local/orange/logs # luarocks install luafilesystem</span><br><span class="line"><span class="meta">#</span><span class="bash"> ...</span></span><br><span class="line">root@deeplearning:/usr/local/orange/logs # luarocks list</span><br><span class="line">Rocks installed for Lua 5.1</span><br><span class="line">---------------------------</span><br><span class="line">binaryheap</span><br><span class="line">   0.4-1 (installed) - /usr/local/luarocks/lib/luarocks/rocks-5.1</span><br><span class="line">lrandom</span><br><span class="line">   20180729-1 (installed) - /usr/local/luarocks/lib/luarocks/rocks-5.1</span><br><span class="line">lua-resty-dns-client</span><br><span class="line">   1.0.0-1 (installed) - /usr/local/luarocks/lib/luarocks/rocks-5.1</span><br><span class="line">lua-resty-http</span><br><span class="line">   0.13-0 (installed) - /usr/local/luarocks/lib/luarocks/rocks-5.1</span><br><span class="line">lua-resty-jwt</span><br><span class="line">   0.2.0-0 (installed) - /usr/local/luarocks/lib/luarocks/rocks-5.1</span><br><span class="line">lua-resty-timer</span><br><span class="line">   1.1.0-1 (installed) - /usr/local/luarocks/lib/luarocks/rocks-5.1</span><br><span class="line">luafilesystem</span><br><span class="line">   1.8.0-1 (installed) - /usr/local/luarocks/lib/luarocks/rocks-5.1</span><br><span class="line">luasocket</span><br><span class="line">   3.0rc1-2 (installed) - /usr/local/luarocks/lib/luarocks/rocks-5.1</span><br><span class="line">penlight</span><br><span class="line">   1.5.4-1 (installed) - /usr/local/luarocks/lib/luarocks/rocks-5.1</span><br></pre></td></tr></table></figure>
+<h3 id="2-3-依赖配置"><a href="#2-3-依赖配置" class="headerlink" title="2.3 依赖配置"></a>2.3 依赖配置</h3><p>依赖包安装的路径需要添加到<code>rerquire</code>搜索路径中。更新<code>conf/nginx.conf</code>配置文件中下面两个参数：</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#----------------------------Orange configuration----------------------------</span></span><br><span class="line"><span class="attribute">lua_package_cpath</span> <span class="string">'/usr/local/luarocks/lib/lua/5.1/?.so;/usr/local/luarocks/lib/lua/5.1/socket/?.so;/usr/local/luarocks/lib/lua/5.1/mime/?.so;;'</span>;</span><br><span class="line"><span class="attribute">lua_package_path</span> <span class="string">'./lualib/?.lua;./lualib/resty/?.lua;/usr/local/orange/?.lua;/usr/local/lor/?.lua;/usr/local/luarocks/share/lua/5.1/?.lua;/usr/local/luarocks/share/lua/5.1/resty/?.lua;;'</span>;</span><br></pre></td></tr></table></figure>
+<p>完成以上依赖配置后，参考低版本部署<code>orange</code>即可。</p>
+<p><img src="images\picture\orange_install\orange_install.png" alt="orange_install"></p>
+<h3 id="2-4-注意事项"><a href="#2-4-注意事项" class="headerlink" title="2.4 注意事项"></a>2.4 注意事项</h3><h4 id="2-4-1-高版本sql文件缺失"><a href="#2-4-1-高版本sql文件缺失" class="headerlink" title="2.4.1 高版本sql文件缺失"></a>2.4.1 高版本<code>sql</code>文件缺失</h4><p>在部署高版本<code>0.7.1</code>时候，数据库表初始化<code>sql</code>文件<code>orange-v0.7.0.sql</code>中缺失组件<code>headers</code>表的初始化语句，可以在版本<code>0.8.1</code>中的初始化文件<code>orange-v0.8.1.sql</code>中获取。</p>
+<p>说明项目的版本管理较为混乱。</p>
+<h4 id="2-4-2-lua-resty-mysql版本问题"><a href="#2-4-2-lua-resty-mysql版本问题" class="headerlink" title="2.4.2 lua-resty-mysql版本问题"></a>2.4.2 <code>lua-resty-mysql</code>版本问题</h4><p><code>orange</code>项目和<code>mysql</code>或者<code>tidb</code>交互使用的是依赖包<code>lua-resty-mysql</code>。版本差异有：</p>
+<ul>
+<li><code>0.6.4</code>版本使用<code>0.19</code>版本</li>
+<li><code>0.7.1</code>版本使用<code>0.23</code>版本</li>
+</ul>
+<p>经过测试目前<code>0.23</code>版本兼容<code>tidb</code>，而低版本<code>0.19</code>版本不兼容。所以在部署低版本<code>orange</code>的时候注意替换和安装新版<code>lua-resty-mysql</code>包。</p>
+<p>依赖包的位置，可以直接替换文件生效。</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="regexp">/usr/</span>local<span class="regexp">/openresty/</span>lualib<span class="regexp">/resty/my</span>sql.lua</span><br></pre></td></tr></table></figure>
+<h2 id="第三部分-docker安装"><a href="#第三部分-docker安装" class="headerlink" title="第三部分 docker安装"></a>第三部分 <code>docker</code>安装</h2><p>另外<code>orange</code>项目组也制作了<code>docker</code>镜像，项目地址为：<a href="syhily/orange"><code>syhily/orange</code></a>。需要注意的是该镜像中<code>orange</code>版本为<code>0.6.4</code>版本，详细可以参考项目的<code>Dockerfile</code>文件。</p>
+<h3 id="2-1-部署mysql容器"><a href="#2-1-部署mysql容器" class="headerlink" title="2.1 部署mysql容器"></a>2.1 部署<code>mysql</code>容器</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> docker run --name orange-database -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=orange -p 3306:3306 mysql:5.7</span></span><br></pre></td></tr></table></figure>
+<h3 id="2-2-部署orange集群"><a href="#2-2-部署orange集群" class="headerlink" title="2.2 部署orange集群"></a>2.2 部署<code>orange</code>集群</h3><p>启动主节点：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> docker run -d --name orange \</span></span><br><span class="line">    --link orange-database:orange-database \</span><br><span class="line">    -p 7777:7777 \</span><br><span class="line">    -p 8888:8888 \</span><br><span class="line">    -p 9999:9999 \</span><br><span class="line">    --security-opt seccomp:unconfined \</span><br><span class="line">    -e ORANGE_DATABASE=orange \</span><br><span class="line">    -e ORANGE_HOST=orange-database \</span><br><span class="line">    -e ORANGE_PORT=3306 \</span><br><span class="line">    -e ORANGE_USER=root \</span><br><span class="line">    -e ORANGE_PWD=root \</span><br><span class="line">    syhily/orange</span><br></pre></td></tr></table></figure>
+<p>启动从节点：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> docker run -d --name orange \</span></span><br><span class="line">    -p 7777:7777 \</span><br><span class="line">    -p 8888:8888 \</span><br><span class="line">    -p 9999:9999 \</span><br><span class="line">    --security-opt seccomp:unconfined \</span><br><span class="line">    -e ORANGE_DATABASE=orange \</span><br><span class="line">    -e ORANGE_HOST=192.168.31.3 \</span><br><span class="line">    -e ORANGE_PORT=4000 \</span><br><span class="line">    -e ORANGE_USER=root \</span><br><span class="line">    syhily/orange</span><br></pre></td></tr></table></figure>
+<p>注意：官网的镜像配置中映射的<code>api</code>端口为<code>8888</code>，但是启动配置是<code>80</code>，这是错误配置。本文在这里进行了纠正。</p>
+<h2 id="第四部分-总结"><a href="#第四部分-总结" class="headerlink" title="第四部分 总结"></a>第四部分 总结</h2><h3 id="5-1-非编译安装"><a href="#5-1-非编译安装" class="headerlink" title="5.1 非编译安装"></a>5.1 非编译安装</h3><p>前面的过程都是编译安装的，特别是组件<code>openresty</code>编译过程比较漫长。如果测试环境已经编译完成，只需要将部署目录整体拷贝至生产环境后即可（注意环境变量），不再赘述。</p>
+<h3 id="5-2-集群部署"><a href="#5-2-集群部署" class="headerlink" title="5.2 集群部署"></a>5.2 集群部署</h3><p>orange网关启动后将所有配置信息加载在内存中，<code>mysql</code>或者<code>Tidb</code>数据库只是作为配置的持久化保存。所有可以启动多个orange网关共用一套数据库，架构上组成集群模式。维护中需要注意的是：</p>
+<ul>
+<li><p>同步配置</p>
+<p>在集群部署模式下，一台网关应用服务器调整配置，需要及时手动同步配置到数据库持久化，另外其他网关节点需要手动同步将数据库中最新配置加载至网关内存。</p>
+</li>
+<li><p>研发配置自动同步组件</p>
+<p>集群中每个节点登记注册加入，其中一台节点更新了配置，自动将登记的节点集合中所有配置自动刷新。</p>
+</li>
+<li><p>数据库故障</p>
+<p>网关集群中，数据库只是配置的持久化。若短时间数据库故障不可访问，并不影响网关的对外服务。</p>
+</li>
+</ul>
+<h3 id="5-3-动态调整"><a href="#5-3-动态调整" class="headerlink" title="5.3 动态调整"></a>5.3 动态调整</h3><p>低版本<code>orange</code>项目还不支持动态<code>upstream</code>配置功能。需要通过在<code>nginx</code>配置文件中新增。新增完成后需要使用下面的命令动态加载：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> orange reload</span></span><br></pre></td></tr></table></figure>
+<p>高版本中有<code>Dynamic Upstream</code>组件实现动态<code>upstream</code>配置功能。</p>
+<h3 id="5-4-域名问题"><a href="#5-4-域名问题" class="headerlink" title="5.4 域名问题"></a>5.4 域名问题</h3><p>在实际生产线上环境，<code>orange</code>背后的持久化数据库对外地址通常是高可用的域名模式，另外网关代理的<code>API</code>地址通常也是内部域名。操作系统配置的<code>DNS</code>并不会被<code>nginx</code>读取，本地是<code>hosts</code>是有效的。</p>
+<p>这时候就需要将内部<code>DNS</code>地址配置在<code>conf/nginx.conf</code>文件中，例如：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">resolver 192.168.12.1 192.168.12.2 ipv6=off;</span><br></pre></td></tr></table></figure>
+<p>上面两个<code>DNS</code>地址以轮询方式请求，解析间隔默认是3600秒。</p>
+<h2 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h2><p>期望<code>orange</code>项目组未来能投入更多的精力继续演进项目。尽快发布新版本，丰富文档，答复<code>issue</code>。否则项目也荒凉的风险呀。</p>
+<h2 id="参考文献及资料"><a href="#参考文献及资料" class="headerlink" title="参考文献及资料"></a>参考文献及资料</h2><p>[1] <code>OpenResty</code>官网，链接：<a href="http://openresty.org/cn/download.html" target="_blank" rel="noopener">http://openresty.org/cn/download.html</a></p>
+<p>[2] orange 使用文档，链接：<a href="http://orange.sumory.com/docs/guides/usages/" target="_blank" rel="noopener">http://orange.sumory.com/docs/guides/usages/</a></p>
+<p>[3] orange官网，链接：<a href="http://orange.sumory.com/" target="_blank" rel="noopener">http://orange.sumory.com/</a></p>
+
+      
+    </div>
+
+    
+
+    <div>
+      
+        
+      
+    </div>
+    
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Api网关/" rel="tag"><i class="fa fa-tag"></i> Api网关</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/12/12/2020-12-19-Spark Mllib模块的学习总结/" rel="next" title="Spark Mllib模块的学习总结">
+                <i class="fa fa-chevron-left"></i> Spark Mllib模块的学习总结
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2021/01/02/2021-01-31-Kong API 网关使用/" rel="prev" title="Kong API 网关使用">
+                Kong API 网关使用 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar/person.png" alt="rong xiang">
+            
+              <p class="site-author-name" itemprop="name">rong xiang</p>
+              <p class="site-description motion-element" itemprop="description">Keep a Pure Curiosity</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">162</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">64</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">19</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/zjrongxiang" title="GitHub &rarr; https://github.com/zjrongxiang" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="mailto:rongxiang1986@163.com" title="E-Mail &rarr; mailto:rongxiang1986@163.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="http://weibo.com/u/1971060643" title="Weibo &rarr; http://weibo.com/u/1971060643" rel="noopener" target="_blank"><i class="fa fa-fw fa-weibo"></i>Weibo</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Link
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://weibo.com/fly51fly?refer_flag=1005055010_" title="https://weibo.com/fly51fly?refer_flag=1005055010_" rel="noopener" target="_blank">爱生活爱可可</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#目录"><span class="nav-number">1.</span> <span class="nav-text">目录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#背景"><span class="nav-number">2.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第一部分-编译安装"><span class="nav-number">3.</span> <span class="nav-text">第一部分 编译安装</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-编译依赖环境安装"><span class="nav-number">3.1.</span> <span class="nav-text">1.1 编译依赖环境安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-OpenResty安装"><span class="nav-number">3.2.</span> <span class="nav-text">1.2 OpenResty安装</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-1-安装介质准备"><span class="nav-number">3.2.1.</span> <span class="nav-text">1.2.1 安装介质准备</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-2-安装"><span class="nav-number">3.2.2.</span> <span class="nav-text">1.2.2 安装</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-3-配置环境变量"><span class="nav-number">3.2.3.</span> <span class="nav-text">1.2.3 配置环境变量</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-4-验证"><span class="nav-number">3.2.4.</span> <span class="nav-text">1.2.4 验证</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-安装lor"><span class="nav-number">3.3.</span> <span class="nav-text">1.3 安装lor</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-3-1-介质准备"><span class="nav-number">3.3.1.</span> <span class="nav-text">1.3.1 介质准备</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-安装orange"><span class="nav-number">3.4.</span> <span class="nav-text">1.4 安装orange</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#4-1-介质准备"><span class="nav-number">3.4.1.</span> <span class="nav-text">4.1 介质准备</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2-编译安装"><span class="nav-number">3.4.2.</span> <span class="nav-text">4.2 编译安装</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-3-配置连接mysql或Tidb"><span class="nav-number">3.4.3.</span> <span class="nav-text">4.3 配置连接mysql或Tidb</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#4-3-1-更新mysql依赖包"><span class="nav-number">3.4.3.1.</span> <span class="nav-text">4.3.1 更新mysql依赖包</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-3-2-配置连接mysql或Tidb的连接信息"><span class="nav-number">3.4.3.2.</span> <span class="nav-text">4.3.2 配置连接mysql或Tidb的连接信息</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-3-3-数据库初始化"><span class="nav-number">3.4.3.3.</span> <span class="nav-text">4.3.3 数据库初始化</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-3-4-配置用户认证"><span class="nav-number">3.4.3.4.</span> <span class="nav-text">4.3.4 配置用户认证</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-4-启动orange"><span class="nav-number">3.4.4.</span> <span class="nav-text">4.4 启动orange</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-5-验证"><span class="nav-number">3.4.5.</span> <span class="nav-text">4.5 验证</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第二部分-高版本安装"><span class="nav-number">4.</span> <span class="nav-text">第二部分 高版本安装</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-安装luarocks"><span class="nav-number">4.1.</span> <span class="nav-text">2.1 安装luarocks</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-依赖包安装"><span class="nav-number">4.2.</span> <span class="nav-text">2.2 依赖包安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-依赖配置"><span class="nav-number">4.3.</span> <span class="nav-text">2.3 依赖配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-注意事项"><span class="nav-number">4.4.</span> <span class="nav-text">2.4 注意事项</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-4-1-高版本sql文件缺失"><span class="nav-number">4.4.1.</span> <span class="nav-text">2.4.1 高版本sql文件缺失</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-4-2-lua-resty-mysql版本问题"><span class="nav-number">4.4.2.</span> <span class="nav-text">2.4.2 lua-resty-mysql版本问题</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第三部分-docker安装"><span class="nav-number">5.</span> <span class="nav-text">第三部分 docker安装</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-部署mysql容器"><span class="nav-number">5.1.</span> <span class="nav-text">2.1 部署mysql容器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-部署orange集群"><span class="nav-number">5.2.</span> <span class="nav-text">2.2 部署orange集群</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第四部分-总结"><span class="nav-number">6.</span> <span class="nav-text">第四部分 总结</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#5-1-非编译安装"><span class="nav-number">6.1.</span> <span class="nav-text">5.1 非编译安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-2-集群部署"><span class="nav-number">6.2.</span> <span class="nav-text">5.2 集群部署</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-3-动态调整"><span class="nav-number">6.3.</span> <span class="nav-text">5.3 动态调整</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-4-域名问题"><span class="nav-number">6.4.</span> <span class="nav-text">5.4 域名问题</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#写在最后"><span class="nav-number">7.</span> <span class="nav-text">写在最后</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文献及资料"><span class="nav-number">8.</span> <span class="nav-text">参考文献及资料</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; 2014 – <span itemprop="copyrightYear">2021</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">rong xiang</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+    <span title="站点总字数">525k</span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    
+    <span title="站点阅读时长">7:57</span>
+  
+</div>
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="总访客量">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="总访问量">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=6.7.0"></script>
+
+  <script src="/js/src/motion.js?v=6.7.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/schemes/muse.js?v=6.7.0"></script>
+
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=6.7.0"></script>
+<script src="/js/src/post-details.js?v=6.7.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=6.7.0"></script>
+
+
+
+  
+  
+    
+  <script id="dsq-count-scr" src="https://https-zjrongxiang-github-io.disqus.com/count.js" async></script>
+
+
+<script>
+  var disqus_config = function () {
+    this.page.url = "https://zjrongxiang.github.io/2021/01/02/2021-01-18-Orange API 网关部署安装/";
+    this.page.identifier = "2021/01/02/2021-01-18-Orange API 网关部署安装/";
+    this.page.title = 'Orange API 网关部署安装总结';
+    };
+  function loadComments () {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://https-zjrongxiang-github-io.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', '' + +new Date());
+    (d.head || d.body).appendChild(s);
+  }
+  
+    loadComments();
+  
+</script>
+
+  
+
+
+
+
+
+  
+
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <style>
+    .copy-btn {
+      display: inline-block;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 20px;
+      color: #333;
+      white-space: nowrap;
+      vertical-align: middle;
+      cursor: pointer;
+      background-color: #eee;
+      background-image: linear-gradient(#fcfcfc, #eee);
+      border: 1px solid #d5d5d5;
+      border-radius: 3px;
+      user-select: none;
+      outline: 0;
+    }
+
+    .highlight-wrap .copy-btn {
+      transition: opacity .3s ease-in-out;
+      opacity: 0;
+      padding: 2px 6px;
+      position: absolute;
+      right: 4px;
+      top: 8px;
+    }
+
+    .highlight-wrap:hover .copy-btn,
+    .highlight-wrap .copy-btn:focus {
+      opacity: 1
+    }
+
+    .highlight-wrap {
+      position: relative;
+    }
+  </style>
+  <script>
+    $('.highlight').each(function (i, e) {
+      var $wrap = $('<div>').addClass('highlight-wrap');
+      $(e).after($wrap);
+      $wrap.append($('<button>').addClass('copy-btn').append('复制').on('click', function (e) {
+        var code = $(this).parent().find('.code').find('.line').map(function (i, e) {
+          return $(e).text();
+        }).toArray().join('\n');
+        var ta = document.createElement('textarea');
+        var range = document.createRange(); //For Chrome
+        var sel = window.getSelection(); //For Chrome
+        var yPosition = window.pageYOffset || document.documentElement.scrollTop;
+        ta.style.top = yPosition + 'px'; //Prevent page scroll
+        ta.style.position = 'absolute';
+        ta.style.opacity = '0';
+        ta.value = code;
+        ta.textContent = code; //For FireFox
+        ta.contentEditable = true;
+        ta.readOnly = false;
+        document.body.appendChild(ta);
+        range.selectNode(ta);
+        sel.removeAllRanges();
+        sel.addRange(range);
+        ta.setSelectionRange(0, code.length);
+        var result = document.execCommand('copy');
+        
+          if (result) $(this).text('复制成功');
+          else $(this).text('复制失败');
+        
+        ta.blur(); //For iOS
+        $(this).blur();
+      })).on('mouseleave', function (e) {
+        var $b = $(this).find('.copy-btn');
+        setTimeout(function () {
+          $b.text('复制');
+        }, 300);
+      }).append(e);
+    })
+  </script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+
+  
+  
+
+  
+  
+
+  
+
+
+</body>
+</html>

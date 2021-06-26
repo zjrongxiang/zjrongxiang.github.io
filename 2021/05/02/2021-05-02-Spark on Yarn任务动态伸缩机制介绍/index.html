@@ -1,0 +1,1876 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<script>
+    (function(){
+        if(''){
+            if (prompt('请输入文章密码') !== ''){
+                alert('密码错误！');
+                history.back();
+            }
+        }
+    })();
+</script>
+
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2">
+
+
+
+  
+  
+  <link rel="stylesheet" href="/lib/Han/dist/han.min.css?v=3.3">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=6.7.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.7.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.7.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '6.7.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="目录 背景 第一部分  配置实现 第二部分 动态配置原理和源码分析 第三部分 总结 参考文献及资料  背景Spark默认使用的是资源预分配的模式。即在任务运行之前，需要提前指定任务运行需要的资源量。但是在实际线上生产环境使用过程就存在资源浪费和不足的问题，特别是Spark Streaming类型的任务。例如很多日志数据在一天中量并不是均匀分布的，而是一个“双驼峰”。对于预分配模式，就存在日志峰值期">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spark on Yarn任务动态伸缩机制介绍">
+<meta property="og:url" content="https://zjrongxiang.github.io/2021/05/02/2021-05-02-Spark on Yarn任务动态伸缩机制介绍/index.html">
+<meta property="og:site_name" content="RongXiang">
+<meta property="og:description" content="目录 背景 第一部分  配置实现 第二部分 动态配置原理和源码分析 第三部分 总结 参考文献及资料  背景Spark默认使用的是资源预分配的模式。即在任务运行之前，需要提前指定任务运行需要的资源量。但是在实际线上生产环境使用过程就存在资源浪费和不足的问题，特别是Spark Streaming类型的任务。例如很多日志数据在一天中量并不是均匀分布的，而是一个“双驼峰”。对于预分配模式，就存在日志峰值期">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="d:/myblog/source/_posts/images/picture/spark%20DRA/dynamic-allocation-in-spark-19-638.jpg">
+<meta property="og:image" content="d:/myblog/source/_posts/images/picture/spark%20DRA/dynamic-allocation-in-spark-20-638.jpg">
+<meta property="og:updated_time" content="2021-05-03T17:39:04.008Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Spark on Yarn任务动态伸缩机制介绍">
+<meta name="twitter:description" content="目录 背景 第一部分  配置实现 第二部分 动态配置原理和源码分析 第三部分 总结 参考文献及资料  背景Spark默认使用的是资源预分配的模式。即在任务运行之前，需要提前指定任务运行需要的资源量。但是在实际线上生产环境使用过程就存在资源浪费和不足的问题，特别是Spark Streaming类型的任务。例如很多日志数据在一天中量并不是均匀分布的，而是一个“双驼峰”。对于预分配模式，就存在日志峰值期">
+<meta name="twitter:image" content="d:/myblog/source/_posts/images/picture/spark%20DRA/dynamic-allocation-in-spark-19-638.jpg">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="RongXiang" type="application/atom+xml">
+
+
+
+
+  <link rel="canonical" href="https://zjrongxiang.github.io/2021/05/02/2021-05-02-Spark on Yarn任务动态伸缩机制介绍/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Spark on Yarn任务动态伸缩机制介绍 | RongXiang</title>
+  
+
+
+
+
+  <script async src="//www.googletagmanager.com/gtag/js?id=UA-113063423-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-113063423-1');
+  </script>
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+    <!-- <a href="https://github.com/zjrongxiang"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png" alt="Fork me on GitHub"></a> -->
+    <a href="https://github.com/zjrongxiang"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_green_007200.png" alt="Fork me on GitHub"></a>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">RongXiang</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">我的烂笔头</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-schedule">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/schedule/" rel="section"><i class="menu-item-icon fa fa-fw fa-calendar"></i> <br>日程表</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zjrongxiang.github.io/2021/05/02/2021-05-02-Spark on Yarn任务动态伸缩机制介绍/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="rong xiang">
+      <meta itemprop="description" content="Keep a Pure Curiosity">
+      <meta itemprop="image" content="/images/avatar/person.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="RongXiang">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Spark on Yarn任务动态伸缩机制介绍
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2021-05-02 13:30:00" itemprop="dateCreated datePublished" datetime="2021-05-02T13:30:00+08:00">2021-05-02</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2021-05-04 01:39:04" itemprop="dateModified" datetime="2021-05-04T01:39:04+08:00">2021-05-04</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/spark/" itemprop="url" rel="index"><span itemprop="name">spark</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2021/05/02/2021-05-02-Spark on Yarn任务动态伸缩机制介绍/#comments" itemprop="discussionUrl">
+                
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/05/02/2021-05-02-Spark on Yarn任务动态伸缩机制介绍/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">本文字数：</span>
+                
+                <span title="本文字数">35k</span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">32 分钟</span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ul>
+<li>背景</li>
+<li>第一部分  配置实现</li>
+<li>第二部分 动态配置原理和源码分析</li>
+<li>第三部分 总结</li>
+<li>参考文献及资料</li>
+</ul>
+<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p><code>Spark</code>默认使用的是资源预分配的模式。即在任务运行之前，需要提前指定任务运行需要的资源量。但是在实际线上生产环境使用过程就存在资源浪费和不足的问题，特别是<code>Spark Streaming</code>类型的任务。例如很多日志数据在一天中量并不是均匀分布的，而是一个“双驼峰”。对于预分配模式，就存在日志峰值期间，运算资源不足导致数据处理的延迟，而在日志低峰时期存在资源闲置却无法释放（特别是资源管理器粗粒度模式）。使得生产线上环境资源未能高效使用。</p>
+<p><img src="D:\myblog\source\_posts\images\picture\spark DRA\dynamic-allocation-in-spark-19-638.jpg" alt="dynamic-allocation-in-spark-19-638"></p>
+<p><code>Spark</code>在<code>Spark 1.2</code>版本后，对于<code>Spark On Yarn</code>模式，开始支持动态资源分配（<code>Dynamic Resource Allocation</code>，后文我们也简称<code>DRA</code>）。该机制下<code>Spark Core</code>和<code>Spark Streaming</code>任务就可以根据<code>Application</code>的负载情况，动态的增加和减少<code>Executors</code>。</p>
+<p><img src="D:\myblog\source\_posts\images\picture\spark DRA\dynamic-allocation-in-spark-20-638.jpg" alt="dynamic-allocation-in-spark-20-638"></p>
+<h2 id="第一部分-配置实现"><a href="#第一部分-配置实现" class="headerlink" title="第一部分 配置实现"></a>第一部分 配置实现</h2><p>对于<code>Spark on Yarn</code>模式需要提前配置Yarn服务，主要是配置<code>External shuffle service</code>（<code>Spark 1.2</code>开始引入）。<code>Spark</code>计算需要<code>shuffle</code>时候，每个<code>Executor</code> 需要把上一个 <code>stage</code> 的 <code>mapper</code> 输出写入磁盘，然后作为 <code>server</code> 等待下一个<code>stage</code> 的<code>reducer</code> 来获取 map 的输出。因此如果 <code>Executor</code> 在 <code>map</code> 阶段完成后被回收，<code>reducer</code> 将无法找到 <code>block</code>的位置。所以开启 <code>Dynamic Resource Allocation</code> 时，必须开启 <code>External shuffle service</code>。这样，mapper 的输出位置（元数据信息）将会由 <code>External shuffle service</code>（长期运行的守护进程） 来登记保存，<code>Executor</code> 不需要再保留状态信息，可以安全回收。</p>
+<h3 id="1-1-Yarn服务配置"><a href="#1-1-Yarn服务配置" class="headerlink" title="1.1 Yarn服务配置"></a>1.1 Yarn服务配置</h3><p>首先需要对<code>Yarn</code>的<code>NodeManager</code>服务进行配置，使其支持<code>Spark</code>的<code>Shuffle Service</code>。</p>
+<ul>
+<li><p>修改每台<code>NodeManager</code>上的配置文件<code>yarn-site.xml</code>：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--修改和增加--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.nodemanager.aux-services<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">value</span>&gt;</span>mapreduce_shuffle,spark_shuffle<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">　<span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.nodemanager.aux-services.spark_shuffle.class<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">　<span class="tag">&lt;<span class="name">value</span>&gt;</span>org.apache.spark.network.yarn.YarnShuffleService<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">　<span class="tag">&lt;<span class="name">name</span>&gt;</span>spark.shuffle.service.port<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">　<span class="tag">&lt;<span class="name">value</span>&gt;</span>7337<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>配置服务依赖包。将<code>$SPARK_HOME/lib/spark-1.6.0-yarn-shuffle.jar</code>（注意实际版本号）复制到每台<code>NodeManager</code>的<code>${HADOOP_HOME}/share/hadoop/yarn/lib/</code>下。</p>
+</li>
+<li>重启所有<code>NodeManager</code>生效配置调整。</li>
+</ul>
+<h3 id="1-2-Spark-core-任务配置"><a href="#1-2-Spark-core-任务配置" class="headerlink" title="1.2 Spark core 任务配置"></a>1.2 Spark core 任务配置</h3><h4 id="1-2-1-配置方法"><a href="#1-2-1-配置方法" class="headerlink" title="1.2.1 配置方法"></a>1.2.1 配置方法</h4><p>通常配置<code>Saprk</code>应用任务的参数有三种方式：</p>
+<ul>
+<li><p>修改配置文件<code>spark-defaults.conf</code>，全局生效；</p>
+<p>配置文件位置：<code>$SPARK_HOME/conf/spark-defaults.conf</code>，具体参数如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">//启用External shuffle Service服务</span><br><span class="line">spark.shuffle.service.enabled true</span><br><span class="line">//Shuffle Service服务端口，必须和yarn-site中的一致</span><br><span class="line">spark.shuffle.service.port 7337</span><br><span class="line">//开启动态资源分配</span><br><span class="line">spark.dynamicAllocation.enabled true</span><br><span class="line">//每个Application最小分配的executor数</span><br><span class="line">spark.dynamicAllocation.minExecutors 1</span><br><span class="line">//每个Application最大并发分配的executor数</span><br><span class="line">spark.dynamicAllocation.maxExecutors 30</span><br><span class="line">spark.dynamicAllocation.schedulerBacklogTimeout 1s</span><br><span class="line">spark.dynamicAllocation.sustainedSchedulerBacklogTimeout 5s</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>spark-submit 命令配置，个性化生效；</p>
+<p>参考下面的案例：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">spark-submit --master yarn-cluster \</span><br><span class="line">    --driver-cores 2 \</span><br><span class="line">    --driver-memory 2G \</span><br><span class="line">    --num-executors 10 \</span><br><span class="line">    --executor-cores 5 \</span><br><span class="line">    --executor-memory 2G \</span><br><span class="line">    --conf spark.dynamicAllocation.enabled=true \</span><br><span class="line">    --conf spark.shuffle.service.enabled=true \</span><br><span class="line">    --conf spark.dynamicAllocation.minExecutors=5 \</span><br><span class="line">    --conf spark.dynamicAllocation.maxExecutors=30 \</span><br><span class="line">    --conf spark.dynamicAllocation.initialExecutors=10 </span><br><span class="line">    --class com.spark.sql.jdbc.SparkDFtoOracle2 \</span><br><span class="line">    Spark-hive-sql-Dataframe-0.0.1-SNAPSHOT-jar-with-dependencies.jar</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>代码中配置，个性化生效；</p>
+<p>参考下面的<code>scala</code>代码案例：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> conf: <span class="type">SparkConf</span> = <span class="keyword">new</span> <span class="type">SparkConf</span>()</span><br><span class="line">conf.set(<span class="string">"spark.dynamicAllocation.enabled"</span>, <span class="literal">true</span>);</span><br><span class="line">conf.set(<span class="string">"spark.shuffle.service.enabled"</span>, <span class="literal">true</span>);</span><br><span class="line">conf.set(<span class="string">"spark.dynamicAllocation.minExecutors"</span>, <span class="string">"5"</span>);</span><br><span class="line">conf.set(<span class="string">"spark.dynamicAllocation.maxExecutors"</span>, <span class="string">"30"</span>);</span><br><span class="line">conf.set(<span class="string">"spark.dynamicAllocation.initialExecutors"</span>, <span class="string">"10"</span>);</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>接下来我们介绍详细的参数含义。</p>
+<h4 id="1-2-2-配置说明"><a href="#1-2-2-配置说明" class="headerlink" title="1.2.2 配置说明"></a>1.2.2 配置说明</h4><table>
+<thead>
+<tr>
+<th style="text-align:left">Property Name</th>
+<th style="text-align:left">Default</th>
+<th style="text-align:left">Meaning</th>
+<th style="text-align:left">Since Version</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>spark.dynamicAllocation.enabled</code></td>
+<td style="text-align:left">false</td>
+<td style="text-align:left">Whether to use dynamic resource allocation, which scales the number of executors registered with this application up and down based on the workload. For more detail, see the description <a href="https://spark.apache.org/docs/latest/job-scheduling.html#dynamic-resource-allocation" target="_blank" rel="noopener">here</a>.  This requires <code>spark.shuffle.service.enabled</code> or <code>spark.dynamicAllocation.shuffleTracking.enabled</code> to be set. The following configurations are also relevant: <code>spark.dynamicAllocation.minExecutors</code>, <code>spark.dynamicAllocation.maxExecutors</code>, and <code>spark.dynamicAllocation.initialExecutors</code> <code>spark.dynamicAllocation.executorAllocationRatio</code></td>
+<td style="text-align:left">1.2.0</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>spark.dynamicAllocation.executorIdleTimeout</code></td>
+<td style="text-align:left">60s</td>
+<td style="text-align:left">If dynamic allocation is enabled and an executor has been idle for more than this duration, the executor will be removed. For more detail, see this <a href="https://spark.apache.org/docs/latest/job-scheduling.html#resource-allocation-policy" target="_blank" rel="noopener">description</a>.</td>
+<td style="text-align:left">1.2.0</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>spark.dynamicAllocation.cachedExecutorIdleTimeout</code></td>
+<td style="text-align:left">infinity</td>
+<td style="text-align:left">If dynamic allocation is enabled and an executor which has cached data blocks has been idle for more than this duration, the executor will be removed. For more details, see this <a href="https://spark.apache.org/docs/latest/job-scheduling.html#resource-allocation-policy" target="_blank" rel="noopener">description</a>.</td>
+<td style="text-align:left">1.4.0</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>spark.dynamicAllocation.initialExecutors</code></td>
+<td style="text-align:left"><code>spark.dynamicAllocation.minExecutors</code></td>
+<td style="text-align:left">Initial number of executors to run if dynamic allocation is enabled.  If <code>--num-executors</code> (or <code>spark.executor.instances</code>) is set and larger than this value, it will be used as the initial number of executors.</td>
+<td style="text-align:left">1.3.0</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>spark.dynamicAllocation.maxExecutors</code></td>
+<td style="text-align:left">infinity</td>
+<td style="text-align:left">Upper bound for the number of executors if dynamic allocation is enabled.</td>
+<td style="text-align:left">1.2.0</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>spark.dynamicAllocation.minExecutors</code></td>
+<td style="text-align:left">0</td>
+<td style="text-align:left">Lower bound for the number of executors if dynamic allocation is enabled.</td>
+<td style="text-align:left">1.2.0</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>spark.dynamicAllocation.executorAllocationRatio</code></td>
+<td style="text-align:left">1</td>
+<td style="text-align:left">By default, the dynamic allocation will request enough executors to maximize the parallelism according to the number of tasks to process. While this minimizes the latency of the job, with small tasks this setting can waste a lot of resources due to executor allocation overhead, as some executor might not even do any work. This setting allows to set a ratio that will be used to reduce the number of executors w.r.t. full parallelism. Defaults to 1.0 to give maximum parallelism. 0.5 will divide the target number of executors by 2 The target number of executors computed by the dynamicAllocation can still be overridden by the <code>spark.dynamicAllocation.minExecutors</code> and <code>spark.dynamicAllocation.maxExecutors</code> settings</td>
+<td style="text-align:left">2.4.0</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>spark.dynamicAllocation.schedulerBacklogTimeout</code></td>
+<td style="text-align:left">1s</td>
+<td style="text-align:left">If dynamic allocation is enabled and there have been pending tasks backlogged for more than this duration, new executors will be requested. For more detail, see this <a href="https://spark.apache.org/docs/latest/job-scheduling.html#resource-allocation-policy" target="_blank" rel="noopener">description</a>.</td>
+<td style="text-align:left">1.2.0</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>spark.dynamicAllocation.sustainedSchedulerBacklogTimeout</code></td>
+<td style="text-align:left"><code>schedulerBacklogTimeout</code></td>
+<td style="text-align:left">Same as <code>spark.dynamicAllocation.schedulerBacklogTimeout</code>, but used only for subsequent executor requests. For more detail, see this <a href="https://spark.apache.org/docs/latest/job-scheduling.html#resource-allocation-policy" target="_blank" rel="noopener">description</a>.</td>
+<td style="text-align:left">1.2.0</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>spark.dynamicAllocation.shuffleTracking.enabled</code></td>
+<td style="text-align:left"><code>false</code></td>
+<td style="text-align:left">Experimental. Enables shuffle file tracking for executors, which allows dynamic allocation without the need for an external shuffle service. This option will try to keep alive executors that are storing shuffle data for active jobs.</td>
+<td style="text-align:left">3.0.0</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>spark.dynamicAllocation.shuffleTracking.timeout</code></td>
+<td style="text-align:left"><code>infinity</code></td>
+<td style="text-align:left">When shuffle tracking is enabled, controls the timeout for executors that are holding shuffle data. The default value means that Spark will rely on the shuffles being garbage collected to be able to release executors. If for some reason garbage collection is not cleaning up shuffles quickly enough, this option can be used to control when to time out executors even when they are storing shuffle data.</td>
+<td style="text-align:left">3.0.0</td>
+</tr>
+</tbody>
+</table>
+<h3 id="1-3-Spark-Streaming-任务配置"><a href="#1-3-Spark-Streaming-任务配置" class="headerlink" title="1.3 Spark Streaming 任务配置"></a>1.3 Spark Streaming 任务配置</h3><p>对于Spark Streaming 流处理任务，Spark官方并未在文档中给出介绍。<code>Dynamic Resource Allocation</code>配置指引如下：</p>
+<ul>
+<li><p>必要配置（Spark 3.0.0）</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 开启Spark Streaming流处理动态资源分配参数开关（默认关闭）</span></span><br><span class="line">spark.streaming.dynamicAllocation.enabled=true</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 设置最大和最小的Executor数量</span></span><br><span class="line">spark.streaming.dynamicAllocation.minExecutors=1（必须正整数）</span><br><span class="line">spark.streaming.dynamicAllocation.maxExecutors=50（必须正整数，默认Int.MaxValue，即无限大）</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>可选配置（Spark 3.0.0）</p>
+<p>这些参数可以不用配置，都已经提供了一个较为合理的默认值。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">spark.streaming.dynamicAllocation.scalingUpRatio（必须正数，默认0.9）</span><br><span class="line">spark.streaming.dynamicAllocation.scalingInterval（单位秒，默认60）</span><br><span class="line">spark.streaming.dynamicAllocation.scalingDownRatio（必须正数，默认0.3）</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="第二部分-动态配置原理和源码分析"><a href="#第二部分-动态配置原理和源码分析" class="headerlink" title="第二部分 动态配置原理和源码分析"></a>第二部分 动态配置原理和源码分析</h2><p>介绍完使用配置后，接下来将详细介绍实现原理。以便理解各参数的含义和参数调优。</p>
+<h3 id="2-1-Spark-Core任务"><a href="#2-1-Spark-Core任务" class="headerlink" title="2.1 Spark Core任务"></a>2.1 Spark Core任务</h3><p>为了动态伸缩Spark任务的计算资源（Executor为基本分配单位），首先需要确定的度量是任务的繁忙程度。<code>DRA</code>机制将Spark任务是否有挂起任务(pending task)作为判断标准，一旦有挂起任务表示当前的Executor数量不够支撑所有的task并行运行，所以会申请增加资源。</p>
+<h4 id="2-1-1-资源请求（Request）策略"><a href="#2-1-1-资源请求（Request）策略" class="headerlink" title="2.1.1 资源请求（Request）策略"></a>2.1.1 资源请求（Request）策略</h4><p>当Spark任务开启<code>DRA</code>机制，<code>SparkContext</code>会启动后台<code>ExecutorAllocationManager</code>，用来管理集群的Executors。</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//package org.apache.spark SparkContext.scala</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> dynamicAllocationEnabled = <span class="type">Utils</span>.isDynamicAllocationEnabled(_conf)</span><br><span class="line">    _executorAllocationManager =</span><br><span class="line">      <span class="keyword">if</span> (dynamicAllocationEnabled) &#123;</span><br><span class="line">        schedulerBackend <span class="keyword">match</span> &#123;</span><br><span class="line">          <span class="keyword">case</span> b: <span class="type">ExecutorAllocationClient</span> =&gt;</span><br><span class="line">            <span class="type">Some</span>(<span class="keyword">new</span> <span class="type">ExecutorAllocationManager</span>(</span><br><span class="line">              schedulerBackend.asInstanceOf[<span class="type">ExecutorAllocationClient</span>], listenerBus, _conf,</span><br><span class="line">              cleaner = cleaner, resourceProfileManager = resourceProfileManager))</span><br><span class="line">          <span class="keyword">case</span> _ =&gt;</span><br><span class="line">            <span class="type">None</span></span><br><span class="line">        &#125;</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="type">None</span></span><br><span class="line">      &#125;</span><br><span class="line">    _executorAllocationManager.foreach(_.start())</span><br></pre></td></tr></table></figure>
+<p>Start()方法将<code>ExecutorAllocationListener</code>加入到<code>listenerBus</code>中，<code>ExecutorAllocationListener</code>通过监听<code>listenerBus</code>里的事件，动态添加，删除<code>Executor</code>。并且通过<code>Thread</code>不断添加<code>Executor</code>，遍历<code>Executor</code>，将超时的<code>Executor</code>杀掉并移除。</p>
+<p>Spark会周期性（<code>intervalMillis</code>=100毫秒）计算实际需要的Executor的最大数量<code>maxNeeded</code>。公式如下。</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> maxNeeded = math.ceil(numRunningOrPendingTasks * executorAllocationRatio /</span><br><span class="line">      tasksPerExecutor).toInt</span><br></pre></td></tr></table></figure>
+<p>逻辑代码：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="function"><span class="keyword">def</span> <span class="title">updateAndSyncNumExecutorsTarget</span></span>(now: <span class="type">Long</span>): <span class="type">Int</span> = synchronized &#123;</span><br><span class="line">  <span class="keyword">if</span> (initializing) &#123;</span><br><span class="line">    <span class="number">0</span></span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">val</span> updatesNeeded = <span class="keyword">new</span> mutable.<span class="type">HashMap</span>[<span class="type">Int</span>, <span class="type">ExecutorAllocationManager</span>.<span class="type">TargetNumUpdates</span>]</span><br><span class="line">    numExecutorsTargetPerResourceProfileId.foreach &#123; <span class="keyword">case</span> (rpId, targetExecs) =&gt;</span><br><span class="line">      <span class="keyword">val</span> maxNeeded = maxNumExecutorsNeededPerResourceProfile(rpId)</span><br><span class="line">      <span class="keyword">if</span> (maxNeeded &lt; targetExecs) &#123;</span><br><span class="line">        decrementExecutorsFromTarget(maxNeeded, rpId, updatesNeeded)</span><br><span class="line">      &#125; <span class="keyword">else</span> <span class="keyword">if</span> (addTime != <span class="type">NOT_SET</span> &amp;&amp; now &gt;= addTime) &#123;</span><br><span class="line">        addExecutorsToTarget(maxNeeded, rpId, updatesNeeded)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    doUpdateRequest(updatesNeeded.toMap, now)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>当集群中有<code>Executor</code>出现<code>pending task</code>，计算判断条件<code>maxNeeded &gt; targetExecs</code>，并且等待时间超过<code>schedulerBacklogTimeout</code>(默认<code>1s</code>)，则会触发方法<code>addExecutorsToTarget(maxNeeded, rpId, updatesNeeded)</code>。对于首次增加Executor。</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spark.dynamicAllocation.schedulerBacklogTimeout = 1s（秒）</span><br></pre></td></tr></table></figure>
+<ul>
+<li>后续按照周期性时间<code>sustainedSchedulerBacklogTimeout</code>来检测pending task，一旦出现pending task，即触发增加Executor。</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spark.dynamicAllocation.sustainedSchedulerBacklogTimeout = 1s(秒)</span><br></pre></td></tr></table></figure>
+<p>每次（轮）触发增加<code>Executor</code>资源请求，增加的数量翻倍，即是一个指数数列（2的n次方），例如：<code>1、2、4、8</code>。</p>
+<h4 id="2-1-2-资源释放（Remove）策略"><a href="#2-1-2-资源释放（Remove）策略" class="headerlink" title="2.1.2 资源释放（Remove）策略"></a>2.1.2 资源释放（Remove）策略</h4><p>对于移除策略如下：</p>
+<ul>
+<li>如果Executor闲置（<code>maxNeeded &lt; targetExecs</code>）时间超过以下参数，并且executor中没有cache（数据缓存在内存），则spark应用将会释放该Executor。</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spark.dynamicAllocation.executorIdleTimeout（单位为秒） 默认60s</span><br></pre></td></tr></table></figure>
+<ul>
+<li>如果空闲Executor中有cache，那么这个超时参数为：</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spark.dynamicAllocation.cachedExecutorIdleTimeout 默认值：Integer.MAX_VALUE（即永不超时）</span><br></pre></td></tr></table></figure>
+<p>对于Executor的退出，设计上需要考虑状态的问题，主要：</p>
+<ul>
+<li><p>需要移除的<code>Executor</code>存在<code>cache</code>。</p>
+<p>如果需要移除的<code>Executor</code>含有<code>RDD cache</code>。这时候超时时间为整型最大值（相当于无限）。</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span>[spark] <span class="keyword">val</span> <span class="type">DYN_ALLOCATION_CACHED_EXECUTOR_IDLE_TIMEOUT</span> =</span><br><span class="line">  <span class="type">ConfigBuilder</span>(<span class="string">"spark.dynamicAllocation.cachedExecutorIdleTimeout"</span>)</span><br><span class="line">    .version(<span class="string">"1.4.0"</span>)</span><br><span class="line">    .timeConf(<span class="type">TimeUnit</span>.<span class="type">SECONDS</span>)</span><br><span class="line">    .checkValue(_ &gt;= <span class="number">0</span>L, <span class="string">"Timeout must be &gt;= 0."</span>)</span><br><span class="line">    .createWithDefault(<span class="type">Integer</span>.<span class="type">MAX_VALUE</span>)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Shuffle状态的保存问题。如果需要移除的Executor包含了Shuffle状态数据（在shuffle期间，Spark executor先要将map的输出写入到磁盘，然后该executor充当一个文件服务器，将这些文件共享给其他的executor访问）。需要提前启动<code>External shuffle service</code>，由专门外置服务提供存储，Executor中不再负责保存，架构上功能解耦。</p>
+</li>
+</ul>
+<p>另外添加和移除Executor之后，需要告知<code>DAGSchedule</code>进行相关信息更新。</p>
+<h4 id="2-1-3-配置建议"><a href="#2-1-3-配置建议" class="headerlink" title="2.1.3 配置建议"></a>2.1.3 配置建议</h4><p>Spark的动态伸缩机制的几点建议：</p>
+<ul>
+<li>给Executor数量设置一个合理的伸缩区间，即<code>[minExecutors-maxExecutors]</code>区间值。</li>
+<li>配置资源粒度较小的Executor，例如CPU数量为3-4个。动态伸缩的最小伸缩单位是单个Executor，如果出现资源伸缩，特别是Executor数目下降后业务量突增，新申请资源未就绪，已有的Executor就可能由于任务过载而导致集群崩溃。</li>
+<li>如果程序中有shuffle,例如(reduce<em>,groupBy</em>),建议设置一个合理的并行数，避免杀掉过多的Executors。</li>
+<li>对于每个Stage持续时间很短的应用，不适合动态伸缩机制。这样会频繁增加和移除Executors，造成系统颠簸。特别是在 Spark on Yarn模式下资源的申请处理速度并不快。</li>
+</ul>
+<h3 id="2-2-Spark-Streaming-任务"><a href="#2-2-Spark-Streaming-任务" class="headerlink" title="2.2 Spark Streaming 任务"></a>2.2 Spark Streaming 任务</h3><p>Spark Streaming任务可以看成连续运行的微（micro-batch）批任务，如果直接套用Spark Core的动态伸缩机制就水土不服了。一般一个微批任务较短（默认60秒），实际线上任务可能更小，动态伸缩的反应时间较长（特别是on Yarn模式），一个微批任务结束，动态伸缩策略还没生效。所以针对Spark Streaming任务，项目组设计新的动态机制（Spark 2.0.0 版本引入）。</p>
+<p>提案：<a href="https://issues.apache.org/jira/browse/SPARK-12133" target="_blank" rel="noopener">https://issues.apache.org/jira/browse/SPARK-12133</a></p>
+<h4 id="2-2-1-源码分析"><a href="#2-2-1-源码分析" class="headerlink" title="2.2.1 源码分析"></a>2.2.1 源码分析</h4><p>Spark Streaming任务会统计微批任务运行时间的延迟时间，最朴素的想法就是按照这个度量指标来作为动态伸缩的触发指标。这部分源码在<code>org.apache.spark.streaming.scheduler</code>中：</p>
+<ul>
+<li><p>周期性计算微批运行完成的平均时间，然后和<code>batch interval</code>进行比较；</p>
+<p>这里的周期大小由参数<code>spark.streaming.dynamicAllocation.scalingInterval</code>决定，大小为<code>scalingIntervalSecs * 1000</code>。例如默认值为：60*1000毫秒，即60秒。</p>
+<p>通过<code>streamingListener</code>计算微批平均处理时间（<code>averageBatchProcTime</code>），然后计算微批处理率（ratio，微批平均处理时间/微批处理周期）。</p>
+<p>然后和参数值上限（<code>scalingUpRatio</code>）和下限（<code>scalingDownRatio</code>）进行比较。详细控制函数如下：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="function"><span class="keyword">def</span> <span class="title">manageAllocation</span></span>(): <span class="type">Unit</span> = synchronized &#123;</span><br><span class="line">   logInfo(<span class="string">s"Managing executor allocation with ratios = [<span class="subst">$scalingUpRatio</span>, <span class="subst">$scalingDownRatio</span>]"</span>)</span><br><span class="line">   <span class="keyword">if</span> (batchProcTimeCount &gt; <span class="number">0</span>) &#123;</span><br><span class="line">     <span class="keyword">val</span> averageBatchProcTime = batchProcTimeSum / batchProcTimeCount</span><br><span class="line">     <span class="keyword">val</span> ratio = averageBatchProcTime.toDouble / batchDurationMs</span><br><span class="line">     logInfo(<span class="string">s"Average: <span class="subst">$averageBatchProcTime</span>, ratio = <span class="subst">$ratio</span>"</span> )</span><br><span class="line">     <span class="keyword">if</span> (ratio &gt;= scalingUpRatio) &#123;</span><br><span class="line">       logDebug(<span class="string">"Requesting executors"</span>)</span><br><span class="line">       <span class="keyword">val</span> numNewExecutors = math.max(math.round(ratio).toInt, <span class="number">1</span>)</span><br><span class="line">       requestExecutors(numNewExecutors)</span><br><span class="line">     &#125; <span class="keyword">else</span> <span class="keyword">if</span> (ratio &lt;= scalingDownRatio) &#123;</span><br><span class="line">       logDebug(<span class="string">"Killing executors"</span>)</span><br><span class="line">       killExecutor()</span><br><span class="line">     &#125;</span><br><span class="line">   &#125;</span><br><span class="line">   batchProcTimeSum = <span class="number">0</span></span><br><span class="line">   batchProcTimeCount = <span class="number">0</span></span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>增加Executor数量；如果<code>ratio &gt;= scalingUpRatio</code>，然后按照下面的公司增加数量：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> numNewExecutors = math.max(math.round(ratio).toInt, <span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+<p>例如<code>ratio=1.6&gt;0.9(scalingUpRatio)</code>，这时候说明有大量微批任务出现了延迟，按照公式计算<code>numNewExecutors=2</code>。接下来会调用<code>requestExecutors(numNewExecutors)</code>方法去申请2个Executor。</p>
+</li>
+<li><p>减少Executor数量；如果<code>ratio &lt;= scalingDownRatio</code>，这直接调用<code>killExecutor()</code>方法（方法中判断没有receiver运行的Executor）去kill Executor。</p>
+</li>
+</ul>
+<h4 id="2-2-2-配置建议"><a href="#2-2-2-配置建议" class="headerlink" title="2.2.2 配置建议"></a>2.2.2 配置建议</h4><p>Spark Streaming动态资源分配起作用前，需要至少完成一个Batch处理(<code>batchProcTimeCount &gt; 0</code>)。</p>
+<ul>
+<li><p>Spark Core和Spark Streaming的动态配置开关配置是分别设置的。</p>
+<p>如果两个配置开关同时配置为true，会抛出错误。建议如下配置：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">spark.dynamicAllocation.enabled=false （默认是false，可以不配置）</span><br><span class="line">spark.streaming.dynamicAllocation.enabled=true</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="第三部分-总结"><a href="#第三部分-总结" class="headerlink" title="第三部分 总结"></a>第三部分 总结</h2><h3 id="3-1-对比"><a href="#3-1-对比" class="headerlink" title="3.1 对比"></a>3.1 对比</h3><p>Spark Core中动态伸缩机制是基于空闲时间来控制回收Executor。而在Spark Streaming中，一个Executor每隔很短的时间都会有一批作业被调度，所以在streaming里面是基于平均每批作业处理的时间。</p>
+<h3 id="3-2-Structed-Streaming任务动态伸缩"><a href="#3-2-Structed-Streaming任务动态伸缩" class="headerlink" title="3.2 Structed Streaming任务动态伸缩"></a>3.2 <code>Structed Streaming</code>任务动态伸缩</h3><p>在spark Streaming中，最小的可能延迟受限于每批的调度间隔以及任务启动时间。所以这不能满足更低延迟的需求。如果能够连续的处理，尤其是简单的处理而没有任何的阻塞操作。这种连续处理的架构可以使得端到端延迟最低降低到<code>1ms</code>级别，而不是目前的<code>10-100ms</code>级别，这就是Spark 2.2.0版本引入新的Spark流处理框架：<code>Structed Streaming</code>。</p>
+<blockquote>
+<p><a href="https://issues.apache.org/jira/browse/SPARK-20928" target="_blank" rel="noopener">https://issues.apache.org/jira/browse/SPARK-20928</a></p>
+</blockquote>
+<p>当然项目组自然也会考虑该框架的资源伸缩机制（未完成）</p>
+<blockquote>
+<p><a href="https://issues.apache.org/jira/browse/SPARK-24815" target="_blank" rel="noopener">https://issues.apache.org/jira/browse/SPARK-24815</a></p>
+</blockquote>
+<p>后续趋势上看，Spark项目会将更多精力放在<code>Structed Streaming</code>。</p>
+<h3 id="3-3-Spark-Streaming-背压机制"><a href="#3-3-Spark-Streaming-背压机制" class="headerlink" title="3.3 Spark Streaming 背压机制"></a>3.3 Spark <strong>Streaming</strong> 背压机制</h3><p>为了应对Spark Streaming处理数据波动，除了资源动态伸缩机制，在Spark 1.5版本项目在Spark Streaming 中引入了的背压（<code>Backpressure</code>）机制。</p>
+<p>Spark Streaming任务中，当batch的处理时间大于batch interval时，意味着数据处理速度跟不上数据接收速度。这时候在数据接收端(Receiver)Executor就会开始积压数据。如果数据存储采用MEMORY_ONLY模式（内存）就会导致OOM，采用MEMORY_AND_DISK多余的数据保存到磁盘上，增加数据IO时间。</p>
+<p>背压（<code>Backpressure</code>）机制，通过动态控制数据接收速率来适配集群数据处理能力。这是被动防守型的应对，将数据缓存在Kafka消息层。如果数据持续保持高量级，就需要主动启停任务来增加计算资源。</p>
+<h2 id="参考文献及资料"><a href="#参考文献及资料" class="headerlink" title="参考文献及资料"></a>参考文献及资料</h2><p>1、Job Scheduling，链接：<a href="https://spark.apache.org/docs/latest/job-scheduling.html#configuration-and-setup" target="_blank" rel="noopener">https://spark.apache.org/docs/latest/job-scheduling.html#configuration-and-setup</a></p>
+<p>2、About Spark Streaming，链接：<a href="https://www.turbofei.wang/spark/2019/05/26/about-spark-streaming" target="_blank" rel="noopener">https://www.turbofei.wang/spark/2019/05/26/about-spark-streaming</a></p>
+
+      
+    </div>
+
+    
+
+    <div>
+      
+        
+      
+    </div>
+    
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2021/04/15/2021-05-30-suse操作系统rpm命令/" rel="next" title="suse操作系统rpm命令">
+                <i class="fa fa-chevron-left"></i> suse操作系统rpm命令
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2021/05/02/2021-05-02-Spark中的动态伸缩和反压机制/" rel="prev" title="Spark中的动态伸缩和反压机制">
+                Spark中的动态伸缩和反压机制 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar/person.png" alt="rong xiang">
+            
+              <p class="site-author-name" itemprop="name">rong xiang</p>
+              <p class="site-description motion-element" itemprop="description">Keep a Pure Curiosity</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">162</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">64</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">19</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/zjrongxiang" title="GitHub &rarr; https://github.com/zjrongxiang" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="mailto:rongxiang1986@163.com" title="E-Mail &rarr; mailto:rongxiang1986@163.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="http://weibo.com/u/1971060643" title="Weibo &rarr; http://weibo.com/u/1971060643" rel="noopener" target="_blank"><i class="fa fa-fw fa-weibo"></i>Weibo</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Link
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://weibo.com/fly51fly?refer_flag=1005055010_" title="https://weibo.com/fly51fly?refer_flag=1005055010_" rel="noopener" target="_blank">爱生活爱可可</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#目录"><span class="nav-number">1.</span> <span class="nav-text">目录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#背景"><span class="nav-number">2.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第一部分-配置实现"><span class="nav-number">3.</span> <span class="nav-text">第一部分 配置实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-Yarn服务配置"><span class="nav-number">3.1.</span> <span class="nav-text">1.1 Yarn服务配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-Spark-core-任务配置"><span class="nav-number">3.2.</span> <span class="nav-text">1.2 Spark core 任务配置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-1-配置方法"><span class="nav-number">3.2.1.</span> <span class="nav-text">1.2.1 配置方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-2-配置说明"><span class="nav-number">3.2.2.</span> <span class="nav-text">1.2.2 配置说明</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-Spark-Streaming-任务配置"><span class="nav-number">3.3.</span> <span class="nav-text">1.3 Spark Streaming 任务配置</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第二部分-动态配置原理和源码分析"><span class="nav-number">4.</span> <span class="nav-text">第二部分 动态配置原理和源码分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-Spark-Core任务"><span class="nav-number">4.1.</span> <span class="nav-text">2.1 Spark Core任务</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-1-资源请求（Request）策略"><span class="nav-number">4.1.1.</span> <span class="nav-text">2.1.1 资源请求（Request）策略</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-2-资源释放（Remove）策略"><span class="nav-number">4.1.2.</span> <span class="nav-text">2.1.2 资源释放（Remove）策略</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-3-配置建议"><span class="nav-number">4.1.3.</span> <span class="nav-text">2.1.3 配置建议</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-Spark-Streaming-任务"><span class="nav-number">4.2.</span> <span class="nav-text">2.2 Spark Streaming 任务</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-1-源码分析"><span class="nav-number">4.2.1.</span> <span class="nav-text">2.2.1 源码分析</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-2-配置建议"><span class="nav-number">4.2.2.</span> <span class="nav-text">2.2.2 配置建议</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第三部分-总结"><span class="nav-number">5.</span> <span class="nav-text">第三部分 总结</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-对比"><span class="nav-number">5.1.</span> <span class="nav-text">3.1 对比</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-Structed-Streaming任务动态伸缩"><span class="nav-number">5.2.</span> <span class="nav-text">3.2 Structed Streaming任务动态伸缩</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-Spark-Streaming-背压机制"><span class="nav-number">5.3.</span> <span class="nav-text">3.3 Spark Streaming 背压机制</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文献及资料"><span class="nav-number">6.</span> <span class="nav-text">参考文献及资料</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; 2014 – <span itemprop="copyrightYear">2021</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">rong xiang</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+    <span title="站点总字数">525k</span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    
+    <span title="站点阅读时长">7:57</span>
+  
+</div>
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="总访客量">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="总访问量">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=6.7.0"></script>
+
+  <script src="/js/src/motion.js?v=6.7.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/schemes/muse.js?v=6.7.0"></script>
+
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=6.7.0"></script>
+<script src="/js/src/post-details.js?v=6.7.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=6.7.0"></script>
+
+
+
+  
+  
+    
+  <script id="dsq-count-scr" src="https://https-zjrongxiang-github-io.disqus.com/count.js" async></script>
+
+
+<script>
+  var disqus_config = function () {
+    this.page.url = "https://zjrongxiang.github.io/2021/05/02/2021-05-02-Spark on Yarn任务动态伸缩机制介绍/";
+    this.page.identifier = "2021/05/02/2021-05-02-Spark on Yarn任务动态伸缩机制介绍/";
+    this.page.title = 'Spark on Yarn任务动态伸缩机制介绍';
+    };
+  function loadComments () {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://https-zjrongxiang-github-io.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', '' + +new Date());
+    (d.head || d.body).appendChild(s);
+  }
+  
+    loadComments();
+  
+</script>
+
+  
+
+
+
+
+
+  
+
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <style>
+    .copy-btn {
+      display: inline-block;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 20px;
+      color: #333;
+      white-space: nowrap;
+      vertical-align: middle;
+      cursor: pointer;
+      background-color: #eee;
+      background-image: linear-gradient(#fcfcfc, #eee);
+      border: 1px solid #d5d5d5;
+      border-radius: 3px;
+      user-select: none;
+      outline: 0;
+    }
+
+    .highlight-wrap .copy-btn {
+      transition: opacity .3s ease-in-out;
+      opacity: 0;
+      padding: 2px 6px;
+      position: absolute;
+      right: 4px;
+      top: 8px;
+    }
+
+    .highlight-wrap:hover .copy-btn,
+    .highlight-wrap .copy-btn:focus {
+      opacity: 1
+    }
+
+    .highlight-wrap {
+      position: relative;
+    }
+  </style>
+  <script>
+    $('.highlight').each(function (i, e) {
+      var $wrap = $('<div>').addClass('highlight-wrap');
+      $(e).after($wrap);
+      $wrap.append($('<button>').addClass('copy-btn').append('复制').on('click', function (e) {
+        var code = $(this).parent().find('.code').find('.line').map(function (i, e) {
+          return $(e).text();
+        }).toArray().join('\n');
+        var ta = document.createElement('textarea');
+        var range = document.createRange(); //For Chrome
+        var sel = window.getSelection(); //For Chrome
+        var yPosition = window.pageYOffset || document.documentElement.scrollTop;
+        ta.style.top = yPosition + 'px'; //Prevent page scroll
+        ta.style.position = 'absolute';
+        ta.style.opacity = '0';
+        ta.value = code;
+        ta.textContent = code; //For FireFox
+        ta.contentEditable = true;
+        ta.readOnly = false;
+        document.body.appendChild(ta);
+        range.selectNode(ta);
+        sel.removeAllRanges();
+        sel.addRange(range);
+        ta.setSelectionRange(0, code.length);
+        var result = document.execCommand('copy');
+        
+          if (result) $(this).text('复制成功');
+          else $(this).text('复制失败');
+        
+        ta.blur(); //For iOS
+        $(this).blur();
+      })).on('mouseleave', function (e) {
+        var $b = $(this).find('.copy-btn');
+        setTimeout(function () {
+          $b.text('复制');
+        }, 300);
+      }).append(e);
+    })
+  </script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+
+  
+  
+
+  
+  
+
+  
+
+
+</body>
+</html>

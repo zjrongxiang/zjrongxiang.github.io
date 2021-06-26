@@ -125,7 +125,7 @@
 <meta property="og:description" content="[TOC] 背景Kubernetes是Google推出的容器编排工具，这是Google保密十几年的强大武器Borg的开源版本。Kubernetes这个名字源于古希腊，意思是舵手。既然docker被比喻成大海上驮着集装箱的鲸鱼，那么Kubernetes就是舵手，掌握鲸鱼的游弋方向，寓意深刻。 Kubernetes第一个正式版本于2015年7月发布。从Kubernetes 1.3开始提供了一个叫Min">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://zjrongxiang.github.io/images/picture/minikube.jpeg">
-<meta property="og:updated_time" content="2020-08-10T14:32:25.184Z">
+<meta property="og:updated_time" content="2021-01-31T06:52:23.683Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="在Ubuntu上部署Minikube">
 <meta name="twitter:description" content="[TOC] 背景Kubernetes是Google推出的容器编排工具，这是Google保密十几年的强大武器Borg的开源版本。Kubernetes这个名字源于古希腊，意思是舵手。既然docker被比喻成大海上驮着集装箱的鲸鱼，那么Kubernetes就是舵手，掌握鲸鱼的游弋方向，寓意深刻。 Kubernetes第一个正式版本于2015年7月发布。从Kubernetes 1.3开始提供了一个叫Min">
@@ -484,7 +484,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2020-08-10 22:32:25" itemprop="dateModified" datetime="2020-08-10T22:32:25+08:00">2020-08-10</time>
+                <time title="修改时间：2021-01-31 14:52:23" itemprop="dateModified" datetime="2021-01-31T14:52:23+08:00">2021-01-31</time>
               
             
           </span>
@@ -547,7 +547,7 @@
                 
                   <span class="post-meta-item-text">本文字数：</span>
                 
-                <span title="本文字数">22k</span>
+                <span title="本文字数">23k</span>
               
 
               
@@ -561,7 +561,7 @@
                 
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
-                <span title="阅读时长">20 分钟</span>
+                <span title="阅读时长">21 分钟</span>
               
             </div>
           
@@ -645,16 +645,17 @@
 <h3 id="第五部分-心酸踩坑"><a href="#第五部分-心酸踩坑" class="headerlink" title="第五部分 心酸踩坑"></a>第五部分 心酸踩坑</h3><p>如果在启集群时遇到下面类似的错误，不要慌。国内环境99%的原因是GFW的原因，集群在抓取Google站点docker镜像时候被墙咔嚓了，然后time out。</p>
 <p>WTF！我开始不知道呀。网上的部署指引都那么轻松！！然后重复删除集群，重新装，配参数，给docker配代理。尼玛，最后代理都被咔嚓了。终于撞了南墙，去阿里云拉取镜像，几秒钟搞定。</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> minikube start</span></span><br><span class="line">Starting local Kubernetes v1.10.0 cluster...</span><br><span class="line">Starting VM...</span><br><span class="line">Getting VM IP address...</span><br><span class="line">Moving files into cluster...</span><br><span class="line">Setting up certs...</span><br><span class="line">Connecting to cluster...</span><br><span class="line">Setting up kubeconfig...</span><br><span class="line">Starting cluster components...</span><br><span class="line">E0626 12:57:46.868961   26526 start.go:299] Error restarting cluster:  restarting kube-proxy: waiting for kube-proxy to be up for configmap update: timed out waiting for the condition</span><br><span class="line">================================================================================</span><br><span class="line">An error has occurred. Would you like to opt in to sending anonymized crash</span><br><span class="line">information to minikube to help prevent future errors?</span><br><span class="line">To opt out of these messages, run the command:</span><br><span class="line">	minikube config set WantReportErrorPrompt false</span><br><span class="line">================================================================================</span><br><span class="line">Please enter your response [Y/n]:</span><br></pre></td></tr></table></figure>
-<h3 id="第六部分-远程访问-minikube-dashboard"><a href="#第六部分-远程访问-minikube-dashboard" class="headerlink" title="第六部分 远程访问 minikube dashboard"></a>第六部分 远程访问 minikube dashboard</h3><p>在虚拟机启动前，设置端口转发。注意这里使用tcp而不是http。</p>
+<h3 id="第六部分-远程访问-minikube-dashboard"><a href="#第六部分-远程访问-minikube-dashboard" class="headerlink" title="第六部分 远程访问 minikube dashboard"></a>第六部分 远程访问 minikube dashboard</h3><h4 id="6-1旧版本dashboard-1-0"><a href="#6-1旧版本dashboard-1-0" class="headerlink" title="6.1旧版本dashboard 1.0"></a>6.1旧版本dashboard 1.0</h4><p>在虚拟机启动前，设置端口转发。注意这里使用tcp而不是http。</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> VBoxManage modifyvm <span class="string">"minikube"</span> --natpf1 <span class="string">"kubedashboard,tcp,,30000,,30000"</span></span></span><br></pre></td></tr></table></figure>
-<p>然后启动虚拟机，这时候局域网上的其他服务器就可以通过宿主机的IP:30000访问web UI。</p>
-<p>或者：</p>
+<p>然后启动虚拟机，这时候局域网上的其他服务器就可以通过宿主机的IP:30000访问web UI。或者：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> kubectl proxy --address=<span class="string">'0.0.0.0'</span> --<span class="built_in">disable</span>-filter=<span class="literal">true</span></span></span><br></pre></td></tr></table></figure>
-<p>对于最新的版本（v1.12.1）：</p>
+<p>然后启动：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> minikube dashboard --url</span></span><br><span class="line">http://192.168.99.102:30000</span><br></pre></td></tr></table></figure>
+<h4 id="6-2-新版本dashboard-2-0"><a href="#6-2-新版本dashboard-2-0" class="headerlink" title="6.2 新版本dashboard 2.0"></a>6.2 新版本dashboard 2.0</h4><p>在新版本中，dashboard 2.0 默认会启用 https 的认证，具体认证方式有：<code>TLS</code>、<code>token</code> 和 <code>username/passwd</code></p>
 <p>首先地址映射：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">root@deeplearning:~# kubectl proxy &amp;</span><br><span class="line">Starting to serve on 127.0.0.1:8001</span><br></pre></td></tr></table></figure>
 <p>然后生成token：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">root@deeplearning:~# kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.0-beta1/aio/deploy/recommended.yaml</span><br><span class="line"></span><br><span class="line">root@deeplearning:~# kubectl create serviceaccount dashboard-admin -n kube-system</span><br><span class="line"><span class="meta">#</span><span class="bash">创建用于登录dashborad的serviceaccount账号</span></span><br><span class="line">serviceaccount "dashboard-admin" created</span><br><span class="line"></span><br><span class="line">root@deeplearning:~# kubectl create clusterrolebinding dashboard-cluster-admin --clusterrole=cluster-admin --serviceaccount=kube-system:dashboard-admin</span><br><span class="line">clusterrolebinding.rbac.authorization.k8s.io/dashboard-cluster-admin created  </span><br><span class="line"><span class="meta">#</span><span class="bash">创建一个clusterrolebingding，将名称为cluster-admin的clusterrole绑定到我们刚刚从的serviceaccount上，名称空间和sa使用:作为间隔</span></span><br><span class="line"></span><br><span class="line">root@deeplearning:~# kubectl get secret -n kube-system</span><br><span class="line"><span class="meta">#</span><span class="bash">创建完成后系统会自动创建一个secret，名称以serviceaccount名称开头</span></span><br><span class="line">NAME                                             TYPE                                  DATA      AGE</span><br><span class="line">......</span><br><span class="line">dashboard-admin-token-twwfl                      kubernetes.io/service-account-token   3      46s</span><br><span class="line">.....</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">使用describe查看该secret的详细信息，主要是token一段</span></span><br><span class="line">root@deeplearning:~# kubectl describe secret dashboard-admin-token-twwfl -n kube-system</span><br><span class="line">Name:         dashboard-admin-token-twwfl</span><br><span class="line">Namespace:    kube-system</span><br><span class="line">Labels:       &lt;none&gt;</span><br><span class="line">Annotations:  kubernetes.io/service-account.name: dashboard-admin</span><br><span class="line">              kubernetes.io/service-account.uid: ae20b337-3729-4c97-9852-19e160b37427</span><br><span class="line"></span><br><span class="line">Type:  kubernetes.io/service-account-token</span><br><span class="line"></span><br><span class="line">Data</span><br><span class="line">====</span><br><span class="line">token:      eyJhbGciOiJSUzI1NiIsImtpZCI6IjZGSnZhZ2FiTUhlMTBoN1dYWFB6cmwzSkphNWVNQ0ZLWGZ0NEhOOUZST1UifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJrdWJlLXN5c3RlbSIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VjcmV0Lm5hbWUiOiJkYXNoYm9hcmQtYWRtaW4tdG9rZW4tdHd3ZmwiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC5uYW1lIjoiZGFzaGJvYXJkLWFkbWluIiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZXJ2aWNlLWFjY291bnQudWlkIjoiYWUyMGIzMzctMzcyOS00Yzk3LTk4NTItMTllMTYwYjM3NDI3Iiwic3ViIjoic3lzdGVtOnNlcnZpY2VhY2NvdW50Omt1YmUtc3lzdGVtOmRhc2hib2FyZC1hZG1pbiJ9.lOL6l1uWwEBfw4bbsdRyhvRnLzeOakz-kf38rc2RXPzBgMHqeLgsLw2o7TwRRp84XVNPoDaIa6HwW_6StxYZG5dfiCdUlClWHgepl-z3dq9r49IPqh-ZJLA56D1BZP-iRptmFjJHy5uAXPOyRRg-a43FwM0VZa4aaSe-NKdh7eceJxig0t_mJJbSYdIG_PqZS-JiBsJPb8KYl_GEWSNB4jzQ0SA8CZrB9Yl_ifhTL3vAie6FgLawPXENjz1puufene2Kymo-fVEmGK6KedRdIm4gCpg5NGmuEdJB3ikEzObN_Mv5JbK9wTmGW0s1-6m5ogdshpvKmSBQZ9Vuik_Qfw</span><br><span class="line">ca.crt:     1066 bytes</span><br><span class="line">namespace:  11 bytes</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">root@deeplearning:~# kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.0/aio/deploy/recommended.yaml</span><br><span class="line"></span><br><span class="line">root@deeplearning:~# kubectl create serviceaccount dashboard-admin -n kube-system</span><br><span class="line"><span class="meta">#</span><span class="bash">创建用于登录dashborad的serviceaccount账号</span></span><br><span class="line">serviceaccount "dashboard-admin" created</span><br><span class="line"></span><br><span class="line">root@deeplearning:~# kubectl create clusterrolebinding dashboard-cluster-admin --clusterrole=cluster-admin --serviceaccount=kube-system:dashboard-admin</span><br><span class="line">clusterrolebinding.rbac.authorization.k8s.io/dashboard-cluster-admin created  </span><br><span class="line"><span class="meta">#</span><span class="bash">创建一个clusterrolebingding，将名称为cluster-admin的clusterrole绑定到我们刚刚从的serviceaccount上，名称空间和sa使用:作为间隔</span></span><br><span class="line"></span><br><span class="line">root@deeplearning:~# kubectl get secret -n kube-system</span><br><span class="line"><span class="meta">#</span><span class="bash">创建完成后系统会自动创建一个secret，名称以serviceaccount名称开头</span></span><br><span class="line">NAME                                             TYPE                                  DATA      AGE</span><br><span class="line">......</span><br><span class="line">dashboard-admin-token-twwfl                      kubernetes.io/service-account-token   3      46s</span><br><span class="line">.....</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">使用describe查看该secret的详细信息，主要是token一段</span></span><br><span class="line">root@deeplearning:~# kubectl describe secret dashboard-admin-token-twwfl -n kube-system</span><br><span class="line">Name:         dashboard-admin-token-twwfl</span><br><span class="line">Namespace:    kube-system</span><br><span class="line">Labels:       &lt;none&gt;</span><br><span class="line">Annotations:  kubernetes.io/service-account.name: dashboard-admin</span><br><span class="line">              kubernetes.io/service-account.uid: ae20b337-3729-4c97-9852-19e160b37427</span><br><span class="line"></span><br><span class="line">Type:  kubernetes.io/service-account-token</span><br><span class="line"></span><br><span class="line">Data</span><br><span class="line">====</span><br><span class="line">token:      eyJhbGciOiJSUzI1NiIsImtpZCI6IjZGSnZhZ2FiTUhlMTBoN1dYWFB6cmwzSkphNWVNQ0ZLWGZ0NEhOOUZST1UifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJrdWJlLXN5c3RlbSIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VjcmV0Lm5hbWUiOiJkYXNoYm9hcmQtYWRtaW4tdG9rZW4tdHd3ZmwiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC5uYW1lIjoiZGFzaGJvYXJkLWFkbWluIiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZXJ2aWNlLWFjY291bnQudWlkIjoiYWUyMGIzMzctMzcyOS00Yzk3LTk4NTItMTllMTYwYjM3NDI3Iiwic3ViIjoic3lzdGVtOnNlcnZpY2VhY2NvdW50Omt1YmUtc3lzdGVtOmRhc2hib2FyZC1hZG1pbiJ9.lOL6l1uWwEBfw4bbsdRyhvRnLzeOakz-kf38rc2RXPzBgMHqeLgsLw2o7TwRRp84XVNPoDaIa6HwW_6StxYZG5dfiCdUlClWHgepl-z3dq9r49IPqh-ZJLA56D1BZP-iRptmFjJHy5uAXPOyRRg-a43FwM0VZa4aaSe-NKdh7eceJxig0t_mJJbSYdIG_PqZS-JiBsJPb8KYl_GEWSNB4jzQ0SA8CZrB9Yl_ifhTL3vAie6FgLawPXENjz1puufene2Kymo-fVEmGK6KedRdIm4gCpg5NGmuEdJB3ikEzObN_Mv5JbK9wTmGW0s1-6m5ogdshpvKmSBQZ9Vuik_Qfw</span><br><span class="line">ca.crt:     1066 bytes</span><br><span class="line">namespace:  11 bytes</span><br></pre></td></tr></table></figure>
 <p>打开下面url，使用token方式登录：</p>
 <p><a href="http://127.0.0.1:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/#/login" target="_blank" rel="noopener">http://127.0.0.1:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/#/login</a></p>
 <h3 id="附录-补充VBoxManage管理"><a href="#附录-补充VBoxManage管理" class="headerlink" title="附录  补充VBoxManage管理"></a>附录  补充VBoxManage管理</h3><p>查询虚拟机：</p>
@@ -681,7 +682,7 @@
   <p><span>本文标题:</span><a href="/2018/06/25/2018-06-25-在Ubuntu上部署Minikube/">在Ubuntu上部署Minikube</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 rong xiang 的个人博客">rong xiang</a></p>
   <p><span>发布时间:</span>2018年06月25日 - 19:06</p>
-  <p><span>最后更新:</span>2020年08月10日 - 22:08</p>
+  <p><span>最后更新:</span>2021年01月31日 - 14:01</p>
   <p><span>原始链接:</span><a href="/2018/06/25/2018-06-25-在Ubuntu上部署Minikube/" title="在Ubuntu上部署Minikube">https://zjrongxiang.github.io/2018/06/25/2018-06-25-在Ubuntu上部署Minikube/</a>
     <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://zjrongxiang.github.io/2018/06/25/2018-06-25-在Ubuntu上部署Minikube/" aria-label="复制成功！"></i></span>
   </p>
@@ -729,8 +730,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/06/25/2019-07-27-在Minikube上运行Kafka集群/" rel="next" title="在Minikube上运行Kafka集群">
-                <i class="fa fa-chevron-left"></i> 在Minikube上运行Kafka集群
+              <a href="/2018/06/25/2018-06-26-机器学习系列文章-聚类算法总结/" rel="next" title="机器学习系列文章-聚类算法总结">
+                <i class="fa fa-chevron-left"></i> 机器学习系列文章-聚类算法总结
               </a>
             
           </div>
@@ -739,8 +740,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/06/25/2019-04-23-在Minikube上运行Flink集群（一）/" rel="prev" title="在Minikube上运行Flink集群">
-                在Minikube上运行Flink集群 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/06/25/2019-04-30-使用Cloudera Quickstart Docker镜像快速部署hadoop集群/" rel="prev" title="使用Cloudera Quickstart Docker镜像快速部署hadoop集群">
+                使用Cloudera Quickstart Docker镜像快速部署hadoop集群 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -820,7 +821,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">107</span>
+                    <span class="site-state-item-count">162</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -830,7 +831,7 @@
                 
                 
                 <div class="site-state-item site-state-categories">
-                  
+                  <a href="/categories/index.html">
                     
                     
                       
@@ -933,9 +934,37 @@
                     
                       
                     
-                    <span class="site-state-item-count">50</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">64</span>
                     <span class="site-state-item-name">分类</span>
-                  
+                  </a>
                 </div>
               
 
@@ -943,7 +972,7 @@
                 
                 
                 <div class="site-state-item site-state-tags">
-                  
+                  <a href="/tags/index.html">
                     
                     
                       
@@ -952,9 +981,41 @@
                     
                       
                     
-                    <span class="site-state-item-count">3</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">19</span>
                     <span class="site-state-item-name">标签</span>
-                  
+                  </a>
                 </div>
               
             </nav>
@@ -1046,7 +1107,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#背景"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第一部分-准备"><span class="nav-number">2.</span> <span class="nav-text">第一部分 准备</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-准备工作"><span class="nav-number">2.1.</span> <span class="nav-text">1.1 准备工作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-安装虚拟机"><span class="nav-number">2.2.</span> <span class="nav-text">1.2 安装虚拟机</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第二部分-安装minikube"><span class="nav-number">3.</span> <span class="nav-text">第二部分 安装minikube</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第三部分-安装Kubectl"><span class="nav-number">4.</span> <span class="nav-text">第三部分 安装Kubectl</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第四部分-启集群"><span class="nav-number">5.</span> <span class="nav-text">第四部分 启集群</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第五部分-心酸踩坑"><span class="nav-number">6.</span> <span class="nav-text">第五部分 心酸踩坑</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第六部分-远程访问-minikube-dashboard"><span class="nav-number">7.</span> <span class="nav-text">第六部分 远程访问 minikube dashboard</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#附录-补充VBoxManage管理"><span class="nav-number">8.</span> <span class="nav-text">附录  补充VBoxManage管理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考文献及材料"><span class="nav-number">9.</span> <span class="nav-text">参考文献及材料</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#背景"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第一部分-准备"><span class="nav-number">2.</span> <span class="nav-text">第一部分 准备</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-准备工作"><span class="nav-number">2.1.</span> <span class="nav-text">1.1 准备工作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-安装虚拟机"><span class="nav-number">2.2.</span> <span class="nav-text">1.2 安装虚拟机</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第二部分-安装minikube"><span class="nav-number">3.</span> <span class="nav-text">第二部分 安装minikube</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第三部分-安装Kubectl"><span class="nav-number">4.</span> <span class="nav-text">第三部分 安装Kubectl</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第四部分-启集群"><span class="nav-number">5.</span> <span class="nav-text">第四部分 启集群</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第五部分-心酸踩坑"><span class="nav-number">6.</span> <span class="nav-text">第五部分 心酸踩坑</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第六部分-远程访问-minikube-dashboard"><span class="nav-number">7.</span> <span class="nav-text">第六部分 远程访问 minikube dashboard</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#6-1旧版本dashboard-1-0"><span class="nav-number">7.1.</span> <span class="nav-text">6.1旧版本dashboard 1.0</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-2-新版本dashboard-2-0"><span class="nav-number">7.2.</span> <span class="nav-text">6.2 新版本dashboard 2.0</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#附录-补充VBoxManage管理"><span class="nav-number">8.</span> <span class="nav-text">附录  补充VBoxManage管理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考文献及材料"><span class="nav-number">9.</span> <span class="nav-text">参考文献及材料</span></a></li></ol></div>
             
 
           </div>
@@ -1079,7 +1140,7 @@
       <i class="fa fa-area-chart"></i>
     </span>
     
-    <span title="站点总字数">360k</span>
+    <span title="站点总字数">525k</span>
   
 
   
@@ -1088,7 +1149,7 @@
       <i class="fa fa-coffee"></i>
     </span>
     
-    <span title="站点阅读时长">5:27</span>
+    <span title="站点阅读时长">7:57</span>
   
 </div>
 

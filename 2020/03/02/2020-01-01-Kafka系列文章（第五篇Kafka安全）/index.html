@@ -124,7 +124,7 @@
 <meta property="og:site_name" content="RongXiang">
 <meta property="og:description" content="目录 背景 第一部分   Kafka集群加密传输 第二部分   Kafka集群权限认证 第三部分   加密认证集群的客户端 第四部分   加密认证集群的性能压测 第五部分  总结 参考文献及资料  背景Kafka在0.9.0.0版本前没有安全机制功能。Kafka Client程序可以直接获取到Kafka集群元数据信息和Kafka Broker地址后，连接到Kafka集群，然后完全操作集群上的所有t">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-10-25T05:13:53.089Z">
+<meta property="og:updated_time" content="2021-01-18T17:57:47.593Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Kafka系列文章（第五篇 Kafka安全集群）">
 <meta name="twitter:description" content="目录 背景 第一部分   Kafka集群加密传输 第二部分   Kafka集群权限认证 第三部分   加密认证集群的客户端 第四部分   加密认证集群的性能压测 第五部分  总结 参考文献及资料  背景Kafka在0.9.0.0版本前没有安全机制功能。Kafka Client程序可以直接获取到Kafka集群元数据信息和Kafka Broker地址后，连接到Kafka集群，然后完全操作集群上的所有t">
@@ -482,7 +482,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2020-10-25 13:13:53" itemprop="dateModified" datetime="2020-10-25T13:13:53+08:00">2020-10-25</time>
+                <time title="修改时间：2021-01-19 01:57:47" itemprop="dateModified" datetime="2021-01-19T01:57:47+08:00">2021-01-19</time>
               
             
           </span>
@@ -924,7 +924,7 @@
 </li>
 <li><p>新增<code>zk_server_jaas.conf</code>文件</p>
 <p>配置文件内容如下：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Server &#123;</span><br><span class="line">org.apache.kafka.common.security.plain.PlainLoginModule required</span><br><span class="line">username="admin"</span><br><span class="line">password="admin-secret"</span><br><span class="line">user_admin="admin-secret;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Server &#123;</span><br><span class="line">org.apache.kafka.common.security.plain.PlainLoginModule required</span><br><span class="line">username="admin"</span><br><span class="line">password="admin-secret"</span><br><span class="line">user_admin="admin-secret";</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 <p>其中<code>username</code>和<code>password</code>定义的用户和密钥，用于Zookeeper与Kafka集群进行认证。配置项<code>user_admin=&quot;admin-secret&quot;</code> 中 admin为用户名，admin-secret为密码，用于Zookeeper集群外客户端和集群内进行认证。</p>
 </li>
 <li><p>拷贝依赖包</p>
@@ -1195,7 +1195,7 @@
   <p><span>本文标题:</span><a href="/2020/03/02/2020-01-01-Kafka系列文章（第五篇Kafka安全）/">Kafka系列文章（第五篇 Kafka安全集群）</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 rong xiang 的个人博客">rong xiang</a></p>
   <p><span>发布时间:</span>2020年03月02日 - 13:03</p>
-  <p><span>最后更新:</span>2020年10月25日 - 13:10</p>
+  <p><span>最后更新:</span>2021年01月19日 - 01:01</p>
   <p><span>原始链接:</span><a href="/2020/03/02/2020-01-01-Kafka系列文章（第五篇Kafka安全）/" title="Kafka系列文章（第五篇 Kafka安全集群）">https://zjrongxiang.github.io/2020/03/02/2020-01-01-Kafka系列文章（第五篇Kafka安全）/</a>
     <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://zjrongxiang.github.io/2020/03/02/2020-01-01-Kafka系列文章（第五篇Kafka安全）/" aria-label="复制成功！"></i></span>
   </p>
@@ -1334,7 +1334,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">107</span>
+                    <span class="site-state-item-count">162</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1344,7 +1344,7 @@
                 
                 
                 <div class="site-state-item site-state-categories">
-                  
+                  <a href="/categories/index.html">
                     
                     
                       
@@ -1447,9 +1447,37 @@
                     
                       
                     
-                    <span class="site-state-item-count">50</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">64</span>
                     <span class="site-state-item-name">分类</span>
-                  
+                  </a>
                 </div>
               
 
@@ -1457,7 +1485,7 @@
                 
                 
                 <div class="site-state-item site-state-tags">
-                  
+                  <a href="/tags/index.html">
                     
                     
                       
@@ -1466,9 +1494,41 @@
                     
                       
                     
-                    <span class="site-state-item-count">3</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">19</span>
                     <span class="site-state-item-name">标签</span>
-                  
+                  </a>
                 </div>
               
             </nav>
@@ -1593,7 +1653,7 @@
       <i class="fa fa-area-chart"></i>
     </span>
     
-    <span title="站点总字数">360k</span>
+    <span title="站点总字数">525k</span>
   
 
   
@@ -1602,7 +1662,7 @@
       <i class="fa fa-coffee"></i>
     </span>
     
-    <span title="站点阅读时长">5:27</span>
+    <span title="站点阅读时长">7:57</span>
   
 </div>
 

@@ -124,7 +124,7 @@
 <meta property="og:site_name" content="RongXiang">
 <meta property="og:description" content="目录 背景 第一部分  TCP/IP Socket 第二部分 UNIX Domain Socket 第三部分 Mysql的两种连接方式 参考文献及资料  背景我们在使用Mysql客户端和Mysql交互的时候，如果客户端是远程（非本机）那么底层是通过TCP/IP的Socket方式进行交互。但是如果客户端和数据库在同一台服务器上时，Mysql支持通过UNIX Domain Socket方式交互。 My">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-10-02T04:53:19.258Z">
+<meta property="og:updated_time" content="2021-01-09T03:50:30.128Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Mysql的两种连接方式总结">
 <meta name="twitter:description" content="目录 背景 第一部分  TCP/IP Socket 第二部分 UNIX Domain Socket 第三部分 Mysql的两种连接方式 参考文献及资料  背景我们在使用Mysql客户端和Mysql交互的时候，如果客户端是远程（非本机）那么底层是通过TCP/IP的Socket方式进行交互。但是如果客户端和数据库在同一台服务器上时，Mysql支持通过UNIX Domain Socket方式交互。 My">
@@ -465,12 +465,24 @@
                 
               
 
-              <time title="创建时间：2020-10-02 13:30:00 / 修改时间：12:53:19" itemprop="dateCreated datePublished" datetime="2020-10-02T13:30:00+08:00">2020-10-02</time>
+              <time title="创建时间：2020-10-02 13:30:00" itemprop="dateCreated datePublished" datetime="2020-10-02T13:30:00+08:00">2020-10-02</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2021-01-09 11:50:30" itemprop="dateModified" datetime="2021-01-09T11:50:30+08:00">2021-01-09</time>
               
             
           </span>
@@ -598,7 +610,7 @@
 <p>遇到这种报错的处理方法：</p>
 <ul>
 <li><p>使用<code>find</code>命令查找文件路径，调整配置，使其归位。如果文件不再配置文件指定位置，这时候需要在命令中指定具体的路径，命令如下：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@mysql ~]# mysql -uroot -P*****  -S /path/of/mysql.scok</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@mysql ~]# mysql -uroot -P*****  -S /path/of/mysql.sock</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>重新创建。可以简单地通过重启<code>Mysql</code>服务重新创建得到它。因为服务在启动时重新创建它。</p>
 </li>
@@ -608,7 +620,7 @@
 <h3 id="3-2-TCP-IP-Socket方式"><a href="#3-2-TCP-IP-Socket方式" class="headerlink" title="3.2 TCP/IP Socket方式"></a>3.2 <code>TCP/IP Socket</code>方式</h3><p>在本机使用<code>UNIX Domain Socket</code>方式无法登陆时候，还可以使用<code>TCP/IP Socket</code>方式。命令需要指定<code>IP</code>信息，如：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">[root@mysql ~]# mysql -h192.1.1.20</span><br><span class="line">ERROR 2003 (HY000): Can't connect to MySQL server on '192.1.1.20' (111)</span><br><span class="line"></span><br><span class="line">[root@mysql ~]# mysql -h192.1.1.20 -P3307</span><br><span class="line">Welcome to the MySQL monitor.  Commands end with ; or \g.</span><br><span class="line">Your MySQL connection id is 3</span><br><span class="line">Server version: 5.5.46-log MySQL Community Server (GPL)</span><br><span class="line"></span><br><span class="line">Copyright (c) 2000, 2015, Oracle and/or its affiliates. All rights reserved.</span><br><span class="line"></span><br><span class="line">Oracle is a registered trademark of Oracle Corporation and/or its</span><br><span class="line">affiliates. Other names may be trademarks of their respective</span><br><span class="line">owners.</span><br><span class="line"></span><br><span class="line">Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.</span><br><span class="line"></span><br><span class="line"><span class="meta">root@[(none)]&gt;</span><span class="bash"></span></span><br></pre></td></tr></table></figure>
 <p>那么如果本机中同时指定两个参数时候，<code>Mysql</code>会默认使用<code>TCP/IP Socket</code>的方式连接。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">[root@mysql ~]# mysql -h192.1.1.20 -P3306 -S /path/of/mysql.scok</span><br><span class="line">Welcome to the MySQL monitor.  Commands end with ; or \g.</span><br><span class="line">Your MySQL connection id is 2</span><br><span class="line">Server version: 5.5.46-log MySQL Community Server (GPL)</span><br><span class="line"></span><br><span class="line">Copyright (c) 2000, 2015, Oracle and/or its affiliates. All rights reserved.</span><br><span class="line"></span><br><span class="line">Oracle is a registered trademark of Oracle Corporation and/or its</span><br><span class="line">affiliates. Other names may be trademarks of their respective</span><br><span class="line">owners.</span><br><span class="line"></span><br><span class="line">Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.</span><br><span class="line"></span><br><span class="line"><span class="meta">root@[(none)]&gt;</span><span class="bash"></span></span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">[root@mysql ~]# mysql -h192.1.1.20 -P3306 -S /path/of/mysql.sock</span><br><span class="line">Welcome to the MySQL monitor.  Commands end with ; or \g.</span><br><span class="line">Your MySQL connection id is 2</span><br><span class="line">Server version: 5.5.46-log MySQL Community Server (GPL)</span><br><span class="line"></span><br><span class="line">Copyright (c) 2000, 2015, Oracle and/or its affiliates. All rights reserved.</span><br><span class="line"></span><br><span class="line">Oracle is a registered trademark of Oracle Corporation and/or its</span><br><span class="line">affiliates. Other names may be trademarks of their respective</span><br><span class="line">owners.</span><br><span class="line"></span><br><span class="line">Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.</span><br><span class="line"></span><br><span class="line"><span class="meta">root@[(none)]&gt;</span><span class="bash"></span></span><br></pre></td></tr></table></figure>
 <p>对于和远程<code>Mysql</code>服务交互，需要指定远程<code>Mysql</code>服务监听<code>IP</code>和端口即可，不再赘述。</p>
 <h2 id="参考文献及资料"><a href="#参考文献及资料" class="headerlink" title="参考文献及资料"></a>参考文献及资料</h2><p>1、Linux进程间通信方式有哪些？，链接：<a href="https://zhuanlan.zhihu.com/p/63916424" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/63916424</a></p>
 <p>2、UNIX Domain Socket IPC，链接：<a href="http://docs.linuxtone.org/ebooks/C&amp;CPP/c/ch37s04.html" target="_blank" rel="noopener">http://docs.linuxtone.org/ebooks/C&amp;CPP/c/ch37s04.html</a></p>
@@ -648,7 +660,7 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/09/27/2020-09-27-非root用户部署keeplived总结/" rel="next" title="Spark任务依赖jar包总结">
+              <a href="/2020/09/27/2020-09-27-Spark任务依赖jar包总结/" rel="next" title="Spark任务依赖jar包总结">
                 <i class="fa fa-chevron-left"></i> Spark任务依赖jar包总结
               </a>
             
@@ -658,8 +670,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2020/10/02/2020-10-02-Hive中静态分区和动态分区总结/" rel="prev" title="Hive中静态分区和动态分区总结">
-                Hive中静态分区和动态分区总结 <i class="fa fa-chevron-right"></i>
+              <a href="/2020/10/02/2021-04-27-Hive中外部表总结和实践/" rel="prev" title="Hive中外部表总结和实践">
+                Hive中外部表总结和实践 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -739,7 +751,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">107</span>
+                    <span class="site-state-item-count">162</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -749,7 +761,7 @@
                 
                 
                 <div class="site-state-item site-state-categories">
-                  
+                  <a href="/categories/index.html">
                     
                     
                       
@@ -852,9 +864,37 @@
                     
                       
                     
-                    <span class="site-state-item-count">50</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">64</span>
                     <span class="site-state-item-name">分类</span>
-                  
+                  </a>
                 </div>
               
 
@@ -862,7 +902,7 @@
                 
                 
                 <div class="site-state-item site-state-tags">
-                  
+                  <a href="/tags/index.html">
                     
                     
                       
@@ -871,9 +911,41 @@
                     
                       
                     
-                    <span class="site-state-item-count">3</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">19</span>
                     <span class="site-state-item-name">标签</span>
-                  
+                  </a>
                 </div>
               
             </nav>
@@ -998,7 +1070,7 @@
       <i class="fa fa-area-chart"></i>
     </span>
     
-    <span title="站点总字数">360k</span>
+    <span title="站点总字数">525k</span>
   
 
   
@@ -1007,7 +1079,7 @@
       <i class="fa fa-coffee"></i>
     </span>
     
-    <span title="站点阅读时长">5:27</span>
+    <span title="站点阅读时长">7:57</span>
   
 </div>
 

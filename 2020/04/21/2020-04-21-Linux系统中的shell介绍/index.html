@@ -117,17 +117,17 @@
 
 
 
-  <meta name="description" content="目录 背景  第一部分  shell解释器种类  第二部分 shell执行命令模式  第三部分 shell命令的形式  第四部分 shell初始化  参考文献及资料   背景shell是用C语言编写的程序，用户用它来和Linux进行交互。我们通常说的 shell 都是指 shell 脚本，但 shell 和 shell script 是两个不同的概念。 第一部分 shell解释器种类1.1 she">
+  <meta name="description" content="目录 背景  第一部分  shell解释器种类  第二部分 shell执行命令模式  第三部分 shell命令的类型  第四部分 shell初始化和调用  第五部分 启动文件介绍  第六部分 生产运维注意事项  参考文献及资料   背景shell是用C语言编写的程序，用户用它来和Linux进行交互。我们通常说的 shell 都是指 shell 脚本，但 shell 和 shell script 是">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Linux系统中的shell解释器介绍">
 <meta property="og:url" content="https://zjrongxiang.github.io/2020/04/21/2020-04-21-Linux系统中的shell介绍/index.html">
 <meta property="og:site_name" content="RongXiang">
-<meta property="og:description" content="目录 背景  第一部分  shell解释器种类  第二部分 shell执行命令模式  第三部分 shell命令的形式  第四部分 shell初始化  参考文献及资料   背景shell是用C语言编写的程序，用户用它来和Linux进行交互。我们通常说的 shell 都是指 shell 脚本，但 shell 和 shell script 是两个不同的概念。 第一部分 shell解释器种类1.1 she">
+<meta property="og:description" content="目录 背景  第一部分  shell解释器种类  第二部分 shell执行命令模式  第三部分 shell命令的类型  第四部分 shell初始化和调用  第五部分 启动文件介绍  第六部分 生产运维注意事项  参考文献及资料   背景shell是用C语言编写的程序，用户用它来和Linux进行交互。我们通常说的 shell 都是指 shell 脚本，但 shell 和 shell script 是">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-05-02T15:09:55.212Z">
+<meta property="og:updated_time" content="2021-01-16T08:44:33.472Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux系统中的shell解释器介绍">
-<meta name="twitter:description" content="目录 背景  第一部分  shell解释器种类  第二部分 shell执行命令模式  第三部分 shell命令的形式  第四部分 shell初始化  参考文献及资料   背景shell是用C语言编写的程序，用户用它来和Linux进行交互。我们通常说的 shell 都是指 shell 脚本，但 shell 和 shell script 是两个不同的概念。 第一部分 shell解释器种类1.1 she">
+<meta name="twitter:description" content="目录 背景  第一部分  shell解释器种类  第二部分 shell执行命令模式  第三部分 shell命令的类型  第四部分 shell初始化和调用  第五部分 启动文件介绍  第六部分 生产运维注意事项  参考文献及资料   背景shell是用C语言编写的程序，用户用它来和Linux进行交互。我们通常说的 shell 都是指 shell 脚本，但 shell 和 shell script 是">
 
 
 
@@ -482,7 +482,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2020-05-02 23:09:55" itemprop="dateModified" datetime="2020-05-02T23:09:55+08:00">2020-05-02</time>
+                <time title="修改时间：2021-01-16 16:44:33" itemprop="dateModified" datetime="2021-01-16T16:44:33+08:00">2021-01-16</time>
               
             
           </span>
@@ -545,7 +545,7 @@
                 
                   <span class="post-meta-item-text">本文字数：</span>
                 
-                <span title="本文字数">16k</span>
+                <span title="本文字数">14k</span>
               
 
               
@@ -559,7 +559,7 @@
                 
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
-                <span title="阅读时长">14 分钟</span>
+                <span title="阅读时长">12 分钟</span>
               
             </div>
           
@@ -586,20 +586,23 @@
 </li>
 <li><p>第二部分 shell执行命令模式</p>
 </li>
-<li><p>第三部分 shell命令的形式</p>
+<li><p>第三部分 shell命令的类型</p>
 </li>
-<li><p>第四部分 shell初始化</p>
+<li><p>第四部分 shell初始化和调用</p>
+</li>
+<li><p>第五部分 启动文件介绍</p>
+</li>
+<li><p>第六部分 生产运维注意事项</p>
 </li>
 <li><p>参考文献及资料</p>
 </li>
 </ul>
-<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>shell是用C语言编写的程序，用户用它来和Linux进行交互。我们通常说的 shell 都是指 shell 脚本，但 shell 和 shell script 是两个不同的概念。</p>
-<h2 id="第一部分-shell解释器种类"><a href="#第一部分-shell解释器种类" class="headerlink" title="第一部分 shell解释器种类"></a>第一部分 shell解释器种类</h2><h3 id="1-1-shell常见解释器类型"><a href="#1-1-shell常见解释器类型" class="headerlink" title="1.1 shell常见解释器类型"></a>1.1 shell常见解释器类型</h3><p>Linux shell常用类型有：<code>bash</code>、<code>ksh</code>、<code>csh</code>、<code>zsh</code>、<code>ash</code>等。可以通过下面的命令查看操作系统支持的shell类型（<code>ubuntu</code>）：</p>
+<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>shell是用C语言编写的程序，用户用它来和Linux进行交互。我们通常说的 shell 都是指 shell 脚本，但 shell 和 shell script 是两个不同的概念，这是后话。</p>
+<h2 id="第一部分-shell解释器种类"><a href="#第一部分-shell解释器种类" class="headerlink" title="第一部分 shell解释器种类"></a>第一部分 shell解释器种类</h2><h3 id="1-1-shell常见解释器类型"><a href="#1-1-shell常见解释器类型" class="headerlink" title="1.1 shell常见解释器类型"></a>1.1 shell常见解释器类型</h3><p>Linux shell常用类型有：<code>bash</code>、<code>ksh</code>、<code>csh</code>、<code>zsh</code>、<code>ash</code>等。可以通过下面的命令查看本机操作系统支持的shell类型（下面是<code>ubuntu</code>系统）：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">root@deeplearning:/# cat /etc/shells</span><br><span class="line"><span class="meta">#</span><span class="bash"> /etc/shells: valid login shells</span></span><br><span class="line">/bin/sh</span><br><span class="line">/bin/dash</span><br><span class="line">/bin/bash</span><br><span class="line">/bin/rbash</span><br></pre></td></tr></table></figure>
 <p>使用下面的命令查看当前（<code>ubuntu</code>）正在使用的shell：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">root@deeplearning:/# echo $SHELL</span><br><span class="line">/bin/bash</span><br></pre></td></tr></table></figure>
-<p>这里<code>SHELL</code>是一个环境变量，用于记录当前用户使用的shell类型。</p>
-<p>在当前shell环境中，可以打开其他的shell（子shell）：</p>
+<p>这里<code>SHELL</code>是一个环境变量，用于记录当前用户使用的shell类型。在当前shell环境中，可以打开其他的shell环境（子shell）：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">root@deeplearning:/# /bin/dash</span><br><span class="line"><span class="meta">#</span><span class="bash"></span></span><br></pre></td></tr></table></figure>
 <p>上面命令我们打开了<code>dash</code>，如果要退出，直接使用<code>exit</code>命令即可退出子shell。</p>
 <h3 id="1-2-常用shell详细介绍"><a href="#1-2-常用shell详细介绍" class="headerlink" title="1.2 常用shell详细介绍"></a>1.2 常用shell详细介绍</h3><h4 id="1-2-1-ash"><a href="#1-2-1-ash" class="headerlink" title="1.2.1 ash"></a>1.2.1 ash</h4><p>ash Shell是由Kenneth Almquist编写的，是Linux 中占用系统资源最少的一个小Shell。但是它只包含24个内部命令，因而使用起来很不方便。</p>
@@ -616,56 +619,76 @@
 <h4 id="1-2-3-ksh"><a href="#1-2-3-ksh" class="headerlink" title="1.2.3 ksh"></a>1.2.3 ksh</h4><p>ksh是Korn Shell的缩写，由Eric Gisin编写，共有42 条内部命令。该Shell最大的优点是几乎和商业发行版的ksh 完全相容，这样就可以在不用花钱购买商业版本的情况下尝试商业版本的性能了。</p>
 <h4 id="1-2-4-csh"><a href="#1-2-4-csh" class="headerlink" title="1.2.4 csh"></a>1.2.4 csh</h4><p>csh 是Linux 比较大的内核，它由以William Joy 为代表的共计47 位作者编成，共有52个内部命令。该Shell其实是指向/bin/tcsh这样的一个Shell，也就是说，csh其实就是tcsh。</p>
 <h4 id="1-2-5-zch"><a href="#1-2-5-zch" class="headerlink" title="1.2.5 zch"></a>1.2.5 zch</h4><p>zch是Linux 最大的Shell之一，由Paul Falstad完成，共有84 个内部命令。如果只是一般的用途，没有必要安装这样的Shell</p>
-<h2 id="第二部分-Shell执行命令的模式"><a href="#第二部分-Shell执行命令的模式" class="headerlink" title="第二部分 Shell执行命令的模式"></a>第二部分 Shell执行命令的模式</h2><p>Shell有交互式和非交互两种模式。这就像Python这个解释型语言类似，有交互式和非交互式。</p>
-<h3 id="2-1-交互式"><a href="#2-1-交互式" class="headerlink" title="2.1 交互式"></a>2.1 交互式</h3><p>交互式（Interactive）：解释执行用户的命令，用户输入一条命令，Shell就解释执行一条。</p>
-<h3 id="2-2-非交互式"><a href="#2-2-非交互式" class="headerlink" title="2.2 非交互式"></a>2.2 非交互式</h3><p>非交互式即批处理（batch），用户提前编写好Shell脚本，文本文件中有很多条命令，让Shell一次把这些命令执行完。另外对于使用管道连接的多个命令也算批处理。当读到脚本文件的结尾，shell也就终止。</p>
-<h2 id="第三部分-shell命令的形式"><a href="#第三部分-shell命令的形式" class="headerlink" title="第三部分 shell命令的形式"></a>第三部分 shell命令的形式</h2><h3 id="3-1-内部命令"><a href="#3-1-内部命令" class="headerlink" title="3.1 内部命令"></a>3.1 内部命令</h3><p>内部命令内置于Shell源码中，即存在于内存中，一般比较简短，代码量很少，执行起来速度快，经常会使用，比如<code>cd</code>、<code>echo</code>。它与shell本身处在同一进程内（它就写在Shell这个程序里面）,当打开Shell时，操作系统会将Shell程序放入内存 。</p>
+<h2 id="第二部分-Shell执行命令的模式"><a href="#第二部分-Shell执行命令的模式" class="headerlink" title="第二部分 Shell执行命令的模式"></a>第二部分 Shell执行命令的模式</h2><p>Shell按照是否交互，分为交互式和非交互两种模式。这就像Python等解释型语言，有交互式和非交互式。</p>
+<h3 id="2-1-交互式-Interactive-Shell"><a href="#2-1-交互式-Interactive-Shell" class="headerlink" title="2.1 交互式(Interactive Shell)"></a>2.1 交互式(Interactive Shell)</h3><p>交互式（Interactive）：解释执行用户的命令，用户输入一条命令，Shell就解释执行一条。</p>
+<h3 id="2-2-非交互式-Non-Interactive-Shell"><a href="#2-2-非交互式-Non-Interactive-Shell" class="headerlink" title="2.2 非交互式(Non Interactive Shell)"></a>2.2 非交互式(Non Interactive Shell)</h3><p>非交互式即批处理（batch）。用户提前编写好Shell脚本，文件中存储多条命令。Shell读取并执行文件中命令，直到读到文件的结束EOF，Shell终止。另外对于使用管道连接的多个命令也算批处理。</p>
 <blockquote>
-<p>类似Python的程序中的内置函数（Build-in Function），python解析器初始化化就会加载这些函数。</p>
+<p>可以使用打印<code>$-</code>来判别当前交互模式。<code>echo $-</code>，输出himBH为交互式，输出hB表示非交互式。</p>
 </blockquote>
-<h3 id="3-2-外部命令"><a href="#3-2-外部命令" class="headerlink" title="3.2 外部命令"></a>3.2 外部命令</h3><p>外部命令一般功能比较强大，包含的代码量也较大，所以在系统加载时并不随系统一起被加载到内存中，而是在需要时才调用，它们是存在于文件系统中某个目录下的单独的程序，当执行外部命令时，会到文件系统中文件的目录中寻找，例如 <code>cp</code>、<code>rm</code>。</p>
+<p>另外按照是否需要登录（使用用户名/密钥），分为登录式和非登录式。</p>
+<h3 id="2-3-登录式-Login-Shell"><a href="#2-3-登录式-Login-Shell" class="headerlink" title="2.3 登录式(Login Shell)"></a>2.3 登录式(Login Shell)</h3><p>需要用户名、密码登录后才能进入的shell（或者通过<code>--login</code>选项生成的shell）。</p>
+<h3 id="2-4-非登录式-Non-Login-Shell"><a href="#2-4-非登录式-Non-Login-Shell" class="headerlink" title="2.4 非登录式(Non Login Shell)"></a>2.4 非登录式(Non Login Shell)</h3><p>不需要输入用户名和密码即可打开的Shell。例如在当前shell交互命令行中，执行<code>bash</code>就会开启一个新的shell（子shell）环境，这就是一个非登录式的shell。</p>
+<h3 id="2-5-shell的退出"><a href="#2-5-shell的退出" class="headerlink" title="2.5 shell的退出"></a>2.5 shell的退出</h3><p>执行exit命令，退出一个shell（登录或非登录shell）。<br>执行logout命令，退出登录shell（不能退出非登录shell）。</p>
+<h2 id="第三部分-shell命令的类型"><a href="#第三部分-shell命令的类型" class="headerlink" title="第三部分 shell命令的类型"></a>第三部分 shell命令的类型</h2><h3 id="3-1-内部命令"><a href="#3-1-内部命令" class="headerlink" title="3.1 内部命令"></a>3.1 内部命令</h3><p>内部命令内置于Shell源码中，即存在于内存中，一般比较简短，代码量很少，执行起来速度快，经常会使用，比如<code>cd</code>、<code>echo</code>。它与shell本身处在同一进程内（就写在Shell这个程序里面）,当打开Shell时，操作系统会将Shell程序放入内存 。</p>
+<blockquote>
+<p>类似Python的程序中的内置函数（Build-in Function），Python解析器初始化化就会加载这些函数。</p>
+</blockquote>
+<h3 id="3-2-外部命令"><a href="#3-2-外部命令" class="headerlink" title="3.2 外部命令"></a>3.2 外部命令</h3><p>外部命令一般功能比较强大，包含的代码量也较大，所以在系统加载时并不随系统一起被加载到内存中，而是在需要时才调用，它们是存在于文件系统中某个目录下的单独的程序，当执行外部命令时，会到文件系统中文件的目录中寻找，例如 <code>cp</code>、<code>rm</code>、<code>ifconfig</code>。</p>
 <h3 id="3-3-查看命令类型"><a href="#3-3-查看命令类型" class="headerlink" title="3.3 查看命令类型"></a>3.3 查看命令类型</h3><p>对于一个命令是否是内部或者外部命令，可以使用<code>type</code>命令来检测。</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">root@vultr:~# type cd </span><br><span class="line">cd is a shell builtin</span><br><span class="line">root@vultr:~# type cp</span><br><span class="line">cp is /bin/cp</span><br></pre></td></tr></table></figure>
 <p>其中<code>builtin</code>就是指是内部命令，类似Python中<code>builtin</code>包。另外type本身也是一个内部命令：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">root@vultr:~# type type</span><br><span class="line">type is a shell builtin</span><br></pre></td></tr></table></figure>
-<h2 id="第四部-shell的初始化"><a href="#第四部-shell的初始化" class="headerlink" title="第四部 shell的初始化"></a>第四部 shell的初始化</h2><p>当shell被调用时，会读取一些初始化启动文件。主要作用是为shell本身或用户设定运行环境，包含一些函数、 变量、别名等等。</p>
+<h2 id="第四部-shell的初始化和调用"><a href="#第四部-shell的初始化和调用" class="headerlink" title="第四部 shell的初始化和调用"></a>第四部 shell的初始化和调用</h2><p>当shell被调用时，会读取一些初始化启动文件。主要作用是为shell本身或用户设定运行环境，包含一些函数、 变量、别名等等。</p>
 <p>shell有两种类型的初始化文件：</p>
 <ul>
-<li><strong>系统级启动文件</strong>。这些包含适用于系统上所有用户的全局配置，通常位于<code>/etc</code>目录中。 它们包括：<code>/etc/profiles</code>和<code>/etc/bashrc</code>或<code>/etc/bash.bashrc</code> 。</li>
-<li><strong>用户级启动文件</strong> 。这些存储配置适用于系统上的单个用户，通常位于用户主目录中作为点文件。 它们可以覆盖系统范围的配置。 它们包括： <code>.profiles</code> ， <code>.bash_profile</code> ， <code>.bashrc</code>和<code>.bash_login</code>。</li>
+<li><strong>系统级启动文件</strong>。这些包含适用于系统上所有用户的全局配置，通常位于<code>/etc</code>目录中。 包括：<code>/etc/profiles</code>和<code>/etc/bashrc</code>或<code>/etc/bash.bashrc</code>(不同操作系统差异) 。</li>
+<li><strong>用户级启动文件</strong> 。这些存储配置适用于系统上的单个用户，通常位于用户主目录中的点文件（使用<code>la</code>命令查看）。 包括： <code>.profiles</code> ， <code>.bash_profile</code> ， <code>.bashrc</code>和<code>.bash_login</code>。</li>
 </ul>
-<p>shell可以以三种可能的模式被调用：</p>
-<h3 id="4-1-交互式登录shell"><a href="#4-1-交互式登录shell" class="headerlink" title="4.1 交互式登录shell"></a>4.1 交互式登录shell</h3><p>当用户成功登录系统后,使用<code>/bin/login</code>登录，随后读取<code>/etc/passwd</code>文件,获取凭证后调用shell。</p>
-<p>当启动交互式shell后，将读取<code>/etc/profile</code>文件以及特定的用户文件<code>~/.bash_profile</code>。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">login as: pi</span><br><span class="line">pi@pi.raspi.in's password:</span><br><span class="line"></span><br><span class="line">The programs included with the Debian GNU/Linux system are free software;</span><br><span class="line">the exact distribution terms for each program are described in the</span><br><span class="line">individual files in /usr/share/doc/*/copyright.</span><br><span class="line"></span><br><span class="line">Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent</span><br><span class="line">permitted by applicable law.</span><br><span class="line">Last login: Sat Feb  8 11:02:44 2020 from 192.168.2.14</span><br><span class="line"></span><br><span class="line">pi@raspi:~ $</span><br></pre></td></tr></table></figure>
-<p>然后这个登录shell 将查找几个不同的启动文件来处理其中的命令（它的作用是初始化linux系统相关配置）, bash shell 处理文件的顺序如下：</p>
+<p>shell可以以三种模式被调用，分别是：交互式登录、非登录交互式、非交互式。</p>
+<h3 id="4-1-交互式登录shell"><a href="#4-1-交互式登录shell" class="headerlink" title="4.1 交互式登录shell"></a>4.1 交互式登录shell</h3><p>用户成功登录系统后，使用<code>/bin/login</code>登录，随后读取<code>/etc/passwd</code>文件，获取用户凭证后调用shell。<code>/etc/passwd</code>文件中配置了用户默认的shell类型（每行最后）。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">root@VM-0-5-ubuntu:~# cat /etc/passwd</span><br><span class="line">root:x:0:0:root:/root:/bin/bash</span><br><span class="line">......</span><br></pre></td></tr></table></figure>
+<p>然后这个登录shell 将查找几个不同的启动文件来处理其中的命令（它的作用是初始化linux系统相关配置）。例如 <code>bash shell</code> 处理文件的顺序如下：</p>
 <ul>
-<li><p>系统登录后，shell首先执行<code>/etc/profile</code>文件中的命令(超级用户)。设置这个文件后，可以为系统内所有的bash用户建立默认的特征（不同版本的Linux在此文件放置的命令不尽相同）；<code>/etc/profile</code> :系统级的初始化文件。如果是超级用户则提示符用#，如果是普通用户则提示符用$.</p>
+<li><p>系统登录后，shell首先执行<code>/etc/profile</code>文件中的命令(系统级)。设置这个文件后，可以为系统内所有的用户建立默认的特征（不同版本的Linux此文件放置路径有区别）。</p>
+<p>如果是超级用户则提示符用<code>#</code>，如果是普通用户则提示符用<code>$</code>.</p>
 </li>
-<li><p>当某个用户登录后，shell依次查找<code>~/.bash_profile</code>、<code>~/.bash_login</code>、<code>～/.profile</code>这几个文件，并执行它找到的第一个文件中的命令，可以将命令放在这些文件中，以重写<code>/etc/profile</code>文件中默认的设置；</p>
+<li><p>当某个用户登录后，shell依次查找<code>~/.bash_profile</code>、<code>~/.bash_login</code>、<code>~/.profile</code>这几个文件。</p>
+<blockquote>
+<p>其中<code>~/.bash_profile</code>、<code>~/.bash_login</code>和 <code>~/.profile</code>文件往往只存在一个，这与Linux的发行版本有关。ubuntu则为 <code>~/.profile</code></p>
+</blockquote>
+<p>如果用户级有与系统级<code>/etc/profile</code>相同的环境变量，将会重新更新系统级的值。</p>
+<p>对于Centos系统，加载的是<code>.bash_profile</code>。另外还会加载<code>~/.bashrc</code>，<code>~/.bashrc</code>文件中还会调用文件：<code>/etc/bashrc</code>。</p>
 </li>
 </ul>
 <ul>
-<li>当用户注销时，bash执行文件<code>~/.bash_logou</code>中的命令，这个文件包含了退出会话时执行的清理命令，退出等，如：<code>exit</code>退出。</li>
+<li>当用户注销时，bash执行文件<code>~/.bash_logout</code>中的命令，这个文件包含了退出会话时执行的清理命令和退出等，如：<code>exit</code>退出。</li>
 </ul>
-<h3 id="4-2-非登录交互式Shell"><a href="#4-2-非登录交互式Shell" class="headerlink" title="4.2 非登录交互式Shell"></a>4.2 非登录交互式Shell</h3><p>当使用如<code>/bin/bash</code> or <code>/bin/zsh</code>的命令行时，进入系统非登录交互式shell。也可以通过<code>/bin/su</code>命令来运行。另外，在打开如<code>konsole</code>、<code>terminator</code>和<code>xterm</code>等图形化终端程序时 ，非登录交互式shell也将被调用。</p>
-<p>这种情况下调用时，它将拷贝父shell的环境，并读取相应用户级的<code>~/.bashrc</code>配置文件。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">pi@raspberrypi:/home/pi# cd</span><br><span class="line">pi@raspberrypi:~# ls -la</span><br><span class="line">pi@raspberrypi:~ $ ls -la</span><br><span class="line">总用量 152</span><br><span class="line">drwxr-xr-x 25 pi   pi   4096 7月   1  2019 .</span><br><span class="line">drwxr-xr-x  3 root root 4096 7月   5  2017 ..</span><br><span class="line">-rw-------  1 pi   pi   3772 2月   9 02:12 .bash_history</span><br><span class="line">-rw-r--r--  1 pi   pi    220 7月   5  2017 .bash_logout</span><br><span class="line">-rw-r--r--  1 pi   pi   3512 7月   5  2017 .bashrc</span><br><span class="line">drwxr-xr-x  7 pi   pi   4096 3月  11  2018 .cache</span><br><span class="line">drwx------ 10 pi   pi   4096 3月  11  2018 .config</span><br><span class="line">-rwxr-xr-x  1 pi   pi     44 5月   5  2019 deeppc.sh</span><br><span class="line">drwxr-xr-x  2 pi   pi   4096 7月   5  2017 Desktop</span><br><span class="line">drwxr-xr-x  6 pi   pi   4096 3月  11  2018 Documents</span><br><span class="line">drwxr-xr-x  2 pi   pi   4096 7月   5  2017 Downloads</span><br><span class="line">drwx------  2 pi   pi   4096 4月  18  2018 .gconf</span><br><span class="line">drwxr-xr-x  2 pi   pi   4096 7月   5  2017 .gstreamer-0.10</span><br><span class="line">drwxr-xr-x  2 pi   pi   4096 7月  10  2017 .idlerc</span><br><span class="line">drwxr-xr-x  3 pi   pi   4096 7月   5  2017 .local</span><br><span class="line">drwxr-xr-x  3 pi   pi   4096 7月  10  2017 .minecraft</span><br><span class="line">drwxr-xr-x  2 pi   pi   4096 7月   5  2017 Music</span><br><span class="line">drwxr-xr-x  2 pi   pi   4096 7月   5  2017 Pictures</span><br><span class="line">drwxr-xr-x  2 pi   pi   4096 8月  16  2018 .pip</span><br><span class="line">drwx------  3 pi   pi   4096 7月  10  2017 .pki</span><br><span class="line">-rw-r--r--  1 pi   pi    675 7月   5  2017 .profile</span><br><span class="line">drwxr-xr-x  2 pi   pi   4096 7月   5  2017 Public</span><br><span class="line">drwxr-xr-x  2 pi   pi   4096 7月   5  2017 python_games</span><br><span class="line">drwx------  3 pi   pi   4096 7月  10  2017 .scim</span><br><span class="line">drwx------  2 pi   pi   4096 4月  25  2018 .ssh</span><br><span class="line">drwxr-xr-x  2 pi   pi   4096 7月   5  2017 Templates</span><br><span class="line">drwxr-xr-x  3 pi   pi   4096 7月   5  2017 .themes</span><br><span class="line">drwxr-xr-x  2 pi   pi   4096 7月   5  2017 Videos</span><br><span class="line">-rw-------  1 pi   pi   3340 5月   5  2019 .viminfo</span><br><span class="line">drwxr-xr-x  3 pi   pi   4096 3月  11  2018 .Wolfram</span><br><span class="line">drwxr-xr-x 10 pi   pi   4096 3月  11  2018 .WolframEngine</span><br><span class="line">-rw-------  1 pi   pi     56 7月   1  2019 .Xauthority</span><br><span class="line">-rw-------  1 pi   pi   8541 7月   1  2019 .xsession-errors</span><br><span class="line">-rw-------  1 pi   pi   8541 12月 13  2018 .xsession-errors.old</span><br></pre></td></tr></table></figure>
-<p>交互式非登录shell 就是指你在当前图形界面中打开“终端”出来的那种窗口程序，和登录shell相比，它是“非登录”的，你并不需要输入用户名和码；和非交互式shell相比，这是“交互式”的，就像你说的那它：你输入什么，它就解释出什么。</p>
-<p>并不执行前面提到的初始化文件中的命令，继承了登录 shell 设置的 shell 变量。</p>
-<p>在交互式非登录shell里，只读取/etc/bash.bashrc和~/.bashrc（该本件包含了专用于你的bash shell的shell信息，当登录时或者每次打开新shell时，该文件即被读取</p>
+<h3 id="4-2-交互式非登录Shell"><a href="#4-2-交互式非登录Shell" class="headerlink" title="4.2 交互式非登录Shell"></a>4.2 交互式非登录Shell</h3><p>这种情况下调用时，它将拷贝父shell的环境，并读取相应用户级的<code>~/.bashrc</code>配置文件。交互式非登录shell 就是指你在当前图形界面中打开“终端”出来的那种窗口程序，和登录shell相比，它是“非登录”的，你并不需要输入用户名和码；和非交互式shell相比，这是“交互式”的，就像你说的那它：你输入什么，它就解释出什么。</p>
 <h3 id="4-3-非交互式Shell"><a href="#4-3-非交互式Shell" class="headerlink" title="4.3 非交互式Shell"></a>4.3 非交互式Shell</h3><p>当执行脚本时，则调用非交互式shell。在这种模式下，它将处理所运行的脚本中的命令、函数等操作，不需要进行交互式输入（除非脚本需要交互式输入）。使用的环境继承自父shell。</p>
-<h2 id="第五部分-启动文件介绍"><a href="#第五部分-启动文件介绍" class="headerlink" title="第五部分 启动文件介绍"></a>第五部分 启动文件介绍</h2><h3 id="5-1-系统级启动文件"><a href="#5-1-系统级启动文件" class="headerlink" title="5.1 系统级启动文件"></a>5.1 系统级启动文件</h3><p><code>/etc/profile</code>，文件保存了登录时系统级环境配置和启动程序。如果你想配置应用于所有用户的环境设置，可以加入此文件。</p>
-<p><code>/etc/bash.bashrc</code>，包含应用于所有用户的系统级函数、变量、别名等配置信息。</p>
-<h3 id="5-2-用户级启动文件"><a href="#5-2-用户级启动文件" class="headerlink" title="5.2 用户级启动文件"></a>5.2 用户级启动文件</h3><p>在<code>/home/用户名</code>该目录下面有文件：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">.bash_history</span><br><span class="line">.bash_logout</span><br><span class="line">.bashrc</span><br><span class="line">.profile</span><br><span class="line">.bash_profile</span><br></pre></td></tr></table></figure>
-<p>最后一个是 <code>~/.bash_logout</code>文件，它不用于<code>shell</code>启动，但存储一些特殊的指令当用户注销（登出）时执行。</p>
-<p>去其家目录读取~/.bash_profile，如果这读取不了就读取~/.bash_login，这个也读取不了才会读取<br>~/.profile，这三个文档设定基本上是一样的，读取有优先关系</p>
-<h2 id="第六部分-su命令注意事项"><a href="#第六部分-su命令注意事项" class="headerlink" title="第六部分 su命令注意事项"></a>第六部分 su命令注意事项</h2><p>在Linux系统使用中，很多用户无法区分<code>su 用户名</code>和<code>su - 用户名</code>两个命令的区别。甚至不懂差异，经常混用，非常危险，特别是生产运维中使用。</p>
-<p>两个命令的区别我们举个栗子说明一下。假如当前是root用户，<code>su gest</code>执行后，只是切换了用户身份由root切换成gest，但是shell环境仍然继承了root用户的shell。但是<code>su - gest</code>命令不仅切换了用户身份，而且shell环境也切换成gest登录后的shell环境。</p>
-<p>这个差异可以通过命令执行后的用户目录更为形象的感知：<code>su gest</code>执行后，工作目录并没有切换，而<code>su - gest</code>执行后工作目录切换为<code>/home/gest</code>。</p>
-<p>对于生产环境，今年使用<code>su - 用户名</code>的方式，避免用户shell的继承，造成对切换用户后环境变量环境的污染。千万不可大意。</p>
-<h2 id="参考文献及资料"><a href="#参考文献及资料" class="headerlink" title="参考文献及资料"></a>参考文献及资料</h2><p>1、iptables命令详解，链接：</p>
+<h2 id="第五部分-启动文件介绍"><a href="#第五部分-启动文件介绍" class="headerlink" title="第五部分 启动文件介绍"></a>第五部分 启动文件介绍</h2><h3 id="5-1-系统级启动文件"><a href="#5-1-系统级启动文件" class="headerlink" title="5.1 系统级启动文件"></a>5.1 系统级启动文件</h3><ul>
+<li><p><code>/etc/profile</code>，文件保存了登录时系统级环境配置和启动程序。如果你想配置对于所有用户的环境生效，可以加入此文件。</p>
+</li>
+<li><p><code>/etc/bashrc（ubuntu为 /etc/bash.bashrc）</code>，包含应用于所有用户的系统级函数、变量、别名等配置信息。</p>
+</li>
+</ul>
+<h3 id="5-2-用户级启动文件"><a href="#5-2-用户级启动文件" class="headerlink" title="5.2 用户级启动文件"></a>5.2 用户级启动文件</h3><p>在<code>/home/用户名</code>该目录下面一般有下面文件（存在操作系统差异）：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">.bash_logout # 用户登出shell是加载</span><br><span class="line"><span class="meta">#</span><span class="bash"> 下面三个是用户级启动文件</span></span><br><span class="line">.profile</span><br><span class="line">.bash_profile</span><br><span class="line">.bash_login</span><br><span class="line"></span><br><span class="line">.bashrc # Centos操作系统用户级启动文件</span><br></pre></td></tr></table></figure>
+<h2 id="第六部分-生产运维注意事项"><a href="#第六部分-生产运维注意事项" class="headerlink" title="第六部分 生产运维注意事项"></a>第六部分 生产运维注意事项</h2><h3 id="6-1-su命令注意事项"><a href="#6-1-su命令注意事项" class="headerlink" title="6.1 su命令注意事项"></a>6.1 su命令注意事项</h3><p>在Linux系统使用中，很多用户无法区分<code>su 用户名</code>和<code>su - 用户名</code>两个命令的区别。甚至不懂差异，经常混用，非常危险，特别是生产运维中使用。两个命令的区别我们举个栗子说明一下。假如当前是root用户，<code>su guest</code>执行后，只是切换了用户身份由root切换成guest，但是shell环境仍然继承了root用户的shell环境。但是<code>su - guest</code>命令不仅切换了用户身份，而且shell环境也切换成guest登录后的shell环境。</p>
+<p>事实上，下面三个命令形式是等价的：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> ubuntu用户切换到guest用户（使用登录方式）</span></span><br><span class="line">ubuntu@VM-0-5-ubuntu:~$ su - guest</span><br><span class="line">ubuntu@VM-0-5-ubuntu:~$ su -l guest</span><br><span class="line">ubuntu@VM-0-5-ubuntu:~$ su --login guest</span><br></pre></td></tr></table></figure>
+<p>另外这个差异还可以通过命令执行后的用户目录更为形象的感知：<code>su guest</code>执行后，工作目录并没有切换，而<code>su - guest</code>执行后工作目录切换为<code>/home/guest</code>。</p>
+<p>对于生产环境，应该统一使用<code>su - 用户名</code>的方式，避免用户shell的继承，造成对切换用户后环境变量的变化（通常应用用户会有特殊的环境变量）。</p>
+<h3 id="6-2-crontab中的shell"><a href="#6-2-crontab中的shell" class="headerlink" title="6.2 crontab中的shell"></a>6.2 crontab中的shell</h3><p>首先需要注意的是：crontab中的shell脚本，既不是交互式shell，也不是登录shell。所以不会加载启动配置文件。所以环境变量需要自行加载，不能想当然脚本在用户shell环境能执行，部署crontab也能执行。</p>
+<p>另外下面是crontab的PATH值：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ubuntu@VM-0-5-ubuntu:~$ grep PATH /etc/crontab</span><br><span class="line">PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin</span><br></pre></td></tr></table></figure>
+<p>而操作系统用户的PATH值如下，也是有差异的。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">root@VM-0-5-ubuntu:~# echo $PATH</span><br><span class="line">/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin</span><br></pre></td></tr></table></figure>
+<p>可以按照下面的方式解决：</p>
+<ul>
+<li>可以把shebang改为<code>#!/bin/bash -l</code>让脚本用登录Shell来解释执行，这个时候，执行脚本要采用路径执行的方式</li>
+<li>调用Bash解释器，加-l参数，即 /bin/bash -l shell脚本</li>
+</ul>
+<h2 id="参考文献及资料"><a href="#参考文献及资料" class="headerlink" title="参考文献及资料"></a>参考文献及资料</h2><p>1、GNU Bash，链接：<a href="https://www.gnu.org/software/bash/" target="_blank" rel="noopener">https://www.gnu.org/software/bash/</a></p>
 
       
     </div>
@@ -684,7 +707,7 @@
   <p><span>本文标题:</span><a href="/2020/04/21/2020-04-21-Linux系统中的shell介绍/">Linux系统中的shell解释器介绍</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 rong xiang 的个人博客">rong xiang</a></p>
   <p><span>发布时间:</span>2020年04月21日 - 12:04</p>
-  <p><span>最后更新:</span>2020年05月02日 - 23:05</p>
+  <p><span>最后更新:</span>2021年01月16日 - 16:01</p>
   <p><span>原始链接:</span><a href="/2020/04/21/2020-04-21-Linux系统中的shell介绍/" title="Linux系统中的shell解释器介绍">https://zjrongxiang.github.io/2020/04/21/2020-04-21-Linux系统中的shell介绍/</a>
     <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://zjrongxiang.github.io/2020/04/21/2020-04-21-Linux系统中的shell介绍/" aria-label="复制成功！"></i></span>
   </p>
@@ -732,8 +755,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/04/11/2020-04-14-如何禁止云服务器端口被嗅探/" rel="next" title="如何禁止云服务器端口被嗅探">
-                <i class="fa fa-chevron-left"></i> 如何禁止云服务器端口被嗅探
+              <a href="/2020/04/21/2020-04-21-Linux系统中环境变量详解/" rel="next" title="Linux系统中环境变量详解">
+                <i class="fa fa-chevron-left"></i> Linux系统中环境变量详解
               </a>
             
           </div>
@@ -742,8 +765,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2020/04/21/2020-04-21-Linux系统中环境变量详解/" rel="prev" title="Linux系统中环境变量详解">
-                Linux系统中环境变量详解 <i class="fa fa-chevron-right"></i>
+              <a href="/2020/05/07/2020-05-07-Linux系统远程执行shell命令/" rel="prev" title="Linux系统远程执行shell命令">
+                Linux系统远程执行shell命令 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -823,7 +846,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">107</span>
+                    <span class="site-state-item-count">162</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -833,7 +856,7 @@
                 
                 
                 <div class="site-state-item site-state-categories">
-                  
+                  <a href="/categories/index.html">
                     
                     
                       
@@ -936,9 +959,37 @@
                     
                       
                     
-                    <span class="site-state-item-count">50</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">64</span>
                     <span class="site-state-item-name">分类</span>
-                  
+                  </a>
                 </div>
               
 
@@ -946,7 +997,7 @@
                 
                 
                 <div class="site-state-item site-state-tags">
-                  
+                  <a href="/tags/index.html">
                     
                     
                       
@@ -955,9 +1006,41 @@
                     
                       
                     
-                    <span class="site-state-item-count">3</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">19</span>
                     <span class="site-state-item-name">标签</span>
-                  
+                  </a>
                 </div>
               
             </nav>
@@ -1049,7 +1132,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#目录"><span class="nav-number">1.</span> <span class="nav-text">目录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#背景"><span class="nav-number">2.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第一部分-shell解释器种类"><span class="nav-number">3.</span> <span class="nav-text">第一部分 shell解释器种类</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-shell常见解释器类型"><span class="nav-number">3.1.</span> <span class="nav-text">1.1 shell常见解释器类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-常用shell详细介绍"><span class="nav-number">3.2.</span> <span class="nav-text">1.2 常用shell详细介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-1-ash"><span class="nav-number">3.2.1.</span> <span class="nav-text">1.2.1 ash</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-2-bash"><span class="nav-number">3.2.2.</span> <span class="nav-text">1.2.2 bash</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-3-ksh"><span class="nav-number">3.2.3.</span> <span class="nav-text">1.2.3 ksh</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-4-csh"><span class="nav-number">3.2.4.</span> <span class="nav-text">1.2.4 csh</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-5-zch"><span class="nav-number">3.2.5.</span> <span class="nav-text">1.2.5 zch</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第二部分-Shell执行命令的模式"><span class="nav-number">4.</span> <span class="nav-text">第二部分 Shell执行命令的模式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-交互式"><span class="nav-number">4.1.</span> <span class="nav-text">2.1 交互式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-非交互式"><span class="nav-number">4.2.</span> <span class="nav-text">2.2 非交互式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第三部分-shell命令的形式"><span class="nav-number">5.</span> <span class="nav-text">第三部分 shell命令的形式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-内部命令"><span class="nav-number">5.1.</span> <span class="nav-text">3.1 内部命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-外部命令"><span class="nav-number">5.2.</span> <span class="nav-text">3.2 外部命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-查看命令类型"><span class="nav-number">5.3.</span> <span class="nav-text">3.3 查看命令类型</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第四部-shell的初始化"><span class="nav-number">6.</span> <span class="nav-text">第四部 shell的初始化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-交互式登录shell"><span class="nav-number">6.1.</span> <span class="nav-text">4.1 交互式登录shell</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-非登录交互式Shell"><span class="nav-number">6.2.</span> <span class="nav-text">4.2 非登录交互式Shell</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-非交互式Shell"><span class="nav-number">6.3.</span> <span class="nav-text">4.3 非交互式Shell</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第五部分-启动文件介绍"><span class="nav-number">7.</span> <span class="nav-text">第五部分 启动文件介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#5-1-系统级启动文件"><span class="nav-number">7.1.</span> <span class="nav-text">5.1 系统级启动文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-2-用户级启动文件"><span class="nav-number">7.2.</span> <span class="nav-text">5.2 用户级启动文件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第六部分-su命令注意事项"><span class="nav-number">8.</span> <span class="nav-text">第六部分 su命令注意事项</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文献及资料"><span class="nav-number">9.</span> <span class="nav-text">参考文献及资料</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#目录"><span class="nav-number">1.</span> <span class="nav-text">目录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#背景"><span class="nav-number">2.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第一部分-shell解释器种类"><span class="nav-number">3.</span> <span class="nav-text">第一部分 shell解释器种类</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-shell常见解释器类型"><span class="nav-number">3.1.</span> <span class="nav-text">1.1 shell常见解释器类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-常用shell详细介绍"><span class="nav-number">3.2.</span> <span class="nav-text">1.2 常用shell详细介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-1-ash"><span class="nav-number">3.2.1.</span> <span class="nav-text">1.2.1 ash</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-2-bash"><span class="nav-number">3.2.2.</span> <span class="nav-text">1.2.2 bash</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-3-ksh"><span class="nav-number">3.2.3.</span> <span class="nav-text">1.2.3 ksh</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-4-csh"><span class="nav-number">3.2.4.</span> <span class="nav-text">1.2.4 csh</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-5-zch"><span class="nav-number">3.2.5.</span> <span class="nav-text">1.2.5 zch</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第二部分-Shell执行命令的模式"><span class="nav-number">4.</span> <span class="nav-text">第二部分 Shell执行命令的模式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-交互式-Interactive-Shell"><span class="nav-number">4.1.</span> <span class="nav-text">2.1 交互式(Interactive Shell)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-非交互式-Non-Interactive-Shell"><span class="nav-number">4.2.</span> <span class="nav-text">2.2 非交互式(Non Interactive Shell)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-登录式-Login-Shell"><span class="nav-number">4.3.</span> <span class="nav-text">2.3 登录式(Login Shell)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-非登录式-Non-Login-Shell"><span class="nav-number">4.4.</span> <span class="nav-text">2.4 非登录式(Non Login Shell)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-5-shell的退出"><span class="nav-number">4.5.</span> <span class="nav-text">2.5 shell的退出</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第三部分-shell命令的类型"><span class="nav-number">5.</span> <span class="nav-text">第三部分 shell命令的类型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-内部命令"><span class="nav-number">5.1.</span> <span class="nav-text">3.1 内部命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-外部命令"><span class="nav-number">5.2.</span> <span class="nav-text">3.2 外部命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-查看命令类型"><span class="nav-number">5.3.</span> <span class="nav-text">3.3 查看命令类型</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第四部-shell的初始化和调用"><span class="nav-number">6.</span> <span class="nav-text">第四部 shell的初始化和调用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-交互式登录shell"><span class="nav-number">6.1.</span> <span class="nav-text">4.1 交互式登录shell</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-交互式非登录Shell"><span class="nav-number">6.2.</span> <span class="nav-text">4.2 交互式非登录Shell</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-非交互式Shell"><span class="nav-number">6.3.</span> <span class="nav-text">4.3 非交互式Shell</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第五部分-启动文件介绍"><span class="nav-number">7.</span> <span class="nav-text">第五部分 启动文件介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#5-1-系统级启动文件"><span class="nav-number">7.1.</span> <span class="nav-text">5.1 系统级启动文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-2-用户级启动文件"><span class="nav-number">7.2.</span> <span class="nav-text">5.2 用户级启动文件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第六部分-生产运维注意事项"><span class="nav-number">8.</span> <span class="nav-text">第六部分 生产运维注意事项</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#6-1-su命令注意事项"><span class="nav-number">8.1.</span> <span class="nav-text">6.1 su命令注意事项</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-2-crontab中的shell"><span class="nav-number">8.2.</span> <span class="nav-text">6.2 crontab中的shell</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文献及资料"><span class="nav-number">9.</span> <span class="nav-text">参考文献及资料</span></a></li></ol></div>
             
 
           </div>
@@ -1082,7 +1165,7 @@
       <i class="fa fa-area-chart"></i>
     </span>
     
-    <span title="站点总字数">360k</span>
+    <span title="站点总字数">525k</span>
   
 
   
@@ -1091,7 +1174,7 @@
       <i class="fa fa-coffee"></i>
     </span>
     
-    <span title="站点阅读时长">5:27</span>
+    <span title="站点阅读时长">7:57</span>
   
 </div>
 

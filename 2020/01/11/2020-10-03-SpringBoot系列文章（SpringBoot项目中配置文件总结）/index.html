@@ -117,17 +117,17 @@
 
 
 
-  <meta name="description" content="目录 背景 第一部分 开发环境准备 第二部分 使用Maven构建项目 第三部分 项目目录结构 第四部分  编写HelloWorld项目 参考文献及资料  背景参考文献及资料1、Spring官网，链接：https://spring.io/">
+  <meta name="description" content="目录 背景 第一部分 开发环境准备 第二部分 使用Maven构建项目 第三部分 项目目录结构 第四部分  编写HelloWorld项目 参考文献及资料  背景配置文件 SpringBoot使用一个全局配置文件application.properties或者application.yml(或者yaml)。 配置文件语法 即yaml文件的语法。 properties文件配置文件值的注入： 导入依赖：">
 <meta property="og:type" content="article">
 <meta property="og:title" content="SpringBoot系列文章（SpringBoot项目中配置文件总结）">
 <meta property="og:url" content="https://zjrongxiang.github.io/2020/01/11/2020-10-03-SpringBoot系列文章（SpringBoot项目中配置文件总结）/index.html">
 <meta property="og:site_name" content="RongXiang">
-<meta property="og:description" content="目录 背景 第一部分 开发环境准备 第二部分 使用Maven构建项目 第三部分 项目目录结构 第四部分  编写HelloWorld项目 参考文献及资料  背景参考文献及资料1、Spring官网，链接：https://spring.io/">
+<meta property="og:description" content="目录 背景 第一部分 开发环境准备 第二部分 使用Maven构建项目 第三部分 项目目录结构 第四部分  编写HelloWorld项目 参考文献及资料  背景配置文件 SpringBoot使用一个全局配置文件application.properties或者application.yml(或者yaml)。 配置文件语法 即yaml文件的语法。 properties文件配置文件值的注入： 导入依赖：">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-10-03T11:57:04.160Z">
+<meta property="og:updated_time" content="2021-03-20T02:28:39.373Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SpringBoot系列文章（SpringBoot项目中配置文件总结）">
-<meta name="twitter:description" content="目录 背景 第一部分 开发环境准备 第二部分 使用Maven构建项目 第三部分 项目目录结构 第四部分  编写HelloWorld项目 参考文献及资料  背景参考文献及资料1、Spring官网，链接：https://spring.io/">
+<meta name="twitter:description" content="目录 背景 第一部分 开发环境准备 第二部分 使用Maven构建项目 第三部分 项目目录结构 第四部分  编写HelloWorld项目 参考文献及资料  背景配置文件 SpringBoot使用一个全局配置文件application.properties或者application.yml(或者yaml)。 配置文件语法 即yaml文件的语法。 properties文件配置文件值的注入： 导入依赖：">
 
 
 
@@ -482,7 +482,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2020-10-03 19:57:04" itemprop="dateModified" datetime="2020-10-03T19:57:04+08:00">2020-10-03</time>
+                <time title="修改时间：2021-03-20 10:28:39" itemprop="dateModified" datetime="2021-03-20T10:28:39+08:00">2021-03-20</time>
               
             
           </span>
@@ -545,7 +545,7 @@
                 
                   <span class="post-meta-item-text">本文字数：</span>
                 
-                <span title="本文字数">463</span>
+                <span title="本文字数">3.7k</span>
               
 
               
@@ -559,7 +559,7 @@
                 
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
-                <span title="阅读时长">1 分钟</span>
+                <span title="阅读时长">3 分钟</span>
               
             </div>
           
@@ -587,7 +587,16 @@
 <li>第四部分  编写HelloWorld项目</li>
 <li>参考文献及资料</li>
 </ul>
-<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><h2 id="参考文献及资料"><a href="#参考文献及资料" class="headerlink" title="参考文献及资料"></a>参考文献及资料</h2><p>1、Spring官网，链接：<a href="https://spring.io/" target="_blank" rel="noopener">https://spring.io/</a></p>
+<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>配置文件</p>
+<p><code>SpringBoot</code>使用一个全局配置文件<code>application.properties</code>或者<code>application.yml</code>(或者<code>yaml</code>)。</p>
+<p>配置文件语法</p>
+<p>即yaml文件的语法。</p>
+<h3 id="properties文件"><a href="#properties文件" class="headerlink" title="properties文件"></a>properties文件</h3><p>配置文件值的注入：</p>
+<p>导入依赖：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--导入配置文件处理器，配置文件进行绑定就会有提示--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-configuration-processor<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">optional</span>&gt;</span>true<span class="tag">&lt;/<span class="name">optional</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="Value注解"><a href="#Value注解" class="headerlink" title="@Value注解"></a>@Value注解</h2><p>前面的例子我们使用的是@ConfigurationProperties注解将本类中所有属性与配置文件中相关的配置进行绑定，除此之外还可以使用@value注解来一个个的指定属性值。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Value(<span class="meta-string">"<span class="subst">$&#123;person.last-name&#125;</span>"</span>)</span></span><br><span class="line">    <span class="keyword">private</span> String lastName;</span><br><span class="line">    <span class="meta">@Value(<span class="meta-string">"#&#123;3 * 2&#125;"</span>)</span></span><br><span class="line">    <span class="keyword">private</span> Integer age;</span><br><span class="line">    <span class="meta">@Value(<span class="meta-string">"true"</span>)</span></span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">Boolean</span> isStu;</span><br><span class="line"><span class="comment">//省略其他属性和get/set，toString方法</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="参考文献及资料"><a href="#参考文献及资料" class="headerlink" title="参考文献及资料"></a>参考文献及资料</h2><p>1、Spring官网，链接：<a href="https://juejin.cn/post/6844904186539147271" target="_blank" rel="noopener">https://juejin.cn/post/6844904186539147271</a></p>
 
       
     </div>
@@ -606,7 +615,7 @@
   <p><span>本文标题:</span><a href="/2020/01/11/2020-10-03-SpringBoot系列文章（SpringBoot项目中配置文件总结）/">SpringBoot系列文章（SpringBoot项目中配置文件总结）</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 rong xiang 的个人博客">rong xiang</a></p>
   <p><span>发布时间:</span>2020年01月11日 - 13:01</p>
-  <p><span>最后更新:</span>2020年10月03日 - 19:10</p>
+  <p><span>最后更新:</span>2021年03月20日 - 10:03</p>
   <p><span>原始链接:</span><a href="/2020/01/11/2020-10-03-SpringBoot系列文章（SpringBoot项目中配置文件总结）/" title="SpringBoot系列文章（SpringBoot项目中配置文件总结）">https://zjrongxiang.github.io/2020/01/11/2020-10-03-SpringBoot系列文章（SpringBoot项目中配置文件总结）/</a>
     <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://zjrongxiang.github.io/2020/01/11/2020-10-03-SpringBoot系列文章（SpringBoot项目中配置文件总结）/" aria-label="复制成功！"></i></span>
   </p>
@@ -654,8 +663,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/01/11/2020-01-01-SpringBoot系列文章（第一个SpringBoot实践练习项目）/" rel="next" title="SpringBoot系列文章（第一个SpringBoot实践练习项目）">
-                <i class="fa fa-chevron-left"></i> SpringBoot系列文章（第一个SpringBoot实践练习项目）
+              <a href="/2019/09/07/2019-09-07-外网环境访问内网（NAT）Kafka集群介绍/" rel="next" title="外网环境访问内网（NAT）Kafka集群介绍">
+                <i class="fa fa-chevron-left"></i> 外网环境访问内网（NAT）Kafka集群介绍
               </a>
             
           </div>
@@ -664,8 +673,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2020/01/31/2020-01-31-Go语言学习系列(一)Go语言Win开发环境部署 - 副本/" rel="prev" title="Go语言学习系列(一)Go语言Win开发环境部署">
-                Go语言学习系列(一)Go语言Win开发环境部署 <i class="fa fa-chevron-right"></i>
+              <a href="/2020/01/11/2020-01-01-SpringBoot系列文章（第一个SpringBoot实践练习项目）/" rel="prev" title="SpringBoot系列文章（第一个SpringBoot实践练习项目）">
+                SpringBoot系列文章（第一个SpringBoot实践练习项目） <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -745,7 +754,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">107</span>
+                    <span class="site-state-item-count">162</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -755,7 +764,7 @@
                 
                 
                 <div class="site-state-item site-state-categories">
-                  
+                  <a href="/categories/index.html">
                     
                     
                       
@@ -858,9 +867,37 @@
                     
                       
                     
-                    <span class="site-state-item-count">50</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">64</span>
                     <span class="site-state-item-name">分类</span>
-                  
+                  </a>
                 </div>
               
 
@@ -868,7 +905,7 @@
                 
                 
                 <div class="site-state-item site-state-tags">
-                  
+                  <a href="/tags/index.html">
                     
                     
                       
@@ -877,9 +914,41 @@
                     
                       
                     
-                    <span class="site-state-item-count">3</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">19</span>
                     <span class="site-state-item-name">标签</span>
-                  
+                  </a>
                 </div>
               
             </nav>
@@ -971,7 +1040,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#目录"><span class="nav-number">1.</span> <span class="nav-text">目录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#背景"><span class="nav-number">2.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文献及资料"><span class="nav-number">3.</span> <span class="nav-text">参考文献及资料</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#目录"><span class="nav-number">1.</span> <span class="nav-text">目录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#背景"><span class="nav-number">2.</span> <span class="nav-text">背景</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#properties文件"><span class="nav-number">2.1.</span> <span class="nav-text">properties文件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Value注解"><span class="nav-number">3.</span> <span class="nav-text">@Value注解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文献及资料"><span class="nav-number">4.</span> <span class="nav-text">参考文献及资料</span></a></li></ol></div>
             
 
           </div>
@@ -1004,7 +1073,7 @@
       <i class="fa fa-area-chart"></i>
     </span>
     
-    <span title="站点总字数">360k</span>
+    <span title="站点总字数">525k</span>
   
 
   
@@ -1013,7 +1082,7 @@
       <i class="fa fa-coffee"></i>
     </span>
     
-    <span title="站点阅读时长">5:27</span>
+    <span title="站点阅读时长">7:57</span>
   
 </div>
 

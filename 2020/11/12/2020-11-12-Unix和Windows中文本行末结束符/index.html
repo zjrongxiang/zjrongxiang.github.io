@@ -124,7 +124,7 @@
 <meta property="og:site_name" content="RongXiang">
 <meta property="og:description" content="目录 背景 第一部分  回车和换行 第二部分 兼容性问题解决 参考文献及资料  背景或许你遇到过这样的坑。当你信心满满将自己编写的程序文件或配置文件上传到生产环境（linux），却发现无法运行或者生效。但是明明在本地（Windows）测试运行没有问题。那么很大几率遇到文本行末结束符的坑。 Unix和Windows中文本行末结束符是不同的。本文将详细讲解这个坑的背景、产生原因和解决办法。 第一部分">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-12-12T13:16:46.766Z">
+<meta property="og:updated_time" content="2021-01-16T02:25:53.450Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Unix和Windows中文本行末结束符">
 <meta name="twitter:description" content="目录 背景 第一部分  回车和换行 第二部分 兼容性问题解决 参考文献及资料  背景或许你遇到过这样的坑。当你信心满满将自己编写的程序文件或配置文件上传到生产环境（linux），却发现无法运行或者生效。但是明明在本地（Windows）测试运行没有问题。那么很大几率遇到文本行末结束符的坑。 Unix和Windows中文本行末结束符是不同的。本文将详细讲解这个坑的背景、产生原因和解决办法。 第一部分">
@@ -482,7 +482,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2020-12-12 21:16:46" itemprop="dateModified" datetime="2020-12-12T21:16:46+08:00">2020-12-12</time>
+                <time title="修改时间：2021-01-16 10:25:53" itemprop="dateModified" datetime="2021-01-16T10:25:53+08:00">2021-01-16</time>
               
             
           </span>
@@ -545,7 +545,7 @@
                 
                   <span class="post-meta-item-text">本文字数：</span>
                 
-                <span title="本文字数">4.5k</span>
+                <span title="本文字数">4.8k</span>
               
 
               
@@ -641,6 +641,9 @@
 </blockquote>
 <p>可以使用下面的命令进行统一替换：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sed -i 's/^M$//g' test.txt</span><br></pre></td></tr></table></figure>
+<p>另外还有专用命令<code>dos2unix</code>(如果操作系统没有改命令需要安装一下)。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dos2unix test.txt</span><br></pre></td></tr></table></figure>
+<p>最后还可以使用<code>vi</code>打开文件，输入<code>:set fileformat=unix</code>，回车。最后保存退出即可。</p>
 <h3 id="2-2-Linux文件上传Windows问题"><a href="#2-2-Linux文件上传Windows问题" class="headerlink" title="2.2 Linux文件上传Windows问题"></a>2.2 Linux文件上传Windows问题</h3><p>在Windows中使用<code>Ultraedit</code>或者<code>Nodepad++</code>文本编辑器查看Linux文件，而不是系统自带的记事本。</p>
 <h3 id="2-3-FTP中传输问题"><a href="#2-3-FTP中传输问题" class="headerlink" title="2.3 FTP中传输问题"></a>2.3 FTP中传输问题</h3><p>FTP软件在传输文件的时候，通常有两种模式：文本模式（ASCII模式）和二进制模式（BINARY模式）。两种模式的区别就是行末结束符的处理，BINARY模式不会对数据进行任何处理。而ASCII模式将行末结束符转换为本机操作系统的行末结束符。例如Windows系统将文本文件上传至Linux，就会将<code>\r\n</code>替换成<code>\n</code>。</p>
 <p>在使用过程中需要注意两种模式的差别。特别的上实际生产环境上线投产过程中建议统一使用二进制模式，避免FTP对文件进行转换。</p>
@@ -688,8 +691,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/11/12/2020-11-28-HDFS Federation架构介绍/" rel="next" title="HDFS Federation架构介绍">
-                <i class="fa fa-chevron-left"></i> HDFS Federation架构介绍
+              <a href="/2020/11/12/2020-11-28-ubuntu搭建hadoop/" rel="next" title="Yarn上长任务报Token失效问题总结(Invalid AMRMToken)">
+                <i class="fa fa-chevron-left"></i> Yarn上长任务报Token失效问题总结(Invalid AMRMToken)
               </a>
             
           </div>
@@ -779,7 +782,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">107</span>
+                    <span class="site-state-item-count">162</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -789,7 +792,7 @@
                 
                 
                 <div class="site-state-item site-state-categories">
-                  
+                  <a href="/categories/index.html">
                     
                     
                       
@@ -892,9 +895,37 @@
                     
                       
                     
-                    <span class="site-state-item-count">50</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">64</span>
                     <span class="site-state-item-name">分类</span>
-                  
+                  </a>
                 </div>
               
 
@@ -902,7 +933,7 @@
                 
                 
                 <div class="site-state-item site-state-tags">
-                  
+                  <a href="/tags/index.html">
                     
                     
                       
@@ -911,9 +942,41 @@
                     
                       
                     
-                    <span class="site-state-item-count">3</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">19</span>
                     <span class="site-state-item-name">标签</span>
-                  
+                  </a>
                 </div>
               
             </nav>
@@ -1038,7 +1101,7 @@
       <i class="fa fa-area-chart"></i>
     </span>
     
-    <span title="站点总字数">360k</span>
+    <span title="站点总字数">525k</span>
   
 
   
@@ -1047,7 +1110,7 @@
       <i class="fa fa-coffee"></i>
     </span>
     
-    <span title="站点阅读时长">5:27</span>
+    <span title="站点阅读时长">7:57</span>
   
 </div>
 
